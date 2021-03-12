@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -275,6 +275,91 @@
 <p>然后是新手教学部分。新手教学部分的节奏把握的很精准，既能让一个从没玩过此类游戏的小白成功上手而不觉得吃力，也能让老鸟不觉得无聊，而这一点往往是游戏设计者很难顾虑到的。塞尔达的玩法其实并不简单，随便一想就能列举出一大堆需要学习才能掌握的技巧，抛开各种战斗技巧不说，光是让玩家理解要解锁瞭望塔、钻进神庙解谜、传送点的点亮、滑翔帆的使用、以及四大异能（炸弹、磁力、冰块、时间锁定）的使用、马的相关动作等都并不是理所当然的，然而在前置的引导部分却都展现的十分自然。对于林克失忆的这个设定也是让我很感兴趣的一点。首先他的失忆给了老国王给予新手教学的理由，也让玩家一开始对海拉鲁的一无所知变得情有可原。由于其失忆前还有着一个十分重要的身份，所以无论玩家走到哪里都会有那么一两个关键人物可以和他展开对话、布置任务，这又在无形中帮助了玩家探索世界，且设计者能籍此将新手教学进行广义的延伸，比如在忍者村学习战斗技巧等。另外，由于失忆前林克的特殊身份，所有的英灵以及塞尔达公主都和他有着千丝万缕的联系，这也实质上推动了剧情的发展。不得不说，这个设定来的实在是太妙。</p>
 <p>还有就是最重要的部分——物理系统与系统间的相互作用、相互关联。一个游戏好玩与否其实并不一定在于其引入了多少物理系统，或称自由度，而更多地和这些系统间的相互联系有关。在塞尔达中，就有磁、电、风、水、温度、时间（或相应的冲量）、天气、体力等系统，而这些系统之间都不是孤立的。非孤立的物理系统意味着玩家可能更多地利用生活中的常识，这往往可以激发出玩家更丰富的创造力，从而使得游戏更加生动耐玩。雨天岩壁会湿滑，不适于爬山，但你完全可以找个地方生火挨过去；小岛遥远，你既可以使用造冰能力一个个创造冰块飞过去，也可以拿一把团扇驱动帆船划过去，甚至可以把一个金属物体放到帆杆前面用磁力驱动；把一个物体送到迷宫中墙的对面，你可以解谜题走过去，也可以考虑用气球绑在它上面并用风吹过去……这一切实在太过生动、太过真实、富于创造性，而所有的这些特点都会有一个共同的作用——让游戏更好玩。</p>
 <p>而这，不也正是任天堂所一直坚持在做的吗？</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/02/12/1x1conv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/02/12/1x1conv/" class="post-title-link" itemprop="url">全连接层与1x1卷积的关系</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-02-12 10:24:16" itemprop="dateCreated datePublished" datetime="2019-02-12T10:24:16-05:00">2019-02-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="理解全连接层："><a href="#理解全连接层：" class="headerlink" title="理解全连接层："></a>理解全连接层：</h2><p><strong>全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。</strong></p>
+<p>假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。</p>
+<p>如果将这个全连接层转化为卷积层：</p>
+<ol>
+<li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
+<li>每个卷积核的大小为<strong>512x7×7</strong></li>
+<li>则输出为<strong>1×1×4096</strong></li>
+</ol>
+<p>由于每个滤波核的大小和上一层的feature map大小一样，保证了转换后的卷积层的运算结果和全连接层是一样的。<br>若后面再连接一个1×1×4096全连接层。则其对应的转换后的卷积层的参数为：</p>
+<ol>
+<li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
+<li>每个卷积核的大小为<strong>4096x1x1</strong></li>
+<li>则输出为<strong>1×1×4096</strong></li>
+</ol>
+<h2 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h2><p>参考“ <a target="_blank" rel="noopener" href="https://bbs.dian.org.cn/topic/589/rcnn%E7%B3%BB%E5%88%97%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%A6%E8%A7%A3">RCNN系列目标检测详解</a>”，在Faster RCNN中，RPN网络的关键部分就是由两个1x1的卷积核完成的，其作用即为全连接。<br><img src="/.com//02/12/1x1conv/006y8mN6ly1g7lwj8tmefj311609y0tp.jpg" alt="Network Structure"></p>
 
       
     </div>

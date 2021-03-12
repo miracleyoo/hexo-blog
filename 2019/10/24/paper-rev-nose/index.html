@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="One Line SummaryNOSE: A device which utilize order sensing component and machine learning to detect which kind of cooking method and which kind of foods, oils are used when you are cooking. It can be">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Paper Reading ： &quot;NOSE： A Novel Odor Sensing Engine for Ambient Monitoring of the Frying Cooking Method in Kitchen Environments&quot;">
+<meta property="og:url" content="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="One Line SummaryNOSE: A device which utilize order sensing component and machine learning to detect which kind of cooking method and which kind of foods, oils are used when you are cooking. It can be">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/image-20191024193802569.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/image-20191021152129125.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/image-20191021154348447.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/image-20191024193841882.png">
+<meta property="article:published_time" content="2019-10-24T23:40:02.000Z">
+<meta property="article:modified_time" content="2019-10-25T15:10:18.900Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="HCI">
+<meta property="article:tag" content="mobile-health">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/image-20191024193802569.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>Paper Reading ： "NOSE： A Novel Odor Sensing Engine for Ambient Monitoring of the Frying Cooking Method in Kitchen Environments" | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#One-Line-Summary"><span class="nav-number">1.</span> <span class="nav-text">One Line Summary</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Terms"><span class="nav-number">2.</span> <span class="nav-text">Terms</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Points"><span class="nav-number">3.</span> <span class="nav-text">Points</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Images"><span class="nav-number">4.</span> <span class="nav-text">Images</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Questions"><span class="nav-number">5.</span> <span class="nav-text">Questions</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/10/24/paper-rev-nose/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Paper Reading ： "NOSE： A Novel Odor Sensing Engine for Ambient Monitoring of the Frying Cooking Method in Kitchen Environments"
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-24 19:40:02" itemprop="dateCreated datePublished" datetime="2019-10-24T19:40:02-04:00">2019-10-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-25 11:10:18" itemprop="dateModified" datetime="2019-10-25T11:10:18-04:00">2019-10-25</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="One-Line-Summary"><a href="#One-Line-Summary" class="headerlink" title="One Line Summary"></a>One Line Summary</h1><p>NOSE: A device which utilize order sensing component and machine learning to detect which kind of cooking method and which kind of foods, oils are used when you are cooking. It can be used to periodically reports to users about their cooking habits.</p>
+<h1 id="Terms"><a href="#Terms" class="headerlink" title="Terms"></a>Terms</h1><ol>
+<li> MOS Gas Sensor: A sensor which is sensitive to specific target analytes and attempts to replicate the human olfactory system by detecting various types of odors.</li>
+</ol>
+<h1 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h1><ol>
+<li>In the real-world environment, we cannot get the data with a start and end well defined. Here the author exploited a two-level classification approach.</li>
+</ol>
+<p><img src="image-20191024193802569.png" alt="image-20191024193802569"></p>
+<h1 id="Images"><a href="#Images" class="headerlink" title="Images"></a>Images</h1><p><img src="image-20191021152129125.png" alt="image-20191021152129125"></p>
+<p><img src="image-20191021154348447.png" alt="image-20191021154348447"></p>
+<h1 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h1><ol>
+<li>We can use multiple dimensional information to detect what is going on. For example, if we add sound detect devices or infrared sensor and use their signals to do analysis at the same time, the accuracy may get dramatically improved. If camera can also be applied, even more detailed information can be obtained.</li>
+<li>Regarding the privacy issue, perhaps we can consider using a embedded auto-clip algorithm which make it possible to only output a limited region which only contains the main region of the Target-of-Interest.</li>
+</ol>
+<p><img src="image-20191024193841882.png" alt="image-20191024193841882"></p>
+<ol start="3">
+<li>We can even combine different sensor and use one as the trigger of another. For example, camera will only work when the odor sensor feels that there is someone cooking or when infrared sensor feels that someone is approaching or the microphone hears the noise of cooking.  </li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/paper/" rel="tag"># paper</a>
+              <a href="/tags/HCI/" rel="tag"># HCI</a>
+              <a href="/tags/mobile-health/" rel="tag"># mobile-health</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/10/22/tomasulo/" rel="prev" title="Plan of Project Tomasulo Visual">
+                  <i class="fa fa-chevron-left"></i> Plan of Project Tomasulo Visual
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/11/07/video-classification/" rel="next" title="Video Classification Investigation Report">
+                  Video Classification Investigation Report <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

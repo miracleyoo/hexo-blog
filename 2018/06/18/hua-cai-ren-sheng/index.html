@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 <meta name="description" content="华彩人生——华科模拟器华彩人生 – 一款为华科（华中科技大学）量身打造的游戏；一款在华科这片神奇土地上展开的奇幻RPG游戏；一款高仿真的华科模拟器。想要了解华科的同学请务必来玩哦~相信不会让你失望！ 引擎：RPGMaker MV 声明 游戏在线体验请走这里在线游戏成品游戏下载请移步Windows版本&#x2F;Web版本。">
 <meta property="og:type" content="article">
@@ -112,6 +112,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -127,15 +130,50 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
         
@@ -173,7 +211,8 @@
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">117</span>
           <span class="site-state-item-name">posts</span>
         </a>
@@ -324,7 +363,7 @@
 </li>
 <li><p>如果您在游戏过程中发现bug或有想要提出的建议，请直接提出issue或邮件联系我。</p>
 </li>
-<li><p>如果您准备基于本项目进行改编或是再开发，请务必联系作者张中洋(<a href="mailto:&#x6d;&#105;&#114;&#97;&#99;&#108;&#x65;&#x79;&#111;&#111;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#x6d;&#105;&#114;&#97;&#99;&#108;&#x65;&#x79;&#111;&#111;&#64;&#49;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#109;</a>)，并注明出处。</p>
+<li><p>如果您准备基于本项目进行改编或是再开发，请务必联系作者张中洋(<a href="mailto:&#x6d;&#105;&#114;&#97;&#99;&#x6c;&#101;&#121;&#x6f;&#x6f;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;">&#x6d;&#105;&#114;&#97;&#99;&#x6c;&#101;&#121;&#x6f;&#x6f;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;</a>)，并注明出处。</p>
 </li>
 </ul>
 <h3 id="游戏特征"><a href="#游戏特征" class="headerlink" title="游戏特征"></a>游戏特征</h3><ul>
@@ -496,6 +535,7 @@
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
+<script src="/js/local-search.js"></script>
 
 
 

@@ -160,12 +160,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -208,569 +208,6 @@
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/02/11/python-copy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Miracle Yoo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Miracleyoo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/02/11/python-copy/" class="post-title-link" itemprop="url">Python的赋值与深浅拷贝实例解析</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-02-11 18:54:55" itemprop="dateCreated datePublished" datetime="2020-02-11T18:54:55-05:00">2020-02-11</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-04-26 18:55:09" itemprop="dateModified" datetime="2020-04-26T18:55:09-04:00">2020-04-26</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="对象是一个定值"><a href="#对象是一个定值" class="headerlink" title="对象是一个定值"></a>对象是一个定值</h2><p>此时三种方法的作用实际上是相同的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">a = <span class="string">&quot;亚丝娜&quot;</span></span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br></pre></td></tr></table></figure>
-
-<p>输出如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源：id(a)-&gt;&gt;&gt; 4394180400</span><br><span class="line">赋值：id(b)-&gt;&gt;&gt; 4394180400</span><br><span class="line">浅拷贝：id(c)-&gt;&gt;&gt; 4394180400</span><br><span class="line">深拷贝：id(d)-&gt;&gt;&gt; 4394180400</span><br></pre></td></tr></table></figure>
-
-<p>如果a的值被更改，只有a本身的id会改变，bcd都不变。</p>
-<h2 id="对象是一个引用"><a href="#对象是一个引用" class="headerlink" title="对象是一个引用"></a>对象是一个引用</h2><ul>
-<li>首先，元组，数组，字典，类等的本质都是引用，或称之为“指针”，每个引用指向的实体都是有其相应地址的，比如这里的<code>“亚丝娜”</code>在内存中有一个具体的地址，而<code>[“亚丝娜”]</code>则是一个对于内存中“亚丝娜”实体的一个引用集，这个引用集本身也有一个独特的地址。</li>
-<li>对于不可变对象，Python 用引用计数的方式管理它们，所以 Python 不会对值相同的不可变对象，申请单独的内存空间。只会记录它的引用次数。</li>
-<li>使用“引用集”赋值是把引用集本身的地址赋给了左边的变量，即一个引用的引用。</li>
-<li>使用赋值的方法得到的对象，当原“引用集”中的任何引用发生任何改变时，其都会随着改变，就像一个快捷方式。但如果原“引用集”直接被覆盖了，则不会随之改变。</li>
-</ul>
-<h3 id="例："><a href="#例：" class="headerlink" title="例："></a>例：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一位数组更改内层元素</span></span><br><span class="line">a=[<span class="string">&quot;亚丝娜&quot;</span>]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>] = <span class="string">&quot;桐人&quot;</span></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4585988416</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4585988416</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4585374256</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4585117648</span></span><br><span class="line"><span class="string">[&#x27;桐人&#x27;] [&#x27;桐人&#x27;] [&#x27;亚丝娜&#x27;] [&#x27;亚丝娜&#x27;]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 一位数组完全变更</span></span><br><span class="line">a=[<span class="string">&quot;亚丝娜&quot;</span>]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a=[<span class="string">&quot;利兹&quot;</span>]</span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4586047600</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4583430096</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4585223344</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4585988416</span></span><br><span class="line"><span class="string">[&#x27;利兹&#x27;] [&#x27;亚丝娜&#x27;] [&#x27;亚丝娜&#x27;] [&#x27;亚丝娜&#x27;]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组更改最内层元素</span></span><br><span class="line">a=[[<span class="string">&quot;亚丝娜&quot;</span>]]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">print(<span class="string">&quot;源（重赋值前）：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>][<span class="number">0</span>]=<span class="string">&quot;利兹&quot;</span></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源（重赋值前）：id(a)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4586041088</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4585375216</span></span><br><span class="line"><span class="string">[[&#x27;利兹&#x27;]] [[&#x27;利兹&#x27;]] [[&#x27;利兹&#x27;]] [[&#x27;亚丝娜&#x27;]]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组更改第一维</span></span><br><span class="line">a=[[<span class="string">&quot;亚丝娜&quot;</span>]]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">print(<span class="string">&quot;源（重赋值前）：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>]=[<span class="string">&quot;利兹&quot;</span>]</span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源（重赋值前）：id(a)-&gt;&gt;&gt; 4585239328</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4585239328</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4585239328</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4586082944</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">[[&#x27;利兹&#x27;]] [[&#x27;利兹&#x27;]] [[&#x27;亚丝娜&#x27;]] [[&#x27;亚丝娜&#x27;]]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组完全变更</span></span><br><span class="line">a=[[<span class="string">&quot;亚丝娜&quot;</span>]]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">print(<span class="string">&quot;源（重赋值前）：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a=[[<span class="string">&quot;利兹&quot;</span>]]</span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源（重赋值前）：id(a)-&gt;&gt;&gt; 4586082944</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4585468704</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4586082944</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4586041088</span></span><br><span class="line"><span class="string">[[&#x27;利兹&#x27;]] [[&#x27;亚丝娜&#x27;]] [[&#x27;亚丝娜&#x27;]] [[&#x27;亚丝娜&#x27;]]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>赋值是完全的快捷方式。</li>
-<li>浅拷贝的实质是对一个“引用集”的所有引用的拷贝，即拷贝了一份“引用集”中记录的所有的这些的不可变对象的地址，但只拷贝了一层，或称并没有把这些对象本身拷贝一遍。</li>
-<li>如果引用集里还有引用集x，那么浅拷贝对x的作用和赋值相同，即如果x里的元素变了，浅拷贝的结果还是会跟着变。</li>
-<li>深拷贝把拷贝对象里面的所有层的引用集全部做了拷贝动作，直到引用到不可变变量，所以可以说深拷贝出来的结果和其拷贝对象没有任何耦合关系了。</li>
-</ul>
-<h2 id="简要版本"><a href="#简要版本" class="headerlink" title="简要版本"></a>简要版本</h2><ul>
-<li>  由于 Python 内部引用计数的特性，对于不可变对象，浅拷贝和深拷贝的作用是一致的，就相当于复制了一份副本，原对象内部的不可变对象的改变，不会影响到复制对象。</li>
-<li>  浅拷贝的拷贝。其实是拷贝了原始元素的引用（内存地址），所以当拷贝可变对象时，原对象内可变对象的对应元素的改变，会在复制对象的对应元素上，有所体现。</li>
-<li>  深拷贝在遇到可变对象时，又在内部做了新建了一个副本。所以，不管它内部的元素如何变化，都不会影响到原来副本的可变对象。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5c6943266fb9a049ed316931">5张图彻底理解Python中的浅拷贝与深拷贝</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/01/10/matlab-func/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Miracle Yoo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Miracleyoo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/01/10/matlab-func/" class="post-title-link" itemprop="url">MATLAB 中与函数、方程相关内容</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-01-10 19:01:11" itemprop="dateCreated datePublished" datetime="2020-01-10T19:01:11-05:00">2020-01-10</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-04-26 19:03:26" itemprop="dateModified" datetime="2020-04-26T19:03:26-04:00">2020-04-26</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="符号变量-syms"><a href="#符号变量-syms" class="headerlink" title="符号变量 syms"></a>符号变量 syms</h2><p>在MATLAB中创建或定义一个函数需要用到符号变量。一般情况下，想要绘制函数图像时，往往使用<code>x=[a:0.01:b]</code>的方式先创建一个x的离散定义域，然后再用<code>y=func(x)</code>的方式定义函数本身，最后使用plot(x,y)的方式绘制图像。</p>
-<p>然而，当涉及到函数极值、求导、方程求解、连续图像绘制等问题时，这种方法就不够用了。</p>
-<p>想要创建一个<strong>符号函数</strong>，我们首先要创建一个或多个<strong>符号变量</strong>，用以表示符号函数本身。其定义方式即为<code>syms x x1 x2</code>。其中<code>x,x1,x2</code> 都是符号变量，一个符号函数可以由多个符号变量组成。</p>
-<p>符号变量可以有定义域，这里或称<strong>限制条件</strong>。</p>
-<p>限制条件可以在定义时就加上，但往往是较为简单的条件，如<em>positive</em>, <em>real</em>, <em>integer</em> 等。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% Create symbolic variables x and y, and assume that they are integers.</span></span><br><span class="line">syms x y integer</span><br><span class="line"></span><br><span class="line"><span class="comment">% Create another variable z, and assume that it has a positive rational value.</span></span><br><span class="line">syms z positive rational</span><br><span class="line"></span><br><span class="line"><span class="comment">% Check assumptions on each variable. For example, check assumptions set on the variable x.</span></span><br><span class="line">assumptions(x)</span><br><span class="line"></span><br><span class="line"><span class="comment">% Clear assumptions on x, y, and z.</span></span><br><span class="line">assume([x y z],<span class="string">&#x27;clear&#x27;</span>)</span><br><span class="line">assumptions</span><br><span class="line"></span><br><span class="line"><span class="comment">% Create a 1-by-3 symbolic array a and assume that the array elements have real values.</span></span><br><span class="line">syms a [<span class="number">1</span> <span class="number">3</span>] <span class="built_in">real</span></span><br><span class="line">assumptions</span><br></pre></td></tr></table></figure>
-
-<p>其次，我们也可以使用更加精确的方法进行限定，即使用<code>assume</code>命令。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">assume(<span class="number">0</span>&lt;x&lt;<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 方法1 使用这种方法不用特意定义自变量</span></span><br><span class="line">y = @(t) <span class="built_in">cos</span>(<span class="number">3</span>*t);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 方法2 先定义自变量为符号变量再定义函数本身</span></span><br><span class="line">syms x</span><br><span class="line">fun = <span class="number">0.5</span>*x*(<span class="built_in">exp</span>(<span class="number">-2</span>*x)+<span class="built_in">exp</span>(<span class="number">-1.5</span>*x)+<span class="built_in">exp</span>(-x))</span><br></pre></td></tr></table></figure>
-
-<h2 id="快速绘制函数图像"><a href="#快速绘制函数图像" class="headerlink" title="快速绘制函数图像"></a>快速绘制函数图像</h2><p>MATLAB中的函数<code>fplot</code>可以迅速绘制一个符号函数的函数图像，并可以对其显示的x范围进行设定。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fplot(fun)</span><br><span class="line">fplot(fun,x,[<span class="number">1</span>,<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
-
-<p>默认情况下，其绘制区间为<code>[-5, 5]</code>，但如果符号变量本身有定义域限制，则会优先其定义域，优先级最高的是在绘制函数中指定的绘制区间。</p>
-<p>当然，<code>fplot</code>函数还可以绘制多条曲线、分段函数以及参数函数等，详见<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/ref/fplot.html">帮助文档</a>，这里给出几个简单常用例子。</p>
-<p>指定绘图区间并绘制分段函数<br>$e^x\space −3&lt;x&lt;0$</p>
-<p>$cos(x)\space 0&lt;x&lt;3$</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用 <span class="built_in">hold</span> on 绘制多个线条。使用 fplot 的第二个输入参数指定绘图区间。使用 <span class="string">&#x27;b&#x27;</span> 将绘制的线条颜色指定为蓝色。在相同坐标区中绘制多个线条时，坐标轴范围会调整以容纳所有数据。</span><br><span class="line">fplot(@(x) <span class="built_in">exp</span>(x),[<span class="number">-3</span> <span class="number">0</span>],<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">fplot(@(x) <span class="built_in">cos</span>(x),[<span class="number">0</span> <span class="number">3</span>],<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br><span class="line">grid on</span><br></pre></td></tr></table></figure>
-
-<img src="./matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
-
-<p>当然，使用<code>fplot</code>方法绘制的图像也是可以进行样式自定义的：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fplot(@(x) <span class="built_in">sin</span>(x+<span class="built_in">pi</span>/<span class="number">5</span>),<span class="string">&#x27;Linewidth&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">fplot(@(x) <span class="built_in">sin</span>(x-<span class="built_in">pi</span>/<span class="number">5</span>),<span class="string">&#x27;--or&#x27;</span>);</span><br><span class="line">fplot(@(x) <span class="built_in">sin</span>(x),<span class="string">&#x27;-.*c&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br></pre></td></tr></table></figure>
-
-<img src="./matlab-func/specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
-
-<h2 id="解方程"><a href="#解方程" class="headerlink" title="解方程"></a>解方程</h2><p>MATLAB中有两种常用解方程的函数：<code>solve</code>和<code>vpasolve</code>。前者会返回一个符号解，它的做法就像人类手工推理一样，计算出所有的符号解。而后者则会计算方程的数值解，且只会返回其找到的第一个数值解。</p>
-<p>当我们想要使用<code>vpasolve</code>算出某个x范围中的所有解时候，我们有两种方法：</p>
-<h3 id="1-画出方程对应的函数图像，并传给vpasolve一个猜测起点"><a href="#1-画出方程对应的函数图像，并传给vpasolve一个猜测起点" class="headerlink" title="1. 画出方程对应的函数图像，并传给vpasolve一个猜测起点"></a>1. 画出方程对应的函数图像，并传给<code>vpasolve</code>一个猜测起点</h3><p>如给定方程$200*sin(x) = x^3 - 1$, 我们先画出它的图像进行观察：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">eqnLeft = <span class="number">200</span>*<span class="built_in">sin</span>(x);</span><br><span class="line">eqnRight = x^<span class="number">3</span> - <span class="number">1</span>;</span><br><span class="line">fplot([eqnLeft eqnRight])</span><br><span class="line">title([texlabel(eqnLeft) <span class="string">&#x27; = &#x27;</span> texlabel(eqnRight)])</span><br></pre></td></tr></table></figure>
-
-<img src="./matlab-func/FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png" alt="img" style="zoom:50%;" />
-
-<p>观察后发现，这个方程有三个解，分别在-3, 0, 4的附近，于是我们可以用以下语句找到其所有的三个解</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">S1 = vpasolve(eqnLeft == eqnRight, x);</span><br><span class="line">S2 = vpasolve(eqnLeft == eqnRight, x, <span class="number">-3</span>);</span><br><span class="line">S3 = vpasolve(eqnLeft == eqnRight, x, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-使vpasolve拥有一个随机起点，并进行循环"><a href="#2-使vpasolve拥有一个随机起点，并进行循环" class="headerlink" title="2. 使vpasolve拥有一个随机起点，并进行循环"></a>2. 使<code>vpasolve</code>拥有一个随机起点，并进行循环</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> n = <span class="number">1</span>:<span class="number">3</span></span><br><span class="line">    S = vpasolve(f,x,[<span class="number">0</span>,<span class="number">2</span>],<span class="string">&#x27;Random&#x27;</span>,<span class="built_in">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-仅针对多项式函数"><a href="#3-仅针对多项式函数" class="headerlink" title="3. 仅针对多项式函数"></a>3. 仅针对多项式函数</h3><p>如果你的函数是一个标准的多相似函数，那么你可以使用<code>roots</code>函数一次性得到所有的解。详情请参阅<a target="_blank" rel="noopener" href="https://www.mathworks.com/help/matlab/ref/roots.html">帮助文档</a>。</p>
-<h2 id="寻找函数极大极小值"><a href="#寻找函数极大极小值" class="headerlink" title="寻找函数极大极小值"></a>寻找函数极大极小值</h2><p>在MATLAB中似乎没有直接一键求出函数的最值的办法，但我们却可以用<code>fminsearch</code>求出某个点附近的极值。</p>
-<p>与前面提到的解方程类似，由于该函数并不会直接的把全局最值给你，所以最好先把函数图像画出来，然后观察需要求的极值在那个点附近，然后使用<code>fminsearch</code>函数把相关点的横坐标解出，如果需要最值的值，再把这个横坐标带回去求值。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">y=<span class="built_in">real</span>((<span class="number">1</span>-<span class="built_in">exp</span>(<span class="number">8</span>*<span class="built_in">i</span>*<span class="built_in">pi</span>*<span class="built_in">cos</span>(x)))/(<span class="number">1</span>-<span class="built_in">exp</span>(<span class="built_in">i</span>*<span class="built_in">pi</span>*<span class="built_in">cos</span>(x))));</span><br><span class="line">fplot(y,[<span class="number">0</span>,<span class="number">3</span>]);</span><br><span class="line">fminsearch(matlabFunction(-y),<span class="number">1.5</span>);</span><br><span class="line"><span class="comment">% ans = 1.5708</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="./matlab-func/image-20200216152601687.png" alt="image-20200216152601687" style="zoom:35%;" />
-
-<p>请注意，这里在search的时候我将y改为了-y，因为我要找的是极大值而非极小值。</p>
-<p>接着，我们将函数y变为<code>matlabFunction</code>型变量，在根据刚才输出的值求出极值大小：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">q=matlabFunction(y)</span><br><span class="line">q(<span class="number">1.5708</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>于是，我们就找到了函数在该点附近的极值。</p>
-<p>你甚至可以看到MATLAB的优化路径：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options = optimset(<span class="string">&#x27;PlotFcns&#x27;</span>,@optimplotfval);</span><br><span class="line">fun = @(x)<span class="number">100</span>*(x(<span class="number">2</span>) - x(<span class="number">1</span>)^<span class="number">2</span>)^<span class="number">2</span> + (<span class="number">1</span> - x(<span class="number">1</span>))^<span class="number">2</span>;</span><br><span class="line">x0 = [<span class="number">-1.2</span>,<span class="number">1</span>];</span><br><span class="line">x = fminsearch(fun,x0,options)</span><br></pre></td></tr></table></figure>
-
-<img src="matlab-func/image-20200216153158018.png" alt="image-20200216153158018" style="zoom:33%;" />
-
-<h2 id="对函数求导"><a href="#对函数求导" class="headerlink" title="对函数求导"></a>对函数求导</h2><p>定义好一个符号函数后，直接使用<code>diff</code>命令即可对函数进行符号求导。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">fun=<span class="number">0.5</span>*x*(<span class="built_in">exp</span>(<span class="number">-2</span>*x)+<span class="built_in">exp</span>(<span class="number">-1.5</span>*x)+<span class="built_in">exp</span>(-x))</span><br><span class="line">diff(fun) <span class="comment">% or diff(fun, x)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>需要注意的一点是，<code>diff</code>函数不但对符号函数有效，其对数列也是有效的：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">X = [<span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">5</span> <span class="number">8</span> <span class="number">13</span> <span class="number">21</span>];</span><br><span class="line">Y = diff(X)</span><br><span class="line"><span class="comment">% Y = 1×7</span></span><br><span class="line"><span class="comment">%     0     1     1     2     3     5     8</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Miracle Yoo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Miracleyoo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/12/11/Pytorch-Core-Code-Research/" class="post-title-link" itemprop="url">Pytorch Core Code Research</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2019-12-11 16:35:01 / Modified: 20:08:49" itemprop="dateCreated datePublished" datetime="2019-12-11T16:35:01-05:00">2019-12-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Pytorch-Release-Version-Composition"><a href="#Pytorch-Release-Version-Composition" class="headerlink" title="Pytorch Release Version Composition"></a>Pytorch Release Version Composition</h2><p>The repository cloned from GitHub <a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">pytorch/pytorch</a> is different from the package we download using <code>pip install</code> or <code>conda install</code>. In fact, the former contains many C/C++ based files, which consist of the basic of Pytorch, while the latter is more concise and contains compiled libraries and dll files instead. </p>
-<p>Here, let’s discuss the release version, or the installed package at first. The package has a lot of components, Here I only pick out some most important parts to do explanation.</p>
-<p><img src="image-20191128191350467.png" alt="image-20191128191350467"></p>
-<h4 id="nn"><a href="#nn" class="headerlink" title="nn"></a>nn</h4><p>All deep learning layers’ python entrance are located here. They mainly collect parameters from init input and do some modification to the input data. After that it will send core computation operation together with parameters into <code>torch._C</code> based functions. </p>
-<h4 id="autograd"><a href="#autograd" class="headerlink" title="autograd"></a>autograd</h4><p>Contains a series of base functions which serves for back propagation. Also, if you dig in, the core implementation is still from C libraries. Variable wrap is also put here, but now it is just omitted because of the merge of tensor and Variable.</p>
-<h4 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h4><p>Mainly these parts are contained in <code>cuda</code> folder: Stream, Event, Broadcast and Random. </p>
-<ul>
-<li>A CUDA stream is a linear sequence of execution that belongs to a specific device, independent from other streams. </li>
-<li>CUDA events are synchronization markers that can be used to monitor the device’s progress, to accurately measure timing, and to synchronize CUDA streams. </li>
-<li>Broadcast related functions mainly do the jobs to make sure operations run on different GPUs and gather correctly.</li>
-</ul>
-<h4 id="optim"><a href="#optim" class="headerlink" title="optim"></a>optim</h4><p><code>torch.optim</code> is a package implementing various optimization algorithms. Most commonly used methods are already supported, like <code>adam</code>, <code>sgd</code> and <code>adagrad</code>.</p>
-<h4 id="distributed"><a href="#distributed" class="headerlink" title="distributed"></a>distributed</h4><p>The <code>distributions</code> package contains parameterizable probability distributions and sampling functions. This allows the construction of stochastic computation graphs and stochastic gradient estimators for optimization.  </p>
-<h4 id="onnx"><a href="#onnx" class="headerlink" title="onnx"></a>onnx</h4><p>The <code>torch.onnx</code> module contains functions to export models into the ONNX IR format. These models can be loaded with the ONNX library and then converted to models which run on other deep learning frameworks.  </p>
-<h4 id="tensor"><a href="#tensor" class="headerlink" title="tensor"></a>tensor</h4><p>Most basic tensor class defined here. It inherit a super class from C lib, called <code>torch._C._TensorBase</code> . And it attaches a lot of method like <code>register_hook</code>,<code>resize</code>, <code>norm</code> to tensor class. All these method eventually call C based libraries.  </p>
-<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>The library where compiled C/C++ files located. There are <code>.dll</code> files as well as <code>.lib</code> files. According to the bug reports on google, I believe <code>.dll</code> files are specially compiled for the compatibility of windows and <code>.lib</code> can be used in linux and some of them are also usable in Windows.(If you find a more accurate explanation, please tell me:) These files included: <code>_C.lib</code>, <code>c10.lib</code>, <code>torch.lib</code>, <code>c10_cuda.lib</code>. </p>
-<h4 id="functional"><a href="#functional" class="headerlink" title="functional"></a>functional</h4><p>Functions related to tensor operation are all located here. In fact, again, they are wrappers of functions from C libraries. You can find functions like <code>tensordot</code>, <code>unique</code>, <code>split</code> in this file.</p>
-<h4 id="utils"><a href="#utils" class="headerlink" title="utils"></a>utils</h4><p>All kinds of utilities codes are located here. This include dataset related code <code>dataloader.py</code>, <code>dataset.py</code>, <code>sampler.py</code>, also include save and output related <code>checkpoint.py</code>. Some TensorBoard support can also be found here.</p>
-<h2 id="How-Pytorch-manage-its-inner-resource"><a href="#How-Pytorch-manage-its-inner-resource" class="headerlink" title="How Pytorch manage its inner resource"></a>How Pytorch manage its inner resource</h2><h3 id="What-is-Tensor"><a href="#What-is-Tensor" class="headerlink" title="What is Tensor"></a>What is Tensor</h3><p>In <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mathematics">mathematics</a>, a <strong>tensor</strong> is an algebraic object that describes a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Linear_mapping">linear mapping</a> from one set of algebraic objects to another. Objects that tensors may map between include, but are not limited to, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Vector_(mathematics_and_physics)">vectors</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Scalar_(mathematics)">scalars</a>, and, recursively, even other tensors. The tensor is the central data structure in PyTorch.  It’s an n-dimensional data structure containing some sort of scalar type, e.g., floats, ints, et cetera. We can think of a tensor as consisting of some data, and then some metadata describing the size of the tensor, the type of the elements in contains (dtype), what device the tensor lives on (CPU memory,  CUDA memory) </p>
-<p>![what is tensor](Simple Tutorials on Tensors.jpg) </p>
-<h3 id="How-Tensor-organizes"><a href="#How-Tensor-organizes" class="headerlink" title="How Tensor organizes"></a>How Tensor organizes</h3><p>TH library is responsible for the computation,storage and memory management of Tensor. It divide the “Tensor” into two separate parts: Storage and Access/View. </p>
-<p>Storage: <strong>THStorage</strong>. It manage the way of storing the Tensor.</p>
-<p>Access: <strong>THTensor</strong>. It provide a access to user.</p>
-<p><img src="image-20191203093005864.png" alt="image-20191203093005864"></p>
-<h4 id="Data-Storage"><a href="#Data-Storage" class="headerlink" title="Data Storage"></a>Data Storage</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">THStorage</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"> real *data;</span><br><span class="line"> <span class="keyword">ptrdiff_t</span> size;</span><br><span class="line"> <span class="keyword">int</span> refcount;</span><br><span class="line"> <span class="keyword">char</span> flag;</span><br><span class="line"> THAllocator *allocator;</span><br><span class="line"> <span class="keyword">void</span> *allocatorContext;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">THStorage</span> *<span class="title">view</span>;</span></span><br><span class="line">&#125; THStorage;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>All of the “Tensor” in CPU is in fact a C pointer pointing to a data structure in memory like this. And it use reference count to do memory management.</li>
-<li><strong>refcount</strong>: Here we apply reference count method to do automatic garbage collection. When the reference number becomes 0, this struct will be freed automatically.</li>
-</ul>
-<h4 id="Data-Access"><a href="#Data-Access" class="headerlink" title="Data Access"></a>Data Access</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">THTensor</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"> <span class="keyword">long</span> *size;</span><br><span class="line"> <span class="keyword">long</span> *stride;</span><br><span class="line"> <span class="keyword">int</span> nDimension;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Attention: storage-&gt;size might be bigger than the size of tensor.</span></span><br><span class="line"> THStorage *storage;</span><br><span class="line"> <span class="keyword">ptrdiff_t</span> storageOffset;</span><br><span class="line"> <span class="keyword">int</span> refcount;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">char</span> flag;</span><br><span class="line"></span><br><span class="line">&#125; THTensor;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li> <strong>nDimension</strong>: The number of dimensions</li>
-<li><strong>size</strong>: It contains the length information of all dimensions.</li>
-<li><strong>refcount</strong>: Reference count </li>
-<li><strong>storage</strong>: Pointer of this data structure</li>
-<li><strong>stride</strong>: The size of each dimension.</li>
-</ul>
-<h4 id="Memory-Allocator"><a href="#Memory-Allocator" class="headerlink" title="Memory Allocator"></a>Memory Allocator</h4><h5 id="c10-core-Allocator-h"><a href="#c10-core-Allocator-h" class="headerlink" title="/c10/core/Allocator.h"></a><code>/c10/core/Allocator.h</code></h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">C10_API</span> <span class="title">Allocator</span> &#123;</span></span><br><span class="line">  <span class="keyword">virtual</span> ~Allocator() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> DataPtr <span class="title">allocate</span><span class="params">(<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> DeleterFnPtr <span class="title">raw_deleter</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span>* <span class="title">raw_allocate</span><span class="params">(<span class="keyword">size_t</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> dptr = allocate(n);</span><br><span class="line">    AT_ASSERT(dptr.get() == dptr.get_context());</span><br><span class="line">    <span class="keyword">return</span> dptr.release_context();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">raw_deallocate</span><span class="params">(<span class="keyword">void</span>* ptr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> d = raw_deleter();</span><br><span class="line">    AT_ASSERT(d);</span><br><span class="line">    d(ptr);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>The <code>allocate</code> function is directly included from head file <code>memory</code>.</p>
-<h5 id="aten-src-TH-THAllocator-cpp"><a href="#aten-src-TH-THAllocator-cpp" class="headerlink" title="/aten/src/TH/THAllocator.cpp"></a><code>/aten/src/TH/THAllocator.cpp</code></h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">at::DataPtr <span class="title">THMapAllocator::makeDataPtr</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *filename, <span class="keyword">int</span> flags, <span class="keyword">size_t</span> size, <span class="keyword">size_t</span>* actual_size_out)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span>* context = <span class="keyword">new</span> THMapAllocator(filename, flags, size);</span><br><span class="line">  <span class="keyword">if</span> (actual_size_out) *actual_size_out = context-&gt;size();</span><br><span class="line">  <span class="keyword">return</span> &#123;context-&gt;data(), context, &amp;deleteTHMapAllocator, at::DeviceType::CPU&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Default allocator is malloc/free allocator. malloc and realloc raise an error (using THError) on allocation failure.</p>
-</blockquote>
-<h3 id="Understand-Parameters"><a href="#Understand-Parameters" class="headerlink" title="Understand Parameters"></a>Understand Parameters</h3><p>It is hard and not straightforward enough to understand stride and storage offset, so let’s borrow some images from <a target="_blank" rel="noopener" href="http://blog.ezyang.com/2019/05/pytorch-internals/">ezyang</a>, who is supposed to be an inner developer of Pytorch, to elaborate this problem.</p>
-<p>A tensor is a mathematical concept. But to represent it on our computers, we have to define some sort of physical representation for them. The most common representation is to lay out each element of the tensor contiguously in memory (that’s where the term contiguous comes from), writing out each row to memory.</p>
-<p><img src="image-20191128191750794.png" alt="image-20191128191750794"></p>
-<p>Please notice the relationship of sizes and strides. If we get a tensor with a size of (D,H,W) and this tensor is directly defined by user rather than a slice or result of some operation, the stride of it will be (H*W, W, 1). You can compare and draw a conclusion yourself. Each stride element in a certain dimension will be the product of all the following dimensions, and the stride of the last dimension will be 1. </p>
-<p>Physically, stride means how many blocks of memory computer need to skip to get to the starting position of the next corresponding dimension. And if we use a formula to compute the memory position of a $Tensor[i,j,k]$, it will be $storageOffset + i * stride[0] + j * stride[1] + k * stride[2]$.</p>
-<p>In the example image above, I’ve specified that the tensor contains 32-bit integers, so you can see that each integer lies in a physical address, each offset four bytes from each other. To remember what the actual dimensions of the tensor are, we have to also record what the sizes are as extra metadata. </p>
-<p><img src="image-20191128192741907.png" alt="image-20191128192741907"></p>
-<p>Then comes to the memory offset. What does this mean? As we has mentioned before, a tensor storage may support multiple tensor view, and if we sliced the first N elements, then we will start from N+1 memory position. The following examples will give a further explanation.</p>
-<p><img src="image-20191128193018098.png" alt="image-20191128193018098"></p>
-<p> You can see in the left example, we start at the third element block, so that means we skip two block, and here the offset is 2. Because of the slice, the two dimensional tensor becomes one dimensional tensor, and conjoint elements are continuous in physical storage, this means the strides is [1]. Size is the number of elements in this case and it is 2. </p>
-<p>In the right example, conjoint elements are not continuous, but it do start from the beginning, so the strides is [2] and offset is 0. There are still two elements in total so the sizes don’t change.</p>
-<p>What’s more, if you still find it somehow difficult to understand, you may try <a target="_blank" rel="noopener" href="https://ezyang.github.io/stride-visualizer/index.html">this website</a> to playing with these parameters and see the dynamic process.</p>
-<h3 id="Tensor-implementation-dispatch"><a href="#Tensor-implementation-dispatch" class="headerlink" title="Tensor implementation dispatch"></a>Tensor implementation dispatch</h3><p>As we know, although in Python, you can use any type of data as you wish, as the interpreter will take care of the rest of the things. However, since the basic kernels are written in C/C++, functions from Python need to be dispatched into same functions with different input and device type. To a C/C++ functions, a certain function cannot take in <code>int</code> and <code>float</code> Tensor as a same <code>X</code> at the same time, they need separate implementation.</p>
-<p><img src="image-20191128221930437.png" alt="image-20191128221930437"></p>
-<h3 id="How-to-dispatch"><a href="#How-to-dispatch" class="headerlink" title="How to dispatch"></a>How to dispatch</h3><p>As we discussed above, the basic C/C++ implementation need to dispatch according to data and device type. But in code, how to actually do this work?</p>
-<p><img src="image-20191128222130891.png" alt="image-20191128222130891"></p>
-<p>There are basically three methods.</p>
-<ol>
-<li>Write these functions with different data and device type separately, and manually.</li>
-<li>Using template function to build those dispatched function in the compiling time. But this only works in C++, while many code in Pytorch is still written in C.</li>
-<li>Apply the magic item – Macro. By defining the function name as a Macro which takes in one or some parameters, like the data type name, we can compile this function in different types by <code>#define</code> and <code>#undef</code> multiple times, setting the variables in function name macro into various type name to compile the function into many copies which support different types.</li>
-</ol>
-<p>Here’s a simplified example:</p>
-<h4 id="File-structure"><a href="#File-structure" class="headerlink" title="File structure:"></a>File structure:</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── add.c <span class="comment"># Used to extend generic/add.c</span></span><br><span class="line">├── add.h <span class="comment"># Used to extend generic/add.h</span></span><br><span class="line">├── general.h <span class="comment"># Including other header files</span></span><br><span class="line">└── generic</span><br><span class="line"> ├── add.c <span class="comment"># Definition of generic function add</span></span><br><span class="line"> └── add.h <span class="comment"># Definition of generic type Vector</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="add-h"><a href="#add-h" class="headerlink" title="add.h"></a>add.h</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;general.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONCAT_2_EXPAND(A, B) A ## B</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONCAT_2(A, B) CONCAT_2_EXPAND(A, B)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONCAT_3_EXPAND(A, B, C) A ## B ## C</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONCAT_3(A, B, C) CONCAT_3_EXPAND(A, B, C)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Vector_(NAME) CONCAT_3(Num, Vector_, NAME)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Vector CONCAT_2(Num, Vector)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> num float</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Num Float</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;generic/add.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> Num</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> num double</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Num Double</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;generic/add.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> Num</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="add-c"><a href="#add-c" class="headerlink" title="add.c"></a>add.c</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;add.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> num float</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Num Float</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;generic/add.c&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> Num</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> num double</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Num Double</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;generic/add.c&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> Num</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="generic-add-h"><a href="#generic-add-h" class="headerlink" title="generic/add.h"></a>generic/add.h</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// generic/add.h</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Vector</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">num *data;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line">&#125; Vector;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">Vector_</span><span class="params">(add)</span><span class="params">(Vector *C, Vector *A, Vector *B)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="generic-add-c"><a href="#generic-add-c" class="headerlink" title="generic/add.c"></a>generic/add.c</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// generic/add.c</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Vector_</span><span class="params">(add)</span><span class="params">(Vector *C, Vector *A, Vector *B)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> i, n;</span><br><span class="line">n = C-&gt;n;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">C-&gt;data[i] = A-&gt;data[i] + B-&gt;data[i];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="An-Example-finding-THStorage"><a href="#An-Example-finding-THStorage" class="headerlink" title="An Example finding THStorage"></a>An Example finding THStorage</h2><p>I try to find the definition of THStorage, since it will give us a brief understand of the file management structure of pytorch, and we can also grab a basic idea of how those macros and includes are forming this huge project. We start from <code>torch/csrc/Storage.cpp</code>, and check step by step to the file included.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Storage.cpp                 -&gt;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TH/TH.h&gt;          -&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TH/THStorageFunction.h&gt;   -&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TH/generic/THStorage.h&gt;   -&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;c10/core/StorageImpl.h&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<p>Find the macro definition in <code>TH/generic/THStorage.h</code>:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THStorage at::StorageImpl</span></span><br></pre></td></tr></table></figure>
-
-<p>Find the structure definition in <code>c10/core/StorageImpl.h</code>:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> c10 &#123;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">C10_API</span> <span class="title">StorageImpl</span> <span class="keyword">final</span> :</span> <span class="keyword">public</span> c10::intrusive_ptr_target &#123;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  caffe2::TypeMeta  data_type_;  <span class="comment">// Data type</span></span><br><span class="line">  DataPtr data_ptr_;             <span class="comment">// Data pointer</span></span><br><span class="line">  <span class="keyword">int64_t</span> numel_;                <span class="comment">// Data number</span></span><br><span class="line">  <span class="keyword">bool</span> resizable_;</span><br><span class="line">  <span class="keyword">bool</span> received_cuda_;</span><br><span class="line">  Allocator* allocator_;         <span class="comment">// Data&#x27;s allocator</span></span><br><span class="line">&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Therefore, the hidding real tpye of <code>THWStorage</code> is <code>at::StorageImpl</code>, and it is the implementation of data storage. Let’s look into the definition of <code>THPStorage_(pynew)</code> at first, when the value of  <code>cdata</code> is not provided, it need to create an implementation of class <code>THWStorage</code> using function <code>THWStorage_(NAME)</code>,  and the value of NAME can possibly be:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>                <span class="comment">// New a THStorage, if size not specified, size=0, that means using default Allocator</span></span><br><span class="line"><span class="built_in">free</span></span><br><span class="line">size</span><br><span class="line">get</span><br><span class="line"><span class="built_in">set</span></span><br><span class="line">data</span><br><span class="line">newWithSize        <span class="comment">// New THStorage，specify size but use default Allocator</span></span><br><span class="line">newWithAllocator   <span class="comment">// New THStorage，specify size and Allocator</span></span><br><span class="line">copy_functions</span><br><span class="line">copyByte</span><br><span class="line">...</span><br><span class="line">copyCudaByte</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>And also some macro definitions:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THWStorage_(NAME) THStorage_(NAME)     <span class="comment">// torch/csrc/THP.h</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THStorage_(NAME) TH_CONCAT_4(TH,Real,Storage_,NAME)   <span class="comment">// TH/THStorageFunctions.h</span></span></span><br></pre></td></tr></table></figure>
-
-<p>The declaration of function <code>THStorage_(NAME)</code> lives in <code>TH/generic/THStorage.h</code>, <code>TH/generic/THStorageCopy.h</code> and the implementation part lies in corresponding cpp files.</p>
-<p>(BTW, if using cuda, the declaration of  <code>#define THWStorage_(NAME) THCStorage_(NAME)</code>lie in <code>THC/generic/THCStorage.h</code> and <code>THC/generic/THCStorageCopy.h</code>)</p>
-<p>Take THStorage_(newWithSize) function as an example, look into <code>TH/generic/THStorage.cpp</code> and we can find the definition:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">THStorage* <span class="title">THStorage_</span><span class="params">(newWithSize)</span><span class="params">(<span class="keyword">ptrdiff_t</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  THStorage* storage = c10::make_instrusive&lt;at::StorageImpl&gt;(</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> THQUANTIZED</span></span><br><span class="line">    caffe2::TypeMeta::Make&lt;<span class="keyword">quantized_t</span>&gt;(),</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    caffe2::TypeMeta::Make&lt;<span class="keyword">scalar_t</span>&gt;(),        <span class="comment">// New a scalar_t type</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    size,</span><br><span class="line">    getTHDefaultAllocator(),</span><br><span class="line">    <span class="literal">true</span>).release();</span><br><span class="line">  <span class="keyword">return</span> storage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>It’s not hard to infer from this code block that it new an <code>StorageImpl</code>, and add an intrusive pointer pointing to one of them, at last return a pointer pointing to <code>StorageImpl</code> and destroy the intrusive pointer. Macro THStorage is <code>at::StorageImpl</code>, so this method simply new a <code>StorageImpl and return a pointer pointing to it. According to the definition of </code>c10::make_instrusive`, this work will actually be done by the constructor of StorageImpl’ and it is:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">StorageImpl(</span><br><span class="line">    caffe2::TypeMeta data_type,</span><br><span class="line">    int64_4 numel,</span><br><span class="line">    at::Allocator* allocator,</span><br><span class="line">    <span class="keyword">bool</span> resizable)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>We will only traced here and this show a representative example of how pytorch inner code call and implement those method.</p>
-<h2 id="Autograd"><a href="#Autograd" class="headerlink" title="Autograd"></a>Autograd</h2><p>Autograd is a method which support automatic computation of gradient which will be used in the back propagation. Autograd depend directly on the computational graph. Computational graph is used for defining the pipeline of a model. It combines functions with variables and shows how they connect to each other.</p>
-<p><img src="image-20191128215249350.png" alt="image-20191128215249350"></p>
-<p>A directed graph with the following property:</p>
-<ol>
-<li>Edge: a function, or a function’s dependency</li>
-<li>Points with input edges: a function (or operator)</li>
-<li>Points with output edges: a variable</li>
-</ol>
-<p>Computational graph has two major types, they are dynamic and static computational graphs. TensorFlow applies static graph, it has the following characteristics:</p>
-<ul>
-<li>First define the structure of the graph, and then assign values to the leaf nodes (this is the origin of placeholder)</li>
-<li>Then forward according to the assignment of leaf nodes </li>
-</ul>
-<p>Pytorch, on the other hand, utilize dynamic graph. The structure of the graph is established at the same time as the forward, so there is no need to use placeholder.</p>
-<p>Here is an example inner code of autograd. </p>
-<p><img src="image-20191128215538638.png" alt="image-20191128215538638"></p>
-<p>Here we will elaborate these parameters which get involved in this process.</p>
-<ul>
-<li><p><strong>Data</strong>: It’s the data a variable is holding. </p>
-</li>
-<li><p><strong>requires_grad</strong>: This member, if true starts tracking all the operation history and forms a backward graph for gradient calculation. </p>
-</li>
-<li><p><strong>grad:</strong> grad holds the value of gradient. If requires_grad is False it will hold a None value. Even if requires_grad is True, it will hold a None value unless .backward() function is called from some other node.</p>
-</li>
-<li><p><strong>grad_fn:</strong> This is the backward function used to calculate the gradient.</p>
-</li>
-<li><p><strong>is_leaf</strong>: A node is leaf if :</p>
-<ol>
-<li><p>It was initialized explicitly by some function like x = torch.tensor(1.0) or x = torch.randn(1, 1) (basically all the tensor initializing methods discussed at the beginning of this post).</p>
-</li>
-<li><p>It is created after operations on tensors which all have requires_grad = False.</p>
-</li>
-<li><p>It is created by calling .detach() method on some tensor.</p>
-</li>
-</ol>
-</li>
-</ul>
-<p><img src="image-20191128215740348.png" alt="image-20191128215740348"></p>
-<h2 id="Pytorch-Source-Code-Composition"><a href="#Pytorch-Source-Code-Composition" class="headerlink" title="Pytorch Source Code Composition"></a>Pytorch Source Code Composition</h2><p>Since different data type, different devices are supported, and python code call C/C++ based code, the source code structure is not easy to understand. Here is the most important parts in the root directory.</p>
-<p><img src="image-20191128193909092.png" alt="image-20191128193909092"></p>
-<p>And provide a more detailed directory comment as well as explanation below.</p>
-<p><img src="image-20191128194349295.png" alt="image-20191128194349295"></p>
-<h3 id="Explanation-of-crucial-folders"><a href="#Explanation-of-crucial-folders" class="headerlink" title="Explanation of crucial folders"></a>Explanation of crucial folders</h3><h4 id="C10"><a href="#C10" class="headerlink" title="C10"></a>C10</h4><p><strong>C</strong>affe <strong>Ten</strong>sor Library: Most basic tensor library. Codes here can be deployed to mobile devices as well as servers. It contains the core abstractions of PyTorch, including the actual implementations of the Tensor and Storage data structures.</p>
-<h4 id="ATen"><a href="#ATen" class="headerlink" title="ATen"></a>ATen</h4><p><strong>A</strong> <strong>TEN</strong>sor library for C++11, the C++ tensor library for Pytorch. It is a C++ library that implements the <strong>operations</strong> of Tensors. If you’re looking for where some kernel code lives, chances are it’s in ATen. ATen itself bifurcates into two neighborhoods of operators: the “native” operators, which are modern, C++ implementations of operators, and the “legacy” operators (TH, THC, THNN, THCUNN), which are legacy, C implementations. The legacy operators are the bad part of town; try not to spend too much time there if you can. </p>
-<h4 id="Caffe2"><a href="#Caffe2" class="headerlink" title="Caffe2"></a>Caffe2</h4><p>This part is from the original Caffe2. After the merge of Pytorch and Caffe2, Caffe2 become a kind of backend in Pytorch.</p>
-<h4 id="Torch"><a href="#Torch" class="headerlink" title="Torch"></a>Torch</h4><p>This is the part normally called by user when then use Pytorch to train or test their models. It contains what you are most familiar with: the actual Python modules that you import and use. </p>
-<h4 id="Torch-csrc"><a href="#Torch-csrc" class="headerlink" title="Torch/csrc"></a>Torch/csrc</h4><p>The C++ code that implements what you might call the frontend of PyTorch. In more descriptive terms, it implements the binding code that translates between the Python and C++ universe, and also some pretty important pieces of PyTorch, like the autograd engine and the JIT compiler. It also contains the C++ frontend code. </p>
-<h3 id="Mechanism-inside-a-simple-call"><a href="#Mechanism-inside-a-simple-call" class="headerlink" title="Mechanism inside a simple call"></a>Mechanism inside a simple call</h3><p><img src="image-20191128223910466.png" alt="image-20191128223910466"></p>
-<h2 id="Basic-Condition-of-Memory-Management-in-Pytorch"><a href="#Basic-Condition-of-Memory-Management-in-Pytorch" class="headerlink" title="Basic Condition of Memory Management in Pytorch"></a>Basic Condition of Memory Management in Pytorch</h2><ol>
-<li>Every tensor will be assigned with a allocator when it is initialized. </li>
-<li><code>c10/core/Allocator.h</code>: Pytorch default allocator class defined here.</li>
-</ol>
-<p> Some Policy in <code>c10/core/Allocator.h</code>:</p>
-<ul>
-<li><p> A DataPtr is a unique pointer (with an attached deleter and some context for the deleter) to some memory, which also records what device is for its data. nullptr DataPtrs can still have a nontrivial device; this allows us to treat zero-size allocations uniformly with non-zero allocations.</p>
-</li>
-<li><p>Choice of CPU here is arbitrary; if there’s an “undefined” device, we could use that too.</p>
-</li>
-<li><p>The deleter can be changed while running using function <code>compare_exchange_deleter</code>.</p>
-</li>
-<li><p>This context is used to generate DataPtr which have arbitrary <code>std::function</code> deleters associated with them.  In some user facing functions, we give a (user-friendly) interface for constructing tensors from external data which take an arbitrary <code>std::function</code> deleter.  Grep for InefficientStdFunctionContext to find these occurrences.</p>
-<p>This context is inefficient because we have to do a dynamic allocation <code>InefficientStdFunctionContext</code>, on top of the dynamic allocation which is implied by <code>std::function</code> itself.</p>
-</li>
-</ul>
-<ol start="3">
-<li>There is a fake allocator in Aten(<code>aten/src/ATen/CPUFixedAllocator.h</code>), which just throws exceptions if some cpu fixed operation is actually used, like <code>cpu_fixed_malloc</code>, <code>cpu_fixed_realloc</code>, <code>cpu_fixed_free</code>.</li>
-<li><code>c10/core/CPUAllocator.cpp</code> contains functions: <code>alloc_cpu</code>, <code>free_cpu</code>, <code>memset_junk</code>,  <code>alloc_cpu</code> even has the code dealing with NUMA machine. And there is a class <code>MemoryAllocationReporter</code> which is used to report C10’s memory allocation and deallocation status.</li>
-<li><code>c10/core/Allocator.cpp</code>: Set and get allocator for different device type.</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DeviceType::CPU</span><br><span class="line">DeviceType::CUDA</span><br><span class="line">DeviceType::OPENGL</span><br><span class="line">DeviceType::OPENCL</span><br><span class="line">DeviceType::MKLDNN</span><br><span class="line">DeviceType::IDEEP</span><br><span class="line">DeviceType::HIP</span><br><span class="line">DeviceType::FPGA</span><br><span class="line">DeviceType::MSNPU</span><br><span class="line">DeviceType::XLA</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li><p><code>c10/core/StorageImpl.h</code> &amp; <code>c10/core/Storage.h</code>: Mainly allocates memory buffer using given allocator and creates a storage with it. Mark.</p>
-</li>
-<li><p><code>c10/cuda/CUDACachingAllocator.cpp</code> is a caching allocator for CUDA. It has the following description:</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Yet another caching allocator for CUDA device allocations.</span><br><span class="line"></span><br><span class="line">- Allocations are associated with a stream. Once freed, blocks can be</span><br><span class="line">  re-allocated on the same stream, but not on any other stream.</span><br><span class="line">- The allocator attempts to find the smallest cached block that will fit the</span><br><span class="line">  requested size. If the block is larger than the requested size, it may be</span><br><span class="line">  split. If no block is found, the allocator will delegate to cudaMalloc.</span><br><span class="line">- If the cudaMalloc fails, the allocator will free all cached blocks that</span><br><span class="line">  are not split and retry the allocation.</span><br><span class="line">- Large (&gt;1MB) and small allocations are stored in separate pools.</span><br><span class="line">  Small requests are packed into 2MB buffers. Large requests will use the</span><br><span class="line">  smallest available free block or allocate a new block using cudaMalloc.</span><br><span class="line">  To reduce fragmentation, requests between 1MB and 10MB will allocate and</span><br><span class="line">  split a 20MB block, if no free block of sufficient size is available.</span><br><span class="line"></span><br><span class="line">With this allocator, allocations and frees should logically be considered</span><br><span class="line">&quot;usages&quot; of the memory segment associated with streams, just like kernel</span><br><span class="line">launches. The programmer must insert the proper synchronization if memory</span><br><span class="line">segments are used from multiple streams.</span><br><span class="line"></span><br><span class="line">The library provides a recordStream() function to help insert the correct</span><br><span class="line">synchronization when allocations are used on multiple streams. This will</span><br><span class="line">ensure that the block is not reused before each recorded stream completes</span><br><span class="line">work.</span><br></pre></td></tr></table></figure>
-
-<h2 id="How-Python-interact-with-C-C"><a href="#How-Python-interact-with-C-C" class="headerlink" title="How Python interact with C/C++"></a>How Python interact with C/C++</h2><h3 id="Compile-C-program-to-so-library-and-call-it-in-python"><a href="#Compile-C-program-to-so-library-and-call-it-in-python" class="headerlink" title="Compile C program to .so library and call it in python"></a>Compile C program to .so library and call it in python</h3><h4 id="Compile-as-shared-library"><a href="#Compile-as-shared-library" class="headerlink" title="Compile as shared library"></a>Compile as shared library</h4><ol>
-<li>Finish writing your C code.</li>
-<li>Compile it into a <code>*.so</code> file.</li>
-<li>Import <code>ctypes</code> in python file.</li>
-<li>Load <code>*.so</code> file inside a python file.</li>
-<li>*Define the input type of a C function.</li>
-<li>Call function inside the <code>*.so</code> file.</li>
-</ol>
-<p><strong>function.c</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">myFunction</span><span class="params">(<span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (num == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> ((num &amp; (num - <span class="number">1</span>)) == <span class="number">0</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Compile</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fPIC -shared -o libfun.so function.c</span><br></pre></td></tr></table></figure>
-
-<p><strong>function.py</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ctypes </span><br><span class="line">NUM = <span class="number">16</span>      </span><br><span class="line">fun = ctypes.CDLL(libfun.so)   </span><br><span class="line">fun.myFunction.argtypes=[ctypes.c_int] </span><br><span class="line">returnVale = fun.myFunction(NUM)     </span><br></pre></td></tr></table></figure>
-
-<h4 id="Add-wrapper-in-C-file"><a href="#Add-wrapper-in-C-file" class="headerlink" title="Add wrapper in C++ file"></a>Add wrapper in C++ file</h4><p>If this is a C++ file, you need to expose the function you want to use in a <code>extern &quot;C&quot;</code> wrapper.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Hello&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Since ctypes can only talk to C functions, you need </span></span><br><span class="line"><span class="comment">// to provide those declaring them as extern &quot;C&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">    <span class="function">Foo* <span class="title">Foo_new</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> Foo(); &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Foo_bar</span><span class="params">(Foo* foo)</span></span>&#123; foo-&gt;bar(); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>And then compile:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g++ -c -fPIC foo.cpp -o foo.o</span><br><span class="line">g++ -shared -Wl,-install_name,libfoo.so -o libfoo.so  foo.o</span><br></pre></td></tr></table></figure>
-
-<p>Afterwards, thing in Python code are similar as those in C.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> cdll</span><br><span class="line">lib = cdll.LoadLibrary(<span class="string">&#x27;./libfoo.so&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.obj = lib.Foo_new()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span>(<span class="params">self</span>):</span></span><br><span class="line">        lib.Foo_bar(self.obj)</span><br><span class="line"><span class="comment"># Once you have that you can call it like</span></span><br><span class="line"></span><br><span class="line">f = Foo()</span><br><span class="line">f.bar() <span class="comment">#and you will see &quot;Hello&quot; on the screen</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="C-file-include-module-and-Expose"><a href="#C-file-include-module-and-Expose" class="headerlink" title="C++ file include module and Expose"></a>C++ file include module and Expose</h3><p>Include &lt;boost/python.hpp&gt; the function in BOOST_PYTHON_MODULE</p>
-<p>A C++ Function can be exposed to Python by writing a Boost.Python wrapper:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;boost/python.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> <span class="keyword">const</span>* <span class="title">greet</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;hello, world&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOST_PYTHON_MODULE(hello_ext)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> boost::python;</span><br><span class="line">    def(<span class="string">&quot;greet&quot;</span>, greet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>That’s it. We’re done. We can now build this as a shared library. The resulting DLL is now visible to Python. Here’s a sample Python session:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> hello_ext</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> hello_ext.greet()</span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
-
-<h2 id="Integrating-a-C-CUDA-Operation-with-PyTorch"><a href="#Integrating-a-C-CUDA-Operation-with-PyTorch" class="headerlink" title="Integrating a C++/CUDA Operation with PyTorch"></a>Integrating a C++/CUDA Operation with PyTorch</h2><p>When we want to build a customized method or module, we can choose whether to build it in python or C++. The former is easier but the C++ version is faster and more efficient, especially when we want to build a frequently used or time consuming module. Here comes the explanation.</p>
-<h4 id="CPU-Integration"><a href="#CPU-Integration" class="headerlink" title="CPU Integration"></a>CPU Integration</h4><p>Besides integrate C++ file in python and use it in Pytorch, Pytorch itself provides us with two quite straightforward way to finish this job. They are Building with <code>setuptools</code> and JIT Compiling Extensions.</p>
-<p>For the “ahead of time” flavor, we build our C++ extension by writing a <code>setup.py</code> script that uses setuptools to compile our C++ code. For the LLTM, it looks as simple as this:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup, Extension</span><br><span class="line"><span class="keyword">from</span> torch.utils <span class="keyword">import</span> cpp_extension</span><br><span class="line"></span><br><span class="line">setup(name=<span class="string">&#x27;lltm_cpp&#x27;</span>,</span><br><span class="line">      ext_modules=[cpp_extension.CppExtension(<span class="string">&#x27;lltm_cpp&#x27;</span>, [<span class="string">&#x27;lltm.cpp&#x27;</span>])],</span><br><span class="line">      cmdclass=&#123;<span class="string">&#x27;build_ext&#x27;</span>: cpp_extension.BuildExtension&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>The JIT compilation mechanism provides you with a way of compiling and loading your extensions on the fly by calling a simple function in PyTorch’s API called <code>torch.utils.cpp_extension.load()</code>. For the LLTM, this would look as simple as this:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.cpp_extension <span class="keyword">import</span> load</span><br><span class="line"></span><br><span class="line">lltm_cpp = load(name=<span class="string">&quot;lltm_cpp&quot;</span>, sources=[<span class="string">&quot;lltm.cpp&quot;</span>])</span><br></pre></td></tr></table></figure>
-
-<h4 id="CUDA-Integration"><a href="#CUDA-Integration" class="headerlink" title="CUDA Integration"></a>CUDA Integration</h4><p>Integration of our CUDA-enabled op with PyTorch is again very straightforward. If you want to write a <code>setup.py</code> script, it could look like this:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> torch.utils.cpp_extension <span class="keyword">import</span> BuildExtension, CUDAExtension</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;lltm&#x27;</span>,</span><br><span class="line">    ext_modules=[</span><br><span class="line">        CUDAExtension(<span class="string">&#x27;lltm_cuda&#x27;</span>, [</span><br><span class="line">            <span class="string">&#x27;lltm_cuda.cpp&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;lltm_cuda_kernel.cu&#x27;</span>,</span><br><span class="line">        ])</span><br><span class="line">    ],</span><br><span class="line">    cmdclass=&#123;</span><br><span class="line">        <span class="string">&#x27;build_ext&#x27;</span>: BuildExtension</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>Instead of <code>CppExtension()</code>, we now use <code>CUDAExtension()</code>. We can just specify the <code>.cu</code> file along with the <code>.cpp</code> files – the library takes care of all the hassle this entails for you. The JIT mechanism is even simpler:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.cpp_extension <span class="keyword">import</span> load</span><br><span class="line"></span><br><span class="line">lltm = load(name=<span class="string">&#x27;lltm&#x27;</span>, sources=[<span class="string">&#x27;lltm_cuda.cpp&#x27;</span>, <span class="string">&#x27;lltm_cuda_kernel.cu&#x27;</span>])</span><br></pre></td></tr></table></figure>
-
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><ul>
-<li>Pytorch’s python part doesn’t have special care on memory management, means it just works in the way standard python programs work.</li>
-<li>Current Pytorch source codes contains codes from multiple source, some of them are pure legacy, some come from caffe2, some serves as basic code, some are packed into dlls to serve python. Also, codes are different for those in CPU and CUDA, we need to focus on the right part if any optimization want to be made.</li>
-<li>Almost all Pytorch core modules and functions are implemented in C++ based code and that will be much more efficient. </li>
-<li>Every tensor is attached with a memory allocator, which can not only do the work of allocate and free, but also record the device on which it is located. Different kinds of allocator for different data type can be delivered as input parameter, this makes the code more compatible.</li>
-<li>Pytorch combines multiple code dispatch method and they work well for C and C++ code.</li>
-<li>Python can call compiled C file using ctypes, but Pytorch provides a toolset which makes it even easier.</li>
-</ul>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a target="_blank" rel="noopener" href="http://blog.ezyang.com/2019/05/pytorch-internals/">PyTorch internals</a></li>
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/pytorch-autograd-understanding-the-heart-of-pytorchs-magic-2686cd94ec95">PyTorch Autograd</a></li>
-<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/index.html">PYTORCH DOCUMENTATION</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34629243">PyTorch源码浅析</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">Pytorch GitHub Repo</a></li>
-</ul>
-<h2 id="Slides"><a href="#Slides" class="headerlink" title="Slides"></a>Slides</h2><p>![Final Report_1.jpg](Final Report_1.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_2.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_3.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_4.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_5.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_6.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_7.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_8.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_9.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_10.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_11.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_12.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_13.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_14.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_15.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_16.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_17.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_18.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_19.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_20.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_21.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_22.jpg)</p>
-<p>![Final Report_1.jpg](Final Report_23.jpg)</p>
-<p><strong>Zhongyang Zhang</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1448,6 +885,311 @@
 <li>A <a target="_blank" rel="noopener" href="https://github.com/SpaceVim/SpaceVim">spacevim</a>, which is a quite good version of vim. It initially installed several famous plugins, with a nice interface. You will find it a really vim distro as you use it. Certainly, you can change to your own version, while I’ve tested several distro and they all have some kinds of inconvenience, like the line number, extra space, wrong background color and so on.</li>
 <li>More on the way!</li>
 </ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/09/18/ipv6-out/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/09/18/ipv6-out/" class="post-title-link" itemprop="url">使用IPV6和远程桌面连接局域网中的主机</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-09-18 22:43:26" itemprop="dateCreated datePublished" datetime="2019-09-18T22:43:26-04:00">2019-09-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:39:25" itemprop="dateModified" datetime="2019-10-03T22:39:25-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>前几天装配了一个性能和体验都十分不错的主机之后，考虑到后面可能大多数时间我可能还是会在实验室里工作，所以为了随时能够访问主机中的各种资料、程序以及游戏而不用随时插拔并背上沉重的硬盘等设备，使用远程桌面进行访问是非常有必要的。</p>
+<p>整个过程持续了接近一天，最终做到了：**不用花一分钱（前提是你拥有一个可用的域名），不使用花生壳之类的服务，能在相互间链路支持IPV6的设备访问自己的主机。(这一假设能否成立由相互间物理距离以及身边ipv6普及情况而定)**下面是详细的步骤说明：</p>
+<h2 id="查看主机与路由器的基本信息"><a href="#查看主机与路由器的基本信息" class="headerlink" title="查看主机与路由器的基本信息"></a>查看主机与路由器的基本信息</h2><p>为了远程访问我们的主机，首先有必要搞清楚一些基本的信息，如使用<code>ipconfig</code>确定IPV4/IPV6地址，并判断其ip是属于局域网还是公网。局域网有三段地址，判断方式如下：</p>
+<p>A类，第一段为10的都为私网地址，或10.0.0.1–10.255.255.254，其中10.0.0.0表示整个网段，10.0.0.255是广播地址。<br>B类，以172.16–172.31开头的都是私网地址，或172.16.0.0.1–172.31.255.254，其中172.16.0.0表示整个网段，172.16.255.255是广播地址<br>C类，以192.168开头的都是私网地址，或192.168.0.1–192.168.255.254，其中192.168.0.0表示整个网段，192.168.0.255是广播地址</p>
+<p><img src="006y8mN6ly1g7lwr7qshmj30qo0dcjsm.jpg"></p>
+<p>通常情况下，我们家中或实验室中的设备被分配的都是内网ip，注意这里的ip指的都是ipv4，之后再经由NAT(Net Adress Translation)被映射出外网。</p>
+<p>查询路由器对应的公网ip由调查所知有两种易行方案：</p>
+<ol>
+<li>直接登录路由器的管理页面查看<br>比如我使用的xfinity路由器，登录界面就是这样。而登录网址，往往是上图中的“默认网关”的ip地址，在我这里就是10.0.0.1</li>
+</ol>
+<p><img src="006y8mN6ly1g7lwr40md9j30xf0u0wh2.jpg" alt="路由器登录界面"><br><img src="006y8mN6ly1g7lwr2xyohj30u0133wi0.jpg" alt="路由器详细信息"></p>
+<ol start="2">
+<li>使用一些提供公网ip查询的<a target="_blank" rel="noopener" href="https://ifconfig.me/">网站</a>进行查询。由于内网中的设备都经过了NAT的转换，所以查出来的这个ip既是你对外暴露的ipv4地址，也是路由器的ipv4地址，但这种方式比起直接登录查看可能会差一些，适用于没有路由器权限时使用。<br><img src="006y8mN6ly1g7lwra8jl2j30u013gq70.jpg"></li>
+</ol>
+<h2 id="打开主机上的关于远程连接的设置"><a href="#打开主机上的关于远程连接的设置" class="headerlink" title="打开主机上的关于远程连接的设置"></a>打开主机上的关于远程连接的设置</h2><p>具体操作如下图所示，打开控制面板中的远程设置，勾选相应选项即可。</p>
+<p><img src="006y8mN6ly1g7lwr6gm1wj31hb0u0djp.jpg"></p>
+<h2 id="局域网下验证ipv4连接与ipv6连接"><a href="#局域网下验证ipv4连接与ipv6连接" class="headerlink" title="局域网下验证ipv4连接与ipv6连接"></a>局域网下验证ipv4连接与ipv6连接</h2><p>在主机以外的设备上尝试对主机进行连接，确认局域网下可以进行连接。这里推荐微软的<strong>Microsoft Remote Desktop</strong>软件。其支持Windows、Mac、iOS、Android等主流平台，使用十分简易方便。此处不展开。</p>
+<h2 id="设置二级域名与解析"><a href="#设置二级域名与解析" class="headerlink" title="设置二级域名与解析"></a>设置二级域名与解析</h2><h3 id="登录域名服务商"><a href="#登录域名服务商" class="headerlink" title="登录域名服务商"></a>登录域名服务商</h3><p><img src="006y8mN6ly1g7lwr8uolrj31p10u0goq.jpg"></p>
+<p>点击对应域名最右侧的“解析”按钮（在截图外面），进入域名解析设置。由于ipv4被设置了NAT，所以很难在不做内网穿透的情况下进行使用，尤其是在没有服务器的情况下，而租赁服务器的价格并不便宜，且链接速度将会同时受到穿透服务器的网速制约，所以并不推荐。</p>
+<h3 id="添加二级域名解析记录"><a href="#添加二级域名解析记录" class="headerlink" title="添加二级域名解析记录"></a>添加二级域名解析记录</h3><p>综上所述，这里决定采用IPV6直接解析，这样做的好处是IPV6是不做NAT的，也即其和设备是唯一对应的，这是一个很方便的地方。于是，我们将在我们已经入手的域名上添加一个二级域名，即在一级域名前再加一个前缀，如<code>domainname.com</code>可以拥有无数个<code>xxx.domainname.com</code>，这个xxx可以自定义。</p>
+<p>由于我们要做的是对ipv6的解析，所以这里添加一条<strong>AAAA</strong>记录。而这个记录是为了我的windows域名解析服务，所以这里我使用了“win”这个前缀（这个随意其实）。</p>
+<p><img src="006y8mN6ly1g7lwr58axpj33k60mqq77.jpg"></p>
+<p>这条记录对应的记录值即为刚才我们用ipconfig查出来的那个“临时ipv6地址”。保存退出。</p>
+<h2 id="在电脑上部署DDNS服务"><a href="#在电脑上部署DDNS服务" class="headerlink" title="在电脑上部署DDNS服务"></a>在电脑上部署DDNS服务</h2><p>我们现在已经拥有了一个与主机ipv6对应的域名，即我们现在已经可以使用域名访问我们的主机了（前提是前面在局域网内测试通过），我们在Microsoft Remote Desktop上新建一个连接，把刚才输入ip的地方这次输成刚才解析的域名，在我这即为“win.xxxxxxxx.xxx”。做一次连接测试，如果连接成功，那么恭喜你，你的ipv6地址已经很好的绑定到域名上了，我们可进行下一步——部署DDNS服务。</p>
+<p>至于什么事DDNS，既然有现成的解释，我就不强行再加工了，下面附上<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46580280">知乎</a>上一段说明：</p>
+<blockquote>
+<p>DDNS的全称是动态域名服务，简单的说就是把一个IP地址映射到一个域名身上，一般大公司诸如百度这些IP都是固定的，而对个人用户来说，想有一个固定的家庭网络IP地址显然是一件不现实的事情，因为首先不说大部分人都是运营商的内网IP，即便少部分人申请到了公网IP，也都不是固定的，因为IPV4资源很紧张，不可能给每个人都分配公网IP，这个问题到IPV6可以解决，但是那也是以后的事情了，而且固定IP费用非常高昂，不是一般人可以承受的。但是我们在外网想要访问我们的家庭网络怎么办呢？这就需要DDNS了，DDNS将用户的动态IP地址映射到一个固定的域名解析服务上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态IP地址传送给位于服务商主机上的服务器程序，而服务器程序负责提供DNS服务并实现动态域名解析。这样我们只要在外部输入我们的域名就可以访问了，即便IP换了也是一样的。</p>
+</blockquote>
+<p>当然，原文是讲用ipv4做DDNS，并要涉及到花生壳和路由器设置，但很多情况下着并不是我们想要和想要承受的负担。那么如何在没有路由器权限的情况下做到动态的域名解析？</p>
+<p>这里我使用了码云上一个<a target="_blank" rel="noopener" href="https://gitee.com/XuChaoProject/AliyunDdnsCSharp">Windows的动态域名解析服务</a>，详情请自行点击链接研究，这里不做过多说明。简单的原理就是它在后台开了一个Windows服务，这个服务每隔x分钟便会将你电脑当前的ipv6地址解析到阿里云的云解析服务器上，最优秀的是它是默认开机启动的，从此妈妈再也不用担心我的域名没法实时解析！</p>
+<p>当然，如果你是linux用户，其实你的选择更多，GitHub上有好几个动态解析代码可供使用，这里列出几个：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/yyqian/aliyun-ddns">https://github.com/yyqian/aliyun-ddns</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/AlanLang/aliyun-ddns-server">https://github.com/AlanLang/aliyun-ddns-server</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rfancn/aliyun-ddns-client">https://github.com/rfancn/aliyun-ddns-client</a> （这个是py脚本，不过只支持ipv4解析，姑且列上来）</li>
+</ol>
+<p>配置好后，理论上你就拥有了一个可以被外网访问到的主机了，恭喜你！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/09/11/zelda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/09/11/zelda/" class="post-title-link" itemprop="url">“塞尔达”通关感想</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-09-11 00:05:44" itemprop="dateCreated datePublished" datetime="2019-09-11T00:05:44-04:00">2019-09-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:06:10" itemprop="dateModified" datetime="2019-10-03T22:06:10-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>距离暑假通关塞尔达已经有了接近一个月的时间了，期间一直想写这么一篇感想，然碍于各种杂事，也有自己拖延症的原因一直没能下笔。总是感觉下笔写下写文字是一项有着其固有的、足够的神圣性的东西，莫非头脑此刻十分清醒，断不愿糟践这一主题。</p>
+<p>每个人心灵的角落里总会存有那么一份两份初始的感动，其如同南极冰架中直接取出的冰核一般晶莹剔透，只是那么遗世独立的存在着。现在妄图追想究竟是哪一刻开始我被这款游戏深深的打动，愿为其废寝忘食、只求能在其中多待一分一秒，确无法想起。但也许那本就不是一瞬的感动，而是如同大漠中被风沙琢磨到光滑的巨石，并非某一粒沙或某一缕风使其如此，但回过头来，还是会不断感叹这一壮举。</p>
+<p>那个世界是多么的令人神往！从水中一跃而起的卓拉族、火山中像岩石般刚强的鼓隆族、沙漠中直面缓步前行的格鲁特族、蓝天上直冲云霄的利特族，以及一见之下神秘莫测但融入其中后却又显得淳朴自然的希卡族，都在这片广阔无垠、秘密有如繁星般众多的海拉鲁的大路上默默繁衍生息。而我，则既是一个失忆后的旁观者，又是一个诸多重大事件的参与者，我，行走于这片土地。</p>
+<p>这里的人物是有性格的，他们给人感觉并不是一个个单纯的NPC。这里的人都有着自己的生活，他们日出而作，日落而息，有自己的工作与相应的责任，也有和其他人之间的羁绊，甚至有着对未来的展望与希冀。他们不是为了主人公而存在的工具人，而是这片广阔大陆真正的居民、真正的主人。作为一名沉睡已久却背负着拯救这个世界重任的英杰，我感觉自己反而像是一个微不足道的过客，并不是那么人人皆知，甚至为了得到些情报或物资还要想尽办法去讨好那些“该死”的土著。但这种感觉并不坏。我是这个世界中的一员，我和在各处遇到的人不断产生着羁绊，产生着相互间的责任与利益关系，和他么这种距离的联系令人十分舒适。</p>
+<p>在这片大陆上，我并不受到任务的约束，尽管确实有各种主线支线任务存在。我在这里是真正自由的，我心灵中的言语是有重量的，它终将如实地反应在这片土地上。我可以选择开着滑翔帆在山谷间放浪形骸、游猎四方，也可以御冰而行，来到世界尽头的原始小岛。我能跟随主线任务开疆拓土，点亮一个个神庙传送点，也能靠着他们周游世界，搜集各处特色服饰、烹调料理、陪村里小孩子玩捉迷藏。海拉鲁大地上有着多种多样、交织缠绕的情感。你既可以感到人鱼公主米法那甄于纯粹的爱恋，那不计一切却甘愿默默无闻、反而从旁支持公主的那种令人心脏仿佛被人被轻轻揪住的浓烈情感，也能从她身上感觉到面临重大责任时的勇于担当、不惧不退。</p>
+<p>我真的太喜欢这个米法公主了！！！她赠与我的技能是死亡时刻的治愈。每当我快要撑不住的时候，米法的那句”ミファーの祈り、いつでも使えるよ”中饱含着爱恋与温柔的话语总会让我感到十分的安心，甚至在肉体被治愈之前心灵已经被无数次治愈了。你说等这场战争结束后还来找你玩，然而我已经来了，你却又在哪里呢？？？即使到了后期，没事还是会来卓拉领地转一转，看到米法公主那晶莹剔透的雕像、听着领地内人民对公主由衷的赞颂还是会让人心情多少变得爽朗一些的。</p>
+<p>在沙漠中进城那段莫非真的是官方福利？？林克子女装上线真的是让我吃了一鲸，意外的还挺好看哈哈哈。</p>
+<p>塞尔达给我留下深刻印象的还有其低多边形、高对比度，又有如油画般的渲染风格。首先做到开放世界的绝非塞尔达，但其对开放世界的再定义与其令人过目不忘的渲染风格的确是有相当独到之处的。这是一个如诗如画的世界，地上摇曳着的小草是那么的水嫩翠绿而惹人疼爱，天空是如此的湛蓝而一尘不染，冰山是如此的冷酷而孤寂，沙漠是如此的狂放不羁，水是单纯而洁净的，虽然并没有逼真的水波图样，但这个世界别具一格的美感着实在我的心中留下了挥之不去又浓墨重彩的一笔。另外，这种渲染风格也大大降低了渲染开销，塞尔达能在switch这个硬件能力并不十分出色的平台上做到如此流畅的效果，和其渲染模式也是分不开的。任天堂显然知道自家switch的硬件实力与游戏定位，成功做到了用一个开销相对很低的渲染模式同时保证了游戏流畅度和可辨识度与可供用户记忆回味的特点，可谓是一举多得。</p>
+<p>至于这款游戏在游戏机制上究竟为何如此打动人，除了自己有限的简介之外，也看了不少更专业的评价，看完后更惊觉此为真正神作。研究游戏从业者们的分析，则又得到了不少作为一个单纯的玩家很难发现的观察视角，而这些东西恰恰是使游戏封神更为核心的原因。</p>
+<p>首先是塞尔达充分的利用了高度这个要因，使得玩家可以自行登高望远，定位到自己的目标地点。同时，游戏开发者显然希望用户不断攀登到高处，而出现在山顶各处的“呀哈哈”就是一个非常明显的证据。其实每次登顶一处或小山丘或高原雪山，内心深处还是十分渴望听到那一声清脆可爱的呀哈哈的。此外还包括林克使用手中的滑翔伞飞行、持盾滑行等运动方式的引入，都变相激起了玩家更大的攀登欲望。在游戏的诸多鼓励下，用户自然会希望多登高望远，鸟瞰众生，而这样一来，游戏便自然而然的不再需要使用大量的引导标注，如小地图上无处不在的感叹号和问号等符号，而把寻找位置的任务变相委任给了玩家，系统只负责提供一个方位，怎么过去全靠自己。这一点是一个大胆的创新，也使得游戏更加的立体化，而不是让玩家变成离开小地图和诸多标注对世界完全没有概念的盲人选手。</p>
+<p>其次是光。即使是在很远的地方，玩家依旧可以看到那引诱人去探索的来自高塔和神庙的橙黄色辉光，它们无疑在潜意识中就给了玩家以连续不断的目标。结合以看似简单实用但其实实现并不简单的望远镜和标记系统，真的是让人能不断从心底涌现出那人类最原初的探索渴望。而这一个又一个的标记，这些远处的神庙与高塔，则在实质上担当了“小目标”的功效，能持续不断的给人提供成就感，而且保证了玩家在任何时候都不至于无事可做，即在这里，你永远不会无聊。</p>
+<p>然后是新手教学部分。新手教学部分的节奏把握的很精准，既能让一个从没玩过此类游戏的小白成功上手而不觉得吃力，也能让老鸟不觉得无聊，而这一点往往是游戏设计者很难顾虑到的。塞尔达的玩法其实并不简单，随便一想就能列举出一大堆需要学习才能掌握的技巧，抛开各种战斗技巧不说，光是让玩家理解要解锁瞭望塔、钻进神庙解谜、传送点的点亮、滑翔帆的使用、以及四大异能（炸弹、磁力、冰块、时间锁定）的使用、马的相关动作等都并不是理所当然的，然而在前置的引导部分却都展现的十分自然。对于林克失忆的这个设定也是让我很感兴趣的一点。首先他的失忆给了老国王给予新手教学的理由，也让玩家一开始对海拉鲁的一无所知变得情有可原。由于其失忆前还有着一个十分重要的身份，所以无论玩家走到哪里都会有那么一两个关键人物可以和他展开对话、布置任务，这又在无形中帮助了玩家探索世界，且设计者能籍此将新手教学进行广义的延伸，比如在忍者村学习战斗技巧等。另外，由于失忆前林克的特殊身份，所有的英灵以及塞尔达公主都和他有着千丝万缕的联系，这也实质上推动了剧情的发展。不得不说，这个设定来的实在是太妙。</p>
+<p>还有就是最重要的部分——物理系统与系统间的相互作用、相互关联。一个游戏好玩与否其实并不一定在于其引入了多少物理系统，或称自由度，而更多地和这些系统间的相互联系有关。在塞尔达中，就有磁、电、风、水、温度、时间（或相应的冲量）、天气、体力等系统，而这些系统之间都不是孤立的。非孤立的物理系统意味着玩家可能更多地利用生活中的常识，这往往可以激发出玩家更丰富的创造力，从而使得游戏更加生动耐玩。雨天岩壁会湿滑，不适于爬山，但你完全可以找个地方生火挨过去；小岛遥远，你既可以使用造冰能力一个个创造冰块飞过去，也可以拿一把团扇驱动帆船划过去，甚至可以把一个金属物体放到帆杆前面用磁力驱动；把一个物体送到迷宫中墙的对面，你可以解谜题走过去，也可以考虑用气球绑在它上面并用风吹过去……这一切实在太过生动、太过真实、富于创造性，而所有的这些特点都会有一个共同的作用——让游戏更好玩。</p>
+<p>而这，不也正是任天堂所一直坚持在做的吗？</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/08/21/liuyu-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/21/liuyu-introduction/" class="post-title-link" itemprop="url">点石成金，挥刀琢玉——“双创老太”刘玉那些事儿</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-08-21 22:07:03" itemprop="dateCreated datePublished" datetime="2019-08-21T22:07:03-04:00">2019-08-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 23:30:01" itemprop="dateModified" datetime="2019-10-03T23:30:01-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>　　高调、爱折腾、不走寻常路、犀利、“毒舌”、超级大忙人，她是被贴满标签的华中大教授——刘玉老师。而其中最响亮，最广为人知的标签，一定非“双创老太”莫属。今天，让我们走近这神秘的刘玉教授，说一说，她的那些事儿。</p>
+<iframe src="//player.bilibili.com/player.html?aid=64840863&cid=112556496&page=1" width="740" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<h2 id="她是谁？"><a href="#她是谁？" class="headerlink" title="她是谁？"></a><span style="font-size: 20px;color: white;background-color: red;font-weight: bold;">她是谁？</span></h2><ul>
+<li>湖北省创业红娘众创空间        负责人</li>
+<li>武汉创业红娘公益服务中心     理事长 </li>
+<li>华中科技大学    电信学院      教   授 </li>
+<li>华中科技大学    Dian团队      创始人 </li>
+</ul>
+<hr>
+<h2 id="她都做过什么？"><a href="#她都做过什么？" class="headerlink" title="她都做过什么？"></a><span style="font-size:20px;color:white;background-color: red;font-weight:bold;">她都做过什么？</span></h2><p>###<span style="font-size:16px;color:red;font-weight:bold;">扶弟子创新</span></p>
+<p>　　曾指导本科生获全国挑战杯特等奖，Dian团队育人模式获国家教学成果二等奖，教育部大学生创新性实验计划的“源头”之一，央视小崔说事栏目曾以“点亮未来”专题报道，曾应邀到全国高校、中学、企事业等逾百家单位作创新创业报告，引起强烈反响。曾获评“全国师德先进个人”和湖北省“五一劳动奖章”、湖北省教育系统“三育人”奖、 宝钢优秀教师特等奖的提名奖、两次获华中科技大学教学质量优秀一等奖。</p>
+<p>　　在她严格要求和精心培养下，Dian团队出站队员600多人在社会上总体表现优异，近7年涌现出50余家创业公司，其中贝贝网和贝店已成为独角兽，释码大华、ping++、悦然心动等创业公司业绩斐然，4人荣登福布斯中国30位“30岁以下创业者”榜单。</p>
+<h3 id="帮他人创业"><a href="#帮他人创业" class="headerlink" title="帮他人创业"></a><span style="font-size:16px;color:red;font-weight:bold;">帮他人创业</span></h3><p>　　2015年3月，刘玉创办“创业红娘工作室”，义务为优秀创业项目与投资机构牵线搭桥，创业项目的甄选范围从华中科技大学在校生拓宽至全社会，不分地域、不分年龄、不分学校、不分学历。至今，经刘玉老师推荐的创业项目已超过500个，融资成交率超13%，促成投资总额2.57亿元。</p>
+<hr>
+<h2 id="她的那些事儿"><a href="#她的那些事儿" class="headerlink" title="她的那些事儿"></a><span style="font-size:20px;color:white;background-color: red;font-weight:bold;">她的那些事儿</span></h2><ul>
+<li><p><a target="_blank" rel="noopener" href="http://szbold.cjn.cn/cjrb/html/2015-12/25/content_5498033.htm"><span style="color:red;font-size:18px;">刘玉:创客点睛手——《长江日报》</span></a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.chsi.com.cn/jyzx/200711/20071108/1493323.html"><span style="color:red;font-size:18px;">创新潜能在实践中尽情释放</span></a></p>
+</li>
+</ul>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://hb.people.com.cn/n2/2016/0115/c337099-27552249.html"><span style="color:red;font-size:18px;">人民网专访“创业红娘”刘玉：如何做到人靠谱、事落实、有情怀</span></a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://zqb.cyol.com/html/2016-01/19/nw.D110000zgqnb_20160119_2-10.htm"><span style="color:red;font-size:18px;">刘玉：被“强推转身”的创业红娘——《中国青年报》</span></a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://cjrb.cjn.cn/html/2018-04/04/content_67430.htm"><span style="color:red;font-size:18px;">全国布撒“姻缘线”的“创业红娘” ——武汉首个创业服务公益机构实录——《长江日报》</span></a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://news.cnhubei.com/xw//sh/201604/t3592740.shtml"><span style="color:red;font-size:18px;">武汉女教授入选“中国好人” 免费孵出50多家公司——荆楚网</span></a></p>
+</li>
+</ul>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://hb.people.com.cn/n2/2017/0526/c337099-30246043.html"><span style="color:red;font-size:18px;">华科Dian团队15年走出10余家“过亿”企业——人民网</span></a></li>
+</ul>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://cppcc.people.com.cn/GB/35377/11493611.html"><span style="color:red;font-size:18px;">崔永元“说事”设“圈套” 女教授均“化险为夷”——中国政协新闻网</span> </a></li>
+</ul>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.cnki.com.cn/Article/CJFDTotal-DYXS201409005.htm"><span style="color:red;font-size:18px;">“点”下种子——访谈华中科技大学“点团队”创始人刘玉教授——《大学生》</span></a></li>
+<li><a target="_blank" rel="noopener" href="http://news.cjn.cn/sywh/201705/t3010007.htm"><span style="color:red;font-size:18px;">华科创客点睛手刘玉讲述：张小龙在武汉首提微信产品观——荆楚网</span></a></li>
+<li><a target="_blank" rel="noopener" href="http://hustxb.cuepa.cn/show_more.php?tkey=&bkey=&doc_id=235846"><span style="color:red;font-size:18px;">刘延东寄语Dian团队———在实践中释放创新潜能</span></a></li>
+<li><a target="_blank" rel="noopener" href="http://zqb.cyol.com/html/2014-06/26/nw.D110000zgqnb_20140626_3-07.htm"><span style="color:red;font-size:18px;">华中科大教授刘玉：人才标准固化扼杀大学生创新热情——《中国青年报》</span></a></li>
+<li><a target="_blank" rel="noopener" href="http://xhpfmapi.zhongguowangshi.com/vh512/share/1876388?channel=weixin"><span style="color:red;font-size:18px;">双创老太和一个校园创新社团的15年——《新华网》</span></a></li>
+</ul>
 
       
     </div>

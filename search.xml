@@ -4420,9 +4420,9 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>Word 高级技巧</title>
+    <title>Word - 高级技巧 - 样式定义/导航窗格/多级列表/自定义目录</title>
     <url>/2018/08/13/word-adv-skill/</url>
-    <content><![CDATA[<h1 id="Word-高级技巧-样式定义-导航窗格-多级列表-自定义目录"><a href="#Word-高级技巧-样式定义-导航窗格-多级列表-自定义目录" class="headerlink" title="Word - 高级技巧 - 样式定义/导航窗格/多级列表/自定义目录"></a>Word - 高级技巧 - 样式定义/导航窗格/多级列表/自定义目录</h1><p> 一、样式定义和导航窗格</p>
+    <content><![CDATA[<p> 一、样式定义和导航窗格</p>
 <h4 id="步骤一-创建一级标题样式，设置相应格式"><a href="#步骤一-创建一级标题样式，设置相应格式" class="headerlink" title="步骤一 创建一级标题样式，设置相应格式"></a>步骤一 创建一级标题样式，设置相应格式</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">操作：开始选项卡-&gt;创建样式-&gt;输入样式名称-&gt;点击修改-&gt;输入指定样式-&gt;单击确定按钮</span><br></pre></td></tr></table></figure>
 
 <span id="more"></span>
@@ -5744,7 +5744,7 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
   <entry>
     <title>Pytorch Lighting 完全攻略</title>
     <url>/2021/03/11/pytorch-lightning/</url>
-    <content><![CDATA[<h1 id="Pytorch-Lighting-完全攻略"><a href="#Pytorch-Lighting-完全攻略" class="headerlink" title="Pytorch Lighting 完全攻略"></a>Pytorch Lighting 完全攻略</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉它很重很难学，而且似乎自己也用不上。但是后面随着做的项目开始出现了一些稍微高阶的要求，我发现我总是不断地在相似工程代码上花费大量时间，Debug也是这些代码花的时间最多，而且渐渐产生了一个矛盾之处：如果想要更多更好的功能，如TensorBoard支持，Early Stop，LR Scheduler，分布式训练，快速测试等，代码就无可避免地变得越来越长，看起来也越来越乱，同时核心的训练逻辑也渐渐被这些工程代码盖过。那么有没有更好的解决方案，甚至能一键解决所有这些问题呢？</p>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉它很重很难学，而且似乎自己也用不上。但是后面随着做的项目开始出现了一些稍微高阶的要求，我发现我总是不断地在相似工程代码上花费大量时间，Debug也是这些代码花的时间最多，而且渐渐产生了一个矛盾之处：如果想要更多更好的功能，如TensorBoard支持，Early Stop，LR Scheduler，分布式训练，快速测试等，代码就无可避免地变得越来越长，看起来也越来越乱，同时核心的训练逻辑也渐渐被这些工程代码盖过。那么有没有更好的解决方案，甚至能一键解决所有这些问题呢？</p>
 <span id="more"></span>
 
 <p>于是我第二次发现了Pytorch-Lightning。</p>
@@ -6616,6 +6616,537 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
         <tag>multi-thread</tag>
         <tag>xcode</tag>
         <tag>multi-process</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cascade, Recursive, Residual and Dense 辨析</title>
+    <url>/2020/08/05/cascade-recursive/</url>
+    <content><![CDATA[<h2 id="Cascade"><a href="#Cascade" class="headerlink" title="Cascade"></a>Cascade</h2><p>相当于Progressive Optimization，每个阶段都会输出一个和最终结果形状相同的Matrix，如目标分布的图像、BBox等，然后下一个block的作用则是输入这个Matrix和前面提取的Features，输出Refined后的Matrix，该步骤不断重复。核心是逐步优化。</p>
+<span id="more"></span>
+
+<h2 id="Recursive"><a href="#Recursive" class="headerlink" title="Recursive"></a>Recursive</h2><p>相当于把一块Conv block重复了好多次，每次的权重是共享的。核心作用是节省内存和参数量、节省运算时间。同时它也含有时域特征。</p>
+<h2 id="Residual"><a href="#Residual" class="headerlink" title="Residual"></a>Residual</h2><p>保留一条“信息高速公路”，使得前一轮的输出可以直接点加到经过了新一轮的Block卷积过后的结果上。核心作用是解决梯度消失问题，同时在网络的各层保留了不同层级的信息。变形有如Residual in Residual。</p>
+<p><img src="/2020/08/05/cascade-recursive/v2-862e1c2dcb24f10d264544190ad38142_1440w.jpg" alt="img"></p>
+<blockquote>
+<p>ResNet网络的短路连接机制（其中+代表的是元素级相加操作）</p>
+</blockquote>
+<h2 id="Dense"><a href="#Dense" class="headerlink" title="Dense"></a>Dense</h2><p>每个Conv Block的输出会在Channel维上和后面所有Conv Block的输出Concate到一起。注意和Residual结构的区别，前者是直接逐点相加，而Dense则是并到Channel维度上。</p>
+<p><img src="/2020/08/05/cascade-recursive/v2-2cb01c1c9a217e56c72f4c24096fe3fe_1440w.jpg" alt="img"></p>
+<blockquote>
+<p>DenseNet网络的密集连接机制（其中c代表的是channel级连接操作）</p>
+</blockquote>
+<p><img src="/2020/08/05/cascade-recursive/v2-0a9db078f505b469973974aee9c27605_1440w.jpg" alt="img"></p>
+<blockquote>
+<p>DenseNet的前向过程</p>
+</blockquote>
+<p><img src="/2020/08/05/cascade-recursive/v2-c81da515c8fa9796601fde82e4d36f61_1440w.jpg" alt="img"></p>
+<blockquote>
+<p>原图</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>deep-learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Pytorch官方模型实现分析</title>
+    <url>/2020/07/11/pytorch-official-network-analysis/</url>
+    <content><![CDATA[<h2 id="Resnet"><a href="#Resnet" class="headerlink" title="Resnet"></a>Resnet</h2><h3 id="如何应对不同尺寸输入"><a href="#如何应对不同尺寸输入" class="headerlink" title="如何应对不同尺寸输入"></a>如何应对不同尺寸输入</h3><p>在网络最后添加一个<code>AdaptiveAvgPool2d(output_size)</code>函数，它的作用是无论输入图片形状如何，最终都会转换为给定输出尺寸。而Resnet中，这个<code>output_size</code>被设置为了<code>(1,1)</code>，即无论输入的图片尺寸为多少，只要其大小足以扛得住网络前面的一系列pooling layers，到最后的输出尺寸大于等于<code>(1,1)</code>，其每个Channel就会被这一层压缩成一个点，即最后只会得到一个与Channel数目相等的向量。这个向量被送到了FC层。</p>
+<span id="more"></span>
+
+<h3 id="如何应对Channel数目不合适问题"><a href="#如何应对Channel数目不合适问题" class="headerlink" title="如何应对Channel数目不合适问题"></a>如何应对Channel数目不合适问题</h3><p>由于兼容了各种大小和尺寸的模型，所以有时难免会出现如Channel数目无法被4整除（BottleNeck Layer要求）的情况。这里，它使用了<code>1x1 conv</code>的方法。由于每个block的输出都要加到输入上，如果这个整除不了，结果就是Channel数目不匹配无法做Residual。这里的操作是，如果输出<code>Channel数*4 != 输入Channel数</code>，那么就直接让输入先用<code>1x1 conv</code>改变维度到<code>输出Channel数*4</code>。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> stride != <span class="number">1</span> <span class="keyword">or</span> self.inplanes != planes * block.expansion:</span><br><span class="line">    downsample = nn.Sequential(</span><br><span class="line">        conv1x1(self.inplanes, planes * block.expansion, stride),</span><br><span class="line">        norm_layer(planes * block.expansion),</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何应对不同总Layer数的Resnet使用不同的Layer-Block的问题"><a href="#如何应对不同总Layer数的Resnet使用不同的Layer-Block的问题" class="headerlink" title="如何应对不同总Layer数的Resnet使用不同的Layer Block的问题"></a>如何应对不同总Layer数的Resnet使用不同的Layer Block的问题</h3><p>在Resnet中，resnet18, 34使用的是双层<code>3x3 conv</code>的<code>Basic Block</code>，而resnet50, 101, 152则使用的是<code>1x1conv -&gt; 3x3 conv -&gt; 1x1 conv</code>的结构。为了获得最大的兼容性，这里官方模型将<code>Basic Block</code>和<code>Bottleneck Block</code>分别定义为两个class，即子模块，然后对于不同尺寸的resnet分别输入不同的模块。</p>
+<h3 id="为什么定义了conv3x3和conv1x1两个函数"><a href="#为什么定义了conv3x3和conv1x1两个函数" class="headerlink" title="为什么定义了conv3x3和conv1x1两个函数"></a>为什么定义了conv3x3和conv1x1两个函数</h3><p>这两个函数看似画蛇添足多此一举，但实际上在我的理解中，他们避免了一些重复变量的输入，更直观地反映了该层的功能：<code>1x1</code>或<code>3x3</code>，也潜在地避免了一些错误，并优化了理解。</p>
+]]></content>
+      <tags>
+        <tag>deep-learning</tag>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>attention-wiki</title>
+    <url>/2020/07/06/attention-wiki/</url>
+    <content><![CDATA[<h1 id="Attention-从分类到实现细节"><a href="#Attention-从分类到实现细节" class="headerlink" title="Attention 从分类到实现细节"></a>Attention 从分类到实现细节</h1><p>Attention的本质可以看做加权求和。</p>
+<h2 id="Attention-的-N-种类型"><a href="#Attention-的-N-种类型" class="headerlink" title="Attention 的 N 种类型"></a>Attention 的 N 种类型</h2><p><img src="/2020/07/06/attention-wiki/image-20200705230846450.png" alt="image-20200705230846450"></p>
+<p>Attention 有很多种不同的类型：Soft Attention、Hard Attention、静态 Attention、动态 Attention、Self Attention 等等。上图为各种Attention的分类，下面是这些不同的 Attention 的解释。</p>
+<p>由于这篇文章《<a href="https://zhuanlan.zhihu.com/p/35739040">Attention 用于 NLP 的一些小结</a>》已经总结的很好的，下面就直接引用了：</p>
+<p>本节从计算区域、所用信息、结构层次和模型等方面对 Attention 的形式进行归类。</p>
+<span id="more"></span>
+
+<h3 id="1-计算区域"><a href="#1-计算区域" class="headerlink" title="1. 计算区域"></a><strong>1. 计算区域</strong></h3><p>根据 Attention 的计算区域，可以分成以下几种：</p>
+<p>1）<strong>Soft</strong> Attention，这是比较常见的 Attention 方式，对所有 key 求权重概率，每个 key 都有一个对应的权重，是一种全局的计算方式（也可以叫 Global Attention）。这种方式比较理性，参考了所有 key 的内容，再进行加权。但是计算量可能会比较大一些。</p>
+<p>2）<strong>Hard</strong> Attention，这种方式是直接精准定位到某个 key，其余 key 就都不管了，相当于这个 key 的概率是 1，其余 key 的概率全部是 0。因此这种对齐方式要求很高，要求一步到位，如果没有正确对齐，会带来很大的影响。另一方面，因为不可导，一般需要用强化学习的方法进行训练。（或者使用 gumbel softmax 之类的）</p>
+<p>3）<strong>Local</strong> Attention，这种方式其实是以上两种方式的一个折中，对一个窗口区域进行计算。先用 Hard 方式定位到某个地方，以这个点为中心可以得到一个窗口区域，在这个小区域内用 Soft 方式来算 Attention。</p>
+<h3 id="2-所用信息"><a href="#2-所用信息" class="headerlink" title="2. 所用信息"></a><strong>2. 所用信息</strong></h3><p>假设我们要对一段原文计算 Attention，这里原文指的是我们要做 attention 的文本，那么所用信息包括内部信息和外部信息，内部信息指的是原文本身的信息，而外部信息指的是除原文以外的额外信息。</p>
+<p>1）<strong>General</strong> Attention，这种方式利用到了外部信息，常用于需要构建两段文本关系的任务，query 一般包含了额外信息，根据外部 query 对原文进行对齐。</p>
+<p>简单判定依据：<strong>计算Attention时，有没有用到除了被Attention向量以外的向量。</strong></p>
+<p>比如在阅读理解任务中，需要构建问题和文章的关联，假设现在 baseline 是，对问题计算出一个问题向量 q，把这个 q 和所有的文章词向量拼接起来，输入到 LSTM中进行建模。那么在这个模型中，文章所有词向量共享同一个问题向量，现在我们想让文章每一步的词向量都有一个不同的问题向量，也就是，在每一步使用文章在该步下的词向量对问题来算 attention，这里问题属于原文，文章词向量就属于外部信息。</p>
+<p><img src="/2020/07/06/attention-wiki/v2-1e08348b226f4e2f08c89ae6e5d7fcda_1440w.jpg" alt="img"></p>
+<p>2）<strong>Self</strong> Attention，这种方式只使用内部信息，key 和 value 以及 query 只和输入原文有关，在 self attention 中，key=value=query。既然没有外部信息，那么在原文中的每个词可以跟该句子中的所有词进行 Attention 计算，相当于寻找原文内部的关系。</p>
+<p>还是举阅读理解任务的例子，上面的 baseline 中提到，对问题计算出一个向量 q，那么这里也可以用上 attention，只用问题自身的信息去做 attention，而不引入文章信息。</p>
+<p>同样是在Encoder-Decoder模型中，它的实现方法是Encoder部分堆叠了两层。</p>
+<img src="v2-2c7e48868e98202b6c3af3a7aa4ea987_1440w.jpg" alt="img" style="zoom:50%;" />
+
+<h3 id="3-结构层次"><a href="#3-结构层次" class="headerlink" title="3. 结构层次"></a><strong>3. 结构层次</strong></h3><p>结构方面根据是否划分层次关系，分为单层 attention，多层 attention 和多头 attention：</p>
+<p>1）单层 Attention，这是比较普遍的做法，用一个 query 对一段原文进行一次 attention。</p>
+<p>2）多层 Attention，一般用于文本具有层次关系的模型，假设我们把一个 document 划分成多个句子，在第一层，我们分别对每个句子使用 attention 计算出一个句向量（也就是单层 attention）；在第二层，我们对所有句向量再做 attention 计算出一个文档向量（也是一个单层 attention），最后再用这个文档向量去做任务。</p>
+<p>3）多头 Attention，这是 Attention is All You Need 中提到的 multi-head attention，用到了多个 query 对一段原文进行了多次 attention，每个 query 都关注到原文的不同部分，相当于重复做多次单层 attention：$$head_i=Attention(q_i,K,V)$$</p>
+<p>最后再把这些结果拼接起来：$MultiHead(Q, K, V)=Concat(head_1,head_2,head_3,…,head_n)W^O$</p>
+<p><img src="/2020/07/06/attention-wiki/v2-3cd76d3e0d8a20d87dfa586b56cc1ad3_1440w.jpg" alt="img"></p>
+<h3 id="4-模型方面"><a href="#4-模型方面" class="headerlink" title="4. 模型方面"></a><strong>4. 模型方面</strong></h3><p>从模型上看，Attention 一般用在 CNN 和 LSTM 上，也可以直接进行纯 Attention 计算。</p>
+<h4 id="1）CNN-Attention"><a href="#1）CNN-Attention" class="headerlink" title="1）CNN+Attention"></a><strong>1）CNN+Attention</strong></h4><p>CNN 的卷积操作可以提取重要特征，我觉得这也算是 Attention 的思想，但是 CNN 的卷积感受视野是局部的，需要通过叠加多层卷积区去扩大视野。另外，Max Pooling 直接提取数值最大的特征，也像是 hard attention 的思想，直接选中某个特征。</p>
+<p>CNN 上加 Attention 可以加在这几方面：</p>
+<p>a. 在卷积操作前做 attention，比如 Attention-Based BCNN-1，这个任务是文本蕴含任务需要处理两段文本，同时对两段输入的序列向量进行 attention，计算出特征向量，再拼接到原始向量中，作为卷积层的输入。</p>
+<p>b. 在卷积操作后做 attention，比如 Attention-Based BCNN-2，对两段文本的卷积层的输出做 attention，作为 pooling 层的输入。</p>
+<p>c. 在 pooling 层做 attention，代替 max pooling。比如 Attention pooling，首先我们用 LSTM 学到一个比较好的句向量，作为 query，然后用 CNN 先学习到一个特征矩阵作为 key，再用 query 对 key 产生权重，进行 attention，得到最后的句向量。</p>
+<h4 id="2）LSTM-Attention"><a href="#2）LSTM-Attention" class="headerlink" title="2）LSTM+Attention"></a><strong>2）LSTM+Attention</strong></h4><p>LSTM 内部有 Gate 机制，其中 input gate 选择哪些当前信息进行输入，forget gate 选择遗忘哪些过去信息，我觉得这算是一定程度的 Attention 了，而且号称可以解决长期依赖问题，实际上 LSTM 需要一步一步去捕捉序列信息，在长文本上的表现是会随着 step 增加而慢慢衰减，难以保留全部的有用信息。</p>
+<p>LSTM 通常需要得到一个向量，再去做任务，常用方式有：</p>
+<p>a. 直接使用最后的 hidden state（可能会损失一定的前文信息，难以表达全文）</p>
+<p>b. 对所有 step 下的 hidden state 进行等权平均（对所有 step 一视同仁）。</p>
+<p>c. Attention 机制，对所有 step 的 hidden state 进行加权，把注意力集中到整段文本中比较重要的 hidden state 信息。性能比前面两种要好一点，而方便可视化观察哪些 step 是重要的，但是要小心过拟合，而且也增加了计算量。</p>
+<h4 id="3）纯-Attention"><a href="#3）纯-Attention" class="headerlink" title="3）纯 Attention"></a><strong>3）纯 Attention</strong></h4><p>Attention is all you need，没有用到 CNN/RNN，乍一听也是一股清流了，但是仔细一看，本质上还是一堆向量去计算 attention。本文提出了Transformer。Transformer 也可以视为一种自带Attention机制的RNN。它使用了问题、键、值三个向量，让权重的计算变得更加细致。</p>
+<p>Transformer可以说是集近些年的研究之于大成。里面涉及到很多很多技术点，包括：</p>
+<ul>
+<li>Feed Forward Network</li>
+<li>ResNet的思想</li>
+<li>Positional Embedding 解决输入时序问题</li>
+<li>Layer Normalization</li>
+<li>Decoder中的Masked Self-Attention</li>
+</ul>
+<p><img src="/2020/07/06/attention-wiki/transformer_resideual_layer_norm_3.png" alt="img"></p>
+<img src="self-attention-output.png" alt="img" style="zoom:50%;" />
+
+<img src="self-attention-matrix-calculation.png" alt="img" style="zoom:50%;" />
+
+<img src="self-attention-matrix-calculation-2.png" alt="img" style="zoom:50%;" />
+
+<h3 id="5-相似度计算方式"><a href="#5-相似度计算方式" class="headerlink" title="5. 相似度计算方式"></a><strong>5. 相似度计算方式</strong></h3><p>在做 attention 的时候，我们需要计算 query 和某个 key 的分数（相似度），常用方法有：</p>
+<p>1）点乘：最简单的方法， $s(q,k)=q^Tk$</p>
+<p>2）矩阵相乘： $s(q,k)=q^TWk$</p>
+<p>3）cos 相似度： $$s(q,k)=\frac{q^T}{||q||·||k||}$$</p>
+<p>4）串联方式：把 q 和 k 拼接起来， $$s(q,k)=W[q;k]$$</p>
+<p>5）用多层感知机也可以： $$s(q,k)=v^T_atanh(Wq+Uk)$$</p>
+<h2 id="Encoder-Decoder模型结构"><a href="#Encoder-Decoder模型结构" class="headerlink" title="Encoder-Decoder模型结构"></a>Encoder-Decoder模型结构</h2><p>以机器翻译模型为例：<a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html">原文</a></p>
+<p><img src="/2020/07/06/attention-wiki/seq2seq.png" alt="img"></p>
+<p><img src="/2020/07/06/attention-wiki/image-20200705230609732.png" alt="image-20200705230609732"></p>
+<ul>
+<li>Encoder的输入是句子中每个词对应的数字编号的序列，输出的是RNN每一个Cell的相应Output Vector（或是一次只输入一个词的编号，然后每次得到一个Output，最后拼成一个List）。其RNN的初始Hidden Layer是随机初始化（Random、全0）的。</li>
+<li>Decoder的第一个输入是句子起始符<SOS>，数字编码可以为0，然后Hidden Layer使用Encoder的最后一个Hidden Layer Value初始化。每次只输入一个Input数字编号，然后下一次的Input或使用上次的预测结果，或是使用Output Label的相应值。前者被称作<em>Teacher Forcing</em>，后者是<em>Without Teacher Forcing</em>。</li>
+<li>Attention是加在Decoder上的。Decoder 的input会先做embedding，之后么embedding和Hidden Layer参数Concate到一起，再过一个FC（<strong>过FC就相当于乘上了一个变换矩阵了</strong>）就得到了Attention。这个算出来的Attention再和Encoder的output做一个<code>torch.bmm</code>矩阵乘法（$[Batch_Size<em>1</em>Length]<em>[Batch_Size</em>Length<em>Hidden_Size]$），得到一个向量([$Batch_Size</em>1<em>Hidden_Size$])，这个数值即为该input过了Attention后的值。该值再和embedding后的值([$Batch_Size</em>1<em>Hidden_Size$]) 使用Concate拼到一起，过一个FC，输出一个([$Batch_Size</em>1*Hidden_Size$])的向量，它便是施加了Attention后的Input。这里本质上使用了前面提到的权值计算方法中的 <strong>串联方式</strong>。</li>
+<li>简单说，decoder的input和hidden layer只是用来计算encoder各个cell的output的权重的。每个output有着hidden_size维度，他们最终按照attention作为加权求和。或是说：<strong>Decoder中每一个Cell，去Encoder中寻找最相关的记忆。</strong></li>
+</ul>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><h3 id="Embedding"><a href="#Embedding" class="headerlink" title="Embedding"></a><code>Embedding</code></h3><p><code>torch.nn.Embedding(*num_embeddings: int*, *embedding_dim: int*)</code></p>
+<blockquote>
+<p>To summarize <code>num_embeddings</code> is total number of unique elements in the vocabulary, and <code>embedding_dim</code> is the size of each embedded vector once passed through the embedding layer. Therefore, you can have a tensor of 10+ elements, as long as each element in the tensor is in the range <code>[0, 9]</code>, because you defined a vocabulary size of 10 elements.</p>
+</blockquote>
+<p>即第一个数<code>num_embedding</code>指的是你的输入中有多少可能的值，或者说语料库的大小；第二个数<code>embedding_dim</code>指的是给定一个input（一个digit），输出几个digit。</p>
+<h3 id="BMM"><a href="#BMM" class="headerlink" title="BMM"></a><code>BMM</code></h3><p><code>torch.bmm(*input*, *mat2*, *deterministic=False*, *out=None*) → Tensor</code></p>
+<blockquote>
+<p>Performs a batch matrix-matrix product of matrices stored in <code>input</code> and <code>mat2</code>.</p>
+<p><code>input</code> and <code>mat2</code> must be 3-D tensors each containing the same number of matrices.</p>
+<p>If <code>input</code> is a $(b \times n \times m)$ tensor, <code>mat2</code> is a $(b \times m \times p)$ tensor, <code>out</code> will be a $(b \times n \times p)$tensor.</p>
+</blockquote>
+<p>简单说，这个函数的作用是在不动batch维度的情况下对其他维度执行矩阵乘法。</p>
+<h2 id="Self-Attention-与-General-Attention在实现上的区别"><a href="#Self-Attention-与-General-Attention在实现上的区别" class="headerlink" title="Self-Attention 与 General Attention在实现上的区别"></a>Self-Attention 与 General Attention在实现上的区别</h2><p>Self Attention 本质上是乘上一个和输入向量需要加Attention的维度等长的向量（<code>nn.Parameter(torch.Tensor(1, D), requires_grad=True)</code>），并做矩阵相乘。如输入是一个长为L的句子，句子中每个词的Embedding长度是D， batch为B，即(B, L, D)， 那么若是要对句子的长度维度做Attention，则需要乘一个shape为(B, D, 1)的向量，得到的Output shape为(B, L, 1)。之后还需做softmax，句子长度mask，结果除以单词个数保证所有weight加起来等于一，然后再使用这个output点乘input，即可得到和input shape相同，但被加了Attention后的值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Attention</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; Pytorch self-attention layer code inspired from:</span></span><br><span class="line"><span class="string">    Link:</span></span><br><span class="line"><span class="string">        https://discuss.pytorch.org/t/self-attention-on-words-and-masking/5671/4</span></span><br><span class="line"><span class="string">    Original Web Page:</span></span><br><span class="line"><span class="string">        https://www.kaggle.com/dannykliu/lstm-with-attention-clr-in-pytorch</span></span><br><span class="line"><span class="string">    Usage:</span></span><br><span class="line"><span class="string">        In __init__():</span></span><br><span class="line"><span class="string">            self.atten1 = Attention(hidden_dim*2, batch_first=True) # 2 is bidrectional</span></span><br><span class="line"><span class="string">        In forward():</span></span><br><span class="line"><span class="string">            x, _ = self.atten1(x, lengths)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, hidden_size, batch_first=<span class="literal">True</span>, device=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(Attention, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line">        self.batch_first = batch_first</span><br><span class="line">        <span class="keyword">if</span> device <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            self.device = <span class="string">&quot;cuda&quot;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.device = device</span><br><span class="line"></span><br><span class="line">        self.att_weights = nn.Parameter(</span><br><span class="line">            torch.Tensor(<span class="number">1</span>, hidden_size), requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        stdv = <span class="number">1.0</span> / np.sqrt(self.hidden_size)</span><br><span class="line">        <span class="keyword">for</span> weight <span class="keyword">in</span> self.att_weights:</span><br><span class="line">            nn.init.uniform_(weight, -stdv, stdv)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_mask</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, inputs, lengths</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.batch_first:</span><br><span class="line">            batch_size, max_len = inputs.size()[:<span class="number">2</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            max_len, batch_size = inputs.size()[:<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># apply attention layer</span></span><br><span class="line">        weights = torch.bmm(inputs,</span><br><span class="line">                            self.att_weights  <span class="comment"># (1, hidden_size)</span></span><br><span class="line">                            .permute(<span class="number">1</span>, <span class="number">0</span>)  <span class="comment"># (hidden_size, 1)</span></span><br><span class="line">                            .unsqueeze(<span class="number">0</span>)  <span class="comment"># (1, hidden_size, 1)</span></span><br><span class="line">                            <span class="comment"># (batch_size, hidden_size, 1)</span></span><br><span class="line">                            .repeat(batch_size, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">                            )</span><br><span class="line"></span><br><span class="line">        attentions = torch.softmax(F.relu(weights.squeeze()), dim=-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># create mask based on the sentence lengths</span></span><br><span class="line">        mask = torch.ones(attentions.size(), requires_grad=<span class="literal">True</span>).to(self.device)</span><br><span class="line">        <span class="keyword">for</span> i, l <span class="keyword">in</span> <span class="built_in">enumerate</span>(lengths):  <span class="comment"># skip the first sentence</span></span><br><span class="line">            <span class="keyword">if</span> l &lt; max_len:</span><br><span class="line">                mask[i, l:] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># apply mask and renormalize attention scores (weights)</span></span><br><span class="line">        masked = attentions * mask</span><br><span class="line">        _sums = masked.<span class="built_in">sum</span>(-<span class="number">1</span>).unsqueeze(-<span class="number">1</span>)  <span class="comment"># sums per row</span></span><br><span class="line"></span><br><span class="line">        attentions = masked.div(_sums)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># apply attention weights</span></span><br><span class="line">        weighted = torch.mul(</span><br><span class="line">            inputs, attentions.unsqueeze(-<span class="number">1</span>).expand_as(inputs))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># get the final fixed vector representations of the sentences</span></span><br><span class="line">        representations = weighted.<span class="built_in">sum</span>(<span class="number">1</span>).squeeze()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> representations, attentions</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而General Attention的本质则是一个FC（即一个映射矩阵）。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EncoderRNN</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, input_size, hidden_size</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(EncoderRNN, self).__init__()</span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line"></span><br><span class="line">        self.embedding = nn.Embedding(input_size, hidden_size)</span><br><span class="line">        self.gru = nn.GRU(hidden_size, hidden_size)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, <span class="built_in">input</span>, hidden</span>):</span></span><br><span class="line">        embedded = self.embedding(<span class="built_in">input</span>).view(<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>)</span><br><span class="line">        output = embedded</span><br><span class="line">        output, hidden = self.gru(output, hidden)</span><br><span class="line">        <span class="keyword">return</span> output, hidden</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initHidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> torch.zeros(<span class="number">1</span>, <span class="number">1</span>, self.hidden_size, device=device)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AttnDecoderRNN</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, hidden_size, output_size, dropout_p=<span class="number">0.1</span>, max_length=MAX_LENGTH</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(AttnDecoderRNN, self).__init__()</span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line">        self.output_size = output_size</span><br><span class="line">        self.dropout_p = dropout_p</span><br><span class="line">        self.max_length = max_length</span><br><span class="line"></span><br><span class="line">        self.embedding = nn.Embedding(self.output_size, self.hidden_size)</span><br><span class="line">        self.attn = nn.Linear(self.hidden_size * <span class="number">2</span>, self.max_length)</span><br><span class="line">        self.attn_combine = nn.Linear(self.hidden_size * <span class="number">2</span>, self.hidden_size)</span><br><span class="line">        self.dropout = nn.Dropout(self.dropout_p)</span><br><span class="line">        self.gru = nn.GRU(self.hidden_size, self.hidden_size)</span><br><span class="line">        self.out = nn.Linear(self.hidden_size, self.output_size)</span><br><span class="line">	</span><br><span class="line">    <span class="comment"># input: (1)</span></span><br><span class="line">    <span class="comment"># hidden: (1, D)</span></span><br><span class="line">    <span class="comment"># encoder_outputs: (L, D)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, <span class="built_in">input</span>, hidden, encoder_outputs</span>):</span></span><br><span class="line">        embedded = self.embedding(<span class="built_in">input</span>).view(<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>) <span class="comment"># (1, 1, D)</span></span><br><span class="line">        embedded = self.dropout(embedded) <span class="comment"># (1, 1, D)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># (1, 2D) -&gt; (1, L)</span></span><br><span class="line">        attn_weights = F.softmax(</span><br><span class="line">            self.attn(torch.cat((embedded[<span class="number">0</span>], hidden[<span class="number">0</span>]), <span class="number">1</span>)), dim=<span class="number">1</span>) </span><br><span class="line">        </span><br><span class="line">        <span class="comment"># (1, 1, L) x (1, L, D) -&gt; (1, 1, D)</span></span><br><span class="line">        attn_applied = torch.bmm(attn_weights.unsqueeze(<span class="number">0</span>),</span><br><span class="line">                                 encoder_outputs.unsqueeze(<span class="number">0</span>)) </span><br><span class="line"></span><br><span class="line">        output = torch.cat((embedded[<span class="number">0</span>], attn_applied[<span class="number">0</span>]), <span class="number">1</span>) <span class="comment"># (1, 2D)</span></span><br><span class="line">        output = self.attn_combine(output).unsqueeze(<span class="number">0</span>) <span class="comment"># (1, 1, D)</span></span><br><span class="line"></span><br><span class="line">        output = F.relu(output) <span class="comment"># (1, 1, D)</span></span><br><span class="line">        output, hidden = self.gru(output, hidden) <span class="comment"># (1, D)</span></span><br><span class="line"></span><br><span class="line">        output = F.log_softmax(self.out(output[<span class="number">0</span>]), dim=<span class="number">1</span>) <span class="comment"># (1, output_size)</span></span><br><span class="line">        <span class="keyword">return</span> output, hidden, attn_weights</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initHidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> torch.zeros(<span class="number">1</span>, <span class="number">1</span>, self.hidden_size, device=device)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">teacher_forcing_ratio = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span>(<span class="params">input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length=MAX_LENGTH</span>):</span></span><br><span class="line">    encoder_hidden = encoder.initHidden()</span><br><span class="line"></span><br><span class="line">    encoder_optimizer.zero_grad()</span><br><span class="line">    decoder_optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">    input_length = input_tensor.size(<span class="number">0</span>)</span><br><span class="line">    target_length = target_tensor.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    encoder_outputs = torch.zeros(max_length, encoder.hidden_size, device=device)</span><br><span class="line"></span><br><span class="line">    loss = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ei <span class="keyword">in</span> <span class="built_in">range</span>(input_length):</span><br><span class="line">        encoder_output, encoder_hidden = encoder(</span><br><span class="line">            input_tensor[ei], encoder_hidden)</span><br><span class="line">        encoder_outputs[ei] = encoder_output[<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    decoder_input = torch.tensor([[SOS_token]], device=device)</span><br><span class="line"></span><br><span class="line">    decoder_hidden = encoder_hidden</span><br><span class="line"></span><br><span class="line">    use_teacher_forcing = <span class="literal">True</span> <span class="keyword">if</span> random.random() &lt; teacher_forcing_ratio <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> use_teacher_forcing:</span><br><span class="line">        <span class="comment"># Teacher forcing: Feed the target as the next input</span></span><br><span class="line">        <span class="keyword">for</span> di <span class="keyword">in</span> <span class="built_in">range</span>(target_length):</span><br><span class="line">            decoder_output, decoder_hidden, decoder_attention = decoder(</span><br><span class="line">                decoder_input, decoder_hidden, encoder_outputs)</span><br><span class="line">            loss += criterion(decoder_output, target_tensor[di])</span><br><span class="line">            decoder_input = target_tensor[di]  <span class="comment"># Teacher forcing</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># Without teacher forcing: use its own predictions as the next input</span></span><br><span class="line">        <span class="keyword">for</span> di <span class="keyword">in</span> <span class="built_in">range</span>(target_length):</span><br><span class="line">            decoder_output, decoder_hidden, decoder_attention = decoder(</span><br><span class="line">                decoder_input, decoder_hidden, encoder_outputs)</span><br><span class="line">            topv, topi = decoder_output.topk(<span class="number">1</span>)</span><br><span class="line">            decoder_input = topi.squeeze().detach()  <span class="comment"># detach from history as input</span></span><br><span class="line"></span><br><span class="line">            loss += criterion(decoder_output, target_tensor[di])</span><br><span class="line">            <span class="keyword">if</span> decoder_input.item() == EOS_token:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    loss.backward()</span><br><span class="line"></span><br><span class="line">    encoder_optimizer.step()</span><br><span class="line">    decoder_optimizer.step()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> loss.item() / target_length</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html">NLP FROM SCRATCH: TRANSLATION WITH A SEQUENCE TO SEQUENCE NETWORK AND ATTENTION</a></li>
+<li><a href="https://easyai.tech/ai-definition/attention/">Attention 机制 – EasyAI</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35739040">Attention用于NLP的一些小结</a></li>
+<li><a href="https://github.com/EvilPsyCHo/Attention-PyTorch">Attention-PyTorch</a></li>
+<li><a href="https://github.com/AuCson/PyTorch-Batch-Attention-Seq2seq/blob/master/attentionRNN.py">Pytorch Batch Attention Seq-2-Seq</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/47282410">Attention机制详解（二）——Self-Attention与Transformer</a></li>
+<li><a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a></li>
+<li><a href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)</a></li>
+<li><a href="https://www.zhihu.com/question/68482809">知乎：目前主流的attention方法都有哪些？</a></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>machine-learning</tag>
+        <tag>deep-learning</tag>
+        <tag>attention</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Multi-Spectral Imaging 数据采集前期调研</title>
+    <url>/2020/10/16/hsi-pre-data-collection/</url>
+    <content><![CDATA[<h2 id="Equipment"><a href="#Equipment" class="headerlink" title="Equipment"></a>Equipment</h2><h3 id="FLIR-Blackfly-S-RGB-Camera"><a href="#FLIR-Blackfly-S-RGB-Camera" class="headerlink" title="FLIR Blackfly S RGB Camera"></a>FLIR Blackfly S RGB Camera</h3><ol>
+<li><p>Spectral Range: </p>
+<ul>
+<li>Blue: 460 nm</li>
+<li>Green: 530 nm</li>
+<li>Red: 625 nm</li>
+</ul>
+</li>
+<li><p>Resolution: 720 × 540</p>
+</li>
+<li><p>FPS: 522</p>
+<span id="more"></span></li>
+<li><p>Dimensions [W x H x L]: 29 mm × 29 mm × 30 mm</p>
+</li>
+<li><p>Official Link: <a href="https://www.flir.com/products/blackfly-s-usb3/">Link</a></p>
+</li>
+</ol>
+<h3 id="XIMEA-MQ022HG-IM-SM5X5-NIR-Multispectral-Camera"><a href="#XIMEA-MQ022HG-IM-SM5X5-NIR-Multispectral-Camera" class="headerlink" title="XIMEA MQ022HG-IM-SM5X5-NIR Multispectral Camera"></a>XIMEA MQ022HG-IM-SM5X5-NIR Multispectral Camera</h3><ol>
+<li>Spectral Range: 665~975nm</li>
+<li>Resolution: <ul>
+<li>Original: 2048 × 1088 </li>
+<li>Spatial: 409 × 217</li>
+</ul>
+</li>
+<li>FPS: up to 170 cubes/sec</li>
+<li>Sensor size: 2/3”</li>
+<li>Dimensions WxHxD: 26 x 26 x 31 mm</li>
+<li>Pixel size: 5.5 µm</li>
+<li>Python multispectral processing lib: <a href="http://www.spectralpython.net/#documentation">Link</a></li>
+<li>Camera control official python lib: <a href="https://www.ximea.com/support/wiki/apis/Python">Link</a></li>
+<li>Official brief specification: <a href="https://www.ximea.com/files/brochures/xiSpec-Hyperspectral-cameras-2015-brochure.pdf">Link</a> </li>
+<li>Official Page: <a href="https://www.ximea.com/en/products/hyperspectral-cameras-based-on-usb3-xispec/mq022hg-im-sm5x5-nir">Link</a></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Full Specifications:</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Part Number</strong></td>
+<td>MQ022HG-IM-SM5X5-NIR</td>
+</tr>
+<tr>
+<td><strong>Resolution</strong></td>
+<td>Original: 2048 × 1088 Spatial: 409 × 217</td>
+</tr>
+<tr>
+<td><strong>Frame rates</strong></td>
+<td>up to 170 cubes/sec</td>
+</tr>
+<tr>
+<td><strong>Sensor type</strong></td>
+<td>CMOS, Hyperspectral filters added at wafer-level</td>
+</tr>
+<tr>
+<td><strong>Sensor model</strong></td>
+<td>IMEC SNm5x5</td>
+</tr>
+<tr>
+<td><strong>Sensor size</strong></td>
+<td>2/3”</td>
+</tr>
+<tr>
+<td><strong>Sensor active area</strong></td>
+<td>25 Bands</td>
+</tr>
+<tr>
+<td><strong>Readout Method</strong></td>
+<td>Snapshot Mosaic</td>
+</tr>
+<tr>
+<td><strong>Pixel size</strong></td>
+<td>5.5 µm</td>
+</tr>
+<tr>
+<td><strong>ADC -Bits per pixel</strong></td>
+<td>8, 10 bit RAW pixel data</td>
+</tr>
+<tr>
+<td><strong>Data interface</strong></td>
+<td>USB 3.1 Gen1 or PCI Express (xiX camera model)</td>
+</tr>
+<tr>
+<td><strong>Data I/O</strong></td>
+<td>GPIO IN, OUT</td>
+</tr>
+<tr>
+<td><strong>Power consumption</strong></td>
+<td>1.6 Watt</td>
+</tr>
+<tr>
+<td><strong>Lens mount</strong></td>
+<td>C or CS Mount</td>
+</tr>
+<tr>
+<td><strong>Weight</strong></td>
+<td>32 grams</td>
+</tr>
+<tr>
+<td><strong>Dimensions WxHxD</strong></td>
+<td>26 x 26 x 31 mm</td>
+</tr>
+<tr>
+<td><strong>Operating temperature</strong></td>
+<td>50 °C</td>
+</tr>
+<tr>
+<td><strong>Spectral range</strong></td>
+<td>665-975 nm</td>
+</tr>
+<tr>
+<td><strong>Customs tariff code</strong></td>
+<td>8525.80 30 (EU) / 8525.80 40 (USA)</td>
+</tr>
+<tr>
+<td><strong>ECCN</strong></td>
+<td>EAR99</td>
+</tr>
+</tbody></table>
+<h3 id="Seek-Compact-Pro-Thermal-Camera"><a href="#Seek-Compact-Pro-Thermal-Camera" class="headerlink" title="Seek Compact Pro Thermal Camera"></a>Seek Compact Pro Thermal Camera</h3><ol>
+<li>Seek Compact Pro: 7500~14000 nm</li>
+<li>Resolution:  <strong>320 x 240</strong></li>
+<li>Field of view: <strong>32°</strong> </li>
+<li>Frame rate: <strong>&lt; 9 Hz</strong> </li>
+<li>Focusable lens</li>
+<li>Platform: Android or iOS (Linux 3rd-party binary library)</li>
+<li>Specification Sheet: <a href="https://www.thermal.com/uploads/1/0/1/3/101388544/compactpro-sellsheet-website.pdf">Link</a></li>
+</ol>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Full spectrum:</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/2880px-EM_spectrum.svg.png" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/2880px-EM_Spectrum_Properties_edit_zh.svg.png" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/Atmospheric_electromagnetic_opacity.svg" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/200px-Light_spectrum.svg.png" alt="img"></p>
+<h3 id="Different-Infrared"><a href="#Different-Infrared" class="headerlink" title="Different Infrared:"></a><strong>Different Infrared:</strong></h3><table>
+<thead>
+<tr>
+<th align="center">Division name</th>
+<th align="center">Abbreviation</th>
+<th align="center">Wavelength</th>
+<th align="center">Frequency</th>
+<th align="center">Photon energy</th>
+<th align="center">Temperature[<a href="https://en.wikipedia.org/wiki/Infrared#cite_note-%E2%80%A0-15">i]</a></th>
+<th align="center">Characteristics</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Near-infrared</td>
+<td align="center">NIR, IR-A <em><a href="https://en.wikipedia.org/wiki/DIN">DIN</a></em></td>
+<td align="center">0.75–1.4 <a href="https://en.wikipedia.org/wiki/%CE%9Cm">μm</a></td>
+<td align="center">214–400 <a href="https://en.wikipedia.org/wiki/Terahertz_(unit)">THz</a></td>
+<td align="center">886–1653 <a href="https://en.wikipedia.org/wiki/MeV">meV</a></td>
+<td align="center">3,864–2,070 <a href="https://en.wikipedia.org/wiki/Kelvin">K</a> (3,591–1,797 <a href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">Defined by water absorption,[<em><a href="https://en.wikipedia.org/wiki/Wikipedia:Please_clarify">clarification needed</a></em>] and commonly used in <a href="https://en.wikipedia.org/wiki/Fiber_optic">fiber optic</a> telecommunication because of low attenuation losses in the SiO2 glass (<a href="https://en.wikipedia.org/wiki/Silica">silica</a>) medium. <a href="https://en.wikipedia.org/wiki/Image_intensifier">Image intensifiers</a> are sensitive to this area of the spectrum; examples include <a href="https://en.wikipedia.org/wiki/Night_vision">night vision</a> devices such as night vision goggles. <a href="https://en.wikipedia.org/wiki/Near-infrared_spectroscopy">Near-infrared spectroscopy</a> is another common application.</td>
+</tr>
+<tr>
+<td align="center">Short-wavelength infrared</td>
+<td align="center">SWIR, IR-B <em>DIN</em></td>
+<td align="center">1.4–3 μm</td>
+<td align="center">100–214 THz</td>
+<td align="center">413–886 meV</td>
+<td align="center">2,070–966 <a href="https://en.wikipedia.org/wiki/Kelvin">K</a> (1,797–693 <a href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">Water absorption increases significantly at 1450 nm. The 1530 to 1560 nm range is the dominant spectral region for long-distance telecommunications.</td>
+</tr>
+<tr>
+<td align="center">Mid-wavelength infrared</td>
+<td align="center">MWIR, IR-C <em>DIN</em>; MidIR.[<a href="https://en.wikipedia.org/wiki/Infrared#cite_note-rdmag20120908-16">15]</a> Also called intermediate infrared (IIR)</td>
+<td align="center">3–8 μm</td>
+<td align="center">37–100 THz</td>
+<td align="center">155–413 meV</td>
+<td align="center">966–362 <a href="https://en.wikipedia.org/wiki/Kelvin">K</a> (693–89 <a href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">In guided missile technology the 3–5 μm portion of this band is the atmospheric window in which the homing heads of passive IR ‘heat seeking’ missiles are designed to work, homing on to the <a href="https://en.wikipedia.org/wiki/Infrared_signature">Infrared signature</a> of the target aircraft, typically the jet engine exhaust plume. This region is also known as thermal infrared.</td>
+</tr>
+<tr>
+<td align="center">Long-wavelength infrared</td>
+<td align="center">LWIR, IR-C <em>DIN</em></td>
+<td align="center">8–15 μm</td>
+<td align="center">20–37 THz</td>
+<td align="center">83–155 meV</td>
+<td align="center">362–193 <a href="https://en.wikipedia.org/wiki/Kelvin">K</a> (89 – −80 <a href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">The “thermal imaging” region, in which sensors can obtain a completely passive image of objects only slightly higher in temperature than room temperature - for example, the human body - based on thermal emissions only and requiring no illumination such as the sun, moon, or infrared illuminator. This region is also called the “thermal infrared”.</td>
+</tr>
+<tr>
+<td align="center"><a href="https://en.wikipedia.org/wiki/Far_infrared">Far infrared</a></td>
+<td align="center">FIR</td>
+<td align="center">15–1000 μm</td>
+<td align="center">0.3–20 THz</td>
+<td align="center">1.2–83 meV</td>
+<td align="center">193–3 <a href="https://en.wikipedia.org/wiki/Kelvin">K</a> (−80.15 – −270.15 <a href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">(see also <a href="https://en.wikipedia.org/wiki/Far-infrared_laser">far-infrared laser</a> and <a href="https://en.wikipedia.org/wiki/Far_infrared">far infrared</a>)</td>
+</tr>
+</tbody></table>
+<h2 id="Thermal"><a href="#Thermal" class="headerlink" title="Thermal"></a>Thermal</h2><h3 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h3><ol>
+<li><p><a href="https://www.flir.com/oem/adas/adas-dataset-form/">FREE FLIR Thermal Dataset for Algorithm Training</a></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200716161001770.png" alt="image-20200716161001770"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200716161013251.png" alt="image-20200716161013251"></p>
+</li>
+</ol>
+<ol start="2">
+<li><p><a href="https://soonminhwang.github.io/rgbt-ped-detection/">KAIST Multispectral Pedestrian Detection Benchmark</a> [2018] <a href="https://www-users.cs.umn.edu/~jsyoon/JaeShin_homepage/kaist_multispectral.pdf">Paper</a></p>
+<p>Contain day and night scenarios. Human with bounding box. RGB-Thermal pair.</p>
+<p>The KAIST Multispectral Pedestrian Dataset consists of 95k color-thermal pairs (640x480, 20Hz) taken from a vehicle. All the pairs are manually annotated (person, people, cyclist) for the total of 103,128 dense annotations and 1,182 unique pedestrians. </p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/teaser.png" alt="teaserImage"></p>
+</li>
+</ol>
+<h2 id="Real-Multispectral"><a href="#Real-Multispectral" class="headerlink" title="Real-Multispectral"></a>Real-Multispectral</h2><ol>
+<li><p><a href="https://sites.google.com/site/hyperspectralcolorimaging/dataset">Hyperspectral Images Database</a> [2017]</p>
+<p><strong>Visible Range MSI</strong></p>
+<p>NUS hyperspectral images database: 52 Outdoor Scene, 35 Indoor Scene, 33 Individual Fruit Scene, 11 Group Fruit Scene, 13 Real vs Fake Fruit Scene, 44 color Charts &amp; Patches Scene.</p>
+</li>
+</ol>
+<p>  It consists of various indoor and outdoor scenes taken with a SPECIM hyperspectral camera and multiple consumer cameras. For consumer cameras, camera-specific RAW format that is free of any manipulation, is available. For easier classification, this hyperspectral camera dataset has been categorized into the following categories:</p>
+<ul>
+<li><a href="https://sites.google.com/site/hyperspectralcolorimaging/dataset/general-scenes">General Scenes (Outdoor &amp; Indoor)</a></li>
+<li><a href="https://sites.google.com/site/hyperspectralcolorimaging/dataset/fruits">Fruits</a></li>
+<li><a href="https://sites.google.com/site/hyperspectralcolorimaging/dataset/color-patches">Color Charts and Patches</a></li>
+</ul>
+<p>  Additionally, our spectral data can be visualized using the professional software by <a href="http://scyllarus.research.nicta.com.au/">Scyllarus Matlab/C++ toolbox</a>.</p>
+<p>  Relevant Code <a href="https://github.com/trangreyle/gene-color-mapping">GitHub</a></p>
+  <img src="image-20200729094343425.png" alt="image-20200729094343425" style="zoom: 50%;" />
+
+  <img src="image-20200729094355733.png" alt="image-20200729094355733" style="zoom:50%;" />
+
+  <img src="image-20200729094407105.png" alt="image-20200729094407105" style="zoom:50%;" />
+
+  <img src="image-20200729094457881.png" alt="image-20200729094457881" style="zoom:50%;" />
+
+<ol start="2">
+<li><p><a href="https://biic.wvu.edu/data-sets/multispectral-dataset">Multispectral Dataset from west virginia university</a></p>
+<ol>
+<li>SWIR Biometrics Dataset: <strong>SWIR</strong></li>
+<li>WVU Multispectral Face Database: Three types of camera are used: <strong>RGB, Multi(RGB+NIR), SWIR</strong></li>
+<li>Multispectral Imaging (Iris) Database: </li>
+</ol>
+</li>
+<li><p><a href="https://www.mi.t.u-tokyo.ac.jp/static/projects/mil_multispectral/">Multispectral Image Recognition</a></p>
+<ol>
+<li>Multi-spectral Object Detection</li>
+</ol>
+<p><strong>RGB, Near-infrared (NIR), Mid-wavelength infrared (MIR), and Far infrared (FIR)</strong> from the left. Objects are labeled and bounding box predicted.</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/det_result.png" alt="img"></p>
+<ol start="2">
+<li>Multi-spectral Semantic Segmentation</li>
+</ol>
+<p>RGB-Thermal dataset with semantic segmentation</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/predictionExamples_good.png" alt="img"></p>
+</li>
+<li><p><a href="https://projects.ics.forth.gr/cvrl/msi/">Multispectral Imaging (MSI) datasets</a>: Painting multispectral images. Not paired. Not ordinary objects.</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200727175214182.png" alt="image-20200727175214182"></p>
+</li>
+<li><p><a href="https://www.cs.columbia.edu/CAVE/databases/multispectral/">CAVE Multispectral Image Database</a></p>
+<p><strong>Visible Range MSI:</strong> <strong>400nm to 700nm</strong></p>
+<p>It only has 32 multispectral &amp; RGB image pairs… Be careful to use it. Each image has 31 bands, and they are separated.</p>
+<table>
+<thead>
+<tr>
+<th>Camera</th>
+<th><a href="http://www.ccd.com/alta_u260.html">Cooled CCD camera (Apogee Alta U260)</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Resolution</td>
+<td>512 x 512 pixel</td>
+</tr>
+<tr>
+<td>Filter</td>
+<td><a href="http://www.cri-inc.com/products/varispec.asp">VariSpec liquid crystal tunable filter</a></td>
+</tr>
+<tr>
+<td>Illuminant</td>
+<td>CIE Standard Illuminant D65</td>
+</tr>
+<tr>
+<td>Range of wevelength</td>
+<td>400nm - 700nm</td>
+</tr>
+<tr>
+<td>Steps</td>
+<td>10nm</td>
+</tr>
+<tr>
+<td>Number of band</td>
+<td>31 band</td>
+</tr>
+<tr>
+<td>Focal length</td>
+<td>f/1.4</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Fixed (focused using 550nm image)</td>
+</tr>
+<tr>
+<td>Image format</td>
+<td>PNG (16bit)</td>
+</tr>
+</tbody></table>
+<p><img src="/2020/10/16/hsi-pre-data-collection/teaser-20200727174750119.png" alt="img"></p>
+</li>
+<li><p><a href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/">Bristol Hyperspectral Images Database</a> [1995]</p>
+<p><strong>Visible Range MSI</strong></p>
+<p>The database consists of <strong>29 scenes</strong>, each composed by <strong>31 spectrally filtered images</strong> (256 x 256 x 256 grey levels). Each scene has been compressed (zipped) and can be downloaded separately by clicking on the corresponding picture. Please bear in mind that all individual images have a 32 bytes header. To download the whole database at once, just click <a href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/brelstaff.tar.gz">here</a>.</p>
+<p>There is some code and miscellaneous files <a href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/src/Src.zip">here</a> (these need to be run in order to make use of the images as physical measurements). A more complete description on how the images were gathered and some issues on the camera’s technicalities can be found <a href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/2-TECH.pdf">here</a>.</p>
+<img src="image-20200729095320320.png" alt="image-20200729095320320" style="zoom:50%;" /></li>
+<li><p><a href="http://vision.seas.harvard.edu/hyperspec/">Harvard Real-World Hyperspectral Images</a> [2011]</p>
+<p><strong>Visible Range MSI:</strong> <strong>420nm to 720nm</strong></p>
+<p>The camera uses an integrated liquid crystal tunable filter and is capable of acquiring a hyperspectral image by sequentially tuning the filter through a series of <strong>31 narrow wavelength bands</strong>, each with approximately 10nm bandwidth and centered at steps of 10nm from <strong>420nm to 720nm</strong>.</p>
+<p>The captured dataset includes images of both indoor and outdoor scenes featuring a diversity of objects, materials and scale.</p>
+<p>This is a database of <strong>50</strong> hyperspectral images of indoor and outdoor scenes under daylight illumination, and an additional <strong>25</strong> images under artificial and mixed illumination. The images were captured using a commercial hyperspectral camera (Nuance FX, CRI Inc) with an integrated liquid crystal tunable filter capable of acquiring a hyperspectral image by sequentially tuning the filter through a series of thirty-one narrow wavelength bands, each with approximately 10nm bandwidth and centered at steps of 10nm from 420nm to 720nm. The camera is equipped with an apo-chromatic lens and the images were captured with the smallest viable aperture setting, thus largely avoiding chromatic aberration. All the images are of static scenes, with labels to mask out regions with movement during exposure.</p>
+<p>This database is available for non-commercial research use. The data is available as a series of MATLAB .mat files (one for each image) containing both the images data and masks. Since the size of the download is large (around 5.5 + 2.2 GB), we ask that you send an e-mail to the authors at <strong>ayanc[at]eecs[dot]harvard[dot]edu</strong> for the download link. If you use this data in an academic publication, kindly cite the following paper:</p>
+<img src="image-20200729100019504.png" alt="image-20200729100019504" style="zoom:50%;" /></li>
+<li><p><a href="http://colour.cmp.uea.ac.uk/datasets/multispectral.html">UAE multispectral image database</a></p>
+<p><strong>Visible Range MSI:</strong> <strong>400nm to 700nm</strong></p>
+<p>Wavelength range from 400nm to 700nm at 10nm steps (31 samples). The image matrix for each object is 31xWIDTHxHEIGHT. The images have been captured in a VeriVide viewing booth with a black cloth background under CIE illuminant D75. Each image has been captured twice: once with a white tile and once without. The illuminant has been estimated from the white tile and the spectral data divided by this estimate, in order to arrive at reflectance measurements. The images below are displayed sRGB values rendered under a neutral daylight (D65).</p>
+<img src="image-20200729100842353.png" alt="image-20200729100842353" style="zoom:33%;" /></li>
+<li><p><a href="http://personalpages.manchester.ac.uk/staff/david.foster/default.html">Manchester hyperspectral images Dataset<strong>s</strong></a></p>
+<p><strong>Visible Range MSI:</strong>  400, 410, …, 720 nm</p>
+<p>Multiple MSI datasets included:</p>
+<img src="image-20200729101027937.png" alt="image-20200729101027937" style="zoom:50%;" />
+
+<ul>
+<li><p><a href="https://personalpages.manchester.ac.uk/staff/david.foster/Time-Lapse_HSIs/Time-Lapse_HSIs_2015.html">Time-Lapse Hyperspectral Radiance Images of Natural Scenes 2015</a></p>
+<img src="image-20200729101135099.png" alt="image-20200729101135099" style="zoom:33%;" /></li>
+<li><p><a href="https://personalpages.manchester.ac.uk/staff/david.foster/Local_Illumination_HSIs/Local_Illumination_HSIs_2015.html">Hyperspectral Images for Local Illumination in Natural Scenes 2015</a></p>
+<img src="image-20200729101232518.png" alt="image-20200729101232518" style="zoom:50%;" /></li>
+<li><p><a href="https://personalpages.manchester.ac.uk/staff/david.foster/Hyperspectral_images_of_natural_scenes_02.html">Hyperspectral Images of Natural Scenes 2002</a></p>
+<img src="image-20200729101343922.png" alt="image-20200729101343922" style="zoom:50%;" /></li>
+<li><p><a href="https://personalpages.manchester.ac.uk/staff/david.foster/Hyperspectral_images_of_natural_scenes_04.html">Hyperspectral Images of Natural Scenes 2004</a></p>
+<img src="image-20200729101441578.png" alt="image-20200729101441578" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li><p><a href="https://pythonhosted.org/bob.db.cbsr_nir_vis_2/">BOB NIR+VIS Face Database</a> [2013]</p>
+<p>It consists of 725 subjects in total. There are [1-22] VIS and [5-50] NIR face images per subject. The eyes positions are also distributed with the images.</p>
+<img src="database.png" alt="_images/database.png" style="zoom:33%;" /></li>
+<li><p><a href="http://icvl.cs.bgu.ac.il/hyperspectral/">ICVL hyperspectral database</a></p>
+</li>
+</ol>
+<p>   <strong>RGB+NIR Range MSI:</strong>  Images were collected at 1392×1300 spatial resolution over 519 spectral bands (<strong>400-1,000nm</strong> at roughly 1.25nm increments)</p>
+<p>   The database images were acquired using a Specim PS Kappa DX4 hyperspectral camera and a rotary stage for spatial scanning. At this time it contains 201 images and will continue to grow progressively. For your convenience, <strong>.mat</strong> files are provided, downsampled to 31 spectral channels from 400nm to 700nm at 10nm increments.</p>
+   <img src="image-20200729102126434.png" alt="image-20200729102126434" style="zoom:50%;" />
+
+<ol start="11">
+<li><p><a href="http://colorimaginglab.ugr.es/pages/Data">University of Granada hyperspectral image database</a></p>
+<p><strong>RGB+NIR Range MSI:</strong> Most of the images have spatial resolution of 1000 × 900 pixels. The spectral range is from <strong>400 nm to 1000</strong> nm in 10 nm intervals, resulting in total 61 channels.</p>
+<img src="image-20200729102332515.png" alt="image-20200729102332515" style="zoom:50%;" /></li>
+<li><p><a href="http://www.cs.cmu.edu/~ILIM/projects/IM/MSPowder/">SWIRPowder</a>: A 400-1700nm Multispectral Dataset with 100 Powders on Complex Backgrounds</p>
+<p><strong>SWIR(Multi)+RGB+NIR</strong></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/result.png" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/illustration_1.png" alt="img"></p>
+</li>
+<li><p><a href="http://www.ok.sc.e.titech.ac.jp/res/MSI/MSIdata31.html">TokyoTech 31-band Hyperspectral Image Dataset</a> [2015]</p>
+<p><strong>Visible Range MSI:</strong> <strong>420nm to 720nm</strong></p>
+<p>Colorful objects with rich textures 30 scenes from 420nm to 720nm at 10nm intervals</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/MSimage.png" alt="MSimage"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200729094232057.png" alt="image-20200729094232057"></p>
+</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://jbthomas.org/TechReport/CIC-shortcourseSFA-2017.pdf">Spectral Filter Arrays Technology</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Infrared">Infrared WiKi</a></li>
+</ul>
+<h2 id="Electromagnetic-Wave-Classification"><a href="#Electromagnetic-Wave-Classification" class="headerlink" title="Electromagnetic Wave Classification"></a>Electromagnetic Wave Classification</h2><p> γ = <a href="https://zh.wikipedia.org/wiki/%E4%BC%BD%E9%A6%AC%E5%B0%84%E7%B7%9A">伽马射线</a><br><strong><a href="https://zh.wikipedia.org/wiki/X%E5%B0%84%E7%B7%9A">X射线</a>：</strong><br>HX = 硬<a href="https://zh.wikipedia.org/wiki/X%E5%B0%84%E7%B7%9A">X射线</a><br>SX = 软X射线<br><strong><a href="https://zh.wikipedia.org/wiki/%E7%B4%AB%E5%A4%96%E7%B7%9A">紫外线</a>：</strong><br>EUV = 极端<a href="https://zh.wikipedia.org/wiki/%E7%B4%AB%E5%A4%96%E7%B7%9A">紫外线</a><br>NUV = 近紫外线<br><strong><a href="https://zh.wikipedia.org/wiki/%E7%B4%85%E5%A4%96%E7%B7%9A">红外线</a>：</strong><br>NIR = 近<a href="https://zh.wikipedia.org/wiki/%E7%B4%85%E5%A4%96%E7%B7%9A">红外线</a><br>MIR =中红外线<br>FIR = <a href="https://zh.wikipedia.org/wiki/%E9%81%A0%E7%B4%85%E5%A4%96%E7%B7%9A">远红外线</a></p>
+<p>Typically we define near infrared (<em>NIR</em>) from 780 nm to 1400 nm and shortwave infrared (<em>SWIR</em>) from 1400 nm to 3000 nm.</p>
+<p><strong><a href="https://zh.wikipedia.org/wiki/%E5%BE%AE%E6%B3%A2">微波</a>：</strong><br>EHF = <a href="https://zh.wikipedia.org/wiki/%E6%A5%B5%E9%AB%98%E9%A0%BB">极高频</a><br>SHF = <a href="https://zh.wikipedia.org/wiki/%E8%B6%85%E9%AB%98%E9%A0%BB">超高频</a><br>UHF = <a href="https://zh.wikipedia.org/wiki/%E7%89%B9%E9%AB%98%E9%A0%BB">特高频</a><br><strong><a href="https://zh.wikipedia.org/wiki/%E7%84%A1%E7%B7%9A%E9%9B%BB%E6%B3%A2">无线电波</a>：</strong><br>VHF = <a href="https://zh.wikipedia.org/wiki/%E7%94%9A%E9%AB%98%E9%A0%BB">甚高频</a><br>HF = <a href="https://zh.wikipedia.org/wiki/%E9%AB%98%E9%A0%BB">高频</a><br>MF = <a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%A0%BB">中频</a><br>LF = <a href="https://zh.wikipedia.org/wiki/%E4%BD%8E%E9%A0%BB">低频</a><br>VLF = <a href="https://zh.wikipedia.org/wiki/%E7%94%9A%E4%BD%8E%E9%A2%91">甚低频</a><br>ULF = <a href="https://zh.wikipedia.org/wiki/%E7%89%B9%E4%BD%8E%E9%A0%BB">特低频</a><br>ELF = <a href="https://zh.wikipedia.org/wiki/%E6%A5%B5%E4%BD%8E%E9%A0%BB">极低频</a></p>
+]]></content>
+      <tags>
+        <tag>hsi</tag>
+        <tag>data</tag>
+        <tag>camera</tag>
+        <tag>optics</tag>
       </tags>
   </entry>
 </search>

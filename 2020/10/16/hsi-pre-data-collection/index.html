@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}};
+  </script>
+<meta name="description" content="EquipmentFLIR Blackfly S RGB Camera Spectral Range:   Blue: 460 nm Green: 530 nm Red: 625 nm   Resolution: 720 × 540  FPS: 522">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-Spectral Imaging 数据采集前期调研">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="EquipmentFLIR Blackfly S RGB Camera Spectral Range:   Blue: 460 nm Green: 530 nm Red: 625 nm   Resolution: 720 × 540  FPS: 522">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/2880px-EM_spectrum.svg.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/2880px-EM_Spectrum_Properties_edit_zh.svg.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/Atmospheric_electromagnetic_opacity.svg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/200px-Light_spectrum.svg.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200716161001770.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200716161013251.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/teaser.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729094343425.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729094355733.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729094407105.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729094457881.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/det_result.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/predictionExamples_good.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200727175214182.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/teaser-20200727174750119.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729095320320.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729100019504.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729100842353.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729101027937.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729101135099.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729101232518.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729101343922.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729101441578.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/database.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729102126434.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729102332515.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/result.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/illustration_1.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/MSimage.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/image-20200729094232057.png">
+<meta property="article:published_time" content="2020-10-16T20:57:04.000Z">
+<meta property="article:modified_time" content="2021-03-12T22:04:46.936Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="hsi">
+<meta property="article:tag" content="data">
+<meta property="article:tag" content="camera">
+<meta property="article:tag" content="optics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/2880px-EM_spectrum.svg.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>Multi-Spectral Imaging 数据采集前期调研 | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Equipment"><span class="nav-number">1.</span> <span class="nav-text">Equipment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FLIR-Blackfly-S-RGB-Camera"><span class="nav-number">1.1.</span> <span class="nav-text">FLIR Blackfly S RGB Camera</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XIMEA-MQ022HG-IM-SM5X5-NIR-Multispectral-Camera"><span class="nav-number">1.2.</span> <span class="nav-text">XIMEA MQ022HG-IM-SM5X5-NIR Multispectral Camera</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Seek-Compact-Pro-Thermal-Camera"><span class="nav-number">1.3.</span> <span class="nav-text">Seek Compact Pro Thermal Camera</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Different-Infrared"><span class="nav-number">2.1.</span> <span class="nav-text">Different Infrared:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thermal"><span class="nav-number">3.</span> <span class="nav-text">Thermal</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset"><span class="nav-number">3.1.</span> <span class="nav-text">Dataset</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Real-Multispectral"><span class="nav-number">4.</span> <span class="nav-text">Real-Multispectral</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Electromagnetic-Wave-Classification"><span class="nav-number">6.</span> <span class="nav-text">Electromagnetic Wave Classification</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/10/16/hsi-pre-data-collection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Multi-Spectral Imaging 数据采集前期调研
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-10-16 16:57:04" itemprop="dateCreated datePublished" datetime="2020-10-16T16:57:04-04:00">2020-10-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 17:04:46" itemprop="dateModified" datetime="2021-03-12T17:04:46-05:00">2021-03-12</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>16 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Equipment"><a href="#Equipment" class="headerlink" title="Equipment"></a>Equipment</h2><h3 id="FLIR-Blackfly-S-RGB-Camera"><a href="#FLIR-Blackfly-S-RGB-Camera" class="headerlink" title="FLIR Blackfly S RGB Camera"></a>FLIR Blackfly S RGB Camera</h3><ol>
+<li><p>Spectral Range: </p>
+<ul>
+<li>Blue: 460 nm</li>
+<li>Green: 530 nm</li>
+<li>Red: 625 nm</li>
+</ul>
+</li>
+<li><p>Resolution: 720 × 540</p>
+</li>
+<li><p>FPS: 522</p>
+<span id="more"></span></li>
+<li><p>Dimensions [W x H x L]: 29 mm × 29 mm × 30 mm</p>
+</li>
+<li><p>Official Link: <a target="_blank" rel="noopener" href="https://www.flir.com/products/blackfly-s-usb3/">Link</a></p>
+</li>
+</ol>
+<h3 id="XIMEA-MQ022HG-IM-SM5X5-NIR-Multispectral-Camera"><a href="#XIMEA-MQ022HG-IM-SM5X5-NIR-Multispectral-Camera" class="headerlink" title="XIMEA MQ022HG-IM-SM5X5-NIR Multispectral Camera"></a>XIMEA MQ022HG-IM-SM5X5-NIR Multispectral Camera</h3><ol>
+<li>Spectral Range: 665~975nm</li>
+<li>Resolution: <ul>
+<li>Original: 2048 × 1088 </li>
+<li>Spatial: 409 × 217</li>
+</ul>
+</li>
+<li>FPS: up to 170 cubes/sec</li>
+<li>Sensor size: 2/3”</li>
+<li>Dimensions WxHxD: 26 x 26 x 31 mm</li>
+<li>Pixel size: 5.5 µm</li>
+<li>Python multispectral processing lib: <a target="_blank" rel="noopener" href="http://www.spectralpython.net/#documentation">Link</a></li>
+<li>Camera control official python lib: <a target="_blank" rel="noopener" href="https://www.ximea.com/support/wiki/apis/Python">Link</a></li>
+<li>Official brief specification: <a target="_blank" rel="noopener" href="https://www.ximea.com/files/brochures/xiSpec-Hyperspectral-cameras-2015-brochure.pdf">Link</a> </li>
+<li>Official Page: <a target="_blank" rel="noopener" href="https://www.ximea.com/en/products/hyperspectral-cameras-based-on-usb3-xispec/mq022hg-im-sm5x5-nir">Link</a></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Full Specifications:</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Part Number</strong></td>
+<td>MQ022HG-IM-SM5X5-NIR</td>
+</tr>
+<tr>
+<td><strong>Resolution</strong></td>
+<td>Original: 2048 × 1088 Spatial: 409 × 217</td>
+</tr>
+<tr>
+<td><strong>Frame rates</strong></td>
+<td>up to 170 cubes/sec</td>
+</tr>
+<tr>
+<td><strong>Sensor type</strong></td>
+<td>CMOS, Hyperspectral filters added at wafer-level</td>
+</tr>
+<tr>
+<td><strong>Sensor model</strong></td>
+<td>IMEC SNm5x5</td>
+</tr>
+<tr>
+<td><strong>Sensor size</strong></td>
+<td>2/3”</td>
+</tr>
+<tr>
+<td><strong>Sensor active area</strong></td>
+<td>25 Bands</td>
+</tr>
+<tr>
+<td><strong>Readout Method</strong></td>
+<td>Snapshot Mosaic</td>
+</tr>
+<tr>
+<td><strong>Pixel size</strong></td>
+<td>5.5 µm</td>
+</tr>
+<tr>
+<td><strong>ADC -Bits per pixel</strong></td>
+<td>8, 10 bit RAW pixel data</td>
+</tr>
+<tr>
+<td><strong>Data interface</strong></td>
+<td>USB 3.1 Gen1 or PCI Express (xiX camera model)</td>
+</tr>
+<tr>
+<td><strong>Data I/O</strong></td>
+<td>GPIO IN, OUT</td>
+</tr>
+<tr>
+<td><strong>Power consumption</strong></td>
+<td>1.6 Watt</td>
+</tr>
+<tr>
+<td><strong>Lens mount</strong></td>
+<td>C or CS Mount</td>
+</tr>
+<tr>
+<td><strong>Weight</strong></td>
+<td>32 grams</td>
+</tr>
+<tr>
+<td><strong>Dimensions WxHxD</strong></td>
+<td>26 x 26 x 31 mm</td>
+</tr>
+<tr>
+<td><strong>Operating temperature</strong></td>
+<td>50 °C</td>
+</tr>
+<tr>
+<td><strong>Spectral range</strong></td>
+<td>665-975 nm</td>
+</tr>
+<tr>
+<td><strong>Customs tariff code</strong></td>
+<td>8525.80 30 (EU) / 8525.80 40 (USA)</td>
+</tr>
+<tr>
+<td><strong>ECCN</strong></td>
+<td>EAR99</td>
+</tr>
+</tbody></table>
+<h3 id="Seek-Compact-Pro-Thermal-Camera"><a href="#Seek-Compact-Pro-Thermal-Camera" class="headerlink" title="Seek Compact Pro Thermal Camera"></a>Seek Compact Pro Thermal Camera</h3><ol>
+<li>Seek Compact Pro: 7500~14000 nm</li>
+<li>Resolution:  <strong>320 x 240</strong></li>
+<li>Field of view: <strong>32°</strong> </li>
+<li>Frame rate: <strong>&lt; 9 Hz</strong> </li>
+<li>Focusable lens</li>
+<li>Platform: Android or iOS (Linux 3rd-party binary library)</li>
+<li>Specification Sheet: <a target="_blank" rel="noopener" href="https://www.thermal.com/uploads/1/0/1/3/101388544/compactpro-sellsheet-website.pdf">Link</a></li>
+</ol>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Full spectrum:</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/2880px-EM_spectrum.svg.png" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/2880px-EM_Spectrum_Properties_edit_zh.svg.png" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/Atmospheric_electromagnetic_opacity.svg" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/200px-Light_spectrum.svg.png" alt="img"></p>
+<h3 id="Different-Infrared"><a href="#Different-Infrared" class="headerlink" title="Different Infrared:"></a><strong>Different Infrared:</strong></h3><table>
+<thead>
+<tr>
+<th align="center">Division name</th>
+<th align="center">Abbreviation</th>
+<th align="center">Wavelength</th>
+<th align="center">Frequency</th>
+<th align="center">Photon energy</th>
+<th align="center">Temperature[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Infrared#cite_note-%E2%80%A0-15">i]</a></th>
+<th align="center">Characteristics</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Near-infrared</td>
+<td align="center">NIR, IR-A <em><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DIN">DIN</a></em></td>
+<td align="center">0.75–1.4 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/%CE%9Cm">μm</a></td>
+<td align="center">214–400 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Terahertz_(unit)">THz</a></td>
+<td align="center">886–1653 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MeV">meV</a></td>
+<td align="center">3,864–2,070 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kelvin">K</a> (3,591–1,797 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">Defined by water absorption,[<em><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Wikipedia:Please_clarify">clarification needed</a></em>] and commonly used in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Fiber_optic">fiber optic</a> telecommunication because of low attenuation losses in the SiO2 glass (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Silica">silica</a>) medium. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Image_intensifier">Image intensifiers</a> are sensitive to this area of the spectrum; examples include <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Night_vision">night vision</a> devices such as night vision goggles. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Near-infrared_spectroscopy">Near-infrared spectroscopy</a> is another common application.</td>
+</tr>
+<tr>
+<td align="center">Short-wavelength infrared</td>
+<td align="center">SWIR, IR-B <em>DIN</em></td>
+<td align="center">1.4–3 μm</td>
+<td align="center">100–214 THz</td>
+<td align="center">413–886 meV</td>
+<td align="center">2,070–966 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kelvin">K</a> (1,797–693 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">Water absorption increases significantly at 1450 nm. The 1530 to 1560 nm range is the dominant spectral region for long-distance telecommunications.</td>
+</tr>
+<tr>
+<td align="center">Mid-wavelength infrared</td>
+<td align="center">MWIR, IR-C <em>DIN</em>; MidIR.[<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Infrared#cite_note-rdmag20120908-16">15]</a> Also called intermediate infrared (IIR)</td>
+<td align="center">3–8 μm</td>
+<td align="center">37–100 THz</td>
+<td align="center">155–413 meV</td>
+<td align="center">966–362 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kelvin">K</a> (693–89 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">In guided missile technology the 3–5 μm portion of this band is the atmospheric window in which the homing heads of passive IR ‘heat seeking’ missiles are designed to work, homing on to the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Infrared_signature">Infrared signature</a> of the target aircraft, typically the jet engine exhaust plume. This region is also known as thermal infrared.</td>
+</tr>
+<tr>
+<td align="center">Long-wavelength infrared</td>
+<td align="center">LWIR, IR-C <em>DIN</em></td>
+<td align="center">8–15 μm</td>
+<td align="center">20–37 THz</td>
+<td align="center">83–155 meV</td>
+<td align="center">362–193 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kelvin">K</a> (89 – −80 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">The “thermal imaging” region, in which sensors can obtain a completely passive image of objects only slightly higher in temperature than room temperature - for example, the human body - based on thermal emissions only and requiring no illumination such as the sun, moon, or infrared illuminator. This region is also called the “thermal infrared”.</td>
+</tr>
+<tr>
+<td align="center"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Far_infrared">Far infrared</a></td>
+<td align="center">FIR</td>
+<td align="center">15–1000 μm</td>
+<td align="center">0.3–20 THz</td>
+<td align="center">1.2–83 meV</td>
+<td align="center">193–3 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Kelvin">K</a> (−80.15 – −270.15 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Celsius">°C</a>)</td>
+<td align="center">(see also <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Far-infrared_laser">far-infrared laser</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Far_infrared">far infrared</a>)</td>
+</tr>
+</tbody></table>
+<h2 id="Thermal"><a href="#Thermal" class="headerlink" title="Thermal"></a>Thermal</h2><h3 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.flir.com/oem/adas/adas-dataset-form/">FREE FLIR Thermal Dataset for Algorithm Training</a></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200716161001770.png" alt="image-20200716161001770"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200716161013251.png" alt="image-20200716161013251"></p>
+</li>
+</ol>
+<ol start="2">
+<li><p><a target="_blank" rel="noopener" href="https://soonminhwang.github.io/rgbt-ped-detection/">KAIST Multispectral Pedestrian Detection Benchmark</a> [2018] <a target="_blank" rel="noopener" href="https://www-users.cs.umn.edu/~jsyoon/JaeShin_homepage/kaist_multispectral.pdf">Paper</a></p>
+<p>Contain day and night scenarios. Human with bounding box. RGB-Thermal pair.</p>
+<p>The KAIST Multispectral Pedestrian Dataset consists of 95k color-thermal pairs (640x480, 20Hz) taken from a vehicle. All the pairs are manually annotated (person, people, cyclist) for the total of 103,128 dense annotations and 1,182 unique pedestrians. </p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/teaser.png" alt="teaserImage"></p>
+</li>
+</ol>
+<h2 id="Real-Multispectral"><a href="#Real-Multispectral" class="headerlink" title="Real-Multispectral"></a>Real-Multispectral</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://sites.google.com/site/hyperspectralcolorimaging/dataset">Hyperspectral Images Database</a> [2017]</p>
+<p><strong>Visible Range MSI</strong></p>
+<p>NUS hyperspectral images database: 52 Outdoor Scene, 35 Indoor Scene, 33 Individual Fruit Scene, 11 Group Fruit Scene, 13 Real vs Fake Fruit Scene, 44 color Charts &amp; Patches Scene.</p>
+</li>
+</ol>
+<p>  It consists of various indoor and outdoor scenes taken with a SPECIM hyperspectral camera and multiple consumer cameras. For consumer cameras, camera-specific RAW format that is free of any manipulation, is available. For easier classification, this hyperspectral camera dataset has been categorized into the following categories:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://sites.google.com/site/hyperspectralcolorimaging/dataset/general-scenes">General Scenes (Outdoor &amp; Indoor)</a></li>
+<li><a target="_blank" rel="noopener" href="https://sites.google.com/site/hyperspectralcolorimaging/dataset/fruits">Fruits</a></li>
+<li><a target="_blank" rel="noopener" href="https://sites.google.com/site/hyperspectralcolorimaging/dataset/color-patches">Color Charts and Patches</a></li>
+</ul>
+<p>  Additionally, our spectral data can be visualized using the professional software by <a target="_blank" rel="noopener" href="http://scyllarus.research.nicta.com.au/">Scyllarus Matlab/C++ toolbox</a>.</p>
+<p>  Relevant Code <a target="_blank" rel="noopener" href="https://github.com/trangreyle/gene-color-mapping">GitHub</a></p>
+  <img src="image-20200729094343425.png" alt="image-20200729094343425" style="zoom: 50%;" />
+
+  <img src="image-20200729094355733.png" alt="image-20200729094355733" style="zoom:50%;" />
+
+  <img src="image-20200729094407105.png" alt="image-20200729094407105" style="zoom:50%;" />
+
+  <img src="image-20200729094457881.png" alt="image-20200729094457881" style="zoom:50%;" />
+
+<ol start="2">
+<li><p><a target="_blank" rel="noopener" href="https://biic.wvu.edu/data-sets/multispectral-dataset">Multispectral Dataset from west virginia university</a></p>
+<ol>
+<li>SWIR Biometrics Dataset: <strong>SWIR</strong></li>
+<li>WVU Multispectral Face Database: Three types of camera are used: <strong>RGB, Multi(RGB+NIR), SWIR</strong></li>
+<li>Multispectral Imaging (Iris) Database: </li>
+</ol>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.mi.t.u-tokyo.ac.jp/static/projects/mil_multispectral/">Multispectral Image Recognition</a></p>
+<ol>
+<li>Multi-spectral Object Detection</li>
+</ol>
+<p><strong>RGB, Near-infrared (NIR), Mid-wavelength infrared (MIR), and Far infrared (FIR)</strong> from the left. Objects are labeled and bounding box predicted.</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/det_result.png" alt="img"></p>
+<ol start="2">
+<li>Multi-spectral Semantic Segmentation</li>
+</ol>
+<p>RGB-Thermal dataset with semantic segmentation</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/predictionExamples_good.png" alt="img"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://projects.ics.forth.gr/cvrl/msi/">Multispectral Imaging (MSI) datasets</a>: Painting multispectral images. Not paired. Not ordinary objects.</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200727175214182.png" alt="image-20200727175214182"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cs.columbia.edu/CAVE/databases/multispectral/">CAVE Multispectral Image Database</a></p>
+<p><strong>Visible Range MSI:</strong> <strong>400nm to 700nm</strong></p>
+<p>It only has 32 multispectral &amp; RGB image pairs… Be careful to use it. Each image has 31 bands, and they are separated.</p>
+<table>
+<thead>
+<tr>
+<th>Camera</th>
+<th><a target="_blank" rel="noopener" href="http://www.ccd.com/alta_u260.html">Cooled CCD camera (Apogee Alta U260)</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Resolution</td>
+<td>512 x 512 pixel</td>
+</tr>
+<tr>
+<td>Filter</td>
+<td><a target="_blank" rel="noopener" href="http://www.cri-inc.com/products/varispec.asp">VariSpec liquid crystal tunable filter</a></td>
+</tr>
+<tr>
+<td>Illuminant</td>
+<td>CIE Standard Illuminant D65</td>
+</tr>
+<tr>
+<td>Range of wevelength</td>
+<td>400nm - 700nm</td>
+</tr>
+<tr>
+<td>Steps</td>
+<td>10nm</td>
+</tr>
+<tr>
+<td>Number of band</td>
+<td>31 band</td>
+</tr>
+<tr>
+<td>Focal length</td>
+<td>f/1.4</td>
+</tr>
+<tr>
+<td>Focus</td>
+<td>Fixed (focused using 550nm image)</td>
+</tr>
+<tr>
+<td>Image format</td>
+<td>PNG (16bit)</td>
+</tr>
+</tbody></table>
+<p><img src="/2020/10/16/hsi-pre-data-collection/teaser-20200727174750119.png" alt="img"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/">Bristol Hyperspectral Images Database</a> [1995]</p>
+<p><strong>Visible Range MSI</strong></p>
+<p>The database consists of <strong>29 scenes</strong>, each composed by <strong>31 spectrally filtered images</strong> (256 x 256 x 256 grey levels). Each scene has been compressed (zipped) and can be downloaded separately by clicking on the corresponding picture. Please bear in mind that all individual images have a 32 bytes header. To download the whole database at once, just click <a target="_blank" rel="noopener" href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/brelstaff.tar.gz">here</a>.</p>
+<p>There is some code and miscellaneous files <a target="_blank" rel="noopener" href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/src/Src.zip">here</a> (these need to be run in order to make use of the images as physical measurements). A more complete description on how the images were gathered and some issues on the camera’s technicalities can be found <a target="_blank" rel="noopener" href="http://www.cvc.uab.es/color_calibration/Bristol_Hyper/2-TECH.pdf">here</a>.</p>
+<img src="image-20200729095320320.png" alt="image-20200729095320320" style="zoom:50%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="http://vision.seas.harvard.edu/hyperspec/">Harvard Real-World Hyperspectral Images</a> [2011]</p>
+<p><strong>Visible Range MSI:</strong> <strong>420nm to 720nm</strong></p>
+<p>The camera uses an integrated liquid crystal tunable filter and is capable of acquiring a hyperspectral image by sequentially tuning the filter through a series of <strong>31 narrow wavelength bands</strong>, each with approximately 10nm bandwidth and centered at steps of 10nm from <strong>420nm to 720nm</strong>.</p>
+<p>The captured dataset includes images of both indoor and outdoor scenes featuring a diversity of objects, materials and scale.</p>
+<p>This is a database of <strong>50</strong> hyperspectral images of indoor and outdoor scenes under daylight illumination, and an additional <strong>25</strong> images under artificial and mixed illumination. The images were captured using a commercial hyperspectral camera (Nuance FX, CRI Inc) with an integrated liquid crystal tunable filter capable of acquiring a hyperspectral image by sequentially tuning the filter through a series of thirty-one narrow wavelength bands, each with approximately 10nm bandwidth and centered at steps of 10nm from 420nm to 720nm. The camera is equipped with an apo-chromatic lens and the images were captured with the smallest viable aperture setting, thus largely avoiding chromatic aberration. All the images are of static scenes, with labels to mask out regions with movement during exposure.</p>
+<p>This database is available for non-commercial research use. The data is available as a series of MATLAB .mat files (one for each image) containing both the images data and masks. Since the size of the download is large (around 5.5 + 2.2 GB), we ask that you send an e-mail to the authors at <strong>ayanc[at]eecs[dot]harvard[dot]edu</strong> for the download link. If you use this data in an academic publication, kindly cite the following paper:</p>
+<img src="image-20200729100019504.png" alt="image-20200729100019504" style="zoom:50%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="http://colour.cmp.uea.ac.uk/datasets/multispectral.html">UAE multispectral image database</a></p>
+<p><strong>Visible Range MSI:</strong> <strong>400nm to 700nm</strong></p>
+<p>Wavelength range from 400nm to 700nm at 10nm steps (31 samples). The image matrix for each object is 31xWIDTHxHEIGHT. The images have been captured in a VeriVide viewing booth with a black cloth background under CIE illuminant D75. Each image has been captured twice: once with a white tile and once without. The illuminant has been estimated from the white tile and the spectral data divided by this estimate, in order to arrive at reflectance measurements. The images below are displayed sRGB values rendered under a neutral daylight (D65).</p>
+<img src="image-20200729100842353.png" alt="image-20200729100842353" style="zoom:33%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="http://personalpages.manchester.ac.uk/staff/david.foster/default.html">Manchester hyperspectral images Dataset<strong>s</strong></a></p>
+<p><strong>Visible Range MSI:</strong>  400, 410, …, 720 nm</p>
+<p>Multiple MSI datasets included:</p>
+<img src="image-20200729101027937.png" alt="image-20200729101027937" style="zoom:50%;" />
+
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://personalpages.manchester.ac.uk/staff/david.foster/Time-Lapse_HSIs/Time-Lapse_HSIs_2015.html">Time-Lapse Hyperspectral Radiance Images of Natural Scenes 2015</a></p>
+<img src="image-20200729101135099.png" alt="image-20200729101135099" style="zoom:33%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="https://personalpages.manchester.ac.uk/staff/david.foster/Local_Illumination_HSIs/Local_Illumination_HSIs_2015.html">Hyperspectral Images for Local Illumination in Natural Scenes 2015</a></p>
+<img src="image-20200729101232518.png" alt="image-20200729101232518" style="zoom:50%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="https://personalpages.manchester.ac.uk/staff/david.foster/Hyperspectral_images_of_natural_scenes_02.html">Hyperspectral Images of Natural Scenes 2002</a></p>
+<img src="image-20200729101343922.png" alt="image-20200729101343922" style="zoom:50%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="https://personalpages.manchester.ac.uk/staff/david.foster/Hyperspectral_images_of_natural_scenes_04.html">Hyperspectral Images of Natural Scenes 2004</a></p>
+<img src="image-20200729101441578.png" alt="image-20200729101441578" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://pythonhosted.org/bob.db.cbsr_nir_vis_2/">BOB NIR+VIS Face Database</a> [2013]</p>
+<p>It consists of 725 subjects in total. There are [1-22] VIS and [5-50] NIR face images per subject. The eyes positions are also distributed with the images.</p>
+<img src="database.png" alt="_images/database.png" style="zoom:33%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="http://icvl.cs.bgu.ac.il/hyperspectral/">ICVL hyperspectral database</a></p>
+</li>
+</ol>
+<p>   <strong>RGB+NIR Range MSI:</strong>  Images were collected at 1392×1300 spatial resolution over 519 spectral bands (<strong>400-1,000nm</strong> at roughly 1.25nm increments)</p>
+<p>   The database images were acquired using a Specim PS Kappa DX4 hyperspectral camera and a rotary stage for spatial scanning. At this time it contains 201 images and will continue to grow progressively. For your convenience, <strong>.mat</strong> files are provided, downsampled to 31 spectral channels from 400nm to 700nm at 10nm increments.</p>
+   <img src="image-20200729102126434.png" alt="image-20200729102126434" style="zoom:50%;" />
+
+<ol start="11">
+<li><p><a target="_blank" rel="noopener" href="http://colorimaginglab.ugr.es/pages/Data">University of Granada hyperspectral image database</a></p>
+<p><strong>RGB+NIR Range MSI:</strong> Most of the images have spatial resolution of 1000 × 900 pixels. The spectral range is from <strong>400 nm to 1000</strong> nm in 10 nm intervals, resulting in total 61 channels.</p>
+<img src="image-20200729102332515.png" alt="image-20200729102332515" style="zoom:50%;" /></li>
+<li><p><a target="_blank" rel="noopener" href="http://www.cs.cmu.edu/~ILIM/projects/IM/MSPowder/">SWIRPowder</a>: A 400-1700nm Multispectral Dataset with 100 Powders on Complex Backgrounds</p>
+<p><strong>SWIR(Multi)+RGB+NIR</strong></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/result.png" alt="img"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/illustration_1.png" alt="img"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.ok.sc.e.titech.ac.jp/res/MSI/MSIdata31.html">TokyoTech 31-band Hyperspectral Image Dataset</a> [2015]</p>
+<p><strong>Visible Range MSI:</strong> <strong>420nm to 720nm</strong></p>
+<p>Colorful objects with rich textures 30 scenes from 420nm to 720nm at 10nm intervals</p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/MSimage.png" alt="MSimage"></p>
+<p><img src="/2020/10/16/hsi-pre-data-collection/image-20200729094232057.png" alt="image-20200729094232057"></p>
+</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://jbthomas.org/TechReport/CIC-shortcourseSFA-2017.pdf">Spectral Filter Arrays Technology</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Infrared">Infrared WiKi</a></li>
+</ul>
+<h2 id="Electromagnetic-Wave-Classification"><a href="#Electromagnetic-Wave-Classification" class="headerlink" title="Electromagnetic Wave Classification"></a>Electromagnetic Wave Classification</h2><p> γ = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BC%BD%E9%A6%AC%E5%B0%84%E7%B7%9A">伽马射线</a><br><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/X%E5%B0%84%E7%B7%9A">X射线</a>：</strong><br>HX = 硬<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/X%E5%B0%84%E7%B7%9A">X射线</a><br>SX = 软X射线<br><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B4%AB%E5%A4%96%E7%B7%9A">紫外线</a>：</strong><br>EUV = 极端<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B4%AB%E5%A4%96%E7%B7%9A">紫外线</a><br>NUV = 近紫外线<br><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B4%85%E5%A4%96%E7%B7%9A">红外线</a>：</strong><br>NIR = 近<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B4%85%E5%A4%96%E7%B7%9A">红外线</a><br>MIR =中红外线<br>FIR = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%81%A0%E7%B4%85%E5%A4%96%E7%B7%9A">远红外线</a></p>
+<p>Typically we define near infrared (<em>NIR</em>) from 780 nm to 1400 nm and shortwave infrared (<em>SWIR</em>) from 1400 nm to 3000 nm.</p>
+<p><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BE%AE%E6%B3%A2">微波</a>：</strong><br>EHF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%A5%B5%E9%AB%98%E9%A0%BB">极高频</a><br>SHF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%B6%85%E9%AB%98%E9%A0%BB">超高频</a><br>UHF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%89%B9%E9%AB%98%E9%A0%BB">特高频</a><br><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%84%A1%E7%B7%9A%E9%9B%BB%E6%B3%A2">无线电波</a>：</strong><br>VHF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%94%9A%E9%AB%98%E9%A0%BB">甚高频</a><br>HF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%AB%98%E9%A0%BB">高频</a><br>MF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%A0%BB">中频</a><br>LF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BD%8E%E9%A0%BB">低频</a><br>VLF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%94%9A%E4%BD%8E%E9%A2%91">甚低频</a><br>ULF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%89%B9%E4%BD%8E%E9%A0%BB">特低频</a><br>ELF = <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%A5%B5%E4%BD%8E%E9%A0%BB">极低频</a></p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来点儿赏钱支持创作了解下？(◍•ᴗ•`◍)*＊</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Miracle Yoo WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Miracle Yoo Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/hsi/" rel="tag"># hsi</a>
+              <a href="/tags/data/" rel="tag"># data</a>
+              <a href="/tags/camera/" rel="tag"># camera</a>
+              <a href="/tags/optics/" rel="tag"># optics</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/05/cascade-recursive/" rel="prev" title="Cascade, Recursive, Residual and Dense 辨析">
+                  <i class="fa fa-chevron-left"></i> Cascade, Recursive, Residual and Dense 辨析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/11/pytorch-lightning/" rel="next" title="Pytorch Lighting 完全攻略">
+                  Pytorch Lighting 完全攻略 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">373k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">11:18</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "miracleyoo/utterances-repo");
+  script.setAttribute('issue-term', "pathname");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+</body>
+</html>

@@ -30,14 +30,14 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="Some Facts The output of face detector is not always the same, it can be a square, a rectangle, or an oval bounding box.  Most of the landmark detectors need to take in an square bounding box for the">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.miracleyoo.com/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/face-features/image-20200306140736438.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/face-features/figure_4_n_2.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/face-features/1*U4ZQ8UjzouVMRo2Fgsz7UA.png">
-<meta property="og:image" content="https://www.miracleyoo.com/face-features/300px-Eulerangles.svg.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/face-features/image-20200306134751864.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/image-20200306140736438.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/figure_4_n_2.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/1*U4ZQ8UjzouVMRo2Fgsz7UA.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/300px-Eulerangles.svg.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/image-20200306134751864.png">
 <meta property="article:published_time" content="2020-03-07T01:42:43.000Z">
-<meta property="article:modified_time" content="2020-03-07T01:42:43.040Z">
+<meta property="article:modified_time" content="2021-03-12T07:13:01.407Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="deep-learning">
@@ -49,7 +49,7 @@
 <meta property="article:tag" content="eye-blink">
 <meta property="article:tag" content="head-pose">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.miracleyoo.com/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/03/06/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2020/03/06/face-features/">
@@ -265,6 +265,13 @@
 
       <time title="Created: 2020-03-06 20:42:43" itemprop="dateCreated datePublished" datetime="2020-03-06T20:42:43-05:00">2020-03-06</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 02:13:01" itemprop="dateModified" datetime="2021-03-12T02:13:01-05:00">2021-03-12</time>
+      </span>
 
   
     <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -288,7 +295,7 @@
 <li>Most of the landmark detectors need to take in an square bounding box for the detection. </li>
 <li>Although the bounding box shape is different, they roughly have the same shape center. For the square and rectangle, they have the same bounding box center, and the edge length of the square box is roughly the same as the mean value of the two edge lengths of the rectangle. Here is a sample.</li>
 </ol>
-<p><img src="/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
+<p><img src="/2020/03/06/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
 <blockquote>
 <p>White: Dlib Result</p>
 <p>Green: RetinaFace Result</p>
@@ -377,7 +384,7 @@
 <li>Scale the input image to make sure the largest face short edge is smaller than 700, recommend around 500.</li>
 <li>Wait for the author to change or change the pyramid weights parameters. This is delicate and success is not guaranteed.</li>
 </ol>
-<img src="face-features/image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;" />
+<img src="image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;" />
 
 <h5 id="Other-Models"><a href="#Other-Models" class="headerlink" title="Other Models"></a>Other Models</h5><p>DFSD can behave well on both easy, medium and hard level of Wider Face dataset. The only drawback is that it is much too large and slow. Not to mention real-time, it is even too heavy for GPU prediction when the input is a video and we also need to predict other features.</p>
 <p>SFD has the similar problem as RetinaFace. It will also fail at big face cases. </p>
@@ -455,7 +462,7 @@
 <h5 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h5><ol>
 <li>The bounding box of 300-W dataset is not human labeled. It is the smallest rectangle which can accurately include every 68 points.</li>
 </ol>
-<img src="face-features/figure_4_n_2.png" alt="img" style="zoom:15%;" />
+<img src="figure_4_n_2.png" alt="img" style="zoom:15%;" />
 
 <h4 id="Researches-1"><a href="#Researches-1" class="headerlink" title="Researches"></a>Researches</h4><table>
 <thead>
@@ -621,12 +628,12 @@
 <li>A new “Robust-Eye-Blink” network is trained based on this new dataset, and after sufficient training, it can reach 99.7% at both train and test dataset.</li>
 </ol>
 <h3 id="Head-Pose"><a href="#Head-Pose" class="headerlink" title="Head Pose"></a>Head Pose</h3><h4 id="Calculation"><a href="#Calculation" class="headerlink" title="Calculation"></a>Calculation</h4><p>3D Facial Landmark -&gt; <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation matrix</a> -&gt; <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a> -&gt; <a target="_blank" rel="noopener" href="https://carsexplained.wordpress.com/2017/02/21/fundamentals-of-car-science-pitch-and-roll/">(yaw, pitch, roll)</a></p>
-<img src="face-features/1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;" />
+<img src="1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;" />
 
 <p>Visualization of yaw, pitch and roll: <a target="_blank" rel="noopener" href="http://www.ctralie.com/Teaching/COMPSCI290/Materials/EulerAnglesViz/">Link</a></p>
 <p><strong>Euler angles:</strong></p>
-<p><img src="/face-features/300px-Eulerangles.svg.png" alt="img"></p>
-<h5 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h5><img src="face-features/image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;" />
+<p><img src="/2020/03/06/face-features/300px-Eulerangles.svg.png" alt="img"></p>
+<h5 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h5><img src="image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;" />
 
 <p>Use the 3D landmark computed, and set the vector from 1 to 17 as the x axis, and 9 to 28 as the y axis, then the z axis is computed by set it perpendicular to both x and y, pointing out of front face.</p>
 <p>Now, the head pose detection part has been wrapped into a module, we can get the pose within one line.</p>

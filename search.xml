@@ -5742,7 +5742,7 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>pytorch-lightning</title>
+    <title>Pytorch Lighting 完全攻略</title>
     <url>/2021/03/11/pytorch-lightning/</url>
     <content><![CDATA[<h1 id="Pytorch-Lighting-完全攻略"><a href="#Pytorch-Lighting-完全攻略" class="headerlink" title="Pytorch Lighting 完全攻略"></a>Pytorch Lighting 完全攻略</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉它很重很难学，而且似乎自己也用不上。但是后面随着做的项目开始出现了一些稍微高阶的要求，我发现我总是不断地在相似工程代码上花费大量时间，Debug也是这些代码花的时间最多，而且渐渐产生了一个矛盾之处：如果想要更多更好的功能，如TensorBoard支持，Early Stop，LR Scheduler，分布式训练，快速测试等，代码就无可避免地变得越来越长，看起来也越来越乱，同时核心的训练逻辑也渐渐被这些工程代码盖过。那么有没有更好的解决方案，甚至能一键解决所有这些问题呢？</p>
 <span id="more"></span>

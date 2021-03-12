@@ -30,16 +30,16 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="Docker Images and Containers 清除所有已经停止的container：docker container prune -f 。其中 -f 表示不弹出确认提示。也可使用docker rm $(docker ps -a -q)来清理。其中，docker rm代表删除container，而docker rmi则是删除image。  如果你需要实例化一个只用一次的container">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/inner.png">
 <meta property="article:published_time" content="2020-04-26T21:56:52.000Z">
-<meta property="article:modified_time" content="2021-03-12T07:09:08.108Z">
+<meta property="article:modified_time" content="2021-03-12T08:04:41.088Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="deep-learning">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="nvidia">
 <meta property="article:tag" content="gpu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/inner.png">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/">
@@ -260,7 +260,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:09:08" itemprop="dateModified" datetime="2021-03-12T02:09:08-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 03:04:41" itemprop="dateModified" datetime="2021-03-12T03:04:41-05:00">2021-03-12</time>
       </span>
 
   
@@ -363,7 +363,7 @@
 <li><p>先放<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker">链接</a>。这里是Nvidia Docker的Github仓库。</p>
 </li>
 <li><p>再说作用。若想在Docker中运行GPU程序，则普通的Docker是做不到的，程序无法默认在Docker中使用GPU计算资源；另一方面，如果本地已经安装了某个版本的CUDA，但目标程序需要依赖另一个版本，这也是非常麻烦的。而Nvidia Docker的出现则很好解决了这个问题。它相当于在Docker的下面塞进了一层CUDA层，介于Container和OS之间。</p>
-<p><img src="/2020/04/26/docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png" alt="Nvidia Docker 原理图"></p>
+<p><img src="/2020/04/26/docker-et-nvidia/inner.png" alt="Nvidia Docker 原理图"></p>
 </li>
 <li><p>然后是安装。</p>
 <ol>
@@ -543,6 +543,39 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '/%5Bobject%20Object%5D';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
 
 
 

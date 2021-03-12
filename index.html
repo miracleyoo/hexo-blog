@@ -1185,7 +1185,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:09:08" itemprop="dateModified" datetime="2021-03-12T02:09:08-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 03:04:41" itemprop="dateModified" datetime="2021-03-12T03:04:41-05:00">2021-03-12</time>
       </span>
 
   
@@ -1281,7 +1281,7 @@
 <li><p>先放<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker">链接</a>。这里是Nvidia Docker的Github仓库。</p>
 </li>
 <li><p>再说作用。若想在Docker中运行GPU程序，则普通的Docker是做不到的，程序无法默认在Docker中使用GPU计算资源；另一方面，如果本地已经安装了某个版本的CUDA，但目标程序需要依赖另一个版本，这也是非常麻烦的。而Nvidia Docker的出现则很好解决了这个问题。它相当于在Docker的下面塞进了一层CUDA层，介于Container和OS之间。</p>
-<p><img src="/2020/04/26/docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png" alt="Nvidia Docker 原理图"></p>
+<p><img src="/2020/04/26/docker-et-nvidia/inner.png" alt="Nvidia Docker 原理图"></p>
 </li>
 <li><p>然后是安装。</p>
 <ol>
@@ -2458,6 +2458,39 @@
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '/%5Bobject%20Object%5D';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
 
 
 

@@ -23,15 +23,15 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="2018.3.18 刚哥指导 后续的清洗数据工作： 先用正则匹配将唯一能匹配到knowledge中的某个pattern的问题自动打上标签 然后判断是否属于某些较大且正确率较高的主问题，如果结果正确，直接打上标签 把余下的归属于某些小问题的log分配给人工打   用最短的时间完成DSSM的模型搭建工作，并给出测试结果 要尽快给出一个可信的1w条左右的测试集，要求分布均衡，每一类都要4个问题左右，并且">
+<meta name="description" content="2018.3.18 刚哥指导 后续的清洗数据工作： 先用正则匹配将唯一能匹配到knowledge中的某个pattern的问题自动打上标签 然后判断是否属于某些较大且正确率较高的主问题，如果结果正确，直接打上标签 把余下的归属于某些小问题的log分配给人工打">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018.3.18 刚哥指导">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/03/19/2018318-gangge/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="2018.3.18 刚哥指导 后续的清洗数据工作： 先用正则匹配将唯一能匹配到knowledge中的某个pattern的问题自动打上标签 然后判断是否属于某些较大且正确率较高的主问题，如果结果正确，直接打上标签 把余下的归属于某些小问题的log分配给人工打   用最短的时间完成DSSM的模型搭建工作，并给出测试结果 要尽快给出一个可信的1w条左右的测试集，要求分布均衡，每一类都要4个问题左右，并且">
+<meta property="og:description" content="2018.3.18 刚哥指导 后续的清洗数据工作： 先用正则匹配将唯一能匹配到knowledge中的某个pattern的问题自动打上标签 然后判断是否属于某些较大且正确率较高的主问题，如果结果正确，直接打上标签 把余下的归属于某些小问题的log分配给人工打">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-03-19T19:06:56.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:43:40.520Z">
+<meta property="article:modified_time" content="2021-03-12T09:13:30.338Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="deep-learning">
@@ -257,7 +257,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:43:40" itemprop="dateModified" datetime="2019-10-03T22:43:40-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:13:30" itemprop="dateModified" datetime="2021-03-12T04:13:30-05:00">2021-03-12</time>
       </span>
 
   
@@ -299,7 +299,7 @@
 <li>然后判断是否属于某些较大且正确率较高的主问题，如果结果正确，直接打上标签</li>
 <li>把余下的归属于某些小问题的log分配给人工打</li>
 </ol>
-</li>
+<span id="more"></span></li>
 <li>用最短的时间完成DSSM的模型搭建工作，并给出测试结果</li>
 <li>要尽快给出一个可信的1w条左右的测试集，要求分布均衡，每一类都要4个问题左右，并且由人工挑选保证无误</li>
 <li>（Triplet Loss）可以考虑使用MQ1Q2这样的一个主问题两个log这样的方式，当Q1属于某个主问题而Q2不属于时，满足下式：||f(M1)-f(Q1)||&lt;||f(M1)-f(Q2)||，用这样的方法来3个3个的训练</li>
@@ -425,7 +425,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

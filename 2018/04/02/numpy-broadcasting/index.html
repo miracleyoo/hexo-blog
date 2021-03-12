@@ -31,7 +31,7 @@
 <meta property="og:description" content="首先先强调一点很容易混淆的点：  一个shape为(4,)的np.array其实是一行！！一行4列！！而不是4行每行1个元素！！ 上面说的这个👆array假设叫x，那么想把x加到一个shape为(9,4)的matrix上是可以直接加的，如果想要把x加到一个shape为(4,9)的matrix上要先转置！而且不能直接转置，因为一个array的转置的形状是不会变的。。正确做法是：先把x变成一个数组，">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-04-03T03:38:19.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:07:20.480Z">
+<meta property="article:modified_time" content="2021-03-12T09:10:19.166Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="machine-learning">
@@ -257,7 +257,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:10:19" itemprop="dateModified" datetime="2021-03-12T04:10:19-05:00">2021-03-12</time>
       </span>
 
   
@@ -300,6 +300,8 @@
 </ul>
 </blockquote>
 <p>在我们所以Numpy的过程中，常常会有大量的矩阵数组需要运算，但是不同类型的Numpy怎样进行加减乘除呢？这就要用到我们Numpy的广播。</p>
+<span id="more"></span>
+
 <h2 id="快速入门Numpy广播"><a href="#快速入门Numpy广播" class="headerlink" title="快速入门Numpy广播"></a>快速入门Numpy广播</h2><p>Numpy的广播既是在2个不同的矩阵运算过程中，Numpy将较小的数组拉伸成较大数组的形状(shape)，然后<strong>Numpy加减乘除不同矩阵的加减乘除运算</strong>，好的没我们来看一下一个例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; np.array([3.0, 4.0, 5.0, 6.0])</span><br><span class="line">b &#x3D; np.array([3.0, 4.0])</span><br><span class="line">print a * b</span><br></pre></td></tr></table></figure>
 
@@ -447,7 +449,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

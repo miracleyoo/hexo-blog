@@ -31,7 +31,7 @@
 <meta property="og:description" content="今天和同学讨论的时候发现这个地方知识存在漏洞，赶紧补了一波。问题就是optimizer.step() 和 loss.backward()这两个总是出现在一起的两个pytorch函数各自执行的功能。 简单的说， loss.backward()根据这一轮的loss计算出了网络中所有需要计算的导数 optimizer.step()根据你选择的优化器，使用上面👆loss.backward()计算出的各个">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-04-11T04:45:42.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:07:20.160Z">
+<meta property="article:modified_time" content="2021-03-12T09:03:26.576Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="pytorch">
@@ -256,7 +256,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:03:26" itemprop="dateModified" datetime="2021-03-12T04:03:26-05:00">2021-03-12</time>
       </span>
 
   
@@ -297,6 +297,8 @@
 <li>loss.backward()根据这一轮的loss计算出了网络中所有需要计算的导数</li>
 <li>optimizer.step()根据你选择的优化器，使用上面👆loss.backward()计算出的各个导数更新了网络中的各个权值</li>
 </ul>
+<span id="more"></span>
+
 <h2 id="以下为论坛原文："><a href="#以下为论坛原文：" class="headerlink" title="以下为论坛原文："></a>以下为论坛原文：</h2><p><code>loss.backward()</code> computes <code>dloss/dx</code> for every parameter <code>x</code> which has <code>requires_grad=True</code>. These are accumulated into <code>x.grad</code> for every parameter <code>x</code>. In pseudo-code:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.grad +&#x3D; dloss&#x2F;dx</span><br></pre></td></tr></table></figure>
 
@@ -422,7 +424,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

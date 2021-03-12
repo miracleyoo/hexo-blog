@@ -248,7 +248,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:21" itemprop="dateModified" datetime="2019-10-03T22:06:21-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:11:35" itemprop="dateModified" datetime="2021-03-12T04:11:35-05:00">2021-03-12</time>
       </span>
 
   
@@ -278,70 +278,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。</p>
-<h2 id="先祭上自己的代码实现"><a href="#先祭上自己的代码实现" class="headerlink" title="先祭上自己的代码实现"></a>先祭上自己的代码实现</h2><h4 id="定义部分"><a href="#定义部分" class="headerlink" title="定义部分"></a>定义部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_models</span>(<span class="params">opt, net, epoch, train_loss, best_loss, test_loss</span>):</span></span><br><span class="line">    <span class="comment"># Save a temp model</span></span><br><span class="line">    train_loss = <span class="built_in">float</span>(train_loss)</span><br><span class="line">    best_loss = <span class="built_in">float</span>(best_loss)</span><br><span class="line">    test_loss = <span class="built_in">float</span>(test_loss)</span><br><span class="line">    <span class="keyword">if</span> opt.SAVE_TEMP_MODEL:</span><br><span class="line">        net.save(epoch, train_loss / opt.NUM_TRAIN, <span class="string">&quot;temp_model.dat&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Save the best model</span></span><br><span class="line">    <span class="keyword">if</span> test_loss / opt.NUM_TEST &lt; best_loss:</span><br><span class="line">        best_loss = test_loss / opt.NUM_TEST</span><br><span class="line">        net.save(epoch, train_loss / opt.NUM_TRAIN, <span class="string">&quot;best_model.dat&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> best_loss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>(<span class="params">threading.Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, opt, net, epoch, train_loss, best_loss, test_loss</span>):</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.opt = opt</span><br><span class="line">        self.net = net</span><br><span class="line">        self.epoch = epoch</span><br><span class="line">        self.train_loss = train_loss</span><br><span class="line">        self.best_loss = best_loss</span><br><span class="line">        self.test_loss = test_loss</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.best_loss = save_models(self.opt, self.net, self.epoch, self.train_loss, self.best_loss, self.test_loss)</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            lock.release()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="调用部分"><a href="#调用部分" class="headerlink" title="调用部分"></a>调用部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">threads = []</span><br><span class="line"><span class="keyword">if</span> epoch &gt; <span class="number">0</span>:</span><br><span class="line">    threads[epoch-<span class="number">1</span>].join()</span><br><span class="line">    best_loss_temp = threads[epoch-<span class="number">1</span>].best_loss</span><br><span class="line">    <span class="keyword">if</span> best_loss_temp != best_loss:</span><br><span class="line">        print(<span class="string">&quot;==&gt; Best Model Renewed.&quot;</span>)</span><br><span class="line">        best_loss = best_loss_temp</span><br><span class="line">        threads.append(MyThread(opt, net, epoch, train_loss, best_loss, test_loss))</span><br><span class="line">        threads[epoch].start()</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="再引用一下廖雪峰的部分教程："><a href="#再引用一下廖雪峰的部分教程：" class="headerlink" title="再引用一下廖雪峰的部分教程："></a>再引用一下<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">廖雪峰</a>的部分<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/00143192823818768cd506abbc94eb5916192364506fa5d000">教程</a>：</h2><p>多任务可以由多进程完成，也可以由一个进程内的多线程完成。</p>
-<p>我们前面提到了进程是由若干线程组成的，一个进程至少有一个线程。</p>
-<p>由于线程是操作系统直接支持的执行单元，因此，高级语言通常都内置多线程的支持，Python也不例外，并且，Python的线程是真正的Posix Thread，而不是模拟出来的线程。</p>
-<p>Python的标准库提供了两个模块：<code>_thread</code>和<code>threading</code>，<code>_thread</code>是低级模块，<code>threading</code>是高级模块，对<code>_thread</code>进行了封装。绝大多数情况下，我们只需要使用<code>threading</code>这个高级模块。</p>
-<p>启动一个线程就是把一个函数传入并创建<code>Thread</code>实例，然后调用<code>start()</code>开始执行：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time, threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新线程执行的代码:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span>():</span></span><br><span class="line">    print(<span class="string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name)</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">        print(<span class="string">&#x27;thread %s &gt;&gt;&gt; %s&#x27;</span> % (threading.current_thread().name, n))</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name)</span><br><span class="line">t = threading.Thread(target=loop, name=<span class="string">&#x27;LoopThread&#x27;</span>)</span><br><span class="line">t.start()</span><br><span class="line">t.join()</span><br><span class="line">print(<span class="string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name)</span><br></pre></td></tr></table></figure>
-
-<p>执行结果如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">thread MainThread <span class="keyword">is</span> running...</span><br><span class="line">thread LoopThread <span class="keyword">is</span> running...</span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">1</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">2</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">3</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">4</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">5</span></span><br><span class="line">thread LoopThread ended.</span><br><span class="line">thread MainThread ended.</span><br></pre></td></tr></table></figure>
-
-<p>由于任何进程默认就会启动一个线程，我们把该线程称为主线程，主线程又可以启动新的线程，Python的<code>threading</code>模块有个<code>current_thread()</code>函数，它永远返回当前线程的实例。主线程实例的名字叫<code>MainThread</code>，子线程的名字在创建时指定，我们用<code>LoopThread</code>命名子线程。名字仅仅在打印时用来显示，完全没有其他意义，如果不起名字Python就自动给线程命名为<code>Thread-1</code>，<code>Thread-2</code>……</p>
-<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><p>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，所以，任何一个变量都可以被任何一个线程修改，因此，线程之间共享数据最大的危险在于多个线程同时改一个变量，把内容给改乱了。</p>
-<p>如果我们要确保<code>balance</code>计算正确，就要给<code>change_it()</code>上一把锁，当某个线程开始执行<code>change_it()</code>时，我们说，该线程因为获得了锁，因此其他线程不能同时执行<code>change_it()</code>，只能等待，直到锁被释放后，获得该锁以后才能改。由于锁只有一个，无论多少线程，同一时刻最多只有一个线程持有该锁，所以，不会造成修改的冲突。创建一个锁就是通过<code>threading.Lock()</code>来实现：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">balance = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_thread</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100000</span>):</span><br><span class="line">        <span class="comment"># 先要获取锁:</span></span><br><span class="line">        lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 放心地改吧:</span></span><br><span class="line">            change_it(n)</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="comment"># 改完了一定要释放锁:</span></span><br><span class="line">            lock.release()</span><br></pre></td></tr></table></figure>
-
-<p>当多个线程同时执行<code>lock.acquire()</code>时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。</p>
-<p>获得锁的线程用完后一定要释放锁，否则那些苦苦等待锁的线程将永远等待下去，成为死线程。所以我们用<code>try...finally</code>来确保锁一定会被释放。</p>
-<p>锁的好处就是确保了某段关键代码只能由一个线程从头到尾完整地执行，坏处当然也很多，首先是阻止了多线程并发执行，包含锁的某段代码实际上只能以单线程模式执行，效率就大大地下降了。其次，由于可以存在多个锁，不同的线程持有不同的锁，并试图获取对方持有的锁时，可能会造成死锁，导致多个线程全部挂起，既不能执行，也无法结束，只能靠操作系统强制终止。</p>
-<h3 id="多核CPU"><a href="#多核CPU" class="headerlink" title="多核CPU"></a>多核CPU</h3><p>如果你不幸拥有一个多核CPU，你肯定在想，多核应该可以同时执行多个线程。</p>
-<p>如果写一个死循环的话，会出现什么情况呢？</p>
-<p>打开Mac OS X的Activity Monitor，或者Windows的Task Manager，都可以监控某个进程的CPU使用率。</p>
-<p>我们可以监控到一个死循环线程会100%占用一个CPU。</p>
-<p>如果有两个死循环线程，在多核CPU中，可以监控到会占用200%的CPU，也就是占用两个CPU核心。</p>
-<p>要想把N核CPU的核心全部跑满，就必须启动N个死循环线程。</p>
-<p>试试用Python写个死循环：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading, multiprocessing</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span>():</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        x = x ^ <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(multiprocessing.cpu_count()):</span><br><span class="line">    t = threading.Thread(target=loop)</span><br><span class="line">    t.start()</span><br></pre></td></tr></table></figure>
-
-<p>启动与CPU核心数量相同的N个线程，在4核CPU上可以监控到CPU占用率仅有102%，也就是仅使用了一核。</p>
-<p>但是用C、C++或Java来改写相同的死循环，直接可以把全部核心跑满，4核就跑到400%，8核就跑到800%，为什么Python不行呢？</p>
-<p>因为Python的线程虽然是真正的线程，但解释器执行代码时，有一个GIL锁：Global Interpreter Lock，任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让别的线程有机会执行。这个GIL全局锁实际上把所有线程的执行代码都给上了锁，所以，多线程在Python中只能交替执行，即使100个线程跑在100核CPU上，也只能用到1个核。</p>
-<p>GIL是Python解释器设计的历史遗留问题，通常我们用的解释器是官方实现的CPython，要真正利用多核，除非重写一个不带GIL的解释器。</p>
-<p>所以，在Python中，可以使用多线程，但不要指望能有效利用多核。如果一定要通过多线程利用多核，那只能通过C扩展来实现，不过这样就失去了Python简单易用的特点。</p>
-<p>不过，也不用过于担心，Python虽然不能利用多线程实现多核任务，但可以通过多进程实现多核任务。多个Python进程有各自独立的GIL锁，互不影响。</p>
-<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>在多线程环境下，每个线程都有自己的数据。一个线程使用自己的局部变量比使用全局变量好，因为局部变量只有线程自己能看见，不会影响其他线程，而全局变量的修改必须加锁。</p>
-<p>但是局部变量也有问题，就是在函数调用的时候，传递起来很麻烦：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_student</span>(<span class="params">name</span>):</span></span><br><span class="line">    std = Student(name)</span><br><span class="line">    <span class="comment"># std是局部变量，但是每个函数都要用它，因此必须传进去：</span></span><br><span class="line">    do_task_1(std)</span><br><span class="line">    do_task_2(std)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_1</span>(<span class="params">std</span>):</span></span><br><span class="line">    do_subtask_1(std)</span><br><span class="line">    do_subtask_2(std)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_2</span>(<span class="params">std</span>):</span></span><br><span class="line">    do_subtask_2(std)</span><br><span class="line">    do_subtask_2(std)</span><br></pre></td></tr></table></figure>
-
-<p>每个函数一层一层调用都这么传参数那还得了？用全局变量？也不行，因为每个线程处理不同的<code>Student</code>对象，不能共享。</p>
-<p>如果用一个全局<code>dict</code>存放所有的<code>Student</code>对象，然后以<code>thread</code>自身作为<code>key</code>获得线程对应的<code>Student</code>对象如何？</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">global_dict = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">std_thread</span>(<span class="params">name</span>):</span></span><br><span class="line">    std = Student(name)</span><br><span class="line">    <span class="comment"># 把std放到全局变量global_dict中：</span></span><br><span class="line">    global_dict[threading.current_thread()] = std</span><br><span class="line">    do_task_1()</span><br><span class="line">    do_task_2()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_1</span>():</span></span><br><span class="line">    <span class="comment"># 不传入std，而是根据当前线程查找：</span></span><br><span class="line">    std = global_dict[threading.current_thread()]</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_2</span>():</span></span><br><span class="line">    <span class="comment"># 任何函数都可以查找出当前线程的std变量：</span></span><br><span class="line">    std = global_dict[threading.current_thread()]</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-
-<p>这种方式理论上是可行的，它最大的优点是消除了<code>std</code>对象在每层函数中的传递问题，但是，每个函数获取<code>std</code>的代码有点丑。</p>
-<p>有没有更简单的方式？</p>
-<p><code>ThreadLocal</code>应运而生，不用查找<code>dict</code>，<code>ThreadLocal</code>帮你自动做这件事：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建全局ThreadLocal对象:</span></span><br><span class="line">local_school = threading.local()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_student</span>():</span></span><br><span class="line">    <span class="comment"># 获取当前线程关联的student:</span></span><br><span class="line">    std = local_school.student</span><br><span class="line">    print(<span class="string">&#x27;Hello, %s (in %s)&#x27;</span> % (std, threading.current_thread().name))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_thread</span>(<span class="params">name</span>):</span></span><br><span class="line">    <span class="comment"># 绑定ThreadLocal的student:</span></span><br><span class="line">    local_school.student = name</span><br><span class="line">    process_student()</span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target= process_thread, args=(<span class="string">&#x27;Alice&#x27;</span>,), name=<span class="string">&#x27;Thread-A&#x27;</span>)</span><br><span class="line">t2 = threading.Thread(target= process_thread, args=(<span class="string">&#x27;Bob&#x27;</span>,), name=<span class="string">&#x27;Thread-B&#x27;</span>)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.join()</span><br><span class="line">t2.join()</span><br></pre></td></tr></table></figure>
-
-<p>执行结果：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello, Alice (<span class="keyword">in</span> Thread-A)</span><br><span class="line">Hello, Bob (<span class="keyword">in</span> Thread-B)</span><br></pre></td></tr></table></figure>
-
-<p>全局变量<code>local_school</code>就是一个<code>ThreadLocal</code>对象，每个<code>Thread</code>对它都可以读写<code>student</code>属性，但互不影响。你可以把<code>local_school</code>看成全局变量，但每个属性如<code>local_school.student</code>都是线程的局部变量，可以任意读写而互不干扰，也不用管理锁的问题，<code>ThreadLocal</code>内部会处理。</p>
-<p>可以理解为全局变量<code>local_school</code>是一个<code>dict</code>，不但可以用<code>local_school.student</code>，还可以绑定其他变量，如<code>local_school.teacher</code>等等。</p>
-<p><code>ThreadLocal</code>最常用的地方就是为每个线程绑定一个数据库连接，HTTP请求，用户身份信息等，这样一个线程的所有调用到的处理函数都可以非常方便地访问这些资源。</p>
-<h2 id="Python如何从线程中返回值"><a href="#Python如何从线程中返回值" class="headerlink" title="Python如何从线程中返回值"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21458868">Python如何从线程中返回值</a></h2><p>Python 从多线程中返回值，有多种方法：</p>
-<p>1、常见的有写一个自己的多线程类，写一个方法返回。</p>
-<p>2、可以设置一个全局的队列返回值。</p>
-<p>3、也可以用multiprocessing.pool.ThreadPool 。</p>
-<p>下面黄哥写一个类从线程中返回值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">number</span>):</span></span><br><span class="line">    time.sleep(<span class="number">20</span>)</span><br><span class="line">    <span class="keyword">return</span> number</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number</span>):</span></span><br><span class="line">        Thread.__init__(self)</span><br><span class="line">        self.number = number</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.result = foo(self.number)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_result</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">thd1 = MyThread(<span class="number">3</span>)</span><br><span class="line">thd2 = MyThread(<span class="number">5</span>)</span><br><span class="line">thd1.start()</span><br><span class="line">thd2.start()</span><br><span class="line">thd1.join()</span><br><span class="line">thd2.join()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> thd1.get_result()</span><br><span class="line"><span class="built_in">print</span> thd2.get_result()</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/22/python-parallel-programming/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -398,7 +342,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:25" itemprop="dateModified" datetime="2019-10-03T22:07:25-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:04:20" itemprop="dateModified" datetime="2021-03-12T04:04:20-05:00">2021-03-12</time>
       </span>
 
   
@@ -433,15 +377,14 @@
 <li><p>正常定义并实例化模型和Dataloader</p>
 </li>
 <li><p>如果检测到的GPU多于一块，将模型并行化：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">  print(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">  model = nn.DataParallel(model)</span><br></pre></td></tr></table></figure></li>
-<li><p>将模型部署到相应的设备上：<code>model.to(device)</code></p>
-</li>
-<li><p>运行模型（循环中将Input数据也加载到相应设备上）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> rand_loader:</span><br><span class="line">    <span class="built_in">input</span> = data.to(device)</span><br><span class="line">    output = model(<span class="built_in">input</span>)</span><br><span class="line">    print(<span class="string">&quot;Outside: input size&quot;</span>, <span class="built_in">input</span>.size(),</span><br><span class="line">          <span class="string">&quot;output_size&quot;</span>, output.size())</span><br></pre></td></tr></table></figure></li>
-<li><p>得到结果：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">10</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">10</span>, <span class="number">2</span>])</span><br></pre></td></tr></table></figure></li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/22/data-parallelism/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -498,7 +441,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:08:29" itemprop="dateModified" datetime="2021-03-12T04:08:29-05:00">2021-03-12</time>
       </span>
 
   
@@ -528,33 +471,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h3 id="开篇名义，先把普遍的神经网络层的排布顺序展示出来："><a href="#开篇名义，先把普遍的神经网络层的排布顺序展示出来：" class="headerlink" title="开篇名义，先把普遍的神经网络层的排布顺序展示出来："></a>开篇名义，先把普遍的神经网络层的排布顺序展示出来：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Enter: Convlution -&gt; Batch Normalization -&gt; Relu -&gt; Max Pool</span><br><span class="line">Middle: Convlution -&gt; Batch Normalization -&gt; Relu</span><br><span class="line">Middle Complicated: -&gt; CONV&#x2F;FC -&gt; BatchNorm -&gt; ReLu(or other activation) -&gt; Dropout -&gt; CONV&#x2F;FC -&gt;</span><br><span class="line">Tail: Max Pool -&gt; View -&gt; (Dropout) -&gt; Fc</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="关于-Max-Pool-和-Relu-的相对位置"><a href="#关于-Max-Pool-和-Relu-的相对位置" class="headerlink" title="关于 Max Pool 和 Relu 的相对位置"></a>关于 Max Pool 和 Relu 的相对位置</h3><blockquote>
-<p>If you consider the final result, both orders [conv -&gt; relu -&gt; max pooling] and [conv -&gt; max pooling -&gt; relu] will have the same outputs. But if you compare the running time of 2 ways there will be a difference.</p>
-<p>To simplify the problem, just ignore layer convolution layer because it is the same in both cases.</p>
-<p>Relu layer don’t change the size of the input. Let assume we use max pooling 2x2, so the size of input will be reduce by 2 in height and width when apply max poling layer ( [w, h, d] -&gt; max_pooling_2x2 -&gt; [w/2, h/2, d]).</p>
-<p><strong>In case 1</strong> we using relu -&gt; max pooling the size of data will be:</p>
-<p><strong>image[w, h, d] -&gt; [[relu]]</strong> -&gt;<em>image[w, h, d]-&gt;[[max pooling]]</em> -&gt; image[w/2, h/2, d]</p>
-<p><strong>In case 2</strong> we using max pooling -&gt; relu the size of data will be:</p>
-<p><em>image[w, h, d] -&gt;[[max pooling]]</em> -&gt; <strong>image[w/2, h/2, d]-&gt; [[relu]]</strong> -&gt; image[w/2, h/2, d]</p>
-<p><strong>image[w, h, d] -&gt; [[relu]]</strong> vs <strong>image[w/2, h/2, d]-&gt; [[relu]] :</strong> case 2 save 4 time computational cost than case 1 in layer [[relu]] by using max pooling before relu.</p>
-<p>In conclusion, you can save a lot of running time if you put max pooling before the non-linear layers like relu or sigmoid.</p>
-</blockquote>
-<h3 id="关于-Max-Pool-和-Dropout-的相对位置"><a href="#关于-Max-Pool-和-Dropout-的相对位置" class="headerlink" title="关于 Max Pool 和 Dropout 的相对位置"></a>关于 Max Pool 和 Dropout 的相对位置</h3><blockquote>
-<p><strong>Edit:</strong> As @Toke Faurby correctly pointed out, the default implementation in tensorflow actually uses an element-wise dropout. What I described earlier applies to a specific variant of dropout in CNNs, called <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1411.4280.pdf">spatial dropout</a>:</p>
-<p>In a CNN, each neuron produces one feature map. Since <del>dropout</del> <strong>spatial dropout</strong> works per-neuron, dropping a neuron means that the corresponding feature map is dropped - e.g. each position has the same value (usually 0). So each feature map is either fully dropped or not dropped at all. </p>
-<p>Pooling usually operates separately on each feature map, so it should not make any difference if you apply dropout before or after pooling. At least this is the case for pooling operations like maxpooling or averaging.</p>
-<p><strong>Edit:</strong> However, if you actually use <strong>element-wise</strong> dropout (which seems to be set as default for tensorflow), it actually makes a difference if you apply dropout before or after pooling. However, there is not necessarily a <em>wrong</em> way of doing it. Consider the average pooling operation: if you apply dropout before pooling, you effectively scale the resulting neuron activations by <code>1.0 - dropout_probability</code>, but most neurons will be non-zero (in general). If you apply dropout after average pooling, you generally end up with a fraction of <code>(1.0 - dropout_probability)</code> non-zero “unscaled” neuron activations and a fraction of <code>dropout_probability</code> zero neurons. Both seems viable to me, neither is outright wrong.</p>
-</blockquote>
-<h3 id="关于-BN-和-Dropout-的相对位置"><a href="#关于-BN-和-Dropout-的相对位置" class="headerlink" title="关于 BN 和 Dropout 的相对位置"></a>关于 BN 和 Dropout 的相对位置</h3><blockquote>
-<p>In the <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1502.03167.pdf">Ioffe and Szegedy 2015</a>, the authors state that “we would like to ensure that for any parameter values, the network always produces activations with the desired distribution”. So the Batch Normalization Layer is actually inserted right after a Conv Layer/Fully Connected Layer, but before feeding into ReLu (or any other kinds of) activation. See <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jhUZ800C650&index=5&list=PLLvH2FwAQhnpj1WEB-jHmPuUeQ8mX-XXG">this video</a> at around time 53 min for more details.</p>
-<p>As far as dropout goes, I believe dropout is applied after activation layer. In the <a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">dropout paper</a> figure 3b, the dropout factor/probability matrix r(l) for hidden layer l is applied to it on y(l), where y(l) is the result after applying activation function f. </p>
-<p>So in summary, the order of using batch normalization and dropout is:</p>
-<p>-&gt; CONV/FC -&gt; BatchNorm -&gt; ReLu(or other activation) -&gt; Dropout -&gt; CONV/FC -&gt;</p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/21/layer-order/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -611,7 +535,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:10:03" itemprop="dateModified" datetime="2021-03-12T04:10:03-05:00">2021-03-12</time>
       </span>
 
   
@@ -643,7 +567,14 @@
           <h1 id="Python-namedtuple使用详解"><a href="#Python-namedtuple使用详解" class="headerlink" title="Python namedtuple使用详解"></a>Python namedtuple使用详解</h1><p>本文转载至：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kongxx/article/details/51553362">链接</a></p>
 <p>namedtuple是继承自tuple的子类。namedtuple创建一个和tuple类似的对象，而且对象拥有可访问的属性。</p>
 <p>下面看个例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个namedtuple类型User，并包含name，sex和age属性。</span></span><br><span class="line">User = namedtuple(<span class="string">&#x27;User&#x27;</span>, [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>, <span class="string">&#x27;age&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个User对象</span></span><br><span class="line">user = User(name=<span class="string">&#x27;kongxx&#x27;</span>, sex=<span class="string">&#x27;male&#x27;</span>, age=<span class="number">21</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以通过一个list来创建一个User对象，这里注意需要使用&quot;_make&quot;方法</span></span><br><span class="line">user = User._make([<span class="string">&#x27;kongxx&#x27;</span>, <span class="string">&#x27;male&#x27;</span>, <span class="number">21</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> user</span><br><span class="line"><span class="comment"># User(name=&#x27;user1&#x27;, sex=&#x27;male&#x27;, age=21)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户的属性</span></span><br><span class="line"><span class="built_in">print</span> user.name</span><br><span class="line"><span class="built_in">print</span> user.sex</span><br><span class="line"><span class="built_in">print</span> user.age</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改对象属性，注意要使用&quot;_replace&quot;方法</span></span><br><span class="line">user = user._replace(age=<span class="number">22</span>)</span><br><span class="line"><span class="built_in">print</span> user</span><br><span class="line"><span class="comment"># User(name=&#x27;user1&#x27;, sex=&#x27;male&#x27;, age=21)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将User对象转换成字典，注意要使用&quot;_asdict&quot;</span></span><br><span class="line"><span class="built_in">print</span> user._asdict()</span><br><span class="line"><span class="comment"># OrderedDict([(&#x27;name&#x27;, &#x27;kongxx&#x27;), (&#x27;sex&#x27;, &#x27;male&#x27;), (&#x27;age&#x27;, 22)])</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/19/namedtuple/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -700,7 +631,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 23:03:43" itemprop="dateModified" datetime="2019-10-03T23:03:43-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:08:40" itemprop="dateModified" datetime="2021-03-12T04:08:40-05:00">2021-03-12</time>
       </span>
 
   
@@ -730,38 +661,15 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="主要方向"><a href="#主要方向" class="headerlink" title="主要方向"></a>主要方向</h2><ol>
-<li>自行组装一台GPU Linux机器。网上许多教程都是教人如何DIY的。这种方案的优点是不但便宜不少，而且还可以从中学习到很多相关知识，如果您有这个需求，并且也有时间、想学习相关内容，或是对价格比较敏感，DIY是一个相对较好的选择。但是缺点也是存在的。首先是售后服务问题，一旦机器出了故障，维修可能会相对比较麻烦，尤其是在您自身也对此不是很专业的情况下。另外是自行DIY可能会产生搭配不合理的问题，比如选用了散热性能不足的器材、最大功率不足的电源等，这些都会为您未来的使用带来隐患。</li>
-<li>在各大购物网站上购买组装完成的“深度学习机器”。这种机器的缺点是贵，优点是真心方便而且相对来说会更有保障。尤其是在比较负责的平台上购买的机器可以得到贴心的售后服务，而且机子的各个部分都经过专业人士的挑选，质量相对有保障，不会轻易发生电源线起火、散热不足导致GPU故障等问题（相对的）。另外值得一提的是，现在市面上卖的“深度学习机器”往往还预装好了Linux系统和诸如TensorFlow、Pytorch等主流框架、Anaconda以及CUDA等驱动。如果您所在的团队中没有对机器配置十分了解的成员，并不愿意花费这个时间成本去学习相关知识，这种现成的专用机其实是一个很好的选择。</li>
-</ol>
-<h2 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h2><p>这篇博客中我不会自行详细分析如何组装，而是一篇调研，所以会附上我参考过的各个信息源，并在文末贴出英文PPT。</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://nicholasyuan.com/deeplearning/2016/10/07/buy-computer.html">深度学习攒机小记 by nicholas</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.52nlp.cn/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%BB%E6%9C%BA%E6%94%92%E6%9C%BA%E5%B0%8F%E8%AE%B0">深度学习主机攒机小记</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.52nlp.cn/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%BB%E6%9C%BA%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-ubuntu16-04-geforce-gtx1080-tensorflow">深度学习主机环境配置: Ubuntu16.04+GeForce GTX 1080+TensorFlow</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/33996159/answer/157949879">如何配置一台适用于深度学习的工作站</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/111PwO4C4Clh16nUaAKACx46scQKaEntd6QGua8_pyIw/edit#gid=968981801">Deep Learning GPUs 详细对比表格</a></li>
-<li><a target="_blank" rel="noopener" href="http://mli.github.io/gpu/2016/01/17/build-gpu-clusters/">GPU集群折腾手记——2015</a></li>
-<li><a target="_blank" rel="noopener" href="https://oldpan.me/archives/machine-deeplearning-station-list">给你一份配置清单:机器学习、深度学习电脑显卡配置指南</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuliangxing/p/7543977.html">深度学习（TensorFlow）环境搭建：（一）硬件选购和主机组装</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.52nlp.cn/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AEubuntu-1080ti-cuda-cudnn">从零开始搭建深度学习服务器: 基础环境配置（Ubuntu + GTX 1080 TI + CUDA + cuDNN）</a></li>
-</ul>
-<h2 id="阶段性结论"><a href="#阶段性结论" class="headerlink" title="阶段性结论"></a>阶段性结论</h2><p>通过参考以上各博文，以及在一些实际购物网站的调查，大致可以得出以下的结论：对于一个小型团队，或是团队中做深度学习的成员较少时，当前购买双路GTX 1080Ti，搭配Intel Core i7 7800X/7900X 是一个理想的选择。如果不想花费太多时间，或是想马上部署并展开应用的团队，在京东/淘宝（国内）亚马逊（美国）等处购买整机也是一个不错的选择。</p>
-<h2 id="PPT细节"><a href="#PPT细节" class="headerlink" title="PPT细节"></a>PPT细节</h2><p>![Linux GPU Server Choice.001](../../../../../Desktop/Linux GPU Server Choice/Linux GPU Server Choice.001.jpeg)</p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzby2xj4j30k00f0tbx.jpg" alt="Linux GPU Server Choice.012"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzbuhx6uj30k00f0taa.jpg" alt="Linux GPU Server Choice.006"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzc03y46j30k00f077r.jpg" alt="Linux GPU Server Choice.011"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzbvekw6j30k00f0taa.jpg" alt="Linux GPU Server Choice.013"></p>
-<p>![Linux GPU Server Choice.005](../../../../../Desktop/Linux GPU Server Choice/Linux GPU Server Choice.005.jpeg)</p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzbu3ew2j30k00f0q5e.jpg" alt="Linux GPU Server Choice.004"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzc1q3hvj30k00f0mzq.jpg" alt="Linux GPU Server Choice.010"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzg8grkgj30k00f0wp8.jpg" alt="Linux GPU Server Choice.008"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzc3eq2qj30k00f0gqn.jpg" alt="Linux GPU Server Choice.001"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzc2rh4uj30k00f0goe.jpg" alt="Linux GPU Server Choice.009"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzc15854j30k00f0tex.jpg" alt="Linux GPU Server Choice.007"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzbyzq43j30k00f078j.jpg" alt="Linux GPU Server Choice.003"></p>
-<p><img src="/2018/08/19/linux-gpu-server-choice/006tNbRwgy1fufzbwuz9zj30k00f0dn9.jpg" alt="Linux GPU Server Choice.002"></p>
-<p>![Linux GPU Server Choice.014](../../../../../Desktop/Linux GPU Server Choice/Linux GPU Server Choice.014.jpeg)</p>
-
+<li><p>自行组装一台GPU Linux机器。网上许多教程都是教人如何DIY的。这种方案的优点是不但便宜不少，而且还可以从中学习到很多相关知识，如果您有这个需求，并且也有时间、想学习相关内容，或是对价格比较敏感，DIY是一个相对较好的选择。但是缺点也是存在的。首先是售后服务问题，一旦机器出了故障，维修可能会相对比较麻烦，尤其是在您自身也对此不是很专业的情况下。另外是自行DIY可能会产生搭配不合理的问题，比如选用了散热性能不足的器材、最大功率不足的电源等，这些都会为您未来的使用带来隐患。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/19/linux-gpu-server-choice/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -818,7 +726,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:09:43" itemprop="dateModified" datetime="2021-03-12T04:09:43-05:00">2021-03-12</time>
       </span>
 
   
@@ -849,57 +757,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>先交代一下背景：一个机器学习代码的检验需要用到lab之前写好的仿真代码，现在需要将这两份代码结合在一起工作，并且把机器学习完成的任务部分的matlab代码用Python代码代替。</p>
 <p>最开始想出来的可能方法大致的有如下三个：</p>
-<h2 id="可能方案"><a href="#可能方案" class="headerlink" title="可能方案"></a>可能方案</h2><ol>
-<li><p>将3500行MATLAB代码直接翻译成Python代码。</p>
-<ul>
-<li>优点：最直观，适配性最强，GitHub有相关转换脚本</li>
-</ul>
-<ul>
-<li>缺点：耗时大，暗bug难以调试</li>
-</ul>
-</li>
-<li><p>将Matlab代码拆分成几个大函数，封装好后用Python运行这些文件</p>
-<ul>
-<li>优点：大大降低工作量，而且能够保证封装的文件运行得到正确的结果</li>
-</ul>
-<ul>
-<li>缺点：调用泊松方程部分知识一个小调用，整个Main文件大体还要改，list等的传参也很成问题</li>
-</ul>
-</li>
-<li><p>将机器学习部分做成Linux服务器端，在Matlab端只调用接口</p>
-<ul>
-<li>优点：快速，可复用</li>
-</ul>
-<ul>
-<li>缺点：同样的问题时学习成本较高。有做不出来的可能，耗时较长</li>
-</ul>
-</li>
-</ol>
-<h2 id="相关资源"><a href="#相关资源" class="headerlink" title="相关资源"></a>相关资源</h2><ul>
-<li>Matlab代码到Python的编译器：<a target="_blank" rel="noopener" href="https://github.com/victorlei/smop">Small Matlab to Python compiler</a></li>
-<li>我尝试转换后的结果（经过手动Debug）：<a target="_blank" rel="noopener" href="https://github.com/miracleyoo/Diode-Electron-Hole-Particles-Simulation">Diode-Electron-Hole-Particles-Simulation</a></li>
-<li>Matlab官方给定Python中调用MATLAB API：<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/matlab-engine-for-python.html">用于 Python 的 MATLAB API</a></li>
-<li>上述API安装方法：<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/matlab_external/install-the-matlab-engine-for-python.html">安装用于 Python 的 MATLAB 引擎 API</a></li>
-<li>通过Python调用用户自定义脚本的方法：<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/matlab_external/call-user-script-and-function-from-python.html">通过 Python 调用用户脚本和函数</a></li>
-<li>Python 类型、容器到 MATLAB 的映射：<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/matlab_external/pass-data-to-matlab-from-python.html">从 Python 将数据传递到 MATLAB</a></li>
-<li>Python与Matlab混合编程实例博客：<a target="_blank" rel="noopener" href="http://zhaoxuhui.top/blog/2017/12/14/Python%E4%B8%8EMatlab%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B.html">Python与Matlab混合编程</a></li>
-<li>将所有工作区变量保存到 MAT 文件：<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/ref/save.html#btox10b-2_1">将所有工作区变量保存到 MAT 文件</a></li>
-</ul>
-<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><p>起初我尝试了第一种方法，借助GitHub上开源的MATLAB转Python的东风，只用了几个小时便完成了大致的转换，本来信心满满准备着手测试时，却意外的发现尽管大部分语法都得到了正确的转换，但是还是有许许多多细节问题需要一步步调整。整个调试持续了整整三天，当最终可以运行是却再次发现了两个问题：</p>
-<ol>
-<li>运行速度相较于MATLAB原生程序慢了太多。MATLAB上只要0.4秒的程序转成了Python竟然需要上千秒。经过仔细的分析，原因主要有两个：一是MATLAB本身就对矩阵运算进行的大量的优化，而Python想要实现相似功能只能借助第三方库函数。二是自动转换脚本为了保证数组下标等的正确性引入了一个新的类matlab array。每个数组都会被初始化为一个实例，而这本身就是很耗时间的。三是其中涉及了很多类型转换，而数组有很大很多，不少数组都有多达数万个元素，拷贝式的转换会消耗掉巨量的时间。</li>
-<li>结果不正确。有部分函数和方法MATLAB和Python的解读不同。这种问题大部分是可以被发现的，但是实际上debug的难度随着代码长度和复杂度而急剧上升，尤其是原来的代码本身就较为dirty，而不是结构化的运算时。另外还有部分不仔细分析调试断点根本无法发现的隐藏式的bug，这些都使得这个庞然大物似的代码极难调试。</li>
-</ol>
-<p>之后，我试着只手动重写main程序，其他的模块全部封装化，但结果依旧不理想。由于程序不断地在MATLAB和Python解释环境中切换，这必然涉及到大量的传参，而MATLAB和Python之间的传参甚至比普通的类型转换更加耗时，往往一个循环要消耗数百秒。Python中一个MATLAB的函数调用传参转换花的时间和本身花去的时间之比根据参数数量和大小甚至可以达到了1:200以上。这无疑是一个令人震惊的比例。但是如果希望通过不断调用MATLAB函数并将长达400行左右的main函数通过Python执行，大量的传参就是无法避免的。</p>
-<p>于是，经过充分的思考后，我果断放弃了之前五天的成果，选择了下一种方法：只在Python中控制主循环以及几个关键而小的变量，把之前的main长长的代码拆成了数个代码块，打包成一个个可供Python调用的函数，并把函数文件间的沟通“大任”从Python主程序转移到了中间mat文件。每个MATLAB脚本执行之前都会Load之前存下的中间变量并在结尾储存当前所有的中间变量。通过这种方法，Python中每个循环的执行速度也由直接传参的数百秒降低到了可以接受的0.5秒。之后便是把自己的机器学习代码写了一个简单而迅速的接口，替换掉了原有的泊松方程求解部分。预计下种可以出来正式的拟合曲线。</p>
-<h2 id="简单结论"><a href="#简单结论" class="headerlink" title="简单结论"></a>简单结论</h2><ul>
-<li>Smop自动转换会把数组、矩阵解释为一种自定义类matlab array，来回转换效率很低。</li>
-<li>如果工程项目真的很小，并且希望考虑执行效率，建议手动转换Python</li>
-<li>如果工程项目中等（1~3个.m文件），并对效率没有太高要求，可以使用GitHub的smop自动转换后<strong>手动Debug</strong>。</li>
-<li>如果工程可以拆分为数个函数，并且运行的机器上已经装有MATLAB或是可以并愿意画上十几个G安装MATLAB，可以考虑使用MATLAB官方提供的Python调用MATLAB函数的接口。</li>
-<li>如果采用Python调用MATLAB函数的解决方案，建议只把Python中必须用到的变量传递给Python主程序，其他部分则考虑采用储存和加载工作区全部变量的方式操作。注意这两种变量不要混着用，即既在储存文件时储存，又传回Python，这样很容易引起混乱。</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/18/matlab2python/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -956,7 +821,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:10:21" itemprop="dateModified" datetime="2021-03-12T04:10:21-05:00">2021-03-12</time>
       </span>
 
   
@@ -989,23 +854,14 @@
 <h3 id="先看示例代码："><a href="#先看示例代码：" class="headerlink" title="先看示例代码："></a>先看示例代码：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_input</span>(<span class="params">Vn, Vp, nx1, ny1, net_charge</span>):</span></span><br><span class="line">    net_charge = np.array(net_charge)[np.newaxis, :]</span><br><span class="line">    border_cond = np.zeros((<span class="number">1</span>, <span class="built_in">int</span>(ny1), <span class="built_in">int</span>(nx1)))</span><br><span class="line">    border_cond[<span class="number">0</span>, :, <span class="number">0</span>] = Vn</span><br><span class="line">    border_cond[<span class="number">0</span>, :, -<span class="number">1</span>] = Vp</span><br><span class="line">    model_input = np.concatenate((net_charge, border_cond), axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> model_input[np.newaxis, :]</span><br></pre></td></tr></table></figure>
 
 <p>上面的net_charge和border_cond即为需要进行拼接操作的两个matrix，分别使用了[np.newaxis,:]和初始化的时候就多生成一维的方法，最后使用np.concatenate进行拼接。</p>
-<h3 id="数组拼接方法一"><a href="#数组拼接方法一" class="headerlink" title="数组拼接方法一"></a>数组拼接方法一</h3><p>思路：首先将数组转成列表，然后利用列表的拼接函数append()、extend()等进行拼接处理，最后将列表转成数组。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a_list.extend(b_list)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a_list</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.array(a_list)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">5</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>])</span><br></pre></td></tr></table></figure>
-
-<p>该方法只适用于简单的一维数组拼接，由于转换过程很耗时间，对于大量数据的拼接一般不建议使用。</p>
-<h3 id="数组拼接方法二"><a href="#数组拼接方法二" class="headerlink" title="数组拼接方法二"></a>数组拼接方法二</h3><p>思路：numpy提供了numpy.append(arr, values, axis=None)函数。对于参数规定，要么一个数组和一个数值；要么两个数组，不能三个及以上数组直接append拼接。append函数返回的始终是一个一维数组。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.append(a,<span class="number">10</span>)</span><br><span class="line">array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">10</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.array([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.append(a,b)</span><br><span class="line">array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>]) </span><br></pre></td></tr></table></figure>
-
-<p>numpy的数组没有动态改变大小的功能，numpy.append()函数每次都会重新分配整个数组，并把原来的数组复制到新数组中。 </p>
-<h3 id="数组拼接方法三"><a href="#数组拼接方法三" class="headerlink" title="数组拼接方法三"></a>数组拼接方法三</h3><p>思路：numpy提供了numpy.concatenate((a1,a2,…), axis=0)函数。能够一次完成多个数组的拼接。其中a1,a2,…是数组类型的参数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.array([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.array([<span class="number">44</span>,<span class="number">55</span>,<span class="number">66</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.concatenate((a,b,c),axis=<span class="number">0</span>)  <span class="comment"># 默认情况下，axis=0可以不写</span></span><br><span class="line">array([ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">55</span>, <span class="number">66</span>]) <span class="comment">#对于一维数组拼接，axis的值不影响最后的结果</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.concatenate((a,b),axis=<span class="number">1</span>)  <span class="comment">#axis=1表示对应行的数组进行拼接</span></span><br><span class="line">array([[ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>, <span class="number">11</span>, <span class="number">21</span>, <span class="number">31</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>]])</span><br></pre></td></tr></table></figure>
-
-<h3 id="拼接方法时间比较"><a href="#拼接方法时间比较" class="headerlink" title="拼接方法时间比较"></a>拼接方法时间比较</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> time <span class="keyword">import</span> clock <span class="keyword">as</span> now</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time1=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.append(a,b)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time2=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> time2-time1</span><br><span class="line"><span class="number">28.2316728446</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time1=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.concatenate((a,b),axis=<span class="number">0</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time2=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> time2-time1</span><br><span class="line"><span class="number">20.3934997107</span></span><br></pre></td></tr></table></figure>
-
-<p>可知，concatenate()效率更高，适合大规模的数据拼接</p>
-<h3 id="numpy添加新的维度：newaxis"><a href="#numpy添加新的维度：newaxis" class="headerlink" title="numpy添加新的维度：newaxis"></a>numpy添加新的维度：newaxis</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">x = np.random.randint(<span class="number">1</span>, <span class="number">8</span>, size=<span class="number">5</span>)</span><br><span class="line">x</span><br><span class="line">Out[<span class="number">48</span>]: array([<span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>])</span><br><span class="line">x1 = x[np.newaxis, :]</span><br><span class="line">x1</span><br><span class="line">Out[<span class="number">50</span>]: array([[<span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>]])</span><br><span class="line">x2 = x[:, np.newaxis]</span><br><span class="line">x2</span><br><span class="line">Out[<span class="number">52</span>]: </span><br><span class="line">array([[<span class="number">4</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">5</span>]])</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/18/numpy-concatenate/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1062,7 +918,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:10" itemprop="dateModified" datetime="2019-10-03T22:06:10-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:12:41" itemprop="dateModified" datetime="2021-03-12T04:12:41-05:00">2021-03-12</time>
       </span>
 
   
@@ -1093,20 +949,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>之前提到过利用<code>python-graphviz</code>进行自动网络可视化，尽管其较为适合展示，但是Tensorboard生成的网络结构图有着可折叠、便于调试的优点，那Pytorch可以使用这项功能吗？</p>
 <p>答案是肯定的，tensorboardx提供了这项支持。</p>
-<p>首先提供相关资源：</p>
-<h2 id="资源与下载"><a href="#资源与下载" class="headerlink" title="资源与下载"></a>资源与下载</h2><ol>
-<li><p>tensorboardx的安装：<code>pip install tensorboardx</code></p>
-</li>
-<li><p>tensorboardx画网络图的实例：<a target="_blank" rel="noopener" href="https://github.com/lanpa/tensorboardX/blob/master/examples/demo_graph.py">实例</a></p>
-</li>
-<li><p>结果展示：</p>
-<p><img src="/2018/08/18/tensorboardx-net-visualization/006tNbRwgy1fuemv60tllj30ba0isn4w.jpg" alt="image-20180818175931766"></p>
-</li>
-</ol>
-<h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dummy_input = Variable(torch.rand(<span class="number">13</span>, <span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>))</span><br><span class="line">model = Net1()</span><br><span class="line"><span class="keyword">with</span> SummaryWriter(comment=<span class="string">&#x27;Net1&#x27;</span>) <span class="keyword">as</span> w:</span><br><span class="line">    w.add_graph(model, (dummy_input, ))</span><br></pre></td></tr></table></figure>
-
-<h2 id="WARNING"><a href="#WARNING" class="headerlink" title="WARNING"></a>WARNING</h2><p>如果需要可视化网络结构图，一定要让这一步操作放在把net加载为CUDA模型之前进行！</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/18/tensorboardx-net-visualization/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1163,7 +1013,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:06:12" itemprop="dateModified" datetime="2021-03-12T04:06:12-05:00">2021-03-12</time>
       </span>
 
   
@@ -1194,51 +1044,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>辛苦而刺激的一周。</p>
 <p>上周完成了深度学习模型的搭建之后，本周开始了复杂而艰难的测试工作。之所以如此复杂，是因为模型验证只能建立在连续模拟得出的曲线之上。而想要得到足够的验证数据，必须把之前学长所搭建的MATLAB仿真代码和自己基于Python的深度学习代码进行结合。大致的方法有三：</p>
-<ol>
-<li><p>将3500行MATLAB代码直接翻译成Python代码。</p>
-<ul>
-<li><p>优点：最直观，适配性最强，GitHub有相关转换脚本</p>
-</li>
-<li><p>缺点：耗时大，暗bug难以调试</p>
-</li>
-</ul>
-</li>
-<li><p>将Matlab代码拆分成几个大函数，封装好后用Python运行这些文件</p>
-<ul>
-<li><p>优点：大大降低工作量，而且能够保证封装的文件运行得到正确的结果</p>
-</li>
-<li><p>缺点：调用泊松方程部分知识一个小调用，整个Main文件大体还要改，list等的传参也很成问题</p>
-</li>
-</ul>
-</li>
-<li><p>将机器学习部分做成Linux服务器端，在Matlab端只调用接口</p>
-<ul>
-<li><p>优点：快速，可复用</p>
-</li>
-<li><p>缺点：同样的问题时学习成本较高。有做不出来的可能，耗时较长</p>
-</li>
-</ul>
-</li>
-</ol>
-<p>起初我尝试了第一种方法，借助GitHub上开源的MATLAB转Python的东风，只用了几个小时便完成了大致的转换，本来信心满满准备着手测试时，却意外的发现尽管大部分语法都得到了正确的转换，但是还是有许许多多细节问题需要一步步调整。整个调试持续了整整三天，当最终可以运行是却再次发现了两个问题：</p>
-<ol>
-<li>运行速度相较于MATLAB原生程序慢了太多。MATLAB上只要0.4秒的程序转成了Python竟然需要上千秒。经过仔细的分析，原因主要有两个：一是MATLAB本身就对矩阵运算进行的大量的优化，而Python想要实现相似功能只能借助第三方库函数。二是自动转换脚本为了保证数组下标等的正确性引入了一个新的类matlab array。每个数组都会被初始化为一个实例，而这本身就是很耗时间的。三是其中涉及了很多类型转换，而数组有很大很多，不少数组都有多达数万个元素，拷贝式的转换会消耗掉巨量的时间。</li>
-<li>结果不正确。有部分函数和方法MATLAB和Python的解读不同。这种问题大部分是可以被发现的，但是实际上debug的难度随着代码长度和复杂度而急剧上升，尤其是原来的代码本身就较为dirty，而不是结构化的运算时。另外还有部分不仔细分析调试断点根本无法发现的隐藏式的bug，这些都使得这个庞然大物似的代码极难调试。</li>
-</ol>
-<p>之后，我试着只手动重写main程序，其他的模块全部封装化，但结果依旧不理想。由于程序不断地在MATLAB和Python解释环境中切换，这必然涉及到大量的传参，而MATLAB和Python之间的传参甚至比普通的类型转换更加耗时，往往一个循环要消耗数百秒。Python中一个MATLAB的函数调用传参转换花的时间和本身花去的时间之比根据参数数量和大小甚至可以达到了1:200以上。这无疑是一个令人震惊的比例。但是如果希望通过不断调用MATLAB函数并将长达400行左右的main函数通过Python执行，大量的传参就是无法避免的。</p>
-<p>于是，经过充分的思考后，我果断放弃了之前五天的成果，选择了下一种方法：只在Python中控制主循环以及几个关键而小的变量，把之前的main长长的代码拆成了数个代码块，打包成一个个可供Python调用的函数，并把函数文件间的沟通“大任”从Python主程序转移到了中间mat文件。每个MATLAB脚本执行之前都会Load之前存下的中间变量并在结尾储存当前所有的中间变量。通过这种方法，Python中每个循环的执行速度也由直接传参的数百秒降低到了可以接受的0.5秒。之后便是把自己的机器学习代码写了一个简单而迅速的接口，替换掉了原有的泊松方程求解部分。预计下种可以出来正式的拟合曲线。</p>
-<p>说完上面洋溢着满满技术味的本周进展情况，下面就是精彩刺激的“绝地求生”“荒野行动”了。本周五lab组织全员参与了独木舟漂流活动。活动描述很简单：三个人一条小舟，带上充饥的食品，从漂流的起点划到终点。但是到了现场才发现：这个活动和最初我们的印象完全不一样。首先漂流并不是简单的顺水漂下，而是真正用桨把一个铁质的小舟划起来。环境也让人感到十分惊异：和国内经过开发的景点完全不同，河岸两边都是茂密的森林，整个旅程中的大半时间都处在“前无古人后无来者”的状态，紧张刺激的同时又的确充满了危险的气息。其次是水道的状态：急流、险滩、暗礁、巨大树枝、深浅水域、搁浅地带等都给划行造成了巨大的困难。而最关键的三点是：</p>
-<ol>
-<li>我们三名来自种子班的同学被分配到了同一条船上，但我们都没有划船的经验</li>
-<li>整个水道流域很长，当我们划了4个半小时被告知还有一半的时候真的对绝望有了很好的理解</li>
-<li>没人救援。虽然同行的人很多，但是因为几名教授和学长为了增加旅程的乐趣用各种方法翻过路的船，而我们都是新手，为了避免不断被翻船选择了等到所有人走了之后再动身</li>
-</ol>
-<p>我们三人在一天中划行了整整7个小时，可谓是相当“勇猛”了。实际上，最快的组4个小时便到达了终点，而我们则因为中途被翻了4次船、等待翻船大佬们先行和由于对划船不熟练造成的转向、撞暗礁和其他各种障碍物、搁浅等原因而延误了很久。不过令人欣慰的是我们在这个过程中在热心老外的指导下成功学会了配合划船，而且由于我们选用了隔水性能很好的保鲜袋，至少保证了一天的食物这两点。</p>
-<p>一路上虽然非常辛苦，甚至都多多少少受了些伤，但是泛舟于丛林深处、玩味夏日的蓝天与翠林、感受“蝉噪林逾静，鸟鸣山更幽”的静谧还是让人十分愉快而放松的。在回来的路上，我们还有幸看到了天空中高挂的彩虹，可谓是美妙的一天。<img src="/2018/08/18/emc-lab-note-5w/006tNbRwgy1fuejycdf41j31400u0q7a.jpg" alt="IMG_3058"></p>
-<p>另外真的多谢早早划完全程还不断担心我们几个的诸位学长老师，当划到最后筋疲力尽时候看到专程从岸边跑回来瞭望我们的教授们时，当最终上岸被学长们热情迎接时，真的感觉非常非常的温暖。谢谢大家！</p>
-<p>此外，本周我们还有幸看到了英仙座流星雨，尽管是在我们的公寓后的停车场的简单肉眼观测，但是还是感到了无比的梦幻而美好。漫天星海中的那靓丽的一闪而过，恍若樱花般灿烂而短暂，尽管只消一瞬，但却永驻观者心间。“Wish upon the shooting star”。<img src="/2018/08/18/emc-lab-note-5w/006tNbRwgy1fuejz7guf0j30u01o0ad9.jpg" alt="IMG_3045"></p>
-<p>本周厨艺依旧在稳步进步，现在已经渐渐能够烧制一些可口的饭菜了，幸福指数又能++了。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/18/emc-lab-note-5w/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1398,7 +1211,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

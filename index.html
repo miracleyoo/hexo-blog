@@ -342,7 +342,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:06:15" itemprop="dateModified" datetime="2021-03-12T02:06:15-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 04:11:15" itemprop="dateModified" datetime="2021-03-12T04:11:15-05:00">2021-03-12</time>
       </span>
 
   
@@ -372,88 +372,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>管理好自己手中的论文，不让他们被吞噬与“Download”文件夹的茫茫文件海洋中已非易事，而能在需要时迅速定位，能在Windows的Desktop与便携的MacBook上无缝对接论文库则需要相对精细化的管理。然而，很多时候并不适合展开自己的笔记本电脑来“郑重”地阅读一篇论文，在一些相对零碎的时间里随手抽出包中的iPad，读读前面顺手存下的论文，则可大大增加自己的学术幸福感。</p>
-<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>上面这几点也正是我对论文管理系统的要求。注意这里提到的是“系统”，而并是一个单一的软件。这里提炼一下日常对论文管理及阅读的需求，您可以看看和自己的需求是否吻合：</p>
-<ol>
-<li>以分层目录的形式将论文进行归档，并且有时需要让同一篇论文同时存放于多个目录中。</li>
-<li>支持多及目录（多&gt;2）。</li>
-<li>支持从网页上便捷地储存论文以及文档。</li>
-<li>支持拖入PDF自动寻找论文信息。</li>
-<li>需要对论文的PDF原件进行存储，最好能够自动下载缺失的PDF。</li>
-<li>需要在Mac和Windows端都能访问论文目录，且对PDF文件的修改能够同步。</li>
-<li>PDF的存储最好和数据库系统分离，以便搜索、单独更改或访问。</li>
-<li>需要对论文进行可自定义格式的自动重命名。</li>
-<li>界面不能太丑。</li>
-<li>支持高度自定义或有充足的功能，最好可以使用第三方插件。</li>
-<li>支持各种引文格式。</li>
-<li>支持Latex和Word的便捷引用，Word最好有插件。</li>
-<li>拥有较大的云存储空间，至少足以存储所有的PDF文档。</li>
-<li>可以从iPad上访问并且可以同步、上传对论文的更改。</li>
-<li>三个平台PDF阅读器配置最好统一，以免高亮、插入文本等格式不一。</li>
-</ol>
-<p>归纳出的这几点便是我对论文管理系统的所有需求了。之后便是对各种论文管理软件的试用和组合。这里直奔主题，给出我现在的全套系统配置及选择的原因。</p>
-<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><ul>
-<li>Mac与Windows端主论文管理软件：<a target="_blank" rel="noopener" href="https://www.zotero.org/">Zotero</a></li>
-<li>主要插件：<a target="_blank" rel="noopener" href="http://zotfile.com/">zotfile</a>，<a target="_blank" rel="noopener" href="https://github.com/retorquere/zotero-better-bibtex">zotero-better-bibtex</a></li>
-<li>Mac、Windows与iPad统一PDF同步软件：Dropbox</li>
-<li>Mac、Windows与iPad统一PDF阅读器：Adobe Acrobat</li>
-</ul>
-<h2 id="选用原因"><a href="#选用原因" class="headerlink" title="选用原因"></a>选用原因</h2><h3 id="Zotero"><a href="#Zotero" class="headerlink" title="Zotero"></a>Zotero</h3><p>各大平台上以及Zotero官网对其讲解都很多也很充分了，如果你能够并且愿意花上一些时间来进行自定义配置，它将是一个可以满足几乎所有对论文管理需求的终极软件。我这里只指出一些我认为非常不错的特性。</p>
-<ol>
-<li>跨平台。Mac，Windows和Linux都有支持。</li>
-<li>浏览器论文抓取插件很好用。既可直接抓取PDF文章之后解析出论文，也可在如Google Scholar等页面直接批量抓取添加论文索引，并再自动下载相应的PDF。甚至在一些作业性质的小论文中有时需要直接引用某个网页或某个文档，它也可以直接生成条目。</li>
-<li>支持多级目录。这个多理论上似乎可以无限多下去，非常自由。</li>
-<li>有很好用的Word插件，使用体验丝滑流畅。</li>
-<li>拥有在线的庞大引用格式库，基本可以找到所有需要的引文格式。</li>
-<li>可以加载很多第三方插件，如支持自定义格式重命名的zotfile，针对输出引用进行优化的better-bibtex等。</li>
-<li>可以将条目的PDF文件储存目录单列出来，存到一个自定义的地方，比如Dropbox文件夹内部。</li>
-</ol>
-<h3 id="Dropbox"><a href="#Dropbox" class="headerlink" title="Dropbox"></a>Dropbox</h3><ol>
-<li>因为现在在美国读书，Dropbox的服务相对来说是快速且稳定的。</li>
-<li>Dropbox的同步功能做的非常好，这也是其在此领域深耕多年的结果。</li>
-<li>最重要一点，Dropbox在iPad上和Adobe Acrobat有着原生的集成。在Dropbox中使用Acrobat打开并编辑文件，其修改是可以直接同步到Dropbox云端的。这一点对于移动端浏览和编辑论文起到了至关重要的作用。</li>
-<li>免费版虽然只有2G初始空间，但是可以通过邀请好友注册达到最大的18G。虽然不是特别大，但是对于存储论文已经绰绰有余了。（另这个邀请注册送空间可以直接去淘宝搜索，可以画很少的钱得到很多注册服务，直达18G。）</li>
-</ol>
-<h3 id="Adobe-Acrobat"><a href="#Adobe-Acrobat" class="headerlink" title="Adobe Acrobat"></a>Adobe Acrobat</h3><ol>
-<li>多平台支持。Mac，Windows，Linux，iOS，Android都有着很好的支持。</li>
-<li>专业，支持各种编辑方式。常见的高亮、下划线、添加文本、画方框、做批注等自然都是支持的。</li>
-<li>很多高校都和Adobe公司有着协议，使用学生邮箱可以直接免费使用全套功能。</li>
-<li>同前面所述，其和Dropbox的关联性支持是整套系统成功的关键。</li>
-</ol>
-<h3 id="对比原因"><a href="#对比原因" class="headerlink" title="对比原因"></a>对比原因</h3><ol>
-<li>之前有在用Mendeley，但是对比Zotero，尤其是对比Zotero和其第三方插件的丰富功能后，前者明显力不从心。另外Windows版本其界面没有针对高分辨率进行适配，并且使用了默认的宋体，显示英文丑陋不堪，且无法更改。在论坛上看到有许多坛友几年前就提出了这些问题，然而显然开发者并没有做出相应。对比Zotero，其论坛环境、活跃程度以及问题解决速度都会更好。</li>
-<li>Endnote是收费软件，我并没有深入使用，这里不多置评，但各位可以容易查到Endnote和Zotero的区别。</li>
-<li>iPad上也考虑过使用PDF Reader – Document Expert作为浏览和编辑软件，但是从Dropbox打开的文件编辑后是以副本的形式存在了本地，并没有被同步，这是无法接受的。</li>
-</ol>
-<h2 id="配置细节"><a href="#配置细节" class="headerlink" title="配置细节"></a>配置细节</h2><h3 id="Zotero设置部分"><a href="#Zotero设置部分" class="headerlink" title="Zotero设置部分"></a>Zotero设置部分</h3><ol>
-<li>在所有需要同步的电脑上登录Zotero的账号，如没有，请注册。</li>
-<li>打开设置，更改<code>Files and Folders</code> 中的<code>Base Directory</code>选项为你的同步盘地址，如Dropbox，OneDrive，坚果云等。请不要动下面的<code>Data Directory Location</code>，这个是Zotero的总体数据库的地址，不建议放到云文件夹下，因为只要有两个端同时使用Zotero这个同步就崩掉了。</li>
-</ol>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110225913571.png" alt="image-20191110225913571"></p>
-<ol start="3">
-<li>安装<a target="_blank" rel="noopener" href="http://zotfile.com/">zotfile</a>。更改有关文件的设置。</li>
-</ol>
-<p>从Tools栏进入ZotFile Preference</p>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110230601630.png" alt="image-20191110230601630"></p>
-<p>更改PDF文件存储位置。这里是把文件储存到云盘的关键步骤。上面那个更改文件存储地址的作用是指定未来加入的PDF文件的存储地址，而这里是把已经在库的文件移动到这个地址。两个地址相同。</p>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110230944192.png" alt="image-20191110230944192"></p>
-<p>更改重命名相关的设置。这里的%y就是论文发表年份，%j是期刊名，%t是论文标题。而中间的下划线则只是单纯的会在重命名后的文件名中的两个元素之间加一个下滑线罢了，这里可以替换做任意。</p>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110230654373.png" alt="image-20191110230654373"></p>
-<p>在你的所有需要同步的电脑上做完上述步骤后，如果你之前没有Zotero或它是全新的没有条目，那你的设定已经结束。如果库中已有很多论文，想要直接移动到Dropbox相应目录下，那么请执行下一步：</p>
-<ol start="4">
-<li>移动与重命名已有文件</li>
-</ol>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110231928468.png" alt="image-20191110231928468"></p>
-<p>点击 My Library，全选所有条目，右键选择<code>Manage Attachments</code>-&gt;<code>Rename Attachments</code>开始移动和重命名。</p>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110232045736.png" alt="image-20191110232045736"></p>
-<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110232150562.png" alt="image-20191110232150562"></p>
-<h3 id="iPad设置部分"><a href="#iPad设置部分" class="headerlink" title="iPad设置部分"></a>iPad设置部分</h3><ol>
-<li>下载Dropbox和Acrobat。</li>
-<li>打开Dropbox，进入你的论文同步文件夹，任选一篇点击打开</li>
-<li>右下角找到一个光标键，点击，会提示用Adobe Acrobat Reader打开。</li>
-<li>All set.</li>
-</ol>
-<p><img src="/2020/04/26/paper-zotero-dropbox/IMG_2601.jpg" alt="IMG_2601"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/26/paper-zotero-dropbox/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -510,7 +436,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:10:03" itemprop="dateModified" datetime="2021-03-12T02:10:03-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 04:09:03" itemprop="dateModified" datetime="2021-03-12T04:09:03-05:00">2021-03-12</time>
       </span>
 
   
@@ -542,54 +468,14 @@
           <p>知乎上的本文链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/97455277">Link</a></p>
 <p>首先吐槽一下知乎的编辑器。虽然个人博客上的不少内容都曾有想过搬到知乎一份，但是知乎的编辑器真的是令人绝望式的难用。尽管现在可以使用文件导入功能导入md文件和Word文档，且能支持一些简单的Markdown语法，但每种途径都有着无法避免的缺点，从结果上来说则是只能被迫接受或是不完美的格式亦或是大量手动且重复的图片上传。</p>
 <p>口说无凭，这里放一下几种方法的对比图来详述一下问题所在：</p>
-<h3 id="Typora中原文件"><a href="#Typora中原文件" class="headerlink" title="Typora中原文件"></a>Typora中原文件</h3><img src="./image-20191214174243537.png" alt="image-20191214174243537" style="zoom:50%;" />
-
-<p>这份测试文件虽然短，但是基本包含了常见几种要素：标题、正文、图片、表格、代码、公式。下面让我们看看知乎支持的几种上传方式的效果：</p>
-<h3 id="1-直接复制Typora中的内容到知乎编辑器"><a href="#1-直接复制Typora中的内容到知乎编辑器" class="headerlink" title="1. 直接复制Typora中的内容到知乎编辑器"></a>1. 直接复制Typora中的内容到知乎编辑器</h3><img src="./image-20191214174118623.png" alt="image-20191214174118623" style="zoom:50%;" />
-
-<p>可以看到，标题和正文区分开了，不过所有的标题都变成了一级标题。另外本地的图片无法导入，只剩下一个展占位符。表格全乱，公式直接消失了。但代码的高亮仍是C++，正确。</p>
-<h3 id="2-直接导入Markdown文件"><a href="#2-直接导入Markdown文件" class="headerlink" title="2. 直接导入Markdown文件"></a>2. 直接导入Markdown文件</h3><p>你可以在编辑器的这个位置导入文件：</p>
-<img src="./image-20191214174529632.png" alt="image-20191214174529632" style="zoom:33%;" />
-
-<img src="./image-20191214174506716.png" alt="image-20191214174506716" style="zoom:33%;" />
-
-<p>导入刚才我们看到的测试文件原档的效果是这样的：</p>
-<img src="./image-20191214174704023.png" alt="image-20191214174704023" style="zoom:50%;" />
-
-<p>同前，标题和正文区分开了，不过所有的标题都变成了一级标题。另外本地的图片无法导入，只剩下一个占位符。表格全乱，公式没有消失，但也并没有被渲染。代码的高亮仍是C++，正确。</p>
-<h3 id="3-先使用Typora导出为Word，再用知乎编辑器导入Word"><a href="#3-先使用Typora导出为Word，再用知乎编辑器导入Word" class="headerlink" title="3. 先使用Typora导出为Word，再用知乎编辑器导入Word"></a>3. 先使用Typora导出为Word，再用知乎编辑器导入Word</h3><p>上面的两种最直观的方法的一大问题就是图片导入不进去。而对于一些长篇的科技文章，图片既多又重要，手动一个个添加容易错而且浪费科研人员的时间和热情。当然我知道导入Markdown时并没有顺带把图片本身导入进去，但我仍觉得这是知乎团队应该做的工作，而且是相当基本的工作。好吧，既然现在不可行，那么导出成Word再导入该不会有这个问题了吧，我们来看看：</p>
-<img src="./image-20191214175626414.png" alt="image-20191214175626414" style="zoom:50%;" />
-
-<p>好家伙，图片导入进去了，表格直接炸飞天了，而且更可气的是代码的高亮没了，格式也出现了问题。其他的嘛，不看不得了，一看发现公式似乎直接没了，中间还莫名其妙多了一堆空行。当然，标题等级的问题还是没解决。</p>
-<p>那是Typora导出Word导出的不好吗？我打开了导出的Word文件：</p>
-<img src="./image-20191214180048117.png" alt="image-20191214180048117" style="zoom:50%;" />
-
-<p>公式存在，高亮正确，标题等级正确，表格正确，没有奇怪的空行。虽然和Markdown渲染的结果相比也并不好看说实话，但至少它是对的，而知乎编辑器错的五花八门。</p>
-<h2 id="那么，如何拯救自己的双手和灵魂呢？"><a href="#那么，如何拯救自己的双手和灵魂呢？" class="headerlink" title="那么，如何拯救自己的双手和灵魂呢？"></a>那么，如何拯救自己的双手和灵魂呢？</h2><h3 id="首先调整好你的Markdown编辑器"><a href="#首先调整好你的Markdown编辑器" class="headerlink" title="首先调整好你的Markdown编辑器"></a>首先调整好你的Markdown编辑器</h3><p>为什么要首先调整好编辑器呢？这里我说的调整主要指的是对图片管理方式的调整。如果您使用Typora，建议在偏好设置页面将相关参数调整至和下图完全一致，以防后面出现问题。</p>
-<p>这里做的工作主要是将所有来源的图片都自动保存至同名文件夹下，以相对路径储存。使用其他Markdown编辑器的小伙伴也可以对照调整。这么做的目的主要是为了方便后面对图片的批量上传与转换。</p>
-<img src="./image-20191214221536561.png" alt="image-20191214221536561" style="zoom:50%;" />
-
-
-
-<p>相信很多同学看到这里就会发出疑问，为什么不适用iPic之类的图床软件直接上传至图床呢？既方便又舒适。我的答案是，因为我吃过亏。我的内容之前一直独发于我的个人博客，然而今年中旬，突然之间整个网站所有的图片都挂掉了，只显示一个占位符和无法访问的提示，之后我发现之前使用的新浪图床加入了防盗链，所以就GG了。当然后面我也用Python再一次解决了这个问题，对解决方法感兴趣的图形可以移步这里，然而这一次的教训让我理解了这些图床<strong>并不可控</strong>。它们随时可以剥夺掉你博客中的全部图片，而你是无力至极的。</p>
-<p>在那之后，我就选择了本地储存+Github备份的模式，这样既可以永久有安心的本地档，也有方便使用的Github链接，可以说是既方便又安全。</p>
-<h3 id="之后解决图片上传问题"><a href="#之后解决图片上传问题" class="headerlink" title="之后解决图片上传问题"></a>之后解决图片上传问题</h3><p>最方便的解决办法即为利用好GitHub的资源了。建立一个Public的GitHub仓库，这里我命名作**<a target="_blank" rel="noopener" href="https://github.com/miracleyoo/Markdown4Zhihu">Markdown4Zhihu</a>**，注意一定要为Public，否则知乎无法访问这些图片。</p>
-<img src="./image-20191214221339326.png" alt="image-20191214221339326" style="zoom:50%;" />
-
-<p>当然，如果你觉得麻烦，也可以直接folk我建好的仓库，一会儿我们要提到的“一键Markdown知乎适配脚本”也会在这个仓库里。你只需要将你的文件和相应的图片文件夹放到这个<code>Data</code>子目录下，即可调用脚本一键转换，并将涉及到的图片自动推到你相应的GitHub仓库中。</p>
-<img src="./image-20191214213407292.png" alt="image-20191214213407292" style="zoom:50%;" />
-
-
-
-<p>这是我们使用脚本一键转换后的结果。它很好的解决的图片上传的问题，同时也保证了代码段的高亮，同时，所有的行内公式和多行公式都得到了转换。转换后的公式在知乎上传文件之后，是可交互的，即你可以在上传之后在知乎编辑器中修改你的公式，而不必重新再来一遍。</p>
-<p>至于表格，这个真木得办法，因为知乎压根不支持表格你说这咋整嘛。但是也不是没有可替代方案。如果表格不是很多，你可以直接对其进行截图，删去原代码后粘贴截图。之后它就会按照图片模式被兼容上去。如果你不想截图也可，做了相应操作后会得到上图的结果，对于少量表格来看也是OK的。你可以在<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/97432671">这里</a>看到上传到知乎后的效果。</p>
-<h3 id="最后是具体使用流程"><a href="#最后是具体使用流程" class="headerlink" title="最后是具体使用流程"></a>最后是具体使用流程</h3><p>这里我们假设您的文件名为<code>一个测试文档.md</code>，并将其和同名图片文件夹放到<code>Data</code>目录下（如果新建文件时就直接在Data里面建会更加方便），接着打开terminal(Linux/MacOS)或Git Bash(Windows)(或其他任何支持Git命令的终端)，<code>cd</code>进入该项目的根目录，即<code>Markdown4Zhihu</code>目录，输入以下命令：</p>
-<p><code>python zhihu-publisher.py --input=&quot;./Data/一个测试文档.md&quot;</code></p>
-<p>OK，all set. 在<code>Data</code>目录下，你可以看到一个<code>一个测试文档_for_zhihu.md</code>的文件，将它上传至知乎编辑器即可。</p>
-<p>PS: 脚本使用Python3，Python2可能会有潜在问题。</p>
-<h2 id="最后的话"><a href="#最后的话" class="headerlink" title="最后的话"></a>最后的话</h2><p>知乎的开发者的逻辑其实我真的比较迷，我们大学学生团队的自建论坛都可以原生完美支持Markdown和公式，然而知乎却一直说这个功能必要性不足强调开发难度。同样令人难受的是知乎的搜索，多少年过去了非热门话题还是一如既往的难用，搜索还是借助Google 的 “问题+知乎”。不知道这是什么原因，不过还是希望知乎团队先把这些非常基础的东西做好再大谈用户体验。</p>
-<p>这次的解决方案需要对GitHub和命令行有基础的了解，不过考虑到会来读这篇文章的人应该程序员居多，问题应该不是很大。脚本还比较新，如果有bug欢迎提出。最后再放一下GitHub链接，如果它有帮到你，希望能随手留下一个star，谢谢！**<a target="_blank" rel="noopener" href="https://github.com/miracleyoo/Markdown4Zhihu">Markdown4Zhihu</a>**</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/26/markdown-4-zhihu/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -738,6 +624,13 @@
 
       <time title="Created: 2020-04-11 18:11:47" itemprop="dateCreated datePublished" datetime="2020-04-11T18:11:47-04:00">2020-04-11</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 04:08:49" itemprop="dateModified" datetime="2021-03-12T04:08:49-05:00">2021-03-12</time>
+      </span>
 
   
       </div>
@@ -769,159 +662,14 @@
 <li><p><strong>df命令</strong><br><code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
 <p><code>df -h</code>, 即<code> --human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
 <p><code>df -T</code>：查看所有磁盘的文件系统类型(type)</p>
-</li>
-<li><p><strong><code>fdisk</code>命令</strong></p>
-<p><code>fdisk</code>：强大的磁盘监视和操作工具。</p>
-<p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p>
-</li>
-<li><p><strong>mount命令</strong></p>
-<p><code>mount</code>：挂载一个文件系统</p>
-<p><code>mount -t ntfs &lt;source&gt; &lt;target&gt;</code>：以ntfs文件系统的形式从源目录挂载到目标目录。t表示types类型</p>
-<p><code>mount -a</code>：挂载 fstab 中的所有文件系统。a表示all</p>
-</li>
-<li><p><strong>blkid命令</strong></p>
-<p><code>sudo blkid</code>：获取各个分区的UUID和分区类型TYPE</p>
-</li>
-<li><p>物理磁盘与磁盘分区：一个物理磁盘在<code>fdisk -l</code>中的显示往往类似于<code>/dev/sda</code>，<code>/dev/sdb</code>，<code>/dev/nvme0n1</code>。一般情况下是不带数字的，sda sdb是最常见的命名。而分区命名则是如：<code>/dev/sda1</code>，<code>/dev/sdb2</code>之类在物理磁盘的后面带上数字表示分区编号。</p>
-<p>但有些如双系统中，可能会出现最后一个例子中展示的命名，这种磁盘的分区则是以<code>p[x]</code>结尾，如<code>/dev/nvme0n1p1</code>，<code>/dev/nvme0n1p9</code>。</p>
-</li>
-<li><p>Linux开机后不会自动挂载Windows文件格式NTFS的磁盘。</p>
-</li>
-<li><p><code>sudo chmod -R 777 &lt;Folder_Name&gt;</code> 可以取消一个文件夹的全部访问权限。</p>
-</li>
-<li><p><code>chmod</code>命令对ext3/4文件系统，即Linux格式的文件系统才有效，对其他文件系统，如vfat(Fat32)，NTFS都是无效的。</p>
-</li>
-<li><p>/etc/fstab` 文件是掌管硬盘自动挂载配置的文件，包含自动挂载分区过程的必要信息。每一条记录格式如下：</p>
-<p><code>[Device] [Mount Point] [File System Type] [Options] [Dump] [Pass]</code></p>
-<p>如：</p>
-<p><code>UUID=B45A01D55A019570 /data ntfs defaults 0 2</code></p>
-<p>其中：</p>
-<p><code>[Options]</code> ：<code>defaults</code>表示用默认的<code>rw, suid, dev, exec, auto, nouser, async</code>等选项（不同内核和文件系统不同）进行挂载，这些选项的含义：<code>rw</code> 可读写；<code>suid</code> 执行程序时遵守<code>uuid</code>；<code>dev</code> 解释字符或禁止特殊设备；<code>exec</code> 允许执行二进制文件；<code>auto</code> 可以<code>-a</code>方式加载；<code>nouser</code> 禁止普通用户挂载此文件系统；<code>async</code> 所有I/O异步完成。</p>
-<p><code>[Dump]</code> ：是否开启分区备份，0表示关闭</p>
-<p><code>[Pass]</code>：系统启动时检查分区错误的顺序，root为1，其他为2，0为不检查。</p>
-</li>
-<li><p>在<code>fstab</code>文件中添加记录前一定要先尝试用mount命令手动挂载。</p>
-</li>
-</ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qxqxqzzz/article/details/89790688">Ubuntu18.04 开机自动挂载其他硬盘</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ybdesire/article/details/79145180">Linux查看与挂载新磁盘</a></li>
-</ol>
-<h2 id="CUDA的安装"><a href="#CUDA的安装" class="headerlink" title="CUDA的安装"></a>CUDA的安装</h2><ol>
-<li><p>检查自己的GPU是否是CUDA-capable，在终端中输入<code>lspci | grep -I NVIDIA</code> ，会显示自己的NVIDIA GPU版本信息，去CUDA的官网查看自己的GPU版本是否在CUDA的支持列表中。</p>
-</li>
-<li><p>检查自己的Linux版本是否支持 CUDA（Ubuntu 稳定支持版没问题）。</p>
-</li>
-<li><p>检查其他问题。这里就不详述了，正常情况下一般OK，这里主要要检查是否安装了<code>gcc</code>，是否安装了<code>kernel header</code>和 <code>package development</code>。如果害怕出现问题可以参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">官网</a>执行这几步检测。</p>
-</li>
-<li><p>于<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">CUDA官网</a>下载与系统对应的CUDA版本。最后一个选项选择<code>runfile</code>，因为其所需步骤最少，也因此最不容易出问题。所有选项完成后，你会看到如下两行命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run</span><br><span class="line">sudo sh cuda_10.2.89_440.33.01_linux.run</span><br></pre></td></tr></table></figure>
-
-<p>先不要执行第二条<code>sudo</code>开头的指令，只使用<code>wget</code>下载。</p>
-</li>
-<li><p>如果之前有安装过其他版本的CUDA并希望将其卸载，使用<code>sudo nvidia-uninstall</code>卸载。如果该命令不在系统路径中，则使用<code>sudo /usr/bin/nvidia-uninstall</code>（位置可能变化）卸载。如果还是没有，或是之前的驱动已经损坏，则：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br><span class="line">sudo chmod +x NVIDIA-Linux-x86_64-410.93.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-410.93.run --uninstall</span><br></pre></td></tr></table></figure></li>
-<li><p>屏蔽<code>nouveau</code>驱动。</p>
-</li>
-</ol>
-<h3 id="Nouveau是什么"><a href="#Nouveau是什么" class="headerlink" title="Nouveau是什么"></a>Nouveau是什么</h3><blockquote>
-<h4 id="Nouveau-Accelerated-Open-Source-driver-for-nVidia-cards"><a href="#Nouveau-Accelerated-Open-Source-driver-for-nVidia-cards" class="headerlink" title="Nouveau: Accelerated Open Source driver for nVidia cards"></a>Nouveau: Accelerated Open Source driver for nVidia cards</h4><p>The <strong>nouveau</strong> project aims to build high-quality, free/libre software drivers for <a target="_blank" rel="noopener" href="https://nouveau.freedesktop.org/wiki/CodeNames/">nVidia cards</a>. “Nouveau” [<em>nuvo</em>] is the French word for “new”. Nouveau is composed of a Linux kernel KMS driver (nouveau), Gallium3D drivers in Mesa, and the Xorg DDX (xf86-video-nouveau). The kernel components have also been ported to <a target="_blank" rel="noopener" href="https://nouveau.freedesktop.org/wiki/NetBSD/">NetBSD</a>.</p>
-</blockquote>
-<p>简单说，nouveau是Linux系统默认的给NVIDIA卡预装的一个图形加速驱动，而这个驱动会与CUDA产生部分冲突，所以在安装CUDA之前需要将其禁用，否则会出现卡在开机登录界面无法进入图形界面（仍然可以ssh访问），黑屏，鼠标键盘输入被禁用等问题中的一个或多个（亲身经历）。</p>
-<p>继续安装教程：</p>
-<ol start="6">
-<li><p>刚才说到要屏蔽<code>nouveau</code>，那么怎么知道你有没有装它呢？<br>使用<code>lsmod | grep nouveau</code>命令，如果没有输出，就可以判定你没有运行<code>nouveau</code>，可以直接进入下一步，否则：</p>
-<ol>
-<li><p>Create a file at <code>/etc/modprobe.d/blacklist-nouveau.conf</code> with the following contents:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure></li>
-<li><p>Regenerate the kernel initramfs:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure></li>
-<li><p>Restart.</p>
-</li>
-<li><p>Run <code>lsmod | grep nouveau</code> again. If there is no output, then you succeed.</p>
-</li>
-</ol>
-</li>
-<li><p>此后建议进入一个非图形界面安装，这里可以在重启后使用<code>ssh</code>接入，也可以在重启后按<code>alt+ctrl+f1</code>，进入<strong>text mode</strong>，登录账户。</p>
-</li>
-<li><p>输入 <code>sudo service lightdm stop</code> 关闭图形化界面。</p>
-</li>
-<li><p>执行刚才官网中给出的第二条命令：<code>sudo sh cuda_10.2.89_440.33.01_linux.run</code>。注意这里的版本会不断有变化。注意这里有一个点，即你是否要同时安装OpenGL，如果你是双显，且主显是非NVIDIA的GPU需要选择no，否则yes。同理，如果准备选no，也可以一开始就加上参数<code>--no-opengl-files</code>。 另外，如果不能直接执行，使用<code>sudo chmod a+x cuda_xx.xx.xx_linux.run</code>为其赋权。</p>
-</li>
-<li><p>安装成功后，会提示你将cuda的几个路径添加到系统路径中，这里重复一下，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-10.2/bin:/usr/<span class="built_in">local</span>/cuda-10.2/NsightCompute-2019.1<span class="variable">$&#123;PATH:+:<span class="variable">$&#123;PATH&#125;</span>&#125;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-10.2/lib64\</span><br><span class="line">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure></li>
-<li><p>使用<code>nvcc -V</code>检测是否安装成功。当然也可以同时测试<code>nvidia-smi</code>。这里可能会报错并提示需要apt安装一个包，按提示来。</p>
-</li>
-<li><p>完成。</p>
-</li>
-</ol>
-<h3 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA下载官网</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">NVIDIA 官方安装指南（英文）</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">NVIDIA 官方安装指南中前置检查部分</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.pugetsystems.com/labs/hpc/How-To-Install-CUDA-10-together-with-9-2-on-Ubuntu-18-04-with-support-for-NVIDIA-20XX-Turing-GPUs-1236/">How To Install CUDA 10 (together with 9.2) on Ubuntu 18.04 with support for NVIDIA 20XX Turing GPUs</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lipi37/article/details/90407099">Ubuntu 安装 cuda 时卡在登录界面（login loop)的解决方案之一</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wkk15903468980/article/details/56489704">ubuntu安装cuda循环登录</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33200967/article/details/80689543">Ubuntu安装和卸载CUDA和CUDNN</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wf19930209/article/details/81879514">Linux安装CUDA的正确姿势</a></li>
-</ol>
-<h2 id="CUDA-与-CUDNN-的联系"><a href="#CUDA-与-CUDNN-的联系" class="headerlink" title="CUDA 与 CUDNN 的联系"></a>CUDA 与 CUDNN 的联系</h2><ol>
-<li>要先装CUDA再装CUDNN。</li>
-<li>前者是平台，后者是基于平台的深度学习加速器。加速可以应用于几乎全部深度学习平台。还是要安的。</li>
-<li>一般深度学习使用安装runtime版本即可。</li>
-<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-download">CUDNN官方下载</a>，<a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html">CUDNN官方安装步骤</a></li>
-</ol>
-<h2 id="修复Ubuntu中“检测到系统程序错误”的问题"><a href="#修复Ubuntu中“检测到系统程序错误”的问题" class="headerlink" title="修复Ubuntu中“检测到系统程序错误”的问题"></a>修复Ubuntu中“检测到系统程序错误”的问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>每次开机时都会有“<strong>Ubuntu xx.xx 在启动时检测到系统程序错误</strong> ”弹窗出现。即使点击报告下次还会继续出现。</p>
-<h3 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h3><p>之前的某个时刻某个程序崩溃了，而Ubuntu想让你决定要不要把这个问题报告给开发者，这样他们就能够修复这个问题。</p>
-<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><ol>
-<li><code>sudo rm /var/crash/* </code> ：删除这些错误报告。但是如果又有一个程序崩溃了，你就会再次看到“检测到系统程序错误”的错误。你可以再次删除这些报告文件，或者选择禁用Apport来彻底地摆脱这个错误弹窗。如果你这样做，系统中任何程序崩溃时，系统都不会再通知你。但这未必一件坏事，除非你愿意填写错误报告。如果你不想填写错误报告，那么这些错误通知存不存在都不会有什么区别。</li>
-<li><code>sudo vim /etc/default/apport</code> 永久屏蔽这些报错。</li>
-</ol>
-<h3 id="参考-2"><a href="#参考-2" class="headerlink" title="参考"></a>参考</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hywerr/article/details/72582082">如何修复ubuntu中检测到系统程序错误的问题</a></li>
-<li><a target="_blank" rel="noopener" href="https://itsfoss.com/how-to-fix-system-program-problem-detected-ubuntu/">How To Fix System Program Problem Detected In Ubuntu</a></li>
-</ol>
-<h2 id="安装Python3-6版本的Anaconda"><a href="#安装Python3-6版本的Anaconda" class="headerlink" title="安装Python3.6版本的Anaconda"></a>安装Python3.6版本的Anaconda</h2><p>由于之前使用的一些开源库和软件对3.7的支持性尚还有问题，而Anaconda默认Python版本为3.6， 所以有必要把Anaconda降级为3.6版本。</p>
-<p>安装方法：</p>
-<ol>
-<li><p>到Anaconda官网下载并安装最新3.7版本。</p>
-</li>
-<li><p>世界线开始分歧，你可以选择保留3.7版本的Anaconda，并创建一个虚拟环境，或是直接替换Python版本。</p>
-<ol>
-<li><p>对前者，<br>若只要一个python环境不要packages，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name ana36 python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
-
-<p>反之，如果要安装一个新的Anaconda，包含默认的所有packages，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n ana36 anaconda python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure></li>
-<li><p>对后者，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install python=3.6</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-<h2 id="添加Vim拷贝至系统剪贴板快捷键支持"><a href="#添加Vim拷贝至系统剪贴板快捷键支持" class="headerlink" title="添加Vim拷贝至系统剪贴板快捷键支持"></a>添加Vim拷贝至系统剪贴板快捷键支持</h2><p>(from: <a target="_blank" rel="noopener" href="http://vim.wikia.com/wiki/Mac_OS_X_clipboard_sharing">link</a>)</p>
-<p>Having trouble copying selected text from Vim (not MacVim)? Since using <code>&quot;+y</code> or ‘“*y’ in Vim on a Mac doesn’t actually copy the selected text to the system clipboard, you might find it beneficial to do the following:</p>
-<ol>
-<li>Open your <code>~/.vimrc</code> file</li>
-<li>add <code>vmap &#39;&#39; :w !pbcopy</code></li>
-<li>Save it and <code>source</code> the file</li>
-</ol>
-<p>现在，你就可以在 visual mode， 即在Esc命令模式后按下v键后的选择模式中，选好需要拷贝区域后，连击两次<code>&#39;</code> ，即使用 <code>&#39;&#39;</code>来拷贝所选区域。</p>
-<h2 id="在Mac-Linux上使用ssh挂载远程网络硬盘"><a href="#在Mac-Linux上使用ssh挂载远程网络硬盘" class="headerlink" title="在Mac/Linux上使用ssh挂载远程网络硬盘"></a>在Mac/Linux上使用ssh挂载远程网络硬盘</h2><p>TL;DR：</p>
-<ol>
-<li>安装sshfs: <code>sudo apt-get install sshfs</code></li>
-<li>直接在<code>~/.zshrc</code>中添加以下行：（当然，需要更改文件夹名称，以及挂载后的命名）</li>
-</ol>
-<h3 id="连接本地Linux-Server"><a href="#连接本地Linux-Server" class="headerlink" title="连接本地Linux Server"></a>连接本地Linux Server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_misaka</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-home&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        mkdir /Volumes/misaka-home</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/home/miracle /Volumes/misaka-home/ -ovolname=mk-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-storage&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        mkdir /Volumes/misaka-storage</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/data /Volumes/misaka-storage/ -ovolname=mk-2T</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="连接Gypsum"><a href="#连接Gypsum" class="headerlink" title="连接Gypsum"></a>连接Gypsum</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_gypsum</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        mkdir /Volumes/gypsum</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/home/zhongyangzha /Volumes/gypsum/ -ovolname=gp-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-scratch/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        mkdir /Volumes/gypsum-scratch/</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/scratch1/zhongyangzha/ /Volumes/gypsum-scratch/ -ovolname=gp-scratch</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-work/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        mkdir /Volumes/gypsum-work</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/work1/trahman/zhongyangzha /Volumes/gypsum-work/ -ovolname=gp-work</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><ol>
-<li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
-<li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
-<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#x75;&#115;&#101;&#114;&#110;&#97;&#109;&#101;&#x40;&#x69;&#112;&#x2e;&#x61;&#100;&#x64;&#x72;&#x65;&#x73;&#115;">&#x75;&#115;&#101;&#114;&#110;&#97;&#109;&#101;&#x40;&#x69;&#112;&#x2e;&#x61;&#100;&#x64;&#x72;&#x65;&#x73;&#115;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
-<li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/11/linux-setup/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -978,7 +726,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-04-26 18:27:22" itemprop="dateModified" datetime="2020-04-26T18:27:22-04:00">2020-04-26</time>
+        <time title="Modified: 2021-03-12 04:11:02" itemprop="dateModified" datetime="2021-03-12T04:11:02-05:00">2021-03-12</time>
       </span>
 
   
@@ -1009,15 +757,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>Pandas原生支持<code>resample</code>功能，前提是目标DataFrame需要有一个index的column。假设我们现在在对一个取样率为30Hz的DataFrame做操作，并想将它变resample为16Hz。</p>
 <p>首先我们要建立一个<code>timestamp</code>的列，这个名字随意，然后它是以秒为单位的该帧的时间，如3.25，14.33。然后我们将其转换为datatime格式，单位为s。</p>
-<p>之后便是直接resample，resample中的<code>rule</code>，即第一个参数，指明了resample后两帧之间的时间间隔，即周期。如果我们是16Hz，那这个周期为62.5ms。</p>
-<p><code>resample</code>方法的格式是：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataFrame.resample(rule, how=<span class="literal">None</span>, axis=<span class="number">0</span>, fill_method=<span class="literal">None</span>, closed=<span class="literal">None</span>, label=<span class="literal">None</span>, convention=<span class="string">&#x27;start&#x27;</span>,kind=<span class="literal">None</span>, loffset=<span class="literal">None</span>, limit=<span class="literal">None</span>, base=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df.index=pd.to_datetime(df[<span class="string">&#x27;timestamp&#x27;</span>],unit=<span class="string">&#x27;s&#x27;</span>)</span><br><span class="line">df=df.resample(<span class="string">&#x27;62.5L&#x27;</span>).mean()</span><br><span class="line">df=df.reset_index(drop=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">del</span> df[<span class="string">&#x27;timestamp&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<h2 id="Pandas时间缩写"><a href="#Pandas时间缩写" class="headerlink" title="Pandas时间缩写"></a>Pandas时间缩写</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">B         business day frequency</span><br><span class="line">C         custom business day frequency (experimental)</span><br><span class="line">D         calendar day frequency</span><br><span class="line">W         weekly frequency</span><br><span class="line">M         month end frequency</span><br><span class="line">SM        semi-month end frequency (15th and end of month)</span><br><span class="line">BM        business month end frequency</span><br><span class="line">CBM       custom business month end frequency</span><br><span class="line">MS        month start frequency</span><br><span class="line">SMS       semi-month start frequency (1st and 15th)</span><br><span class="line">BMS       business month start frequency</span><br><span class="line">CBMS      custom business month start frequency</span><br><span class="line">Q         quarter end frequency</span><br><span class="line">BQ        business quarter endfrequency</span><br><span class="line">QS        quarter start frequency</span><br><span class="line">BQS       business quarter start frequency</span><br><span class="line">A         year end frequency</span><br><span class="line">BA, BY    business year end frequency</span><br><span class="line">AS, YS    year start frequency</span><br><span class="line">BAS, BYS  business year start frequency</span><br><span class="line">BH        business hour frequency</span><br><span class="line">H         hourly frequency</span><br><span class="line">T, min    minutely frequency</span><br><span class="line">S         secondly frequency</span><br><span class="line">L, ms     milliseconds</span><br><span class="line">U, us     microseconds</span><br><span class="line">N         nanoseconds</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/24/pandas-resample/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1074,7 +821,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:05:30" itemprop="dateModified" datetime="2021-03-12T02:05:30-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 04:05:46" itemprop="dateModified" datetime="2021-03-12T04:05:46-05:00">2021-03-12</time>
       </span>
 
   
@@ -1108,49 +855,14 @@
 <li>自适应。与小波分析相比，克服了基函数无自适应性的问题，解决了全局最优小波基在局部并非最优的问题，有基函数自适应特性。</li>
 <li>可以直接进行分解，不需要预分析和研究。</li>
 </ol>
-<h3 id="内涵模态分量"><a href="#内涵模态分量" class="headerlink" title="内涵模态分量"></a>内涵模态分量</h3><p>内涵模态分量（Intrinsic Mode Functions, IMF）就是原始信号被EMD分解之后得到的各层信号分量。EMD的提出人黄锷认为，任何信号都可以拆分成若干个内涵模态分量之和。而内涵模态分量有两个约束条件：</p>
-<p>1）在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个。</p>
-<p>2）在任意时刻，由局部极大值点形成的上包络线和由局部极小值点形成的下包络线的平均值为零，即上、下包络线相对于时间轴局部对称。</p>
-<p>啥意思？</p>
-<p>用不严谨的语言和灵魂画师来解释一下：</p>
-<p>1）图线要反复跨越x轴，像这样：</p>
-<p><img src="/2020/03/12/eemd/v2-0e5b832aee81e8a9068c9665e6eb2a3a_1440w.jpg" alt="img"></p>
-<p>在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个</p>
-<p>而不能像这样某次穿过零点后出现多个极点：</p>
-<p><img src="/2020/03/12/eemd/v2-921bc09334db7a4e443578091117788f_1440w.jpg" alt="极点数目偏多"></p>
-<p>2）包络线要对称，像这样：</p>
-<p><img src="/2020/03/12/eemd/v2-8826ddaefd1cebee1841bf5ff083c494_1440w.jpg" alt="包络线对称"></p>
-<p>而不能像这样：</p>
-<p><img src="/2020/03/12/eemd/v2-deb9cd0d0dcb8a154f8621276cce9972_1440w.jpg" alt="包络线不对称"></p>
-<p>洗洗眼睛，看个正常点的例子吧：</p>
-<p><img src="/2020/03/12/eemd/v2-a609c2680a2f4c525648a414d9b0a358_1440w.jpg" alt="EMD分解"></p>
-<p>上图由7张图片组成，其中第1张为原始信号，后边依次为EMD分解之后得到的6个分量，分别叫做IMF1~IMF5，最后一张图为残差，每一个IMF分量代表了原始信号中存在的一种内涵模态分量。可以看出，每个IMF分量都是满足这两个约束条件的。</p>
-<h3 id="分解步骤"><a href="#分解步骤" class="headerlink" title="分解步骤"></a>分解步骤</h3><p>1）根据原始信号上下极值点，分别画出上、下包络线。</p>
-<p><img src="/2020/03/12/eemd/v2-c18c7b4e6d60711351a4d55cb8271320_1440w.jpg" alt="img">上、下包络线</p>
-<p>2）求上、下包络线的均值，画出均值包络线。</p>
-<p><img src="/2020/03/12/eemd/v2-d56c460e9dd9e245521140497afddb39_1440w.jpg" alt="img">均值包络线</p>
-<p>3）原始信号减均值包络线，得到中间信号。</p>
-<p><img src="/2020/03/12/eemd/v2-e74e49a23dda87df74a562809257ddda_1440w.jpg" alt="img">原始信号减均值包络线</p>
-<p>4）判断该中间信号是否满足IMF的两个条件，如果满足，该信号就是一个IMF分量；如果不是，以该信号为基础，重新做1）~4）的分析。IMF分量的获取通常需要若干次的迭代。</p>
-<p><img src="/2020/03/12/eemd/v2-8b6643d803c3bdfb47639e65a75d4c8d_1440w.jpg" alt="img">不满足约束2，需要继续迭代</p>
-<p>使用上述方法得到第一个IMF后，用原始信号减IMF1，作为新的原始信号，再通过1）~4）的分析，可以得到IMF2，以此类推，完成EMD分解。</p>
-<p><img src="/2020/03/12/eemd/v2-f735266df804d187b1d173fe6f1bb168_1440w.jpg" alt="img">迭代分解结果</p>
-<p>上述例子中的图来自<a target="_blank" rel="noopener" href="http://perso.ens-lyon.fr/patrick.flandrin/emd.ppt">http://perso.ens-lyon.fr/patri</a></p>
-<h2 id="EEMD"><a href="#EEMD" class="headerlink" title="EEMD"></a>EEMD</h2><p>EEMD: Ensemble Empirical Mode Decomposition</p>
-<p>简单的说，EEMD是在EMD的基础上，对原始信号进行了N次添加各异等幅白噪声并分别进行EMD分解后，对每个IMF中间分量进行平均。</p>
-<p>其原理是通过加入白噪声来改变信号极值点的分布，得到符合信号特征的上下包络线，消除模态混叠效应。加入的白噪声通过多次平均消除。</p>
-<h2 id="CEEMD"><a href="#CEEMD" class="headerlink" title="CEEMD"></a>CEEMD</h2><p>CEEMD是在EEMD的基础上，把随机添加的N组白噪声改为了N/2组正噪声和N/2组负噪声，依旧是最后进行平均。</p>
-<p>根据 Yeh 等人的研究，在加入相同数量以及相同幅值的白噪声时，EEMD 剩余噪声会随着集成平均的次数而逐渐减小。CEEMD 的剩余噪声一直维持在一个较小的程度，不论集成平均次数多少。在一定程度上使用 CEEMD方法进行信号分解，可以使用相对较少的集成平均次数，从某种意义上来说，CEEMD在保证小剩余噪声干扰的情况下，能够节省计算时间。</p>
-<p><img src="/2020/03/12/eemd/931855-20190117162939850-50932674.png" alt="img"><img src="/2020/03/12/eemd/931855-20190117163017276-1187230461.png" alt="img"></p>
-<h2 id="Python库"><a href="#Python库" class="headerlink" title="Python库"></a>Python库</h2><p>EMD, EEMD, CEEMDAN and some visualization support are contained in this repository. </p>
-<p>We can use <code>pip install EMD-signal</code> to install this library.</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Dinging006/p/10282993.html">EMD——EEMD——CEEMD语音增强算法基础</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40005057">这篇文章能让你明白经验模态分解（EMD）——基础理论篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/44833026">这篇文章能让你明白经验模态分解（EMD）——IMF的物理含义</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/220531146_Ensemble_Empirical_Mode_Decomposition_a_Noise-Assisted_Data_Analysis_Method">Ensemble Empirical Mode Decomposition: a Noise-Assisted Data Analysis Method</a></li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/12/eemd/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1207,7 +919,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:13:01" itemprop="dateModified" datetime="2021-03-12T02:13:01-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 04:06:55" itemprop="dateModified" datetime="2021-03-12T04:06:55-05:00">2021-03-12</time>
       </span>
 
   
@@ -1241,405 +953,14 @@
 <li>Most of the landmark detectors need to take in an square bounding box for the detection. </li>
 <li>Although the bounding box shape is different, they roughly have the same shape center. For the square and rectangle, they have the same bounding box center, and the edge length of the square box is roughly the same as the mean value of the two edge lengths of the rectangle. Here is a sample.</li>
 </ol>
-<p><img src="/2020/03/06/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
-<blockquote>
-<p>White: Dlib Result</p>
-<p>Green: RetinaFace Result</p>
-<p>Red: RetinaFace Transferred Result (Same center, length=(width+height)/2)</p>
-</blockquote>
-<ol start="4">
-<li>Many face detection and alignment models has an absolute detectable face size range in pixel. If the input image contains a face too big, some network cannot generate correct face bounding box or landmark, like RetinaFace, SFD, Hrnet. On the other hand, if the input image contains faces too small(also in absolute pixel), other network like MTCNN and other traditional method will fail.</li>
-</ol>
-<h2 id="Libraries-and-Papers"><a href="#Libraries-and-Papers" class="headerlink" title="Libraries and Papers"></a>Libraries and Papers</h2><h3 id="Face-Detection"><a href="#Face-Detection" class="headerlink" title="Face Detection"></a>Face Detection</h3><h4 id="Datasets"><a href="#Datasets" class="headerlink" title="Datasets"></a>Datasets</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Wider Face</td>
-<td><a target="_blank" rel="noopener" href="http://shuoyang1213.me/WIDERFACE/">Link</a></td>
-<td><strong>32,203</strong> images, <strong>393,703</strong> faces labeled with a high degree of variability in scale, pose and occlusion</td>
-</tr>
-<tr>
-<td>FFDB</td>
-<td><a target="_blank" rel="noopener" href="http://vis-www.cs.umass.edu/fddb/">Link</a></td>
-<td><strong>5171</strong> faces, in which <strong>2845</strong> images from the <a target="_blank" rel="noopener" href="http://tamaraberg.com/faceDataset/index.html">Faces in the Wild</a> data set</td>
-</tr>
-<tr>
-<td>AFLW</td>
-<td><a target="_blank" rel="noopener" href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/">Link</a></td>
-<td><strong>25k faces</strong> are annotated with up to <strong>21 landmarks</strong> per image</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h4 id="Researches"><a href="#Researches" class="headerlink" title="Researches"></a>Researches</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Paper</th>
-<th>Code</th>
-<th>Year</th>
-<th>Accuracy</th>
-<th>Pre-trained Model</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/190500641">RetinaFace</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1905.00641v2.pdf">Link</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/deepinsight/insightface"> Original</a><br /><a target="_blank" rel="noopener" href="https://github.com/biubug6/Pytorch_Retinaface"> Pytorch</a></td>
-<td>2019</td>
-<td>Wider Face (Hard): 0.914</td>
-<td>104M(Resnet)<br /><a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1oZRSG0ZegbVkVwUd8wUIQx8W7yfZ_ki1">2M(MobileNet0.25)</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/dsfd-dual-shot-face-detector">DFSD</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1810.10220v3.pdf">Link</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/TencentYoutuResearch/FaceDetection-DSFD">Link</a></td>
-<td>2018</td>
-<td>FDDB: 0.991<br />Wider Face: 0.960, 0.953, 0.900</td>
-<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1WeXlNYsM6dMP3xQQELI-4gxhwKUQxc3-/view">459MB</a></td>
-</tr>
-<tr>
-<td><a href="SFD/S3FD">SFD/S3FD</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1708.05237.pdf">Link</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/sfzhang15/SFD">Original</a><br /><a target="_blank" rel="noopener" href="https://github.com/yxlijun/S3FD.pytorch">Pytorch</a></td>
-<td>2017</td>
-<td>FDDB: 0.983<br />Wider Face: 0.928, 0.913, 0.840</td>
-<td><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1epyTAUc6qSt3oZ7veK4oEw">85.7M</a></td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/joint-face-detection-and-alignment-using">MTCNN</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.02878">Link</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/kuaikuaikim/DFace">Original</a><br /><a target="_blank" rel="noopener" href="https://github.com/ipazc/mtcnn">Pip Version</a></td>
-<td>2016</td>
-<td>Wider Face: 0.851,  0.820, 0.607</td>
-<td><a target="_blank" rel="noopener" href="https://github.com/ipazc/mtcnn/blob/master/mtcnn/data/mtcnn_weights.npy">2.85M</a></td>
-</tr>
-</tbody></table>
-<h5 id="RetinaFace-Pros-amp-Cons"><a href="#RetinaFace-Pros-amp-Cons" class="headerlink" title="RetinaFace Pros &amp; Cons:"></a>RetinaFace Pros &amp; Cons:</h5><p>RetinaFace can generate an accurate rectangle face bounding box together with a 5-points facial landmark. It supports two backbone kernels: Resnet and MobileNet. The first one is more accurate but relatively slow, the MobileNet version is fast and really small.</p>
-<p>RetinaFace focus more on the detection of the relatively small faces, and it can do a good(best) job on wider face dataset hard level. However, when the input is an image contain a really large face(About ${short_face_edge}&gt;700\space pixel $ ), RetinaFace tend to fail. Since there is also other people asking the same question on the issue of its GitHub page, I tend to think this is a design defects of RetinaFace.</p>
-<p>Since the game streamers’ face videos can be relatively large, I think this may become a fatal drawback. There are three possible solutions:</p>
-<ol>
-<li>Scale the input image to make sure the largest face short edge is smaller than 700, recommend around 500.</li>
-<li>Wait for the author to change or change the pyramid weights parameters. This is delicate and success is not guaranteed.</li>
-</ol>
-<img src="image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;" />
-
-<h5 id="Other-Models"><a href="#Other-Models" class="headerlink" title="Other Models"></a>Other Models</h5><p>DFSD can behave well on both easy, medium and hard level of Wider Face dataset. The only drawback is that it is much too large and slow. Not to mention real-time, it is even too heavy for GPU prediction when the input is a video and we also need to predict other features.</p>
-<p>SFD has the similar problem as RetinaFace. It will also fail at big face cases. </p>
-<p>MTCNN is just really small and easy to use. It is wrapped finely into a pip package and we can use one line to do face detection here. It behaves much worse in small faces, but better when the input face is big compared to other method. In fact, MTCNN might be a good choice for our project, since it is friendly to big face and fast enough.</p>
-<h4 id="Wrapped-Libraries"><a href="#Wrapped-Libraries" class="headerlink" title="Wrapped Libraries"></a>Wrapped Libraries</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Year</th>
-<th>Language</th>
-<th>Pip (Name)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Dlib</td>
-<td><a target="_blank" rel="noopener" href="http://dlib.net/">Link</a></td>
-<td>2006-&gt;now</td>
-<td>C++ &amp; Python</td>
-<td>√ dlib</td>
-</tr>
-<tr>
-<td>OpenFace V1</td>
-<td><a target="_blank" rel="noopener" href="http://cmusatyalab.github.io/openface/">Home Page</a><br /><a target="_blank" rel="noopener" href="https://github.com/cmusatyalab/openface">GitHub</a></td>
-<td>2016</td>
-<td>Python &amp; Lua</td>
-<td>× conda</td>
-</tr>
-<tr>
-<td>OpenFace V2</td>
-<td><a target="_blank" rel="noopener" href="https://github.com/TadasBaltrusaitis/OpenFace">Link</a></td>
-<td>2018</td>
-<td>C++</td>
-<td>× compile locally</td>
-</tr>
-<tr>
-<td>facenet-pytorch</td>
-<td><a target="_blank" rel="noopener" href="https://pypi.org/project/facenet-pytorch/">Link</a></td>
-<td>2017</td>
-<td>Python(PT)</td>
-<td>√ facenet-pytorch</td>
-</tr>
-<tr>
-<td>MTCNN</td>
-<td><a target="_blank" rel="noopener" href="https://pypi.org/project/mtcnn/">Link</a></td>
-<td>2016</td>
-<td>Python(TF)</td>
-<td>√ mtcnn</td>
-</tr>
-</tbody></table>
-<h5 id="Comment"><a href="#Comment" class="headerlink" title="Comment"></a>Comment</h5><ol>
-<li>OpenFace V1 uses face detection model from dlib and OpenCV.</li>
-<li>OpenFace V2 also used MTCNN as core face detector. </li>
-</ol>
-<h3 id="Face-Landmark"><a href="#Face-Landmark" class="headerlink" title="Face Landmark"></a>Face Landmark</h3><h4 id="Datasets-1"><a href="#Datasets-1" class="headerlink" title="Datasets"></a>Datasets</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>300-W</td>
-<td><a target="_blank" rel="noopener" href="https://ibug.doc.ic.ac.uk/resources/300-W/">Link</a></td>
-<td>68 points. Bounding boxes calculated by the boundary of all <strong>68</strong> points.</td>
-</tr>
-<tr>
-<td>WFLW</td>
-<td><a target="_blank" rel="noopener" href="https://wywu.github.io/projects/LAB/WFLW.html">Link</a></td>
-<td>Wider Facial Landmarks in-the-wild (WFLW) contains <strong>10000</strong> faces (7500 for training and 2500 for testing) with <strong>98</strong> fully manual annotated landmarks. Rich attribute annotations included, i.e., occlusion, pose, make-up, illumination, blur and expression.</td>
-</tr>
-</tbody></table>
-<p>| COFW  | <a target="_blank" rel="noopener" href="http://www.vision.caltech.edu/xpburgos/ICCV13/">Link</a>       | All images were hand annotated using the same <strong>29</strong> landmarks as in LFPW. Both the landmark positions and their occluded/unoccluded state are annotated. The faces are occluded to different degrees, with large variations in the type of occlusions encountered. COFW has an average occlusion of over <strong>23%</strong>. To increase the number of training images, and since  COFW has the exact same landmarks as LFPW, for training  we use the original non-augmented 845 LFPW faces + 500 COFW faces (<strong>1345</strong> total), and for testing the remaining <strong>507</strong> COFW faces. |<br>| AFLW  | <a target="_blank" rel="noopener" href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/">Link</a> | Annotated Facial Landmarks in the Wild (AFLW) provides a large-scale collection of annotated face images gathered from the web, exhibiting a large variety in appearance (e.g., pose, expression, ethnicity, age, gender) as well as general imaging and environmental conditions. In total about <strong>25k faces</strong> are annotated with up to <strong>21 landmarks</strong> per image. |</p>
-<h5 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h5><ol>
-<li>The bounding box of 300-W dataset is not human labeled. It is the smallest rectangle which can accurately include every 68 points.</li>
-</ol>
-<img src="figure_4_n_2.png" alt="img" style="zoom:15%;" />
-
-<h4 id="Researches-1"><a href="#Researches-1" class="headerlink" title="Researches"></a>Researches</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Paper</th>
-<th>Code</th>
-<th>Year</th>
-<th>Accuracy</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/adaptive-wing-loss-for-robust-face-alignment">AWing</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1904.07399v2.pdf">Adaptive Wing Loss for Robust Face Alignment via Heatmap Regression</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/protossw512/AdaptiveWingLoss">Link</a></td>
-<td>2019</td>
-<td>300-W: 3.07</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/look-at-boundary-a-boundary-aware-face">LAB</a></td>
-<td><a target="_blank" rel="noopener" href="https://wywu.github.io/projects/LAB/LAB.html">Look at Boundary</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/wywu/LAB">Link</a></td>
-<td>2018</td>
-<td>300-W: 3.49</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/style-aggregated-network-for-facial-landmark">SAN</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1803.04108v4.pdf">Style Aggregated Network</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/D-X-Y/landmark-detection">Link</a></td>
-<td>2018</td>
-<td>300W NME: 3.98</td>
-</tr>
-<tr>
-<td>HRNet</td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1908.07919">Deep High-Resolution Representation Learning</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/HRNet/HRNet-Facial-Landmark-Detection">Link</a></td>
-<td>2019</td>
-<td>300-W: 3.32</td>
-</tr>
-<tr>
-<td>FAN</td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1703.07332">Face Alignment Network</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/1adrianb/face-alignment">Link</a></td>
-<td>2017</td>
-<td>300-W: Acc(7% threshold)66.9%</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/deep-alignment-network-a-convolutional-neural">DAN-Menpo</a></td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.01789v2.pdf">Deep Alignment Network</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/MarekKowalski/DeepAlignmentNetwork">Link</a></td>
-<td>2017</td>
-<td>300-W: 3.44</td>
-</tr>
-</tbody></table>
-<p>The accuracy on 300-W is based on <strong>FULLSET (PUBLIC)</strong>.</p>
-<h4 id="Overview-on-researches"><a href="#Overview-on-researches" class="headerlink" title="Overview on researches"></a>Overview on researches</h4><ol>
-<li>FAN is the final method I choose now. It cannot only generate 2D but also accurate 3D landmark, which is quite important for us considering the head pose and eye gaze can also be deduced from here. </li>
-<li>Although HRNet seems to be good, it will crash completely when the input face is large(About ${face_min_edge} &gt; 250$). Not really recommended if no extra operation added. But this can also be fixed by resize before sending to our pipeline, since our target is a single big-face player. When the input face size is limited, the result is quite decent.</li>
-</ol>
-<h4 id="Wrapped-Libraries-1"><a href="#Wrapped-Libraries-1" class="headerlink" title="Wrapped Libraries"></a>Wrapped Libraries</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Year</th>
-<th>Language</th>
-<th>Pip (Name)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Dlib</td>
-<td><a target="_blank" rel="noopener" href="http://dlib.net/">Link</a></td>
-<td>2006-&gt;now</td>
-<td>C++ &amp; Python</td>
-<td>√ dlib</td>
-</tr>
-<tr>
-<td>OpenFace V1</td>
-<td><a target="_blank" rel="noopener" href="http://cmusatyalab.github.io/openface/">Home Page</a><br /><a target="_blank" rel="noopener" href="https://github.com/cmusatyalab/openface">GitHub</a></td>
-<td>2016</td>
-<td>Python &amp; Lua</td>
-<td>× conda</td>
-</tr>
-<tr>
-<td>OpenFace V2</td>
-<td><a target="_blank" rel="noopener" href="https://github.com/TadasBaltrusaitis/OpenFace">Link</a></td>
-<td>2018</td>
-<td>C++</td>
-<td>× compile locally</td>
-</tr>
-<tr>
-<td>face-alignment</td>
-<td><a target="_blank" rel="noopener" href="https://github.com/1adrianb/face-alignment">Link</a></td>
-<td>2017</td>
-<td>Python &amp; Lua</td>
-<td>√ face-alignment</td>
-</tr>
-</tbody></table>
-<h3 id="Eye-Blinking"><a href="#Eye-Blinking" class="headerlink" title="Eye Blinking"></a>Eye Blinking</h3><h4 id="Datasets-2"><a href="#Datasets-2" class="headerlink" title="Datasets"></a>Datasets</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Closed Eyes In The Wild (CEW)</td>
-<td><a target="_blank" rel="noopener" href="http://parnec.nuaa.edu.cn/xtan/data/ClosedEyeDatabases.html">Link</a></td>
-<td>2423 subjects, among which 1192 subjects with both eyes closed are collected directly from Internet, and 1231 subjects with eyes open are selected from the Labeled Face in the Wild (LFW [2]) database. Cropped coarse faces resized to the 100×100 and extract eye patches of 24×24 centered at the localized eye position.</td>
-</tr>
-<tr>
-<td>EBV</td>
-<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1jJTImI-QkmGYFS-0UmE1qvqbwoYOCPnR/view?usp=sharing">Link</a></td>
-<td>It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>.</td>
-</tr>
-<tr>
-<td>Eyeblink8</td>
-<td><a target="_blank" rel="noopener" href="https://www.blinkingmatters.com/research">Link</a></td>
-<td>8 videos with 4 individuals (1 wearing glasses). Videos are recorded in a home environment. 408 eye blinks on 70 992 annotated frames with resolution 640x480.</td>
-</tr>
-<tr>
-<td>MRL</td>
-<td><a target="_blank" rel="noopener" href="http://mrl.cs.vsb.cz/eyedataset">Link</a></td>
-<td>Infrared images in low and high resolution, all captured in various lightning conditions and by different devices. Approximately 15 000 annotation for pupil points (images).</td>
-</tr>
-<tr>
-<td>RT-BENE</td>
-<td><a target="_blank" rel="noopener" href="https://zenodo.org/record/3685316#.XmL4pJP0lQI">Link</a></td>
-<td>Annotations of the eye-openness of more than 200,000 eye images, including more than 10,000 images where the eyes are closed.</td>
-</tr>
-</tbody></table>
-<h4 id="Researches-2"><a href="#Researches-2" class="headerlink" title="Researches"></a>Researches</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Paper</th>
-<th>Code</th>
-<th>Description</th>
-<th>Pre-trained Model</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>In Ictu Oculi</td>
-<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.02877">Link</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/danmohaha/WIFS2018_In_Ictu_Oculi">Link</a></td>
-<td>Using Blink to detect Fake Video.</td>
-<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1OJZ4mvZefwMJ7Knpsf_RFhCsA4xbAOMc/view">429M</a></td>
-</tr>
-<tr>
-<td>RT-GENE &amp; RT-BENE</td>
-<td><a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_ECCV_2018/html/Tobias_Fischer_RT-GENE_Real-Time_Eye_ECCV_2018_paper.html">Link</a></td>
-<td><a target="_blank" rel="noopener" href="https://github.com/Tobias-Fischer/rt_gene">Link</a></td>
-<td>Robust gaze estimation in natural environments.</td>
-<td></td>
-</tr>
-</tbody></table>
-<h4 id="My-Update"><a href="#My-Update" class="headerlink" title="My Update"></a>My Update</h4><ol>
-<li>Build a new Resnet18-LSTM based eye blink detection network, which reaches 99.8% accuracy on both training and testing set the same as “In Ictu Oculi” paper proposed.</li>
-<li>Build a new mixed dataset which has three classes: open, closed, and not-eye. Not-eye class includes hand, cup, microphone, hat, fast food, and bedroom background. They are frequently appearing objects in the gamer’s streaming video. In many cases, part of the face are covered by this kind of things, but the face landmark detector can still give a predicted landmark. For example, one’s left eye may be shield by a microphone constantly due to the camera angle, but we can still get the useful information from his right eye. So in these cases, the new dataset will be more representative.</li>
-<li>All of these new 6-classes images are collected from google image. Total number is <strong>2738</strong>, image number of each class is roughly balanced. I did a manual selecting to make sure the image is usable and representative of that classes. Every collected image will be resized to <strong>48, 64, and 128</strong>(the short edge), and then randomly crop three <strong>(32,32)</strong> images from each resized image. At last, <strong>32855</strong> images are collected.</li>
-<li>EBV dataset from the author “In Ictu Oculi” is used as base dataset. It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>. I build the new dataset by inserting 1, 2, or 3 continuous background images into the video clip image folder. The insert position is random, and the proportion of inserting 0,1,2,3 background images is: 40%, 10%, 30%, 20%. The inserted images is also randomly selected continuous images from all generated <strong>32855</strong> images. Training and validation set separation is the same as original dataset.</li>
-<li>A new “Robust-Eye-Blink” network is trained based on this new dataset, and after sufficient training, it can reach 99.7% at both train and test dataset.</li>
-</ol>
-<h3 id="Head-Pose"><a href="#Head-Pose" class="headerlink" title="Head Pose"></a>Head Pose</h3><h4 id="Calculation"><a href="#Calculation" class="headerlink" title="Calculation"></a>Calculation</h4><p>3D Facial Landmark -&gt; <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation matrix</a> -&gt; <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a> -&gt; <a target="_blank" rel="noopener" href="https://carsexplained.wordpress.com/2017/02/21/fundamentals-of-car-science-pitch-and-roll/">(yaw, pitch, roll)</a></p>
-<img src="1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;" />
-
-<p>Visualization of yaw, pitch and roll: <a target="_blank" rel="noopener" href="http://www.ctralie.com/Teaching/COMPSCI290/Materials/EulerAnglesViz/">Link</a></p>
-<p><strong>Euler angles:</strong></p>
-<p><img src="/2020/03/06/face-features/300px-Eulerangles.svg.png" alt="img"></p>
-<h5 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h5><img src="image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;" />
-
-<p>Use the 3D landmark computed, and set the vector from 1 to 17 as the x axis, and 9 to 28 as the y axis, then the z axis is computed by set it perpendicular to both x and y, pointing out of front face.</p>
-<p>Now, the head pose detection part has been wrapped into a module, we can get the pose within one line.</p>
-<h4 id="Code-Reference"><a href="#Code-Reference" class="headerlink" title="Code Reference"></a>Code Reference</h4><ol>
-<li><a target="_blank" rel="noopener" href="https://github.com/jerryhouuu/Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV">Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV</a></li>
-<li><a target="_blank" rel="noopener" href="https://gist.github.com/crmccreary/1593090">euler_angles_from_rotation_matrix</a></li>
-</ol>
-<h3 id="Emotion"><a href="#Emotion" class="headerlink" title="Emotion"></a>Emotion</h3><h4 id="Can-facial-expression-really-tell-emotion"><a href="#Can-facial-expression-really-tell-emotion" class="headerlink" title="Can facial expression really tell emotion"></a>Can facial expression really tell emotion</h4><h5 id="Cons"><a href="#Cons" class="headerlink" title="Cons"></a>Cons</h5><ol>
-<li>Facial expression is not universal, it also depend on culture and education. Like in Asia, people tend to convey more emotion in their eyes, but in western culture, people use their mouth to deliver more information.</li>
-<li>Human can easily trick the face expression to emotion system, since what they show is not necessarily what they feel.</li>
-<li>One certain facial expression can have multiple possible meanings, and this tend to depend on things near the face, namely the context. Like a soccer player win the game and shouting, without the context, you will judge him as angry or so.</li>
-<li>The current facial expression classification method usually classify all of the emotion into several classes, like 6 or 7. But the fact is that each big emotion contain multiple sub-emotions which is more delicate. They can overlap or differ.</li>
-<li>After reading 1000 papers, they find there was little to no evidence that people can reliably infer someone else’s emotional state from a set of facial movements.</li>
-</ol>
-<h5 id="Pros"><a href="#Pros" class="headerlink" title="Pros"></a>Pros</h5><ol>
-<li>It is actually accurate. Affectiva has reached an accuracy of more than 90%.</li>
-<li>Most of the culture share the similar facial expression. </li>
-</ol>
-<h4 id="Datasets-3"><a href="#Datasets-3" class="headerlink" title="Datasets"></a>Datasets</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>FER2013</td>
-<td><a target="_blank" rel="noopener" href="https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data">Kaggle Link</a></td>
-<td>48x48 pixel grayscale images of faces. (0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral). The training set consists of 28,709 examples. The public test set consists of 3,589 examples. The final test set consists of another 3,589 examples.</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/5543262">CK+</a></td>
-<td><a target="_blank" rel="noopener" href="http://www.consortium.ri.cmu.edu/ckagree/">Link</a></td>
-<td>Posed Facial Expressions: 593 sequences from 123 subjects.</td>
-</tr>
-</tbody></table>
-<h4 id="Wrapped-Libraries-2"><a href="#Wrapped-Libraries-2" class="headerlink" title="Wrapped Libraries"></a>Wrapped Libraries</h4><table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Site</th>
-<th>Year</th>
-<th>Language</th>
-<th>Pip/Pt model</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Facial-Expression-Recognition</td>
-<td><a target="_blank" rel="noopener" href="https://github.com/WuJie1010/Facial-Expression-Recognition.Pytorch">Link</a></td>
-<td>2018</td>
-<td>Python(PT)</td>
-<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1Oy_9YmpkSKX1Q8jkOhJbz3Mc7qjyISzU/view">76M</a></td>
-</tr>
-</tbody></table>
-<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><ol>
-<li><a target="_blank" rel="noopener" href="https://www.nature.com/articles/d41586-020-00507-5">Why faces don’t always tell the truth about feelings</a></li>
-</ol>
-<p>By Zhongyang Zhang</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/06/face-features/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1789,7 +1110,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-04-26 18:55:09" itemprop="dateModified" datetime="2020-04-26T18:55:09-04:00">2020-04-26</time>
+        <time title="Modified: 2021-03-12 04:11:26" itemprop="dateModified" datetime="2021-03-12T04:11:26-05:00">2021-03-12</time>
       </span>
 
   
@@ -1820,32 +1141,14 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="对象是一个定值"><a href="#对象是一个定值" class="headerlink" title="对象是一个定值"></a>对象是一个定值</h2><p>此时三种方法的作用实际上是相同的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">a = <span class="string">&quot;亚丝娜&quot;</span></span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br></pre></td></tr></table></figure>
-
-<p>输出如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源：id(a)-&gt;&gt;&gt; 4394180400</span><br><span class="line">赋值：id(b)-&gt;&gt;&gt; 4394180400</span><br><span class="line">浅拷贝：id(c)-&gt;&gt;&gt; 4394180400</span><br><span class="line">深拷贝：id(d)-&gt;&gt;&gt; 4394180400</span><br></pre></td></tr></table></figure>
-
-<p>如果a的值被更改，只有a本身的id会改变，bcd都不变。</p>
-<h2 id="对象是一个引用"><a href="#对象是一个引用" class="headerlink" title="对象是一个引用"></a>对象是一个引用</h2><ul>
-<li>首先，元组，数组，字典，类等的本质都是引用，或称之为“指针”，每个引用指向的实体都是有其相应地址的，比如这里的<code>“亚丝娜”</code>在内存中有一个具体的地址，而<code>[“亚丝娜”]</code>则是一个对于内存中“亚丝娜”实体的一个引用集，这个引用集本身也有一个独特的地址。</li>
-<li>对于不可变对象，Python 用引用计数的方式管理它们，所以 Python 不会对值相同的不可变对象，申请单独的内存空间。只会记录它的引用次数。</li>
-<li>使用“引用集”赋值是把引用集本身的地址赋给了左边的变量，即一个引用的引用。</li>
-<li>使用赋值的方法得到的对象，当原“引用集”中的任何引用发生任何改变时，其都会随着改变，就像一个快捷方式。但如果原“引用集”直接被覆盖了，则不会随之改变。</li>
-</ul>
-<h3 id="例："><a href="#例：" class="headerlink" title="例："></a>例：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一位数组更改内层元素</span></span><br><span class="line">a=[<span class="string">&quot;亚丝娜&quot;</span>]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>] = <span class="string">&quot;桐人&quot;</span></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4585988416</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4585988416</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4585374256</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4585117648</span></span><br><span class="line"><span class="string">[&#x27;桐人&#x27;] [&#x27;桐人&#x27;] [&#x27;亚丝娜&#x27;] [&#x27;亚丝娜&#x27;]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 一位数组完全变更</span></span><br><span class="line">a=[<span class="string">&quot;亚丝娜&quot;</span>]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a=[<span class="string">&quot;利兹&quot;</span>]</span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4586047600</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4583430096</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4585223344</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4585988416</span></span><br><span class="line"><span class="string">[&#x27;利兹&#x27;] [&#x27;亚丝娜&#x27;] [&#x27;亚丝娜&#x27;] [&#x27;亚丝娜&#x27;]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组更改最内层元素</span></span><br><span class="line">a=[[<span class="string">&quot;亚丝娜&quot;</span>]]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">print(<span class="string">&quot;源（重赋值前）：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>][<span class="number">0</span>]=<span class="string">&quot;利兹&quot;</span></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源（重赋值前）：id(a)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4586041088</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4585375216</span></span><br><span class="line"><span class="string">[[&#x27;利兹&#x27;]] [[&#x27;利兹&#x27;]] [[&#x27;利兹&#x27;]] [[&#x27;亚丝娜&#x27;]]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组更改第一维</span></span><br><span class="line">a=[[<span class="string">&quot;亚丝娜&quot;</span>]]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">print(<span class="string">&quot;源（重赋值前）：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a[<span class="number">0</span>]=[<span class="string">&quot;利兹&quot;</span>]</span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源（重赋值前）：id(a)-&gt;&gt;&gt; 4585239328</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4585239328</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4585239328</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4586082944</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">[[&#x27;利兹&#x27;]] [[&#x27;利兹&#x27;]] [[&#x27;亚丝娜&#x27;]] [[&#x27;亚丝娜&#x27;]]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组完全变更</span></span><br><span class="line">a=[[<span class="string">&quot;亚丝娜&quot;</span>]]</span><br><span class="line">b=a</span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">print(<span class="string">&quot;源（重赋值前）：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">a=[[<span class="string">&quot;利兹&quot;</span>]]</span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">源（重赋值前）：id(a)-&gt;&gt;&gt; 4586082944</span></span><br><span class="line"><span class="string">源：id(a)-&gt;&gt;&gt; 4585468704</span></span><br><span class="line"><span class="string">赋值：id(b)-&gt;&gt;&gt; 4586082944</span></span><br><span class="line"><span class="string">浅拷贝：id(c)-&gt;&gt;&gt; 4586327008</span></span><br><span class="line"><span class="string">深拷贝：id(d)-&gt;&gt;&gt; 4586041088</span></span><br><span class="line"><span class="string">[[&#x27;利兹&#x27;]] [[&#x27;亚丝娜&#x27;]] [[&#x27;亚丝娜&#x27;]] [[&#x27;亚丝娜&#x27;]]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>赋值是完全的快捷方式。</li>
-<li>浅拷贝的实质是对一个“引用集”的所有引用的拷贝，即拷贝了一份“引用集”中记录的所有的这些的不可变对象的地址，但只拷贝了一层，或称并没有把这些对象本身拷贝一遍。</li>
-<li>如果引用集里还有引用集x，那么浅拷贝对x的作用和赋值相同，即如果x里的元素变了，浅拷贝的结果还是会跟着变。</li>
-<li>深拷贝把拷贝对象里面的所有层的引用集全部做了拷贝动作，直到引用到不可变变量，所以可以说深拷贝出来的结果和其拷贝对象没有任何耦合关系了。</li>
-</ul>
-<h2 id="简要版本"><a href="#简要版本" class="headerlink" title="简要版本"></a>简要版本</h2><ul>
-<li>  由于 Python 内部引用计数的特性，对于不可变对象，浅拷贝和深拷贝的作用是一致的，就相当于复制了一份副本，原对象内部的不可变对象的改变，不会影响到复制对象。</li>
-<li>  浅拷贝的拷贝。其实是拷贝了原始元素的引用（内存地址），所以当拷贝可变对象时，原对象内可变对象的对应元素的改变，会在复制对象的对应元素上，有所体现。</li>
-<li>  深拷贝在遇到可变对象时，又在内部做了新建了一个副本。所以，不管它内部的元素如何变化，都不会影响到原来副本的可变对象。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5c6943266fb9a049ed316931">5张图彻底理解Python中的浅拷贝与深拷贝</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/11/python-copy/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1915,7 +1218,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

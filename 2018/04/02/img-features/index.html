@@ -23,19 +23,19 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="局部二值模式（英文：Local binary patterns，缩写：LBP）在最简简化的情况下，局部二值模式特征向量可以通过如下方式计算：  将检测窗口切分为区块（cells，例如，每个区块16x16像素）。 对区块中的每个像素，与它的八个邻域像素进行比较（左上、左中、左下、右上等）。可以按照顺时针或者逆时针的顺序进行比较。 对于中心像素大于某个邻域的，设置为1；否则，设置为0。这就获得了一个8">
+<meta name="description" content="局部二值模式（英文：Local binary patterns，缩写：LBP）在最简简化的情况下，局部二值模式特征向量可以通过如下方式计算：  将检测窗口切分为区块（cells，例如，每个区块16x16像素）。  对区块中的每个像素，与它的八个邻域像素进行比较（左上、左中、左下、右上等）。可以按照顺时针或者逆时针的顺序进行比较。  对于中心像素大于某个邻域的，设置为1；否则，设置为0。这就获得了一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用的模式识别中的图像特征介绍">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/04/02/img-features/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="局部二值模式（英文：Local binary patterns，缩写：LBP）在最简简化的情况下，局部二值模式特征向量可以通过如下方式计算：  将检测窗口切分为区块（cells，例如，每个区块16x16像素）。 对区块中的每个像素，与它的八个邻域像素进行比较（左上、左中、左下、右上等）。可以按照顺时针或者逆时针的顺序进行比较。 对于中心像素大于某个邻域的，设置为1；否则，设置为0。这就获得了一个8">
+<meta property="og:description" content="局部二值模式（英文：Local binary patterns，缩写：LBP）在最简简化的情况下，局部二值模式特征向量可以通过如下方式计算：  将检测窗口切分为区块（cells，例如，每个区块16x16像素）。  对区块中的每个像素，与它的八个邻域像素进行比较（左上、左中、左下、右上等）。可以按照顺时针或者逆时针的顺序进行比较。  对于中心像素大于某个邻域的，设置为1；否则，设置为0。这就获得了一">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/04/02/img-features/20131025114220937.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/04/02/img-features/v2-890c6f08045598e83c90f2d52b946c17_hd.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/04/02/img-features/v2-f356313f5806fdaaf59ec9196af353b7_hd.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/04/02/img-features/v2-802e88923e7e26459250d31086e033ea_hd.jpg">
 <meta property="article:published_time" content="2018-04-02T21:22:26.000Z">
-<meta property="article:modified_time" content="2019-10-04T03:01:50.570Z">
+<meta property="article:modified_time" content="2021-03-12T09:08:05.779Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="CV">
@@ -262,7 +262,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 23:01:50" itemprop="dateModified" datetime="2019-10-03T23:01:50-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:08:05" itemprop="dateModified" datetime="2021-03-12T04:08:05-05:00">2021-03-12</time>
       </span>
 
   
@@ -300,13 +300,20 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="局部二值模式（英文：Local-binary-patterns，缩写：LBP）"><a href="#局部二值模式（英文：Local-binary-patterns，缩写：LBP）" class="headerlink" title="局部二值模式（英文：Local binary patterns，缩写：LBP）"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013207865/article/details/49720509">局部二值模式（英文：Local binary patterns，缩写：LBP）</a></h2><p>在最简简化的情况下，局部二值模式特征向量可以通过如下方式计算：</p>
 <ul>
-<li>将检测窗口切分为区块（cells，例如，每个区块16x16像素）。</li>
-<li>对区块中的每个像素，与它的八个邻域像素进行比较（左上、左中、左下、右上等）。可以按照顺时针或者逆时针的顺序进行比较。</li>
-<li>对于中心像素大于某个邻域的，设置为1；否则，设置为0。这就获得了一个8位的二进制数（通常情况下会转换为十进制数字），作为该位置的特征。</li>
-<li>对每一个区块计算直方图。</li>
-<li>此时，可以选择将直方图归一化；</li>
-<li>串联所有区块的直方图，这就得到了当前检测窗口的特征向量。</li>
-<li>Python实现库函数：<a target="_blank" rel="noopener" href="http://scikit-image.org/docs/stable/api/skimage.feature.html#local-binary-pattern">请点这里</a></li>
+<li><p>将检测窗口切分为区块（cells，例如，每个区块16x16像素）。</p>
+</li>
+<li><p>对区块中的每个像素，与它的八个邻域像素进行比较（左上、左中、左下、右上等）。可以按照顺时针或者逆时针的顺序进行比较。</p>
+</li>
+<li><p>对于中心像素大于某个邻域的，设置为1；否则，设置为0。这就获得了一个8位的二进制数（通常情况下会转换为十进制数字），作为该位置的特征。</p>
+<span id="more"></span></li>
+<li><p>对每一个区块计算直方图。</p>
+</li>
+<li><p>此时，可以选择将直方图归一化；</p>
+</li>
+<li><p>串联所有区块的直方图，这就得到了当前检测窗口的特征向量。</p>
+</li>
+<li><p>Python实现库函数：<a target="_blank" rel="noopener" href="http://scikit-image.org/docs/stable/api/skimage.feature.html#local-binary-pattern">请点这里</a></p>
+</li>
 </ul>
 <img src="/2018/04/02/img-features/20131025114220937.png" class="" title="局部二值模式">
 
@@ -503,7 +510,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

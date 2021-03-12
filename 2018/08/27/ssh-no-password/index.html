@@ -23,15 +23,15 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="问题如何优雅地使用ssh登录，并不需要每次输入密码。 解决方案步骤一：使用Alias或config记住Server信息添加Alias如果你正在使用默认的bash，别名alias信息会被保存在~&#x2F;.bashrc文件中；如果你使用了zsh，那么你需要在~&#x2F;.zshrc文件中修改。 添加别名操作只需在该文件的任意位置插入以下命令（不过建议加载最前或最后方便管理和查找）： alias new_name&#x3D;&amp;">
+<meta name="description" content="问题如何优雅地使用ssh登录，并不需要每次输入密码。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="优雅地使用ssh免密登录">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/08/27/ssh-no-password/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="问题如何优雅地使用ssh登录，并不需要每次输入密码。 解决方案步骤一：使用Alias或config记住Server信息添加Alias如果你正在使用默认的bash，别名alias信息会被保存在~&#x2F;.bashrc文件中；如果你使用了zsh，那么你需要在~&#x2F;.zshrc文件中修改。 添加别名操作只需在该文件的任意位置插入以下命令（不过建议加载最前或最后方便管理和查找）： alias new_name&#x3D;&amp;">
+<meta property="og:description" content="问题如何优雅地使用ssh登录，并不需要每次输入密码。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-08-27T20:54:00.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:06:21.740Z">
+<meta property="article:modified_time" content="2021-03-12T09:12:35.809Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="ssh">
@@ -256,7 +256,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:21" itemprop="dateModified" datetime="2019-10-03T22:06:21-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:12:35" itemprop="dateModified" datetime="2021-03-12T04:12:35-05:00">2021-03-12</time>
       </span>
 
   
@@ -293,6 +293,8 @@
     
     <div class="post-body" itemprop="articleBody">
         <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>如何优雅地使用ssh登录，并不需要每次输入密码。</p>
+<span id="more"></span>
+
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="步骤一：使用Alias或config记住Server信息"><a href="#步骤一：使用Alias或config记住Server信息" class="headerlink" title="步骤一：使用Alias或config记住Server信息"></a>步骤一：使用<em>Alias</em>或<em>config</em>记住Server信息</h2><h3 id="添加Alias"><a href="#添加Alias" class="headerlink" title="添加Alias"></a>添加Alias</h3><p>如果你正在使用默认的bash，别名<em>alias</em>信息会被保存在<code>~/.bashrc</code>文件中；如果你使用了zsh，那么你需要在<code>~/.zshrc</code>文件中修改。</p>
 <p>添加别名操作只需在该文件的任意位置插入以下命令（不过建议加载最前或最后方便管理和查找）：</p>
 <p><code>alias new_name=&quot;ssh user@domain -p port_num&quot;</code></p>
@@ -432,7 +434,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

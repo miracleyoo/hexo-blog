@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="Pre KnowledgeAnchors提到RPN网络，就不能不说anchors。所谓anchors，实际上就是一组作用在滑动窗口上的不同大小、不同形状的检测框。实际上，论文通过anchors引入了检测中常用到的多尺度方法。  那么这9个anchors是做什么的呢？借用Faster RCNN论文中的原图，遍历Conv layers计算获得的feature maps，为每一个点都配备这9种ancho">
+<meta name="description" content="Pre KnowledgeAnchors提到RPN网络，就不能不说anchors。所谓anchors，实际上就是一组作用在滑动窗口上的不同大小、不同形状的检测框。实际上，论文通过anchors引入了检测中常用到的多尺度方法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="目标检测学习笔记">
 <meta property="og:url" content="https://www.miracleyoo.com/2019/02/16/obj-det/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="Pre KnowledgeAnchors提到RPN网络，就不能不说anchors。所谓anchors，实际上就是一组作用在滑动窗口上的不同大小、不同形状的检测框。实际上，论文通过anchors引入了检测中常用到的多尺度方法。  那么这9个anchors是做什么的呢？借用Faster RCNN论文中的原图，遍历Conv layers计算获得的feature maps，为每一个点都配备这9种ancho">
+<meta property="og:description" content="Pre KnowledgeAnchors提到RPN网络，就不能不说anchors。所谓anchors，实际上就是一组作用在滑动窗口上的不同大小、不同形状的检测框。实际上，论文通过anchors引入了检测中常用到的多尺度方法。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/02/16/obj-det/006y8mN6ly1g7lwlolk5gj30qy0gumyd.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/02/16/obj-det/006y8mN6ly1g7lwlpxr9gj30qy0gumyd.jpg">
@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://www.zhihu.com/equation?tex=K*m*m">
 <meta property="og:image" content="https://www.miracleyoo.com/equation?tex=m*m">
 <meta property="article:published_time" content="2019-02-16T21:12:10.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:06:07.650Z">
+<meta property="article:modified_time" content="2021-03-12T09:10:37.798Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="deep-learning">
@@ -317,7 +317,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:07" itemprop="dateModified" datetime="2019-10-03T22:06:07-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:10:37" itemprop="dateModified" datetime="2021-03-12T04:10:37-05:00">2021-03-12</time>
       </span>
 
   
@@ -355,6 +355,8 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="Pre-Knowledge"><a href="#Pre-Knowledge" class="headerlink" title="Pre Knowledge"></a>Pre Knowledge</h2><h3 id="Anchors"><a href="#Anchors" class="headerlink" title="Anchors"></a>Anchors</h3><p>提到RPN网络，就不能不说anchors。所谓anchors，实际上就是一组作用在滑动窗口上的不同大小、不同形状的检测框。实际上，论文通过anchors引入了检测中常用到的多尺度方法。</p>
 <p><img src="/2019/02/16/obj-det/006y8mN6ly1g7lwlolk5gj30qy0gumyd.jpg"></p>
+<span id="more"></span>
+
 <p>那么这9个anchors是做什么的呢？借用Faster RCNN论文中的原图，遍历Conv layers计算获得的feature maps，为每一个点都配备这9种anchors作为初始的检测框。这样做获得检测框很不准确，不用担心，后面还有2次bounding box regression可以修正检测框位置。</p>
 <p><img src="/2019/02/16/obj-det/006y8mN6ly1g7lwlpxr9gj30qy0gumyd.jpg"></p>
 <p>解释一下上面这张图的数字。</p>
@@ -569,7 +571,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

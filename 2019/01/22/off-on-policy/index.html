@@ -23,17 +23,17 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。   Sarsa更新Q值的时候对下一步的估计采用的是Q本身的$Q(S’,A’)$，而Q-Learning更新的时候对下一步的估计部分则采用的是直接取采取动作a后环境中各个a’对应的Q的最大值，即其在选择Action的时候使用的是e-gree">
+<meta name="description" content="On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Off-Policy &amp; On-Policy">
 <meta property="og:url" content="https://www.miracleyoo.com/2019/01/22/off-on-policy/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。   Sarsa更新Q值的时候对下一步的估计采用的是Q本身的$Q(S’,A’)$，而Q-Learning更新的时候对下一步的估计部分则采用的是直接取采取动作a后环境中各个a’对应的Q的最大值，即其在选择Action的时候使用的是e-gree">
+<meta property="og:description" content="On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/22/off-on-policy/006tKfTcgy1g0f8y7lartj30ib0kf768.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/22/off-on-policy/006tKfTcgy1g0f8yhlj6cj30ja0cv75a.jpg">
 <meta property="article:published_time" content="2019-01-22T21:13:57.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:06:23.380Z">
+<meta property="article:modified_time" content="2021-03-12T09:10:43.291Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="deep-learning">
@@ -260,7 +260,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:23" itemprop="dateModified" datetime="2019-10-03T22:06:23-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:10:43" itemprop="dateModified" datetime="2021-03-12T04:10:43-05:00">2021-03-12</time>
       </span>
 
   
@@ -298,6 +298,8 @@
     <div class="post-body" itemprop="articleBody">
         <p>On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。</p>
 <p><img src="/2019/01/22/off-on-policy/006tKfTcgy1g0f8y7lartj30ib0kf768.jpg"></p>
+<span id="more"></span>
+
 <p><img src="/2019/01/22/off-on-policy/006tKfTcgy1g0f8yhlj6cj30ja0cv75a.jpg"></p>
 <p>Sarsa更新Q值的时候对下一步的估计采用的是Q本身的$Q(S’,A’)$，而Q-Learning更新的时候对下一步的估计部分则采用的是直接取采取动作a后环境中各个a’对应的Q的最大值，即其在选择Action的时候使用的是e-greedy算法，而更新Q值的时候则采用了直接取最大值的greedy算法。</p>
 <h2 id="反映到结果上"><a href="#反映到结果上" class="headerlink" title="反映到结果上"></a>反映到结果上</h2><p><strong>On-policy</strong>：必须本人在场, 并且一定是本人边玩边学习。<br><strong>Off-policy</strong>：可以选择自己玩, 也可以选择看着别人玩, 通过看别人玩来学习别人的行为准则。</p>
@@ -419,7 +421,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

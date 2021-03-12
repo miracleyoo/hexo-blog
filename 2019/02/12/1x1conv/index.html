@@ -23,16 +23,16 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="理解全连接层：全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。 假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。 如果将这个全连接层转化为卷积层：  共有4096组滤波器（通道数4096） 每个卷积核的大小为512x7×7 则输出为1×1×4096  由于每个滤波核的大小和上">
+<meta name="description" content="理解全连接层：全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。 假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。 如果将这个全连接层转化为卷积层：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="全连接层与1x1卷积的关系">
 <meta property="og:url" content="https://www.miracleyoo.com/2019/02/12/1x1conv/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="理解全连接层：全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。 假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。 如果将这个全连接层转化为卷积层：  共有4096组滤波器（通道数4096） 每个卷积核的大小为512x7×7 则输出为1×1×4096  由于每个滤波核的大小和上">
+<meta property="og:description" content="理解全连接层：全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。 假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。 如果将这个全连接层转化为卷积层：">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/02/12/1x1conv/006y8mN6ly1g7lwj8tmefj311609y0tp.jpg">
 <meta property="article:published_time" content="2019-02-12T15:24:16.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:07:20.480Z">
+<meta property="article:modified_time" content="2021-03-12T09:13:24.874Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta name="twitter:card" content="summary">
@@ -257,7 +257,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:13:24" itemprop="dateModified" datetime="2021-03-12T04:13:24-05:00">2021-03-12</time>
       </span>
 
   
@@ -296,6 +296,8 @@
         <h2 id="理解全连接层："><a href="#理解全连接层：" class="headerlink" title="理解全连接层："></a>理解全连接层：</h2><p><strong>全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。</strong></p>
 <p>假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。</p>
 <p>如果将这个全连接层转化为卷积层：</p>
+<span id="more"></span>
+
 <ol>
 <li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
 <li>每个卷积核的大小为<strong>512x7×7</strong></li>
@@ -424,7 +426,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

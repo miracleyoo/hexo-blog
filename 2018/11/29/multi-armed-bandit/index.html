@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="本文主要内容转载自：Multi-Armed Bandit: Thompson Sampling，经过部分整合修改 背景假设我们开了一家叫Surprise Me的饭馆，客人来了不用点餐，由算法来决定改做哪道菜，整个过程如下： 步骤 1: 客人 user &#x3D; 1…T 依次到达餐馆 步骤 2: 给客人推荐一道菜，客人接受则留下吃饭(reward&#x3D;1)，拒绝则离开(reward&#x3D;0) 步骤 3: 记录选择">
+<meta name="description" content="本文主要内容转载自：Multi-Armed Bandit: Thompson Sampling，经过部分整合修改 背景假设我们开了一家叫Surprise Me的饭馆，客人来了不用点餐，由算法来决定改做哪道菜，整个过程如下： 步骤 1: 客人 user &#x3D; 1…T 依次到达餐馆 步骤 2: 给客人推荐一道菜，客人接受则留下吃饭(reward&#x3D;1)，拒绝则离开(reward&#x3D;0)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multi-Armed Bandit： epsilon-greedy">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="本文主要内容转载自：Multi-Armed Bandit: Thompson Sampling，经过部分整合修改 背景假设我们开了一家叫Surprise Me的饭馆，客人来了不用点餐，由算法来决定改做哪道菜，整个过程如下： 步骤 1: 客人 user &#x3D; 1…T 依次到达餐馆 步骤 2: 给客人推荐一道菜，客人接受则留下吃饭(reward&#x3D;1)，拒绝则离开(reward&#x3D;0) 步骤 3: 记录选择">
+<meta property="og:description" content="本文主要内容转载自：Multi-Armed Bandit: Thompson Sampling，经过部分整合修改 背景假设我们开了一家叫Surprise Me的饭馆，客人来了不用点餐，由算法来决定改做哪道菜，整个过程如下： 步骤 1: 客人 user &#x3D; 1…T 依次到达餐馆 步骤 2: 给客人推荐一道菜，客人接受则留下吃饭(reward&#x3D;1)，拒绝则离开(reward&#x3D;0)">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D">
@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D">
 <meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
 <meta property="article:published_time" content="2018-11-29T19:41:32.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:14:34.270Z">
+<meta property="article:modified_time" content="2021-03-12T09:09:52.392Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta name="twitter:card" content="summary">
@@ -271,7 +271,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:14:34" itemprop="dateModified" datetime="2019-10-03T22:14:34-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:09:52" itemprop="dateModified" datetime="2021-03-12T04:09:52-05:00">2021-03-12</time>
       </span>
 
   
@@ -311,6 +311,8 @@
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a><strong>背景</strong></h2><p>假设我们开了一家叫Surprise Me的饭馆，客人来了不用点餐，由算法来决定改做哪道菜，整个过程如下：</p>
 <p>步骤 1: 客人 user = 1…T 依次到达餐馆</p>
 <p>步骤 2: 给客人推荐一道菜，客人接受则留下吃饭(reward=1)，拒绝则离开(reward=0)</p>
+<span id="more"></span>
+
 <p>步骤 3: 记录选择接受的客人总数 total_reward += reward</p>
 <p>整个过程的伪代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, T): <span class="comment"># T个客人依次进入餐馆</span></span><br><span class="line">    <span class="comment"># 从N道菜中推荐一个，reward = 1 表示客人接受，reward = 0 表示客人拒绝并离开</span></span><br><span class="line">    item, reward = pick_one(t, N) </span><br><span class="line">    total_reward += reward <span class="comment"># 一共有多少客人接受了推荐</span></span><br></pre></td></tr></table></figure>
@@ -458,7 +460,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

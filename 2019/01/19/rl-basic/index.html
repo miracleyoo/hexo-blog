@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/006tNc79ly1g23g4gt1wdj31760u0k7h.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/006tKfTcgy1g0lbwow8guj31590u0n12.jpg">
 <meta property="article:published_time" content="2019-01-19T17:12:27.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:07:25.340Z">
+<meta property="article:modified_time" content="2021-03-12T09:12:23.137Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="deep-learning">
@@ -268,7 +268,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:07:25" itemprop="dateModified" datetime="2019-10-03T22:07:25-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:12:23" itemprop="dateModified" datetime="2021-03-12T04:12:23-05:00">2021-03-12</time>
       </span>
 
   
@@ -305,7 +305,10 @@
     
     <div class="post-body" itemprop="articleBody">
         <p><strong>本文引用了莫烦大大和几位知乎答主的部分文字，由于时间较长，无法一一确认，在这里统一感谢。如有侵害到您版权的行为，请您尽快联系我修改，感谢。</strong></p>
-<h2 id="Reinforcement-Learning-Basic"><a href="#Reinforcement-Learning-Basic" class="headerlink" title="Reinforcement Learning Basic"></a>Reinforcement Learning Basic</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>强化学习涉及一个智能体，一组“状态”S<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4611d85173cd3b508e67077d4a1252c9c05abca2" alt="S">和每个状态下的动作集合A<img src="/7daff47fa58cdfd29dc333def748ff5fa4c923e3" alt="A">。通过执行一个行动 ，该智能体从一个状态转移到另一个状态。在一个特定的状态下执行一个动作时，智能体还可以得到一个奖励。<br>智能体的目标是最大化其奖励的累加。这个潜在的奖励是所有未来可以拿到的奖励值的期望的加权和。<br>例如，假设现在你要上地铁，奖励就是你所花的时间的相反数。一种策略就是车门一开就往上挤，但是还有很多人要下车，逆着人流往上挤也会花费不少时间，这个时候你花的总时间可能是：</p>
+<h2 id="Reinforcement-Learning-Basic"><a href="#Reinforcement-Learning-Basic" class="headerlink" title="Reinforcement Learning Basic"></a>Reinforcement Learning Basic</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>强化学习涉及一个智能体，一组“状态”S<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4611d85173cd3b508e67077d4a1252c9c05abca2" alt="S">和每个状态下的动作集合A<img src="/7daff47fa58cdfd29dc333def748ff5fa4c923e3" alt="A">。通过执行一个行动 ，该智能体从一个状态转移到另一个状态。在一个特定的状态下执行一个动作时，智能体还可以得到一个奖励。<br>智能体的目标是最大化其奖励的累加。这个潜在的奖励是所有未来可以拿到的奖励值的期望的加权和。</p>
+<span id="more"></span>
+
+<p>例如，假设现在你要上地铁，奖励就是你所花的时间的相反数。一种策略就是车门一开就往上挤，但是还有很多人要下车，逆着人流往上挤也会花费不少时间，这个时候你花的总时间可能是：</p>
 <ul>
 <li>  0秒钟等待时间+15秒挤上去的时间<br>在接下来的一天，很巧合，你决定先让别人下车。虽然这个时候看起来等待的时间稍微增加了，但是下车的人也会下的更顺畅，这个时候你可能花的时间是：</li>
 <li>  5秒等待时间+0秒挤上去的时间。</li>
@@ -577,7 +580,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

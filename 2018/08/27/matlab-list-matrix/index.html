@@ -31,7 +31,7 @@
 <meta property="og:description" content="问题MATLAB的数组、元胞、字符串数组分别有什么特点？其与Python等语言的数组有什么较大区别？存储和转换时有什么需要注意？ 解答 MATLAB的元胞其实和Python中的数组更加相近，二者都可以储存混合大小和类型的变量，如果在元胞中储存数组，它们没必要维度相同。而MATLAB的数组必须保证每一维度的元素数目相同。  MATLAB数组各个维度的存储顺序和Python正好相反。一个在Python">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-08-27T15:19:00.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:04:49.250Z">
+<meta property="article:modified_time" content="2021-03-12T09:09:33.737Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="matlab">
 <meta name="twitter:card" content="summary">
@@ -255,7 +255,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:09:33" itemprop="dateModified" datetime="2021-03-12T04:09:33-05:00">2021-03-12</time>
       </span>
 
   
@@ -298,16 +298,14 @@
 <li><p>MATLAB数组各个维度的存储顺序和Python正好相反。一个在Python中shape为[2,3,4,5]的数组到了MATLAB中会变成[5,4,3,2]。这种数据的储存方法是和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/Fortran">Fortran</a>相似的，採用列優先（Column first）。Python中的几个数组通过[A, B]的方式合并时会在最左边（第一维）增加一个“2”（因为这里合并的是两个数组），而MATLAB的cat方法合并两个数组则会在最右边（最后一维）增加一个“2”。</p>
 </li>
 <li><p>如果是普通数组拿来存储字符串，则必须要保证每个字符串长度相同。但是MATLAB提供了字符串数组这种数据格式。</p>
+<span id="more"></span>
+
 <h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>您可以通过用双引号括起一段文本来创建字符串。从 R2017a 开始引入双引号。</p>
-<pre><code>str = &quot;Hello, world&quot; 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str &#x3D; &quot;Hello, world&quot; </span><br><span class="line"></span><br><span class="line">str &#x3D; &quot;Hello, world&quot; </span><br></pre></td></tr></table></figure>
 
-str = &quot;Hello, world&quot; 
-</code></pre>
 <p>创建字符串数组的一种方法是使用方括号将字符串串联成数组，就像将数字串联成数值数组一样。</p>
-<pre><code>str = [&quot;Mercury&quot;,&quot;Gemini&quot;,&quot;Apollo&quot;; &quot;Skylab&quot;,&quot;Skylab B&quot;,&quot;ISS&quot;] 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str &#x3D; [&quot;Mercury&quot;,&quot;Gemini&quot;,&quot;Apollo&quot;; &quot;Skylab&quot;,&quot;Skylab B&quot;,&quot;ISS&quot;] </span><br><span class="line"></span><br><span class="line">str &#x3D; 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot; &quot;Skylab&quot; &quot;Skylab B&quot; &quot;ISS&quot; </span><br></pre></td></tr></table></figure>
 
-str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot; &quot;Skylab&quot; &quot;Skylab B&quot; &quot;ISS&quot; 
-</code></pre>
 <p>也可以按如下所述，使用 <code>string</code> 函数将不同数据类型的变量转换成字符串数组。</p>
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p><code>str = string(A)</code></p>
 <p><code>str = string(D)</code></p>
@@ -441,7 +439,7 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

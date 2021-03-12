@@ -23,15 +23,15 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="问题当使用了跳板机连接远程服务器时，传输较大文件较为麻烦。 解决方案使用zssh进行传输 安装软件。Mac端：brew install zssh  上传本地文件到服务器 用zssh登录到远端服务器：zssh user1@domain1 -p port 如果需要进行跳板操作，继续：ssh user2@domain2 -p port 切换文件夹到将要接收文件的目录：cd xx&#x2F;xx&#x2F;xx 进入zssh">
+<meta name="description" content="问题当使用了跳板机连接远程服务器时，传输较大文件较为麻烦。 解决方案使用zssh进行传输 安装软件。Mac端：brew install zssh">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过zssh进行跨跳板机的文件传输">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/08/27/zssh-file/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="问题当使用了跳板机连接远程服务器时，传输较大文件较为麻烦。 解决方案使用zssh进行传输 安装软件。Mac端：brew install zssh  上传本地文件到服务器 用zssh登录到远端服务器：zssh user1@domain1 -p port 如果需要进行跳板操作，继续：ssh user2@domain2 -p port 切换文件夹到将要接收文件的目录：cd xx&#x2F;xx&#x2F;xx 进入zssh">
+<meta property="og:description" content="问题当使用了跳板机连接远程服务器时，传输较大文件较为麻烦。 解决方案使用zssh进行传输 安装软件。Mac端：brew install zssh">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-08-27T20:54:12.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:46:02.600Z">
+<meta property="article:modified_time" content="2021-03-12T09:13:21.033Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="server">
@@ -258,7 +258,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:46:02" itemprop="dateModified" datetime="2019-10-03T22:46:02-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:13:21" itemprop="dateModified" datetime="2021-03-12T04:13:21-05:00">2021-03-12</time>
       </span>
 
   
@@ -298,6 +298,8 @@
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h3 id="使用zssh进行传输"><a href="#使用zssh进行传输" class="headerlink" title="使用zssh进行传输"></a>使用zssh进行传输</h3><ol>
 <li>安装软件。Mac端：<code>brew install zssh</code></li>
 </ol>
+<span id="more"></span>
+
 <h3 id="上传本地文件到服务器"><a href="#上传本地文件到服务器" class="headerlink" title="上传本地文件到服务器"></a>上传本地文件到服务器</h3><ol>
 <li>用zssh登录到远端服务器：<code>zssh user1@domain1 -p port</code></li>
 <li>如果需要进行跳板操作，继续：<code>ssh user2@domain2 -p port</code></li>
@@ -443,7 +445,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -23,15 +23,15 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。 先祭上自己的代码实现定义部分123456789101112131415161718192021222324252627282930313233343536import threadinglock &#x3D; threading.Lock()">
+<meta name="description" content="Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python并行编程">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/08/22/python-parallel-programming/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。 先祭上自己的代码实现定义部分123456789101112131415161718192021222324252627282930313233343536import threadinglock &#x3D; threading.Lock()">
+<meta property="og:description" content="Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-08-23T01:23:20.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:06:21.740Z">
+<meta property="article:modified_time" content="2021-03-12T09:11:35.953Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="multi-thread">
@@ -256,7 +256,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:21" itemprop="dateModified" datetime="2019-10-03T22:06:21-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:11:35" itemprop="dateModified" datetime="2021-03-12T04:11:35-05:00">2021-03-12</time>
       </span>
 
   
@@ -293,6 +293,8 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。</p>
+<span id="more"></span>
+
 <h2 id="先祭上自己的代码实现"><a href="#先祭上自己的代码实现" class="headerlink" title="先祭上自己的代码实现"></a>先祭上自己的代码实现</h2><h4 id="定义部分"><a href="#定义部分" class="headerlink" title="定义部分"></a>定义部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_models</span>(<span class="params">opt, net, epoch, train_loss, best_loss, test_loss</span>):</span></span><br><span class="line">    <span class="comment"># Save a temp model</span></span><br><span class="line">    train_loss = <span class="built_in">float</span>(train_loss)</span><br><span class="line">    best_loss = <span class="built_in">float</span>(best_loss)</span><br><span class="line">    test_loss = <span class="built_in">float</span>(test_loss)</span><br><span class="line">    <span class="keyword">if</span> opt.SAVE_TEMP_MODEL:</span><br><span class="line">        net.save(epoch, train_loss / opt.NUM_TRAIN, <span class="string">&quot;temp_model.dat&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Save the best model</span></span><br><span class="line">    <span class="keyword">if</span> test_loss / opt.NUM_TEST &lt; best_loss:</span><br><span class="line">        best_loss = test_loss / opt.NUM_TEST</span><br><span class="line">        net.save(epoch, train_loss / opt.NUM_TRAIN, <span class="string">&quot;best_model.dat&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> best_loss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>(<span class="params">threading.Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, opt, net, epoch, train_loss, best_loss, test_loss</span>):</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.opt = opt</span><br><span class="line">        self.net = net</span><br><span class="line">        self.epoch = epoch</span><br><span class="line">        self.train_loss = train_loss</span><br><span class="line">        self.best_loss = best_loss</span><br><span class="line">        self.test_loss = test_loss</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.best_loss = save_models(self.opt, self.net, self.epoch, self.train_loss, self.best_loss, self.test_loss)</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            lock.release()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="调用部分"><a href="#调用部分" class="headerlink" title="调用部分"></a>调用部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">threads = []</span><br><span class="line"><span class="keyword">if</span> epoch &gt; <span class="number">0</span>:</span><br><span class="line">    threads[epoch-<span class="number">1</span>].join()</span><br><span class="line">    best_loss_temp = threads[epoch-<span class="number">1</span>].best_loss</span><br><span class="line">    <span class="keyword">if</span> best_loss_temp != best_loss:</span><br><span class="line">        print(<span class="string">&quot;==&gt; Best Model Renewed.&quot;</span>)</span><br><span class="line">        best_loss = best_loss_temp</span><br><span class="line">        threads.append(MyThread(opt, net, epoch, train_loss, best_loss, test_loss))</span><br><span class="line">        threads[epoch].start()</span><br></pre></td></tr></table></figure>
@@ -473,7 +475,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

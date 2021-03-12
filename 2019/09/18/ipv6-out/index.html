@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2019/09/18/ipv6-out/006y8mN6ly1g7lwr8uolrj31p10u0goq.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/09/18/ipv6-out/006y8mN6ly1g7lwr58axpj33k60mqq77.jpg">
 <meta property="article:published_time" content="2019-09-19T02:43:26.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:39:25.490Z">
+<meta property="article:modified_time" content="2021-03-12T09:08:15.901Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="tech">
 <meta property="article:tag" content="tool">
@@ -267,7 +267,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:39:25" itemprop="dateModified" datetime="2019-10-03T22:39:25-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:08:15" itemprop="dateModified" datetime="2021-03-12T04:08:15-05:00">2021-03-12</time>
       </span>
 
   
@@ -305,17 +305,19 @@
     <div class="post-body" itemprop="articleBody">
         <p>前几天装配了一个性能和体验都十分不错的主机之后，考虑到后面可能大多数时间我可能还是会在实验室里工作，所以为了随时能够访问主机中的各种资料、程序以及游戏而不用随时插拔并背上沉重的硬盘等设备，使用远程桌面进行访问是非常有必要的。</p>
 <p>整个过程持续了接近一天，最终做到了：**不用花一分钱（前提是你拥有一个可用的域名），不使用花生壳之类的服务，能在相互间链路支持IPV6的设备访问自己的主机。(这一假设能否成立由相互间物理距离以及身边ipv6普及情况而定)**下面是详细的步骤说明：</p>
+<span id="more"></span>
+
 <h2 id="查看主机与路由器的基本信息"><a href="#查看主机与路由器的基本信息" class="headerlink" title="查看主机与路由器的基本信息"></a>查看主机与路由器的基本信息</h2><p>为了远程访问我们的主机，首先有必要搞清楚一些基本的信息，如使用<code>ipconfig</code>确定IPV4/IPV6地址，并判断其ip是属于局域网还是公网。局域网有三段地址，判断方式如下：</p>
 <p>A类，第一段为10的都为私网地址，或10.0.0.1–10.255.255.254，其中10.0.0.0表示整个网段，10.0.0.255是广播地址。<br>B类，以172.16–172.31开头的都是私网地址，或172.16.0.0.1–172.31.255.254，其中172.16.0.0表示整个网段，172.16.255.255是广播地址<br>C类，以192.168开头的都是私网地址，或192.168.0.1–192.168.255.254，其中192.168.0.0表示整个网段，192.168.0.255是广播地址</p>
 <p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr7qshmj30qo0dcjsm.jpg"></p>
 <p>通常情况下，我们家中或实验室中的设备被分配的都是内网ip，注意这里的ip指的都是ipv4，之后再经由NAT(Net Adress Translation)被映射出外网。</p>
 <p>查询路由器对应的公网ip由调查所知有两种易行方案：</p>
 <ol>
-<li>直接登录路由器的管理页面查看<br>比如我使用的xfinity路由器，登录界面就是这样。而登录网址，往往是上图中的“默认网关”的ip地址，在我这里就是10.0.0.1</li>
+<li>直接登录路由器的管理页面查看<br> 比如我使用的xfinity路由器，登录界面就是这样。而登录网址，往往是上图中的“默认网关”的ip地址，在我这里就是10.0.0.1</li>
 </ol>
 <p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr40md9j30xf0u0wh2.jpg" alt="路由器登录界面"><br><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr2xyohj30u0133wi0.jpg" alt="路由器详细信息"></p>
 <ol start="2">
-<li>使用一些提供公网ip查询的<a target="_blank" rel="noopener" href="https://ifconfig.me/">网站</a>进行查询。由于内网中的设备都经过了NAT的转换，所以查出来的这个ip既是你对外暴露的ipv4地址，也是路由器的ipv4地址，但这种方式比起直接登录查看可能会差一些，适用于没有路由器权限时使用。<br><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwra8jl2j30u013gq70.jpg"></li>
+<li>使用一些提供公网ip查询的<a target="_blank" rel="noopener" href="https://ifconfig.me/">网站</a>进行查询。由于内网中的设备都经过了NAT的转换，所以查出来的这个ip既是你对外暴露的ipv4地址，也是路由器的ipv4地址，但这种方式比起直接登录查看可能会差一些，适用于没有路由器权限时使用。<br> <img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwra8jl2j30u013gq70.jpg"></li>
 </ol>
 <h2 id="打开主机上的关于远程连接的设置"><a href="#打开主机上的关于远程连接的设置" class="headerlink" title="打开主机上的关于远程连接的设置"></a>打开主机上的关于远程连接的设置</h2><p>具体操作如下图所示，打开控制面板中的远程设置，勾选相应选项即可。</p>
 <p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr6gm1wj31hb0u0djp.jpg"></p>
@@ -460,7 +462,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

@@ -23,15 +23,15 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="硬盘相关 df命令df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)  fdisk命令 fdisk：强大的磁盘监视和操作工具。 fdisk -l会显示所有的磁盘和分区！不论有没有挂载，都会被列出来。">
+<meta name="description" content="硬盘相关 df命令df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux(Ubuntu)装机与配置笔记">
 <meta property="og:url" content="https://www.miracleyoo.com/2020/04/11/linux-setup/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="硬盘相关 df命令df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)  fdisk命令 fdisk：强大的磁盘监视和操作工具。 fdisk -l会显示所有的磁盘和分区！不论有没有挂载，都会被列出来。">
+<meta property="og:description" content="硬盘相关 df命令df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-11T22:11:47.000Z">
-<meta property="article:modified_time" content="2020-04-11T22:11:47.080Z">
+<meta property="article:modified_time" content="2021-03-12T09:08:49.885Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="machine-learning">
@@ -256,6 +256,13 @@
 
       <time title="Created: 2020-04-11 18:11:47" itemprop="dateCreated datePublished" datetime="2020-04-11T18:11:47-04:00">2020-04-11</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 04:08:49" itemprop="dateModified" datetime="2021-03-12T04:08:49-05:00">2021-03-12</time>
+      </span>
 
   
     <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -294,7 +301,7 @@
 <li><p><strong>df命令</strong><br><code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
 <p><code>df -h</code>, 即<code> --human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
 <p><code>df -T</code>：查看所有磁盘的文件系统类型(type)</p>
-</li>
+<span id="more"></span></li>
 <li><p><strong><code>fdisk</code>命令</strong></p>
 <p><code>fdisk</code>：强大的磁盘监视和操作工具。</p>
 <p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p>
@@ -443,7 +450,7 @@
 <h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><ol>
 <li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
 <li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
-<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#x75;&#115;&#101;&#114;&#110;&#97;&#109;&#101;&#x40;&#x69;&#112;&#x2e;&#x61;&#100;&#x64;&#x72;&#x65;&#x73;&#115;">&#x75;&#115;&#101;&#114;&#110;&#97;&#109;&#101;&#x40;&#x69;&#112;&#x2e;&#x61;&#100;&#x64;&#x72;&#x65;&#x73;&#115;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
+<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#117;&#115;&#101;&#114;&#110;&#97;&#x6d;&#x65;&#x40;&#x69;&#x70;&#x2e;&#x61;&#100;&#100;&#114;&#x65;&#x73;&#115;">&#117;&#115;&#101;&#114;&#110;&#97;&#x6d;&#x65;&#x40;&#x69;&#x70;&#x2e;&#x61;&#100;&#100;&#114;&#x65;&#x73;&#115;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
 <li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
 </ol>
 
@@ -568,7 +575,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

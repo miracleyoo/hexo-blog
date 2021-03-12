@@ -248,7 +248,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 02:07:11" itemprop="dateModified" datetime="2021-03-12T02:07:11-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 04:09:07" itemprop="dateModified" datetime="2021-03-12T04:09:07-05:00">2021-03-12</time>
       </span>
 
   
@@ -279,68 +279,14 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="符号变量-syms"><a href="#符号变量-syms" class="headerlink" title="符号变量 syms"></a>符号变量 syms</h2><p>在MATLAB中创建或定义一个函数需要用到符号变量。一般情况下，想要绘制函数图像时，往往使用<code>x=[a:0.01:b]</code>的方式先创建一个x的离散定义域，然后再用<code>y=func(x)</code>的方式定义函数本身，最后使用plot(x,y)的方式绘制图像。</p>
 <p>然而，当涉及到函数极值、求导、方程求解、连续图像绘制等问题时，这种方法就不够用了。</p>
-<p>想要创建一个<strong>符号函数</strong>，我们首先要创建一个或多个<strong>符号变量</strong>，用以表示符号函数本身。其定义方式即为<code>syms x x1 x2</code>。其中<code>x,x1,x2</code> 都是符号变量，一个符号函数可以由多个符号变量组成。</p>
-<p>符号变量可以有定义域，这里或称<strong>限制条件</strong>。</p>
-<p>限制条件可以在定义时就加上，但往往是较为简单的条件，如<em>positive</em>, <em>real</em>, <em>integer</em> 等。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% Create symbolic variables x and y, and assume that they are integers.</span></span><br><span class="line">syms x y integer</span><br><span class="line"></span><br><span class="line"><span class="comment">% Create another variable z, and assume that it has a positive rational value.</span></span><br><span class="line">syms z positive rational</span><br><span class="line"></span><br><span class="line"><span class="comment">% Check assumptions on each variable. For example, check assumptions set on the variable x.</span></span><br><span class="line">assumptions(x)</span><br><span class="line"></span><br><span class="line"><span class="comment">% Clear assumptions on x, y, and z.</span></span><br><span class="line">assume([x y z],<span class="string">&#x27;clear&#x27;</span>)</span><br><span class="line">assumptions</span><br><span class="line"></span><br><span class="line"><span class="comment">% Create a 1-by-3 symbolic array a and assume that the array elements have real values.</span></span><br><span class="line">syms a [<span class="number">1</span> <span class="number">3</span>] <span class="built_in">real</span></span><br><span class="line">assumptions</span><br></pre></td></tr></table></figure>
-
-<p>其次，我们也可以使用更加精确的方法进行限定，即使用<code>assume</code>命令。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">assume(<span class="number">0</span>&lt;x&lt;<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 方法1 使用这种方法不用特意定义自变量</span></span><br><span class="line">y = @(t) <span class="built_in">cos</span>(<span class="number">3</span>*t);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 方法2 先定义自变量为符号变量再定义函数本身</span></span><br><span class="line">syms x</span><br><span class="line">fun = <span class="number">0.5</span>*x*(<span class="built_in">exp</span>(<span class="number">-2</span>*x)+<span class="built_in">exp</span>(<span class="number">-1.5</span>*x)+<span class="built_in">exp</span>(-x))</span><br></pre></td></tr></table></figure>
-
-<h2 id="快速绘制函数图像"><a href="#快速绘制函数图像" class="headerlink" title="快速绘制函数图像"></a>快速绘制函数图像</h2><p>MATLAB中的函数<code>fplot</code>可以迅速绘制一个符号函数的函数图像，并可以对其显示的x范围进行设定。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fplot(fun)</span><br><span class="line">fplot(fun,x,[<span class="number">1</span>,<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
-
-<p>默认情况下，其绘制区间为<code>[-5, 5]</code>，但如果符号变量本身有定义域限制，则会优先其定义域，优先级最高的是在绘制函数中指定的绘制区间。</p>
-<p>当然，<code>fplot</code>函数还可以绘制多条曲线、分段函数以及参数函数等，详见<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/ref/fplot.html">帮助文档</a>，这里给出几个简单常用例子。</p>
-<p>指定绘图区间并绘制分段函数<br>$e^x\space −3&lt;x&lt;0$</p>
-<p>$cos(x)\space 0&lt;x&lt;3$</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用 <span class="built_in">hold</span> on 绘制多个线条。使用 fplot 的第二个输入参数指定绘图区间。使用 <span class="string">&#x27;b&#x27;</span> 将绘制的线条颜色指定为蓝色。在相同坐标区中绘制多个线条时，坐标轴范围会调整以容纳所有数据。</span><br><span class="line">fplot(@(x) <span class="built_in">exp</span>(x),[<span class="number">-3</span> <span class="number">0</span>],<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">fplot(@(x) <span class="built_in">cos</span>(x),[<span class="number">0</span> <span class="number">3</span>],<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br><span class="line">grid on</span><br></pre></td></tr></table></figure>
-
-<img src="./specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
-
-<p>当然，使用<code>fplot</code>方法绘制的图像也是可以进行样式自定义的：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fplot(@(x) <span class="built_in">sin</span>(x+<span class="built_in">pi</span>/<span class="number">5</span>),<span class="string">&#x27;Linewidth&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">fplot(@(x) <span class="built_in">sin</span>(x-<span class="built_in">pi</span>/<span class="number">5</span>),<span class="string">&#x27;--or&#x27;</span>);</span><br><span class="line">fplot(@(x) <span class="built_in">sin</span>(x),<span class="string">&#x27;-.*c&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br></pre></td></tr></table></figure>
-
-<img src="./specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
-
-<h2 id="解方程"><a href="#解方程" class="headerlink" title="解方程"></a>解方程</h2><p>MATLAB中有两种常用解方程的函数：<code>solve</code>和<code>vpasolve</code>。前者会返回一个符号解，它的做法就像人类手工推理一样，计算出所有的符号解。而后者则会计算方程的数值解，且只会返回其找到的第一个数值解。</p>
-<p>当我们想要使用<code>vpasolve</code>算出某个x范围中的所有解时候，我们有两种方法：</p>
-<h3 id="1-画出方程对应的函数图像，并传给vpasolve一个猜测起点"><a href="#1-画出方程对应的函数图像，并传给vpasolve一个猜测起点" class="headerlink" title="1. 画出方程对应的函数图像，并传给vpasolve一个猜测起点"></a>1. 画出方程对应的函数图像，并传给<code>vpasolve</code>一个猜测起点</h3><p>如给定方程$200*sin(x) = x^3 - 1$, 我们先画出它的图像进行观察：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">eqnLeft = <span class="number">200</span>*<span class="built_in">sin</span>(x);</span><br><span class="line">eqnRight = x^<span class="number">3</span> - <span class="number">1</span>;</span><br><span class="line">fplot([eqnLeft eqnRight])</span><br><span class="line">title([texlabel(eqnLeft) <span class="string">&#x27; = &#x27;</span> texlabel(eqnRight)])</span><br></pre></td></tr></table></figure>
-
-<img src="./FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png" alt="img" style="zoom:50%;" />
-
-<p>观察后发现，这个方程有三个解，分别在-3, 0, 4的附近，于是我们可以用以下语句找到其所有的三个解</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">S1 = vpasolve(eqnLeft == eqnRight, x);</span><br><span class="line">S2 = vpasolve(eqnLeft == eqnRight, x, <span class="number">-3</span>);</span><br><span class="line">S3 = vpasolve(eqnLeft == eqnRight, x, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-使vpasolve拥有一个随机起点，并进行循环"><a href="#2-使vpasolve拥有一个随机起点，并进行循环" class="headerlink" title="2. 使vpasolve拥有一个随机起点，并进行循环"></a>2. 使<code>vpasolve</code>拥有一个随机起点，并进行循环</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> n = <span class="number">1</span>:<span class="number">3</span></span><br><span class="line">    S = vpasolve(f,x,[<span class="number">0</span>,<span class="number">2</span>],<span class="string">&#x27;Random&#x27;</span>,<span class="built_in">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-仅针对多项式函数"><a href="#3-仅针对多项式函数" class="headerlink" title="3. 仅针对多项式函数"></a>3. 仅针对多项式函数</h3><p>如果你的函数是一个标准的多相似函数，那么你可以使用<code>roots</code>函数一次性得到所有的解。详情请参阅<a target="_blank" rel="noopener" href="https://www.mathworks.com/help/matlab/ref/roots.html">帮助文档</a>。</p>
-<h2 id="寻找函数极大极小值"><a href="#寻找函数极大极小值" class="headerlink" title="寻找函数极大极小值"></a>寻找函数极大极小值</h2><p>在MATLAB中似乎没有直接一键求出函数的最值的办法，但我们却可以用<code>fminsearch</code>求出某个点附近的极值。</p>
-<p>与前面提到的解方程类似，由于该函数并不会直接的把全局最值给你，所以最好先把函数图像画出来，然后观察需要求的极值在那个点附近，然后使用<code>fminsearch</code>函数把相关点的横坐标解出，如果需要最值的值，再把这个横坐标带回去求值。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">y=<span class="built_in">real</span>((<span class="number">1</span>-<span class="built_in">exp</span>(<span class="number">8</span>*<span class="built_in">i</span>*<span class="built_in">pi</span>*<span class="built_in">cos</span>(x)))/(<span class="number">1</span>-<span class="built_in">exp</span>(<span class="built_in">i</span>*<span class="built_in">pi</span>*<span class="built_in">cos</span>(x))));</span><br><span class="line">fplot(y,[<span class="number">0</span>,<span class="number">3</span>]);</span><br><span class="line">fminsearch(matlabFunction(-y),<span class="number">1.5</span>);</span><br><span class="line"><span class="comment">% ans = 1.5708</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<img src="./image-20200216152601687.png" alt="image-20200216152601687" style="zoom:35%;" />
-
-<p>请注意，这里在search的时候我将y改为了-y，因为我要找的是极大值而非极小值。</p>
-<p>接着，我们将函数y变为<code>matlabFunction</code>型变量，在根据刚才输出的值求出极值大小：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">q=matlabFunction(y)</span><br><span class="line">q(<span class="number">1.5708</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>于是，我们就找到了函数在该点附近的极值。</p>
-<p>你甚至可以看到MATLAB的优化路径：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options = optimset(<span class="string">&#x27;PlotFcns&#x27;</span>,@optimplotfval);</span><br><span class="line">fun = @(x)<span class="number">100</span>*(x(<span class="number">2</span>) - x(<span class="number">1</span>)^<span class="number">2</span>)^<span class="number">2</span> + (<span class="number">1</span> - x(<span class="number">1</span>))^<span class="number">2</span>;</span><br><span class="line">x0 = [<span class="number">-1.2</span>,<span class="number">1</span>];</span><br><span class="line">x = fminsearch(fun,x0,options)</span><br></pre></td></tr></table></figure>
-
-<img src="./image-20200216153158018.png" alt="image-20200216153158018" style="zoom:33%;" />
-
-<h2 id="对函数求导"><a href="#对函数求导" class="headerlink" title="对函数求导"></a>对函数求导</h2><p>定义好一个符号函数后，直接使用<code>diff</code>命令即可对函数进行符号求导。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">fun=<span class="number">0.5</span>*x*(<span class="built_in">exp</span>(<span class="number">-2</span>*x)+<span class="built_in">exp</span>(<span class="number">-1.5</span>*x)+<span class="built_in">exp</span>(-x))</span><br><span class="line">diff(fun) <span class="comment">% or diff(fun, x)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>需要注意的一点是，<code>diff</code>函数不但对符号函数有效，其对数列也是有效的：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">X = [<span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">5</span> <span class="number">8</span> <span class="number">13</span> <span class="number">21</span>];</span><br><span class="line">Y = diff(X)</span><br><span class="line"><span class="comment">% Y = 1×7</span></span><br><span class="line"><span class="comment">%     0     1     1     2     3     5     8</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/10/matlab-func/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -741,6 +687,13 @@
 
       <time title="Created: 2019-11-07 13:00:06" itemprop="dateCreated datePublished" datetime="2019-11-07T13:00:06-05:00">2019-11-07</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 04:13:03" itemprop="dateModified" datetime="2021-03-12T04:13:03-05:00">2021-03-12</time>
+      </span>
 
   
       </div>
@@ -769,94 +722,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>Video classification, or in our case, more specifically, action recognition, are studied for a long time. There are many traditional as well as deep learning based method developed to address this problem, and the latest action recognition result trained on a large dataset Kinetics can even reach 98% accuracy. Considering the fact that the action we need to classify is not too much, giving enough data and using the pre-trained model on Kinetics, the result can be quite promising. </p>
-<h1 id="Tough-Points-in-Video-Classification"><a href="#Tough-Points-in-Video-Classification" class="headerlink" title="Tough Points in Video Classification"></a>Tough Points in Video Classification</h1><ol>
-<li>The huge computational cost</li>
-<li>How to capture long context and make decision comprehensively</li>
-<li>How to design the classification structure which contain spatiotemporal information </li>
-<li>How to deal with a smaller dataset</li>
-</ol>
-<h1 id="Approaches-overview"><a href="#Approaches-overview" class="headerlink" title="Approaches overview"></a>Approaches overview</h1><h2 id="The-core-idea"><a href="#The-core-idea" class="headerlink" title="The core idea"></a>The core idea</h2><ol>
-<li>Try to build a workflow which can combine both spatial information and temporal information. </li>
-<li>Try to focus on both frame itself and the motion near each frame.</li>
-<li>Try to make decision based on the whole video rather than only parts of it.</li>
-<li>Try to decrease the computational cost and remove the long pre-process.</li>
-</ol>
-<h2 id="Two-basic-methods"><a href="#Two-basic-methods" class="headerlink" title="Two basic methods"></a>Two basic methods</h2><h3 id="Single-Stream-Network"><a href="#Single-Stream-Network" class="headerlink" title="Single Stream Network"></a><a target="_blank" rel="noopener" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42455.pdf">Single Stream Network</a></h3><p><img src="/2019/11/07/video-classification/image-20191028125241454.png" alt="image-20191028125241454"></p>
-<p>There are four ways of fusion, which means combine the information from each frame together to derive the final answer. They are:</p>
-<ol>
-<li> Single frame uses single architecture that fuses information from all frames at the last stage.</li>
-<li>Late fusion uses two nets with shared parameters, spaced 15 frames apart, and also combines predictions at the end.</li>
-<li>Early fusion combines in the first layer by convolving over 10 frames. </li>
-<li>Slow fusion involves fusing at multiple stages, a balance between early and late fusion.</li>
-</ol>
-<h3 id="Two-Stream-Networks"><a href="#Two-Stream-Networks" class="headerlink" title="Two Stream Networks"></a><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1406.2199.pdf">Two Stream Networks</a></h3><p><img src="/2019/11/07/video-classification/image-20191028125608889.png" alt="image-20191028125608889"></p>
-<p>Video can naturally be decomposed into spatial and temporal components. </p>
-<ol>
-<li>The spatial part, in the form of individual frame appearance, carries information about scenes and objects depicted in the video. </li>
-<li>The temporal part, in the form of motion across the frames, conveys the movement of the observer (the camera) and the objects. In fact, the essence of “motion” is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Optical_flow">optical flow</a>.</li>
-</ol>
-<h1 id="Improvement-of-methods"><a href="#Improvement-of-methods" class="headerlink" title="Improvement of methods"></a>Improvement of methods</h1><p>Firstly I’d like to show a graph which shows an overview of all previous action classification architectures drawn in the paper <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset</a>.  </p>
-<p><img src="/2019/11/07/video-classification/image-20191028130233266.png" alt="image-20191028130233266"></p>
-<p>To summarize, there are these kinds of improved methods:</p>
-<ol>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1411.4389">LRCN</a>: Long-term Recurrent Convolutional Networks for Visual Recognition and Description </p>
-<p> <img src="/2019/11/07/video-classification/GenericLRCN_high.png" alt="2 stream architecture"> </p>
-<p>Send each frame to a CNN at first and then uses the features extracted as the input of LSTM.</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1412.0767">C3D</a>: Learning Spatiotemporal Features with 3D Convolutional Networks </p>
-<p> <img src="/2019/11/07/video-classification/c3d_high-1572285955778.png" alt="SegNet Architecture"> </p>
-<p>The first time using 3D Conv to process frames. </p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1502.08029">Conv3D &amp; Attention</a>: Describing Videos by Exploiting Temporal Structure </p>
-<p> <img src="/2019/11/07/video-classification/Larochelle_paper_high.png" alt="Attention Mechanism"></p>
-<p>Add a attention mask before send the CNN-extracted feature into LSTM. </p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.06573">TwoStreamFusion</a>: Convolutional Two-Stream Network Fusion for Video Action Recognition </p>
-<p> <img src="/2019/11/07/video-classification/fusion_strategies_high.png" alt="SegNet Architecture"></p>
-<p>Fuse two stream in a smarter way and get a better result. </p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.00859">TSN</a> :Temporal Segment Networks: Towards Good Practices for Deep Action Recognition </p>
-<p> <img src="/2019/11/07/video-classification/tsn_high.png" alt="SegNet Architecture"></p>
-<p>Select video snippets not completely randomly, but divide the video into k equal-length parts and choose a snippets randomly from each division. </p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1704.02895.pdf">ActionVlad</a>:ActionVLAD: Learning spatio-temporal aggregation for action classification</p>
-<p> <img src="/2019/11/07/video-classification/actionvlad-1572285243641.png" alt="SegNet Architecture"></p>
-<p> In this work, the most notable contribution by the authors is the usage of learnable feature aggregation (VLAD) as compared to normal aggregation using maxpool or avgpool.  </p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.00389">HiddenTwoStream</a>:Hidden Two-Stream Convolutional Networks for Action Recognition </p>
-<p><img src="/2019/11/07/video-classification/image-20191028134438690.png" alt="image-20191028134438690"></p>
-<p>It uses a “MotionNet” to take the place of optical flow.</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">I3D</a>: Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset </p>
-<p>Mainly used pretrained network by ImageNet and Kinetics dataset. Also, it use different 3D network for images and optical flows.</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.08200">T3D</a>: Temporal 3D ConvNets: New Architecture and Transfer Learning for Video Classification </p>
-<p> <img src="/2019/11/07/video-classification/ttl_layer_high.png" alt="SegNet Architecture"></p>
-<p>Transfer a 2-D DenseNet to a 3D one. </p>
-</li>
-</ol>
-<h1 id="Result-comparation"><a href="#Result-comparation" class="headerlink" title="Result comparation"></a>Result comparation</h1><p><img src="/2019/11/07/video-classification/image-20191028133828231.png" alt="image-20191028133828231"></p>
-<p><img src="/2019/11/07/video-classification/image-20191028133226300.png" alt="image-20191028133226300"></p>
-<h1 id="Current-Thought"><a href="#Current-Thought" class="headerlink" title="Current Thought"></a>Current Thought</h1><p>As we can see from the analysis above, the I3D is the most computational efficient and accurate method. Also, the pre-trained model of I3D is provided by the author, so we can also take advantage of it. Now I think we should collect enough data of the corresponding action. Moreover, I noticed that there are many new method on Temporal Action Proposals, Temporal Action Localization and Dense-Captioning Events in Videos appearing this year in the competition ActivityNet, I may research into it to get better result later.</p>
-<h1 id="Datasets"><a href="#Datasets" class="headerlink" title="Datasets"></a>Datasets</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://www.crcv.ucf.edu/data/UCF101.php">UCF101</a></li>
-<li><a target="_blank" rel="noopener" href="https://cs.stanford.edu/people/karpathy/deepvideo/">Sports-1M</a></li>
-<li><a target="_blank" rel="noopener" href="https://deepmind.com/research/open-source/kinetics">Kinetics</a></li>
-<li> <a target="_blank" rel="noopener" href="http://activity-net.org/download.html">ActivityNet Version 1.3 dataset</a> </li>
-</ul>
-<h1 id="Codes"><a href="#Codes" class="headerlink" title="Codes"></a>Codes</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/hassony2/kinetics_i3d_pytorch">I3D models transfered from Tensorflow to PyTorch</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/deepmind/kinetics-i3d">I3D models trained on Kinetics</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/kenshohara/video-classification-3d-cnn-pytorch">Video Classification Using 3D ResNet</a></li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a target="_blank" rel="noopener" href="http://blog.qure.ai/notes/deep-learning-for-videos-action-recognition-review">Deep Learning for Videos: A 2018 Guide to Action Recognition</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset</a> </li>
-<li><a target="_blank" rel="noopener" href="https://github.com/jinwchoi/awesome-action-recognition">Awesome Action Recognition</a></li>
-<li><a target="_blank" rel="noopener" href="http://activity-net.org/index.html">ActivityNet</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/abs/pii/0004370281900242">Determining optical flow</a></li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/07/video-classification/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -913,7 +786,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-25 11:10:18" itemprop="dateModified" datetime="2019-10-25T11:10:18-04:00">2019-10-25</time>
+        <time title="Modified: 2021-03-12 04:11:06" itemprop="dateModified" datetime="2021-03-12T04:11:06-05:00">2021-03-12</time>
       </span>
 
   
@@ -943,24 +816,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="One-Line-Summary"><a href="#One-Line-Summary" class="headerlink" title="One Line Summary"></a>One Line Summary</h1><p>NOSE: A device which utilize order sensing component and machine learning to detect which kind of cooking method and which kind of foods, oils are used when you are cooking. It can be used to periodically reports to users about their cooking habits.</p>
-<h1 id="Terms"><a href="#Terms" class="headerlink" title="Terms"></a>Terms</h1><ol>
-<li> MOS Gas Sensor: A sensor which is sensitive to specific target analytes and attempts to replicate the human olfactory system by detecting various types of odors.</li>
-</ol>
-<h1 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h1><ol>
-<li>In the real-world environment, we cannot get the data with a start and end well defined. Here the author exploited a two-level classification approach.</li>
-</ol>
-<p><img src="/2019/10/24/paper-rev-nose/image-20191024193802569.png" alt="image-20191024193802569"></p>
-<h1 id="Images"><a href="#Images" class="headerlink" title="Images"></a>Images</h1><p><img src="/2019/10/24/paper-rev-nose/image-20191021152129125.png" alt="image-20191021152129125"></p>
-<p><img src="/2019/10/24/paper-rev-nose/image-20191021154348447.png" alt="image-20191021154348447"></p>
-<h1 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h1><ol>
-<li>We can use multiple dimensional information to detect what is going on. For example, if we add sound detect devices or infrared sensor and use their signals to do analysis at the same time, the accuracy may get dramatically improved. If camera can also be applied, even more detailed information can be obtained.</li>
-<li>Regarding the privacy issue, perhaps we can consider using a embedded auto-clip algorithm which make it possible to only output a limited region which only contains the main region of the Target-of-Interest.</li>
-</ol>
-<p><img src="/2019/10/24/paper-rev-nose/image-20191024193841882.png" alt="image-20191024193841882"></p>
-<ol start="3">
-<li>We can even combine different sensor and use one as the trigger of another. For example, camera will only work when the odor sensor feels that there is someone cooking or when infrared sensor feels that someone is approaching or the microphone hears the noise of cooking.  </li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/24/paper-rev-nose/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1009,10 +872,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2019-10-22 18:36:58 / Modified: 18:40:12" itemprop="dateCreated datePublished" datetime="2019-10-22T18:36:58-04:00">2019-10-22</time>
+      <time title="Created: 2019-10-22 18:36:58" itemprop="dateCreated datePublished" datetime="2019-10-22T18:36:58-04:00">2019-10-22</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 04:12:52" itemprop="dateModified" datetime="2021-03-12T04:12:52-05:00">2021-03-12</time>
+      </span>
 
   
       </div>
@@ -1045,18 +914,14 @@
 <li>The project should contain at least these parts: Cycle graph, Register info, Pipeline, Data info, Code info and statistics.</li>
 <li>We can add some additional components.</li>
 </ol>
-<h1 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h1><ol>
-<li>Language: Java</li>
-<li>GUI Support: Swing</li>
-<li>Collaboration Platform: <a target="_blank" rel="noopener" href="https://github.com/miracleyoo/Tomasulo-Visual">GitHub</a></li>
-<li>Divide pattern: By components. Each one 2 components.</li>
-<li>DDL: Next week(Oct 29)</li>
-<li>Algorithm Reference: <a target="_blank" rel="noopener" href="https://youtu.be/jyjE6NHtkiA">Youtube</a></li>
-</ol>
-<h1 id="Reference-Images"><a href="#Reference-Images" class="headerlink" title="Reference Images"></a>Reference Images</h1><p>![WinMips64](Plan de Project Tomasulo Visual/image-20191022180533866.png)</p>
-<p>![Slides](Plan de Project Tomasulo Visual/image-20191022180615852.png)</p>
-<p>![Youtube Course](Plan de Project Tomasulo Visual/image-20191022180646659.png)</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/22/tomasulo/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1105,10 +970,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2019-10-20 19:07:48 / Modified: 19:17:04" itemprop="dateCreated datePublished" datetime="2019-10-20T19:07:48-04:00">2019-10-20</time>
+      <time title="Created: 2019-10-20 19:07:48" itemprop="dateCreated datePublished" datetime="2019-10-20T19:07:48-04:00">2019-10-20</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 04:11:09" itemprop="dateModified" datetime="2021-03-12T04:11:09-05:00">2021-03-12</time>
+      </span>
 
   
       </div>
@@ -1137,37 +1008,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="One-Line-Summary"><a href="#One-Line-Summary" class="headerlink" title="One Line Summary"></a>One Line Summary</h2><p>W!NCW developes a two-stage processing pipeline which can do continuously and unobtrusively sensing of upper facial action units with high fidelity. Because it doesn’t use camera so it also eliminate the privacy concerns.</p>
-<h2 id="Terms"><a href="#Terms" class="headerlink" title="Terms"></a>Terms</h2><ol>
-<li>Electrooculography(EOG, 眼球电图检查): A technique for measuring the corneo-retinal standing potential that exists between the front and the back of the human eye. The resulting signal is called the electrooculogram. Primary applications are in ophthalmological diagnosis and in recording eye movements.</li>
-<li>Motion artifacts removal pipeline: Mainly used to remove noise across multiple EOF channels and many different head movement patterns. It is based on neural network.</li>
-<li></li>
-</ol>
-<h2 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h2><ol>
-<li>There are already standard Facial Action Coding System(FACS) along with camera based methods which can be applied to check facial expressions, but their positioning is awkward and they may bring in privacy problems.</li>
-<li>The hardware is not a lab-product, rather, it is based on commercially available comfortable daily eyeware device J!NS MEME.</li>
-<li>EOG metrics is useful for recognizing different types of activities such as reading and writing. since each activity has its own unique eye movement pattern.</li>
-<li>The EOG sensors are placed on the nose and the IMU sensor is embedded in the temples of the eyeglass.</li>
-<li>W!NCE takes the body motion into consideration, while existing work work in motion artifact removal from physiological signals couldn’t do so.</li>
-<li>The lower face action is harder to be detected because the signal are generated  in distant muscles, so it will be damped when reaches the sensor.</li>
-<li>J!NS MEME employs stainless steel eletrodes which belong to the stiff material dry eletrodes. It has a lower price and a good electrical performance and lower possiblility of skin irritation compared to gel-based ones.</li>
-<li>Some actions of heads will cast a similar influence on EOG sensors(like nod and lower eyebrows), while the IMU signals will be quite different, which can help confirm the real action. </li>
-<li>We have to consider the signal variation across individuals, since the face shape, the shape of nose-bridge, the fit of the glasses behind the ear, the variation in the way individuals use upper facial muscles influence the signals captured greatly.</li>
-<li>Personalizing with transfer learning is utilized to address the problem above. The device will take some labled data from user when they use it for the first time, and only re-train the last layer(full-connection layer).</li>
-<li>The CNN model will not always be in the working state. In fact, the model process will only be triggered when substantial EOG activities are detected after the motion artifact removal stage. Also, the motion artifact removal model will only run when significant variation is observed in the raw EOG signal.</li>
-</ol>
-<h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><ol>
-<li>What if user sweet on there nose? Will it affect the accuracy of EOG sensor?</li>
-<li>This eye-glass based design will be easy to accommodate for those who always wearing a glass, but to the others who don’t have the habit, it might be difficult.</li>
-<li>For the CNN and motion artifact removal trigger, for the emotions or movement which only generate minor signal, like the lower face action, will it be detected?  </li>
-<li>How to know whether the prediction is right or not? User may express multiple emotion and movement at the same time. Same question when dataset is collected.</li>
-<li>Why people will need, or need to buy this product? Will a normal person have the requisition to know their facial action and emotion all day? If so, what can the data collected derive?</li>
-</ol>
-<h2 id="Images"><a href="#Images" class="headerlink" title="Images"></a>Images</h2><p><img src="/2019/10/20/paper-rev-wnce/image-20191020171322278.png" alt="image-20191020171322278"></p>
-<p><img src="/2019/10/20/paper-rev-wnce/image-20191020172902493.png" alt="image-20191020172902493"></p>
-<p><img src="/2019/10/20/paper-rev-wnce/image-20191020190355816.png" alt="image-20191020190355816"></p>
-<p><img src="/2019/10/20/paper-rev-wnce/image-20191020173940080.png" alt="image-20191020173940080"></p>
-<p><img src="/2019/10/20/paper-rev-wnce/image-20191020183735447.png" alt="image-20191020183735447"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/20/paper-rev-wnce/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1224,7 +1072,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-20 19:15:20" itemprop="dateModified" datetime="2019-10-20T19:15:20-04:00">2019-10-20</time>
+        <time title="Modified: 2021-03-12 04:11:12" itemprop="dateModified" datetime="2021-03-12T04:11:12-05:00">2021-03-12</time>
       </span>
 
   
@@ -1254,38 +1102,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="One-Line-Summary"><a href="#One-Line-Summary" class="headerlink" title="One Line Summary"></a>One Line Summary</h2><p>Some waiting events can cast impact to multiple threads. A method which can computes not only the local impact of a waiting event, but also whether such impact can indirectly reach other threads is developed.</p>
-<h2 id="Important-terms"><a href="#Important-terms" class="headerlink" title="Important terms"></a>Important terms</h2><ol>
-<li>On-CPU analysis: Used to identify bottlenecks created by execution.</li>
-<li>Off-CPU analysis: Used to identify bottlenecks created by waiting.</li>
-<li>False wakeup: A phenomenon that a thread is woken up but finds its condi- tion to continue is not satisfied, so it has to sleep again. </li>
-<li>Knot(in the wait-for graph): A section which never wait for the outside threads. Because optimizing outside events will not influence the status inside(and will not improve overall thoughput), so each knot must contain a bottlenect. In a graph, a knot is a nonempty set K of vertices such that the reachable set of each vertex in K is exactly set K; a sink is a vertex with no edges directed from it.</li>
-<li>Cascaded redistribution: If thread A waits for thread B from t1 to t2, wPerf checks what B is doing during t1 to t2 and if B is waiting for an- other thread, wPerf will re-distribute the corresponding weight and perform the check recursively. </li>
-</ol>
-<h2 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h2><ol>
-<li>wPerf act on events(Get the impact of events on all threads).</li>
-<li>On-CPU analysis already has some tools good enough, while Off-CPU analysis is still inaccurate.</li>
-<li>Wait-for graph: Each thread is a vertex and a directed edge from A to B means the time thread A waits for B. </li>
-<li>Events with a small local impact usually have a small global im- pact, but events with a large local impact may not have a large global impact. </li>
-<li>Things to be recorded: scheduling events, IRQ(interrupt request) events, information for I/O devices, information for busy waiting, call stacks.</li>
-<li>wPerf can start and stop recording at any time.</li>
-<li>wPerf treat I/O device as a pseudo I/O thread.</li>
-<li>In order to minimize the overhead, recorder buffers events and flushs the buffers to trace file in the background. Also, the recorder creates a buffer and a trace file for each core to avoid contention.</li>
-</ol>
-<p><img src="/2019/10/19/paper-rev-wperf/image-20191019213731331.png" alt="image-20191019213731331"></p>
-<h2 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h2><p><img src="/2019/10/19/paper-rev-wperf/image-20191019184627121.png" alt="image-20191019184627121"></p>
-<p><img src="/2019/10/19/paper-rev-wperf/image-20191019193352798.png" alt="image-20191019193352798"></p>
-<h2 id="Pros"><a href="#Pros" class="headerlink" title="Pros"></a>Pros</h2><ol>
-<li>It innovatively utilizes the “wait-for” graph method to investigate the wating relationship between threads, which make it easy to locate the bottleneck.</li>
-<li>wPerf takes all these I/O operation, busy waiting, false wakeup into consideration, which make it more accuarte and competible to various cases.</li>
-<li>Introduced “cascaded redistribution” which can help us find the origin bottleneck rather than simply take the waiting thread as the reason of latency.</li>
-</ol>
-<h2 id="Cons"><a href="#Cons" class="headerlink" title="Cons"></a>Cons</h2><ol>
-<li>It can not be applied to distributed system currently.</li>
-<li>It mainly foucuses on Off-CPU analysis, it may consider the combination of both On-CPU and Off-CPU analysis.</li>
-<li>It brings in overheads in its recording process, especially when there are many waiting events.</li>
-</ol>
-<p><strong>Zhongyang Zhang</strong></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/19/paper-rev-wperf/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1429,7 +1253,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:07:39" itemprop="dateModified" datetime="2021-03-12T04:07:39-05:00">2021-03-12</time>
       </span>
 
   
@@ -1460,18 +1284,14 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>由于近期各大免费图床纷纷加入了防盗链机制（如新浪）并停止对个人博客用的图床链接进行访问授权，博客上的图片出现了大面积的无法显示（如本博客），严重影响了博客的浏览体验。然而现在直接使用文中链接尚还可以将图片下载到本地，但这也并无法得到任何官方保障，所以当务之急是把所有图床照片下载到本地，用hexo原生的图片插入格式进行插入。</p>
 <p>而在免费图床渐渐不再可用的现在，当务之急其实已经不是再次更换图床，而是把这些图片抢救到本地，并直接将原图部署到服务器上；或是自己搭建图床。为了节省时间和成本，我这里采用了直接将原图部署到服务器上的操作。</p>
-<h2 id="这个问题可以拆解为以下几点："><a href="#这个问题可以拆解为以下几点：" class="headerlink" title="这个问题可以拆解为以下几点："></a>这个问题可以拆解为以下几点：</h2><ol>
-<li>在_post文件夹中建立与markdown文件同名文件夹用于存放图片。</li>
-<li>遍历文件夹中文件并用正则匹配的方式匹配得到待替换的链接。</li>
-<li>下载所有图片文件并存储到相应位置。</li>
-<li>将原文件中的<code>![name](link)</code>替换为可在网页上显示的语句。</li>
-</ol>
-<p>于是我为了方便使用python写了一个脚本，使得上面这几步可以自动完成。下面贴上主要代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    names=os.listdir(root)</span><br><span class="line">    files=[i <span class="keyword">for</span> i <span class="keyword">in</span> names <span class="keyword">if</span> i.endswith(<span class="string">&#x27;.md&#x27;</span>) <span class="keyword">and</span> <span class="keyword">not</span> os.path.isdir(os.path.join(root, i)) <span class="keyword">and</span> <span class="keyword">not</span> i.startswith(<span class="string">&#x27;.&#x27;</span>)]</span><br><span class="line">    file_paths = [os.path.join(root, i) <span class="keyword">for</span> i <span class="keyword">in</span> files]</span><br><span class="line">    dirs=[i <span class="keyword">for</span> i <span class="keyword">in</span> names <span class="keyword">if</span> os.path.isdir(os.path.join(root, i)) <span class="keyword">and</span> <span class="keyword">not</span> i.startswith(<span class="string">&#x27;.&#x27;</span>)]</span><br><span class="line">    dir_paths = [os.path.join(root, i) <span class="keyword">for</span> i <span class="keyword">in</span> dirs]</span><br><span class="line">    print(files)</span><br><span class="line">    <span class="keyword">for</span> file_iter <span class="keyword">in</span> files:</span><br><span class="line">        name_temp = os.path.splitext(os.path.split(file_iter)[-<span class="number">1</span>])[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> name_temp <span class="keyword">not</span> <span class="keyword">in</span> dirs:</span><br><span class="line">            dir_temp = os.path.join(root, name_temp)</span><br><span class="line">            os.mkdir(dir_temp)</span><br><span class="line">        download(os.path.join(root,file_iter))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对每个文件中的链接分别进行下载和替换链接处理</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download</span>(<span class="params">file_path</span>):</span></span><br><span class="line">    print(<span class="string">&quot;==&gt; Now dealing with file:&quot;</span>, file_path)</span><br><span class="line">    dir_name = os.path.splitext(os.path.split(file_path)[-<span class="number">1</span>])[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># filename = &quot;test&quot;</span></span><br><span class="line">    name = file_path.split(<span class="string">u&quot;/&quot;</span>)</span><br><span class="line">    filename = name[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">with</span> codecs.<span class="built_in">open</span>(file_path, encoding=<span class="string">&quot;UTF-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        text = f.read()</span><br><span class="line">    <span class="comment"># regex</span></span><br><span class="line">    result = re.findall(<span class="string">&#x27;!\[(.*)\]\((.*)\)&#x27;</span>, text)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, content <span class="keyword">in</span> <span class="built_in">enumerate</span>(result):</span><br><span class="line">        image_quote = content[<span class="number">0</span>]</span><br><span class="line">        image_url = content[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># download img</span></span><br><span class="line">            img_data = requests.get(image_url).content</span><br><span class="line">            <span class="comment"># img name spell</span></span><br><span class="line">            image_name = image_url.strip(<span class="string">&quot;/&quot;</span>).split(<span class="string">&quot;/&quot;</span>)[-<span class="number">1</span>]</span><br><span class="line">            image_path = os.path.join(root, dir_name, image_name)</span><br><span class="line">            print(<span class="string">&quot;==&gt;&quot;</span>, image_path, <span class="string">&#x27;~~~&#x27;</span>, image_url)</span><br><span class="line">            <span class="comment"># write to file</span></span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(image_path, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> handler:</span><br><span class="line">                handler.write(img_data)</span><br><span class="line"></span><br><span class="line">            text=text.replace(<span class="string">&quot;![&quot;</span>+image_quote+<span class="string">&quot;](&quot;</span>+image_url+<span class="string">&quot;)&quot;</span>, <span class="string">&quot;![&quot;</span>+image_quote+<span class="string">&quot;](&quot;</span>+image_name+<span class="string">&#x27;)&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">with</span> codecs.<span class="built_in">open</span>(file_path, mode=<span class="string">&quot;w+&quot;</span>, encoding=<span class="string">&quot;UTF-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(text)</span><br></pre></td></tr></table></figure>
-
-<p>如有需求，推荐查看更加详细的使用说明和注意事项。项目在<a href="https://link.zhihu.com/?target=https://github.com/miracleyoo/hexo-migrator">Github</a>上，并附有step-by-step的说明，即使没有编程基础也可以轻易上手。</p>
-<p>如果有帮助到你，欢迎Star支持一下hhh~ :-)</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/02/hexo-image-migrator/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1528,7 +1348,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:10:55" itemprop="dateModified" datetime="2021-03-12T04:10:55-05:00">2021-03-12</time>
       </span>
 
   
@@ -1560,29 +1380,14 @@
           <p>推荐一下新写的Linux系统一键装机脚本(๑´∀｀๑)一行命令获得常用命令行软件、zsh、方便好用的诸多zsh插件（如自动补全、一键解压、目录快速跳转、命令行语法高亮等。详见readme和source code）以及一个配置好的spacevim。当前只支持ubuntu。后面将会支持centos。</p>
 <p>你将在任何一个新的Linux系统上一键得到一个稳定可靠的使用体验！当然，脚本高度可定制，以上所有内容都可以简单地增减。有问题或需求欢迎提issue～（注意⚠️在已经使用并配置过的电脑上运行可能会出现zshrc配置重复问题）</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/miracleyoo/initialize-server-script">GitHub链接</a></p>
-<p><strong>下面是英文的使用说明：</strong></p>
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>This project aims to conveniently setup and deploy a Linux environment which is easy to use and help install many useful packages. It mainly have the ability to deploy zsh with a set of handy plugins, and a spacevim, which is my favorite vim distro. You will not encounter messy installation problems and the script is tested on ubuntu and WSL ubuntu.</p>
-<p>Currently, it only support Ubuntu system, but the support of centos is also on the way, maybe also the MacOS version.</p>
-<p>It is highly customizable and elegantly wrote, you can folk and customize your own version based on it!</p>
-<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1"></a>Method 1</h3><ol>
-<li>Make sure you already have curl installed by “sudo apt-get install curl”.</li>
-<li>Use command <code>curl -fsSL https://raw.githubusercontent.com/miracleyoo/initialize-server-script/master/one-key-linux-setup.sh -o minit.sh &amp;&amp; sudo bash minit.sh</code></li>
-<li>You are all set! Here is an awesome new linux!</li>
-</ol>
-<h3 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2"></a>Method 2</h3><ol>
-<li>Make sure you already have curl installed by “sudo apt-get install git”.</li>
-<li>Clone this repo using <code>git clone https://github.com/miracleyoo/initialize-server-script</code></li>
-<li>Switch into this folder and run <code>./one-key-linux-setup.sh</code></li>
-<li>You are all set!</li>
-</ol>
-<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><ol>
-<li><code>apt-get install packags</code> like git, curl, tmux, vim, and python supports.</li>
-<li>A <code>zsh</code> which has plenty of handy plugins like <code>oh-my-zsh</code>, <code>git</code>, <code>zsh-autosuggestions</code>, <code>zsh-syntax-highlighting</code>, <code>zsh-completions</code> , <code>extract</code>, <code>z</code>, <code>cp</code>. They are managed with <code>antigen</code>, which made it easy and decent to mange your zsh plugins. You can get even more plugins <a target="_blank" rel="noopener" href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins-Overview">here</a>.</li>
-<li>A <code>.zshrc</code> file which contains some basic but useful functions. You can change it to your own favorite commands and alias.</li>
-<li>A <a target="_blank" rel="noopener" href="https://github.com/SpaceVim/SpaceVim">spacevim</a>, which is a quite good version of vim. It initially installed several famous plugins, with a nice interface. You will find it a really vim distro as you use it. Certainly, you can change to your own version, while I’ve tested several distro and they all have some kinds of inconvenience, like the line number, extra space, wrong background color and so on.</li>
-<li>More on the way!</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/20/one-key-linux/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1652,7 +1457,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

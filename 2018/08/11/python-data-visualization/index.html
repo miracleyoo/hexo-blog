@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。 简单说下对比结果： 最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察">
+<meta name="description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python Data Visualization Libs Comparing">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。 简单说下对比结果： 最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察">
+<meta property="og:description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/1*grNVtaqUzJi76I-X_dXuPA.png">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjr8fztj30o70dngm0.jpg">
 <meta property="article:published_time" content="2018-08-12T03:29:14.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:06:10.720Z">
+<meta property="article:modified_time" content="2021-03-12T09:11:30.198Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="visualization">
@@ -263,7 +263,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:10" itemprop="dateModified" datetime="2019-10-03T22:06:10-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:11:30" itemprop="dateModified" datetime="2021-03-12T04:11:30-05:00">2021-03-12</time>
       </span>
 
   
@@ -300,6 +300,8 @@
     
     <div class="post-body" itemprop="articleBody">
         <h1 id="Python-Data-Visualization-—-Comparing-5-Tools"><a href="#Python-Data-Visualization-—-Comparing-5-Tools" class="headerlink" title="Python Data Visualization — Comparing 5 Tools"></a>Python Data Visualization — Comparing 5 Tools</h1><h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><p>本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。</p>
+<span id="more"></span>
+
 <h4 id="简单说下对比结果："><a href="#简单说下对比结果：" class="headerlink" title="简单说下对比结果："></a>简单说下对比结果：</h4><ol>
 <li><p>最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察来说至关重要。效果如下图：你不但可以得到漂亮的绘图，还可以通过鼠标左右键、滚轮轻松调整尺度、方向等关键参数，更可以通过右上角的各种工具进行进一步调整。当然，其也支持3D图的Subplot。</p>
 <p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg" alt="image-20180811231857431"></p>
@@ -469,7 +471,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

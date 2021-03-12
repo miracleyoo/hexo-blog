@@ -31,7 +31,7 @@
 <meta property="og:description" content="This article is from Quora, and the original link is here. 先简单概括一下原文： Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。 而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-04-07T04:52:19.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:06:23.770Z">
+<meta property="article:modified_time" content="2021-03-12T09:03:30.951Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta name="twitter:card" content="summary">
@@ -255,7 +255,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:23" itemprop="dateModified" datetime="2019-10-03T22:06:23-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:03:30" itemprop="dateModified" datetime="2021-03-12T04:03:30-05:00">2021-03-12</time>
       </span>
 
   
@@ -296,6 +296,8 @@
 <li>Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。</li>
 <li>而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照，看看自己到底做到了<strong>多好</strong></li>
 </ul>
+<span id="more"></span>
+
 <h2 id="下面是Prasoon-Goyal大佬的原答案："><a href="#下面是Prasoon-Goyal大佬的原答案：" class="headerlink" title="下面是Prasoon Goyal大佬的原答案："></a>下面是<a target="_blank" rel="noopener" href="https://www.quora.com/profile/Prasoon-Goyal">Prasoon Goyal</a>大佬的原答案：</h2><p>A machine learning algorithm usually takes clean (and often tabular) data, and learns some pattern in the data, to make predictions on new data. However, when ML is used in real-world applications, the raw information that you get from the real-world is often not ready to be fed into the ML algorithm. So you need to preprocess that information to create input data for the ML algorithm. Similarly, the output of the ML algorithm by itself is just some number in software, which will need to be processed to perform some action in the real-world.</p>
 <p>Let’s take the example of self-driving cars. Say you have cameras mounted on a car, and you want to predict the optimal steering angle given the images from the camera and the speed of the car. Now once you have collected the data, you will have a set of images from the camera, and you will have the speed of the car at various time points. You will need to align the images with the speed of the car based on the timestamp. Secondly, if you are learning in the supervised setting, you would also have recorded the steering angles of the human drivers while collecting the above data. Again, these need to be aligned with the images and the speed data according to timestamp. What you have done so far is preprocessing — there is no machine learning yet. Now comes the machine learning part — say you train a neural network that is fed these images and corresponding speeds and is trained to predict the optimal steering angle. This is you ML algorithm. Once you’ve trained it, for new data, you perform the preprocessing by aligning camera images and speeds, and feed to the neural network. The neural network outputs a steering angle on a computer screen. Now you need to take this output and actually rewire your car in a way such that the steering wheel rotates based on this output. This part is again not ML.</p>
 <p>So this entire framework from converting raw data to data usable by ML algorithm, training an ML algorithm, and finally using the output of the ML algorithm to perform actions in the real-world is the <strong>pipeline</strong>. It is called a pipeline because it is analogous to physical pipelines — just as a liquid passes through one pipe, entering the next, sequentially, our data goes through one stage, entering into the next, sequentially.</p>
@@ -418,7 +420,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

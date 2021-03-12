@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。     具体意义： 贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文&#x2F;句中蕴含的信息，可以理解为主干内容。    LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)      更详细的内容请参见：LSTM始祖级博客  L">
+<meta name="description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一把Pytorch实现LSTM经验总结">
 <meta property="og:url" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。     具体意义： 贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文&#x2F;句中蕴含的信息，可以理解为主干内容。    LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)      更详细的内容请参见：LSTM始祖级博客  L">
+<meta property="og:description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-chain.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM2-notation.png">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg">
 <meta property="article:published_time" content="2018-03-27T00:23:36.000Z">
-<meta property="article:modified_time" content="2019-10-04T02:04:49.240Z">
+<meta property="article:modified_time" content="2021-03-12T09:11:56.948Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="pytorch">
@@ -265,7 +265,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+        <time title="Modified: 2021-03-12 04:11:56" itemprop="dateModified" datetime="2021-03-12T04:11:56-05:00">2021-03-12</time>
       </span>
 
   
@@ -306,6 +306,8 @@
 <img src="/2018/03/26/pytorch-first-lstm/LSTM3-chain.png" class="" title="The repeating module in an LSTM contains four interacting layers">
 
 <img src="/2018/03/26/pytorch-first-lstm/LSTM2-notation.png" class="" title="Notion used above">
+
+<span id="more"></span>
 
 <h3 id="具体意义："><a href="#具体意义：" class="headerlink" title="具体意义："></a>具体意义：</h3></li>
 <li><p>贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文/句中蕴含的信息，可以理解为主干内容。</p>
@@ -359,10 +361,7 @@
 <li><p>当batch参数放在第一个时，欲得到一个batch中每个句子的预测中最相近的一个值和其对应的序号：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values, indices = torch.<span class="built_in">max</span>(tensor, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></li>
 <li><p>LSTM在pytorch中的输入输出信息的顺序是：(sentence,batch,word2vec)这样不太自然，用下列写法可以更正至(batch,sentence,word2vec)：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<p>​</p>
-</li>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="我的代码实现："><a href="#我的代码实现：" class="headerlink" title="我的代码实现："></a>我的代码实现：</h2><h3 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many to One"></a>Many to One</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.autograd</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line">torch.manual_seed(<span class="number">233</span>)</span><br><span class="line">random.seed(<span class="number">233</span>)</span><br><span class="line">np.random.seed(<span class="number">233</span>)</span><br><span class="line">EMBEDDING_DIM = <span class="number">200</span></span><br><span class="line">HIDDEN_DIM    = <span class="number">640</span></span><br><span class="line">BATCH_SIZE    = <span class="number">256</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Neural Networks model : LSTM</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, embedding_dim, hidden_dim, tagset_size</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(LSTM, self).__init__()</span><br><span class="line">        self.hidden_dim = hidden_dim</span><br><span class="line">        self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br><span class="line">        self.hidden2tag = nn.Linear(hidden_dim, tagset_size)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_hidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)),</span><br><span class="line">                Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, wordvecs</span>):</span></span><br><span class="line">        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)</span><br><span class="line">        tag_space = self.hidden2tag(lstm_out[:,-<span class="number">1</span>,:])</span><br><span class="line">        tag_scores = F.softmax(tag_space)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line">        <span class="keyword">return</span> tag_scores</span><br></pre></td></tr></table></figure>
 
@@ -487,7 +486,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

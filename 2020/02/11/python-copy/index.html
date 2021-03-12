@@ -31,7 +31,7 @@
 <meta property="og:description" content="对象是一个定值此时三种方法的作用实际上是相同的。 1234567891011import copya &#x3D; &quot;亚丝娜&quot;b &#x3D; ac &#x3D; copy.copy(a)d &#x3D; copy.deepcopy(a)print(&quot;源：id(a)-&gt;&gt;&gt;&quot;, id(a))print(&quot;赋值：id(b)-&gt;&gt;&gt;&quot;, id(b">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-11T23:54:55.000Z">
-<meta property="article:modified_time" content="2020-04-26T22:55:09.170Z">
+<meta property="article:modified_time" content="2021-03-12T09:11:26.901Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -255,7 +255,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-04-26 18:55:09" itemprop="dateModified" datetime="2020-04-26T18:55:09-04:00">2020-04-26</time>
+        <time title="Modified: 2021-03-12 04:11:26" itemprop="dateModified" datetime="2021-03-12T04:11:26-05:00">2021-03-12</time>
       </span>
 
   
@@ -293,6 +293,8 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="对象是一个定值"><a href="#对象是一个定值" class="headerlink" title="对象是一个定值"></a>对象是一个定值</h2><p>此时三种方法的作用实际上是相同的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">a = <span class="string">&quot;亚丝娜&quot;</span></span><br><span class="line">b = a</span><br><span class="line">c = copy.copy(a)</span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;源：id(a)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="string">&quot;赋值：id(b)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(b))</span><br><span class="line">print(<span class="string">&quot;浅拷贝：id(c)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(c))</span><br><span class="line">print(<span class="string">&quot;深拷贝：id(d)-&gt;&gt;&gt;&quot;</span>, <span class="built_in">id</span>(d))</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
 
 <p>输出如下:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">源：id(a)-&gt;&gt;&gt; 4394180400</span><br><span class="line">赋值：id(b)-&gt;&gt;&gt; 4394180400</span><br><span class="line">浅拷贝：id(c)-&gt;&gt;&gt; 4394180400</span><br><span class="line">深拷贝：id(d)-&gt;&gt;&gt; 4394180400</span><br></pre></td></tr></table></figure>
@@ -434,7 +436,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:31</span>
+    <span title="Reading time total">10:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

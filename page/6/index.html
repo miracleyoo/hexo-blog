@@ -266,7 +266,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -282,25 +282,15 @@
 <p>添加别名操作只需在该文件的任意位置插入以下命令（不过建议加载最前或最后方便管理和查找）：</p>
 <p><code>alias new_name=&quot;ssh user@domain -p port_num&quot;</code></p>
 <p>并在保存并退出后激活该文件：<code>source ~/.bashrc</code> 或 <code>source ~/.zshrc</code></p>
-<h3 id="添加-ssh-config配置"><a href="#添加-ssh-config配置" class="headerlink" title="添加~/.ssh/config配置"></a>添加~/.ssh/config配置</h3><p>打开该文件，并添加如下代码段：</p>
-<p><strong>有IdentityFile：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Host miracle</span><br><span class="line">        HostName `xxx.xxx.xxx.xxx`</span><br><span class="line">        User `username`</span><br><span class="line">        Port `2880`</span><br><span class="line">        IdentityFile `~/xxx/xxx/cert.pem`</span><br><span class="line">        UseKeychain yes</span><br><span class="line">        AddKeysToAgent yes</span><br></pre></td></tr></table></figure>
-
-<p><strong>无IdentityFile：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host yoo</span><br><span class="line">        HostName `xxx.xxx.xxx.xxx`</span><br><span class="line">        User `username`</span><br><span class="line">        Port `2880`</span><br><span class="line">        UseKeychain yes</span><br><span class="line">        AddKeysToAgent yes</span><br></pre></td></tr></table></figure>
-
-<p>其中，IdentityFile、UseKeychain、AddKeysToAgent等项不是必须的。</p>
-<p>登录方法：<code>ssh miracle</code>，其中此处的miracle是你给你的Host起的名字。</p>
-<p><strong>优点</strong>：方便，更易于管理，并且使用scp等时也会更方便，比如：<code>scp *.mat miracle:~ </code></p>
-<h2 id="步骤二：免密登录"><a href="#步骤二：免密登录" class="headerlink" title="步骤二：免密登录"></a>步骤二：免密登录</h2><ol>
-<li>如果你没有使用过rsa密钥对，先生成：<code>ssh-keygen</code> ，选项可以一路Enter</li>
-<li>切换到 <em>~/.ssh/</em> 文件夹下将公钥发送到服务器上的某文件夹里：<code>scp -P 2880 ~/.ssh/id_rsa.pub root@xxx.xxx.xxx.xxx:~</code></li>
-<li>登录服务器，把PC端的公钥添加至ssh信任列表末尾：<code>cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code></li>
-<li>如果服务器上没有生成rsa密钥对，按（1）中操作在服务器上重复</li>
-<li>如果做了这些后依然需要你输入一个<em>passphrase</em>：<code>Enter passphrase for /Users/miracle/.ssh/id_rsa:</code>，这个passphase是指你生成ssh密钥时输入的一个字符串，如果你一直按的Enter，这里也直接Enter就好，但是如果不幸你当时输入了一个字符串，那么你需要进行步骤（6）：</li>
-<li>Add Identity Using Keychain：<code>ssh-add -K ~/.ssh/id_rsa</code>，之后它会让你输入上面提到的这个字符串，做完这一步之后，你将会永远不用再在登录这台服务器时输入密码</li>
-</ol>
-
+<h3 id="添加-ssh-config配置"><a href="#添加-ssh-config配置" class="headerlink" title="添加~/.ssh/config配置"></a>添加~/.ssh/config配置</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/ssh-no-password/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -405,6 +395,14 @@
 </ol>
 <p>另外，最近还养成了每天练习英语口语和法语的习惯，希望可以一直坚持下去。英语口语一直是我的硬伤，虽说能够使用英语和导师进行一些基本的学术交流，但是自知蹩脚的口语迟早会成为前进路上的一块绊脚石，应该尽早除掉。下个月可能还会考一次GRE，希望最近能多抽出些时间把之前没有背完的单词给背完，强化一下verbal部分吧。</p>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/emc-lab-note-6w/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -504,6 +502,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 运行时指定：</span><br><span class="line"></span><br><span class="line">   &#96;&#96;&#96;python</span><br><span class="line">   falsk run -h 0.0.0.0 -p 7777</span><br></pre></td></tr></table></figure></li>
 </ol>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/change-flask-port/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -595,6 +601,14 @@
 <li>查看本机活跃端口：<code>nmap 127.0.0.1</code></li>
 </ol>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/linux-open-port/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -669,7 +683,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -715,6 +729,14 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = <span class="built_in">permute</span>(X, [<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>]);</span><br></pre></td></tr></table></figure></li>
 </ol>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/matlab-list-matrix/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -804,6 +826,14 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">filenames = dir;</span><br><span class="line">filenames = &#123;filenames.name&#125;;</span><br><span class="line">filenames = string(filenames);</span><br><span class="line">STTF = startsWith(filenames,<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">filenames = filenames(~STTF);</span><br><span class="line">MTF = contains(filenames,<span class="string">&#x27;.mat&#x27;</span>);</span><br><span class="line">filenames = filenames(MTF);</span><br><span class="line">filenum = <span class="built_in">length</span>(filenames);</span><br></pre></td></tr></table></figure>
 
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/matlab-list-folder-and-save/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -897,6 +927,14 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
 <li>In the <a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/pycharm-edu/select-path-dialog.html">Select Python Interpreter</a> dialog box that opens, choose the desired Python executable, and click OK.</li>
 </ol>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/27/pycharm-virtual-env/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -986,6 +1024,14 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matlab.engine</span><br><span class="line">eng = matlab.engine.start_matlab()</span><br><span class="line">eng.addpath(<span class="string">&#x27;./matlab_source_code&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/23/py-call-matlab-in-dif-folder/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1089,6 +1135,14 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
 </li>
 </ol>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/23/build-3d-mat/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1178,6 +1232,14 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>见GitHub：<a target="_blank" rel="noopener" href="https://github.com/stascorp/rdpwrap">链接</a>，stascorp大神写了一个插件，直接安装即可享受多用户同时登录。</p>
 <p>可供下载的release包的地址：<a target="_blank" rel="noopener" href="https://github.com/stascorp/rdpwrap/releases">链接</a></p>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/22/win10-multi-user/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1247,7 +1309,7 @@ str = 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot;
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:16</span>
+    <span title="Reading time total">10:31</span>
   </span>
 </div>
 <div class="busuanzi-count">

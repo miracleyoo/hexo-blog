@@ -294,6 +294,14 @@
 <li>要完成每个目标的关键结果有哪些</li>
 </ul>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/14/dianshi-04/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -390,6 +398,14 @@
 <p>查看最新输出文件内容：<code>tail my.log</code></p>
 <p>动态追踪最新输出内容：<code>tail -f my.log</code></p>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/06/nohup/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -464,7 +480,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -490,64 +506,14 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">transforms.Compose([</span><br><span class="line">     transforms.CenterCrop(<span class="number">10</span>),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
 
 <h4 id="对PIL-Image进行变换"><a href="#对PIL-Image进行变换" class="headerlink" title="对PIL.Image进行变换"></a>对PIL.Image进行变换</h4><hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Scale</span>(<span class="params">size, interpolation=<span class="number">2</span></span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>按照规定的尺寸重新调节<code>PIL.Image</code>。</p>
-<p><strong>参数说明</strong>：</p>
-<ol>
-<li>size (sequence or int) - 期望输出尺寸。如果size是一个像(w, h)的序列，输出大小将按照w,h匹配到。如果大小是int，则图像将匹配到这个数字。例如，如果原图的<code>height&gt;width</code>,那么改变大小后的图片大小是<code>(size*height/width, size)</code>。</li>
-<li>interpolation (int, optional) -需要添加值。默认的是<code>PIL.Image.BILINEAR</code></li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">CenterCrop</span>(<span class="params">size</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>将给定的PIL.Image进行中心切割，得到给定的size，size可以是tuple，(target_height, target_width)。size也可以是一个Integer，在这种情况下，切出来的图片的形状是正方形。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">RandomCrop</span>(<span class="params">size, padding=<span class="number">0</span></span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>切割中心点的位置随机选取。size可以是tuple也可以是Integer。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">RandomHorizontalFlip</span></span></span><br></pre></td></tr></table></figure>
-
-<p>随机水平翻转给定的PIL.Image,概率为0.5。即：一半的概率翻转，一半的概率不翻转。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">RandomSizedCrop</span>(<span class="params">size, interpolation=<span class="number">2</span></span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>先将给定的PIL.Image随机切，然后再resize成给定的size大小。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Pad</span>(<span class="params">padding, fill=<span class="number">0</span></span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>将给定的PIL.Image的所有边用给定的pad value填充。 padding：要填充多少像素 fill：用什么值填充</p>
-<h4 id="对Tensor进行变换"><a href="#对Tensor进行变换" class="headerlink" title="对Tensor进行变换"></a>对Tensor进行变换</h4><hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Normalize</span>(<span class="params">mean, std</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>给定均值：(R,G,B) 方差：（R，G，B），将会把Tensor正则化。即：Normalized_image=(image-mean)/std。</p>
-<p><strong>参数说明：</strong></p>
-<ol>
-<li>mean (sequence) – 序列R, G, B的均值。</li>
-<li>std (sequence) – 序列 R, G, B 的平均标准偏差.</li>
-</ol>
-<p><strong>call(tensor)</strong> 参数: tensor (Tensor) – 规范化的大小（c，h，w）的张量图像. 返回结果: 规范化的图片. 返回样式: Tensor张量</p>
-<h4 id="对Conversion进行变换"><a href="#对Conversion进行变换" class="headerlink" title="对Conversion进行变换"></a>对Conversion进行变换</h4><hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">ToTensor</span></span></span><br></pre></td></tr></table></figure>
-
-<p>把一个取值范围是[0,255]的PIL.Image或者shape为(H,W,C)的numpy.ndarray，转换成形状为[C,H,W]，取值范围是[0,1.0]的torch.FloadTensor</p>
-<p><strong>call(pic)</strong></p>
-<ol>
-<li>参数: pic (PIL.Image or numpy.ndarray) – 图片转换为张量.</li>
-<li>返回结果: 转换后的图像。</li>
-<li>返回样式: Tensor张量</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">ToPILImage</span></span></span><br></pre></td></tr></table></figure>
-
-<p>将shape为(C,H,W)的Tensor或shape为(H,W,C)的numpy.ndarray转换成PIL.Image，值不变。</p>
-<p><strong>call(pic)</strong></p>
-<ol>
-<li>参数: pic (Tensor or numpy.ndarray) – 图像转换为pil.image。</li>
-<li>返回结果: 图像转换为PIL.Image.</li>
-<li>返回样式: PIL.Image</li>
-</ol>
-<h4 id="通用变换"><a href="#通用变换" class="headerlink" title="通用变换"></a>通用变换</h4><hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Lambda</span>(<span class="params">lambd</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>使用lambd作为转换器。</p>
-<p>参数说明: lambd (function) – Lambda/function 用于转换.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/13/img-pre-process/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -646,7 +612,14 @@
 
 <p><code>optimizer.zero_grad()</code> clears <code>x.grad</code> for every parameter <code>x</code> in the optimizer. It’s important to call this before <code>loss.backward()</code>, otherwise you’ll accumulate the gradients from multiple passes.</p>
 <p>If you have multiple losses (loss1, loss2) you can sum them and then call backwards once:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">loss3 &#x3D; loss1 + loss2</span><br><span class="line">loss3.backward()</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/11/backwardAndStep/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -721,7 +694,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -760,6 +733,14 @@
 <li><a href="www.adream.org">真爱梦想公益基金会</a></li>
 </ul>
 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/08/dianshi-03/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -834,7 +815,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -867,63 +848,14 @@
 <li>喜欢的文稿：标题与内容，规律和经验，事实与数据，不足与问题</li>
 <li>调味品（比如绝望坡的坡度数据等，无伤大雅的调剂）</li>
 </ul>
-<h2 id="“火柴人意识”常见问题"><a href="#“火柴人意识”常见问题" class="headerlink" title="“火柴人意识”常见问题"></a>“火柴人意识”常见问题</h2><ul>
-<li>自以为是：以自己为中心，不掂量一个机会的重量，内心深处认为世界围着自己转</li>
-<li>不靠谱</li>
-<li>自我管理（四象法5S管理）</li>
-<li>成本意识（找对象游戏）</li>
-<li>风险评估（从种树谈起）</li>
-<li>解决问题（变议论为行动）</li>
-</ul>
-<h2 id="人情世故"><a href="#人情世故" class="headerlink" title="人情世故"></a>人情世故</h2><ul>
-<li>做人做事：要先做事，先行动起来。先把事情做了，做人方面自然就显现出来了</li>
-<li>学会吃小亏：你能算计到的那些小精明别人很大可能也算到了，别人知道你在精算就不想和你合作了。但是也要注意不能吃大亏。亏了100还可以翻本，亏了100万性质就不同了</li>
-<li>感恩，寻找生命中的贵人：要大声对那些在你生命中大幅改变了你人生轨迹的人说谢谢，感谢别人</li>
-<li>三个工具：<ol>
-<li>微笑！ -&gt; 微笑带来亲和力，增加机会</li>
-<li>“Excuse me, thank you!”  -&gt; 多说谢谢会让人感觉到你的尊重</li>
-<li>伸出手！-&gt;表态和做是两个事，即使心有余而力不足，至少态度上要给予表示</li>
-</ol>
-</li>
-<li>两句话：相互吹捧，自我批评</li>
-</ul>
-<h2 id="成本与风控"><a href="#成本与风控" class="headerlink" title="成本与风控"></a>成本与风控</h2><h3 id="成本"><a href="#成本" class="headerlink" title="成本"></a>成本</h3><ul>
-<li>物质成本</li>
-<li>时间成本</li>
-<li>机会成本</li>
-<li>风险成本</li>
-</ul>
-<h3 id="风控"><a href="#风控" class="headerlink" title="风控"></a>风控</h3><ul>
-<li>6677：有6、7分把握就可以冲一冲了，如果一定要等到所有条件都具备了再想着去冲，那一定赢不了的</li>
-</ul>
-<h2 id="什么人能走得更远？情怀？梦想？"><a href="#什么人能走得更远？情怀？梦想？" class="headerlink" title="什么人能走得更远？情怀？梦想？"></a>什么人能走得更远？情怀？梦想？</h2><ul>
-<li>价值观和使命感</li>
-<li>大海可渡的坚持</li>
-<li>坚持为他人解决问题：创业不是说你要干什么，而是你能为别人提供什么</li>
-<li>远大理想同脚踏实地工作作风的结合</li>
-<li>对上负责对下负责的结合</li>
-<li>高度的原则性通高度的灵活性的结合</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>事事有着落</li>
-<li>有效率</li>
-<li>身先士卒，感染他人</li>
-<li>到前线去指挥炮火</li>
-<li>花自己赚的钱</li>
-</ul>
-<h2 id="节点和系统"><a href="#节点和系统" class="headerlink" title="节点和系统"></a>节点和系统</h2><ul>
-<li>100个小时可以用来大致了解一个领域，理清脉络</li>
-<li>10000个小时是不断填充知识，一步步完善自己的知识体系</li>
-</ul>
-<h2 id="终身学习"><a href="#终身学习" class="headerlink" title="终身学习"></a>终身学习</h2><ul>
-<li>像小朋友般好奇</li>
-<li>博大精深——技多不压身</li>
-<li>融会贯通——自我见解</li>
-<li>有字书与无字书</li>
-<li>国际视野——外语很重要</li>
-<li>新闻里有大财富</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/07/dianshi-02/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -998,7 +930,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
+      <span>5 mins.</span>
     </span>
 </div>
 
@@ -1020,7 +952,14 @@
 <hr>
 <p>Baseline, on the other hand, is a totally unrelated concept. Let’s say you want to do part-of-speech tagging — given an English text, tag each word as noun, pronoun, verb, etc. Note that this is non-trivial because a lot of words could belong to several parts-of-speech, based on the context, e.g. <em>building</em>.</p>
 <p>Now, you train an ML model, and you get an accuracy of 80%. Is that good? You can’t answer that question unless you compare your accuracy to something else. That “something else” is the <strong>baseline</strong>. Sometimes, you pick a simple baseline. So for the example above, a simple baseline could be to just tag each word with its most common part-of-speech. Or you can use existing popular algorithms for that task as the baseline. The choice of the baseline depends on your objective. The goal is to either beat the baseline, if the goal of your work is to improve accuracy, or get results comparable to the baseline while improving some other aspect of the algorithm (like training time, prediction time, memory usage, etc.)</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/07/baseline-pipeline/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1095,7 +1034,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -1145,7 +1084,14 @@
 <li>Ground-truth: 真实标签，X的真实分类等意思，可以略作GT</li>
 <li>计算机视觉中的Bag of Words里面的words说的是一些底层的pattern，经常性的重复出现的模式，把这些当做“视觉词汇”来进行处理</li>
 </ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/04/cs231n-assignment1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1220,7 +1166,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>4 mins.</span>
     </span>
 </div>
 
@@ -1241,16 +1187,14 @@
 <p>调用该函数，a(1,2)则x取1，y取2，形参与实参相对应，如果a(1)或者a(1,2,3)则会报错。</p>
 <h2 id="2-F-arg1-arg2-value2-…"><a href="#2-F-arg1-arg2-value2-…" class="headerlink" title="2. F(arg1,arg2=value2,…)"></a>2. F(arg1,arg2=value2,…)</h2><p>这种方式就是第一种的改进版，提供了默认值</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span>(<span class="params">x,y=<span class="number">3</span></span>):</span></span><br><span class="line"><span class="built_in">print</span> x,y</span><br></pre></td></tr></table></figure>
-
-<p>调用该函数，a(1,2)同样还是x取1，y取2，但是如果a(1)，则不会报错了，这个时候x还是1，y则为默认的3。上面这俩种方式，还可以更换参数位置，比如a(y=8,x=3)用这种形式也是可以的。</p>
-<h2 id="3-F-arg1"><a href="#3-F-arg1" class="headerlink" title="3. F(*arg1)"></a>3. F(*arg1)</h2><p>上 面俩个方式是有多少个形参，就传进去多少个实参，但有时候会不确定有多少个参数，则此时第三种方式就比较有用，它以一个*加上形参名的方式来表示这个函数 的实参个数不定，可能为0个也可能为n个。注意一点是，不管有多少个，在函数内部都被存放在以形参名为标识符的tuple中。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">a</span>(<span class="params">*x</span>):</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(x)==<span class="number">0</span>:</span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;None&#x27;</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line"><span class="built_in">print</span> x</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a(<span class="number">1</span>)</span><br><span class="line">(<span class="number">1</span>,)        <span class="comment">#存放在元组中</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a()</span><br><span class="line"><span class="literal">None</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a(m=<span class="number">1</span>,y=<span class="number">2</span>,z=<span class="number">3</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">File <span class="string">&quot;&lt;pyshell#16&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> -toplevel-</span><br><span class="line">a(m=<span class="number">1</span>,y=<span class="number">2</span>,z=<span class="number">3</span>)</span><br><span class="line">TypeError: a() got an unexpected keyword argument <span class="string">&#x27;m&#x27;</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">File <span class="string">&quot;&lt;pyshell#25&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> -toplevel-</span><br><span class="line">a(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">TypeError: a() takes exactly <span class="number">0</span> arguments (<span class="number">2</span> given)</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-F-arg1"><a href="#4-F-arg1" class="headerlink" title="4. F(**arg1)"></a>4. F(**arg1)</h2><p>形参名前加俩个*表示，参数在函数内部将被存放在以形式名为标识符的dictionary中，这时调用函数的方法则需要采用arg1=value1,arg2=value2这样的形式。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">a</span>(<span class="params">**x</span>):</span><span class="keyword">if</span> <span class="built_in">len</span>(x)==<span class="number">0</span>:<span class="built_in">print</span> <span class="string">&#x27;None&#x27;</span><span class="keyword">else</span>:<span class="built_in">print</span> x  &gt;&gt;&gt; a()<span class="literal">None</span>&gt;&gt;&gt; a(x=<span class="number">1</span>,y=<span class="number">2</span>)&#123;<span class="string">&#x27;y&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;x&#x27;</span>: <span class="number">1</span>&#125;      <span class="comment">#存放在字典中&gt;&gt;&gt; a(1,2)            #这种调用则报错Traceback (most recent call last):</span></span><br><span class="line">File <span class="string">&quot;&lt;pyshell#25&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> -toplevel-</span><br><span class="line">a(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">TypeError: a() takes exactly <span class="number">0</span> arguments (<span class="number">2</span> given)</span><br></pre></td></tr></table></figure>
-
-<p>上面介绍了四种定义方式，接下来看函数参数在调用过程中是怎么被解析的,其实只要记住上面这四种方法优先级依次降低，先1，后2，再3，最后4，也就是先把方式1中的arg解析，然后解析方式2中的arg=value，再解析方式3，即是把多出来的arg这种形式的实参组成个tuple传进去，最后把剩下的key=value这种形式的实参组成一个dictionary传给带俩个星号的形参，也就方式4。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">x,y=<span class="number">1</span>,*a,**b</span>):</span></span><br><span class="line">    <span class="built_in">print</span> x,y,a,b</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">1</span> () &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> () &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>,) &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>, <span class="number">4</span>) &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(x=<span class="number">1</span>,y=<span class="number">2</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> () &#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>,a=<span class="number">2</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">1</span> () &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">2</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,a=<span class="number">4</span>)</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>,) &#123;<span class="string">&#x27;a&#x27;</span>: <span class="number">4</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>test(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,y=<span class="number">4</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">File <span class="string">&quot;&lt;pyshell#52&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> -toplevel-</span><br><span class="line">test(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,y=<span class="number">4</span>)</span><br><span class="line">TypeError: test() got multiple values <span class="keyword">for</span> keyword argument <span class="string">&#x27;y&#x27;</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/03/python-param-star/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1325,7 +1269,7 @@
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
+      <span>5 mins.</span>
     </span>
 </div>
 
@@ -1350,29 +1294,15 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; np.array([3.0, 4.0, 5.0, 6.0])</span><br><span class="line">b &#x3D; np.array([3.0, 4.0])</span><br><span class="line">a.shape &#x3D; (2,2)</span><br><span class="line">print a * b</span><br><span class="line"># 输出：[[ 3.  4.] [ 5.  6.]] [[  9.  16.] [ 15.  24.]]</span><br><span class="line"></span><br><span class="line"># 例外一个例子</span><br><span class="line">x &#x3D; np.arange(4)</span><br><span class="line">z &#x3D; np.ones((3,4))</span><br><span class="line"></span><br><span class="line">print x + z</span><br></pre></td></tr></table></figure>
 
 <p>好的到这里其实主要我们已经将完了所有的内容，如果你想要了解更多，可以查看下面的内容，其实都是一些描述性的，我觉得不是那么有必要看</p>
-<h2 id="什么是Numpy广播"><a href="#什么是Numpy广播" class="headerlink" title="什么是Numpy广播"></a>什么是Numpy广播</h2><p>广播术语描述了在算术运算过程中numpy如何处理具有不同形状的数组。受到某些约束，较小的数组是跨越较大阵列的“广播”，以便它们具有兼容的形状。广播提供了一种向量化数组操作的方法，以便循环发生在C而不是Python中。它不会造成不必要的数据副本，通常会导致高效的算法实现。然而，广播是一个坏主意，因为它导致低效的内存使用减慢了计算的情况。</p>
-<p>NumPy操作通常是在逐个元素的基础上完成的。在最简单的情况下，两个阵列必须具有完全相同的形状，如下例所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; np.array([3.0, 4.0, 5.0])</span><br><span class="line">b &#x3D; np.array([3.0, 3.0, 3.0])</span><br><span class="line">print a * b</span><br><span class="line"># 输出：[  9.  12.  15.]</span><br></pre></td></tr></table></figure>
-
-<p>当数组的形状满足某些限制时，NumPy的广播规则放宽了这个约束。当操作中组合数组和标量值时，会发生最简单的广播示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; np.array([3.0, 4.0, 5.0])</span><br><span class="line">b &#x3D; 3.0</span><br><span class="line">print a * b</span><br><span class="line"># 输出：[  9.  12.  15.]</span><br></pre></td></tr></table></figure>
-
-<p>上面2个例子的结果相同，在计算期间，我们可以看作b被拉伸成与a相同的形状，新元素 b只是原始标量的副本。拉伸类比只是概念性的。NumPy足够聪明才能使用原始的标量值，而无需实际复制，因此广播操作尽可能地作为记忆和计算效率。</p>
-<p>第二个示例中的代码比第一个示例中的代码更有效，因为广播在乘法期间移动较少的内存（b是标量而不是数组）。</p>
-<h2 id="一般广播规则"><a href="#一般广播规则" class="headerlink" title="一般广播规则"></a>一般广播规则</h2><p>在两个数组上运行时，NumPy将元素的形状进行比较。它从尾随的维度开始，并向前推进。两个尺寸兼容</p>
-<ul>
-<li>他们是平等的</li>
-<li>其中一个是1</li>
-</ul>
-<p>如果不满足这些条件， 则抛出异常，表示阵列具有不兼容的形状。结果数组的大小是输入数组的每个维度的最大大小。<code>ValueError: frames are not aligned</code> 接下来我们看一下一些具体的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x &#x3D; np.arange(4)</span><br><span class="line">&gt;&gt;&gt; xx &#x3D; x.reshape(4,1)</span><br><span class="line">&gt;&gt;&gt; y &#x3D; np.ones(5)</span><br><span class="line">&gt;&gt;&gt; z &#x3D; np.ones((3,4))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x.shape</span><br><span class="line">(4,)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; y.shape</span><br><span class="line">(5,)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x + y</span><br><span class="line">&lt;type &#39;exceptions.ValueError&#39;&gt;: shape mismatch: objects cannot be broadcast to a single shape</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; xx.shape</span><br><span class="line">(4, 1)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; y.shape</span><br><span class="line">(5,)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; (xx + y).shape</span><br><span class="line">(4, 5)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; xx + y</span><br><span class="line">array([[ 1.,  1.,  1.,  1.,  1.],</span><br><span class="line">       [ 2.,  2.,  2.,  2.,  2.],</span><br><span class="line">       [ 3.,  3.,  3.,  3.,  3.],</span><br><span class="line">       [ 4.,  4.,  4.,  4.,  4.]])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x.shape</span><br><span class="line">(4,)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; z.shape</span><br><span class="line">(3, 4)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; (x + z).shape</span><br><span class="line">(3, 4)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x + z</span><br><span class="line">array([[ 1.,  2.,  3.,  4.],</span><br><span class="line">       [ 1.,  2.,  3.,  4.],</span><br><span class="line">       [ 1.,  2.,  3.,  4.]])</span><br></pre></td></tr></table></figure>
-
-<p>广播提供了一种方便的方式来拍摄两个阵列的外部产品（或任何其他外部操作）。以下示例显示了两个1-d数组的外部加法运算：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a &#x3D; np.array([0.0, 10.0, 20.0, 30.0])</span><br><span class="line">&gt;&gt;&gt; b &#x3D; np.array([1.0, 2.0, 3.0])</span><br><span class="line">&gt;&gt;&gt; a[:, np.newaxis] + b</span><br><span class="line">array([[  1.,   2.,   3.],</span><br><span class="line">       [ 11.,  12.,  13.],</span><br><span class="line">       [ 21.,  22.,  23.],</span><br><span class="line">       [ 31.,  32.,  33.]])</span><br></pre></td></tr></table></figure>
-
-<p>这里，<code>newaxis</code>索引操作符插入一个新轴<code>a</code>，使其成为一个二维<code>4x1</code>数组。将<code>4x1</code>阵列与<code>b</code>形状组合<code>(3,)</code>，产生一个<code>4x3</code>数组。</p>
-<p>原文出处： <a target="_blank" rel="noopener" href="https://ptorch.com/news/38.html">使用Numpy广播将不同形状的矩阵或数组加减乘除 - pytorch中文网</a></p>
-
+<h2 id="什么是Numpy广播"><a href="#什么是Numpy广播" class="headerlink" title="什么是Numpy广播"></a>什么是Numpy广播</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/02/numpy-broadcasting/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1442,7 +1372,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">5:16</span>
+    <span title="Reading time total">10:31</span>
   </span>
 </div>
 <div class="busuanzi-count">

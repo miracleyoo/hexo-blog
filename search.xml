@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>全连接层与1x1卷积的关系</title>
+    <url>/2019/02/12/1x1conv/</url>
+    <content><![CDATA[<h2 id="理解全连接层："><a href="#理解全连接层：" class="headerlink" title="理解全连接层："></a>理解全连接层：</h2><p><strong>全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。</strong></p>
+<p>假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。</p>
+<p>如果将这个全连接层转化为卷积层：</p>
+<span id="more"></span>
+
+<ol>
+<li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
+<li>每个卷积核的大小为<strong>512x7×7</strong></li>
+<li>则输出为<strong>1×1×4096</strong></li>
+</ol>
+<p>由于每个滤波核的大小和上一层的feature map大小一样，保证了转换后的卷积层的运算结果和全连接层是一样的。<br>若后面再连接一个1×1×4096全连接层。则其对应的转换后的卷积层的参数为：</p>
+<ol>
+<li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
+<li>每个卷积核的大小为<strong>4096x1x1</strong></li>
+<li>则输出为<strong>1×1×4096</strong></li>
+</ol>
+<h2 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h2><p>参考“ <a href="https://bbs.dian.org.cn/topic/589/rcnn%E7%B3%BB%E5%88%97%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%A6%E8%A7%A3">RCNN系列目标检测详解</a>”，在Faster RCNN中，RPN网络的关键部分就是由两个1x1的卷积核完成的，其作用即为全连接。<br><img src="/2019/02/12/1x1conv/006y8mN6ly1g7lwj8tmefj311609y0tp.jpg" alt="Network Structure"></p>
+]]></content>
+      <tags>
+        <tag>machine-learning</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2018.3.18 刚哥指导</title>
     <url>/2018/03/19/2018318-gangge/</url>
     <content><![CDATA[<h1 id="2018-3-18-刚哥指导"><a href="#2018-3-18-刚哥指导" class="headerlink" title="2018.3.18 刚哥指导"></a>2018.3.18 刚哥指导</h1><ul>
@@ -65,31 +90,6 @@
       <tags>
         <tag>English</tag>
         <tag>interview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>全连接层与1x1卷积的关系</title>
-    <url>/2019/02/12/1x1conv/</url>
-    <content><![CDATA[<h2 id="理解全连接层："><a href="#理解全连接层：" class="headerlink" title="理解全连接层："></a>理解全连接层：</h2><p><strong>全连接层可以由卷积核深度为上层特征图深度的卷积运算代替，卷积后channel上每个1x1卷积核都会作为一个输出，可看作全连接层的一个点。</strong></p>
-<p>假设最后一个卷积层的输出为7×7×512，连接此卷积层的全连接层为1×1×4096。</p>
-<p>如果将这个全连接层转化为卷积层：</p>
-<span id="more"></span>
-
-<ol>
-<li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
-<li>每个卷积核的大小为<strong>512x7×7</strong></li>
-<li>则输出为<strong>1×1×4096</strong></li>
-</ol>
-<p>由于每个滤波核的大小和上一层的feature map大小一样，保证了转换后的卷积层的运算结果和全连接层是一样的。<br>若后面再连接一个1×1×4096全连接层。则其对应的转换后的卷积层的参数为：</p>
-<ol>
-<li>共有4096组滤波器（<strong>通道数4096</strong>）</li>
-<li>每个卷积核的大小为<strong>4096x1x1</strong></li>
-<li>则输出为<strong>1×1×4096</strong></li>
-</ol>
-<h2 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h2><p>参考“ <a href="https://bbs.dian.org.cn/topic/589/rcnn%E7%B3%BB%E5%88%97%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%A6%E8%A7%A3">RCNN系列目标检测详解</a>”，在Faster RCNN中，RPN网络的关键部分就是由两个1x1的卷积核完成的，其作用即为全连接。<br><img src="/2019/02/12/1x1conv/006y8mN6ly1g7lwj8tmefj311609y0tp.jpg" alt="Network Structure"></p>
-]]></content>
-      <tags>
-        <tag>machine-learning</tag>
       </tags>
   </entry>
   <entry>
@@ -212,6 +212,51 @@
 ]]></content>
       <tags>
         <tag>python</tag>
+        <tag>machine-learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How are optimizer.step() and loss.backward() related?</title>
+    <url>/2018/04/11/backwardAndStep/</url>
+    <content><![CDATA[<p>今天和同学讨论的时候发现这个地方知识存在漏洞，赶紧补了一波。问题就是optimizer.step() 和 loss.backward()这两个总是出现在一起的两个pytorch函数各自执行的功能。</p>
+<h2 id="简单的说，"><a href="#简单的说，" class="headerlink" title="简单的说，"></a>简单的说，</h2><ul>
+<li>loss.backward()根据这一轮的loss计算出了网络中所有需要计算的导数</li>
+<li>optimizer.step()根据你选择的优化器，使用上面👆loss.backward()计算出的各个导数更新了网络中的各个权值</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="以下为论坛原文："><a href="#以下为论坛原文：" class="headerlink" title="以下为论坛原文："></a>以下为论坛原文：</h2><p><code>loss.backward()</code> computes <code>dloss/dx</code> for every parameter <code>x</code> which has <code>requires_grad=True</code>. These are accumulated into <code>x.grad</code> for every parameter <code>x</code>. In pseudo-code:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x.grad +&#x3D; dloss&#x2F;dx</span><br></pre></td></tr></table></figure>
+
+<p><code>optimizer.step</code> updates the value of <code>x</code> using the gradient <code>x.grad</code>. For example, the SGD optimizer performs:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x +&#x3D; -lr * x.grad</span><br></pre></td></tr></table></figure>
+
+<p><code>optimizer.zero_grad()</code> clears <code>x.grad</code> for every parameter <code>x</code> in the optimizer. It’s important to call this before <code>loss.backward()</code>, otherwise you’ll accumulate the gradients from multiple passes.</p>
+<p>If you have multiple losses (loss1, loss2) you can sum them and then call backwards once:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loss3 &#x3D; loss1 + loss2</span><br><span class="line">loss3.backward()</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>machine-learning</tag>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>What is a pipeline and baseline in machine learning algorithms?</title>
+    <url>/2018/04/07/baseline-pipeline/</url>
+    <content><![CDATA[<p><strong>This article is from Quora, and the original link is <a href="https://www.quora.com/What-is-a-pipeline-and-baseline-in-machine-learning-algorithms">here</a>.</strong></p>
+<h2 id="先简单概括一下原文："><a href="#先简单概括一下原文：" class="headerlink" title="先简单概括一下原文："></a>先简单概括一下原文：</h2><ul>
+<li>Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。</li>
+<li>而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照，看看自己到底做到了<strong>多好</strong></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="下面是Prasoon-Goyal大佬的原答案："><a href="#下面是Prasoon-Goyal大佬的原答案：" class="headerlink" title="下面是Prasoon Goyal大佬的原答案："></a>下面是<a href="https://www.quora.com/profile/Prasoon-Goyal">Prasoon Goyal</a>大佬的原答案：</h2><p>A machine learning algorithm usually takes clean (and often tabular) data, and learns some pattern in the data, to make predictions on new data. However, when ML is used in real-world applications, the raw information that you get from the real-world is often not ready to be fed into the ML algorithm. So you need to preprocess that information to create input data for the ML algorithm. Similarly, the output of the ML algorithm by itself is just some number in software, which will need to be processed to perform some action in the real-world.</p>
+<p>Let’s take the example of self-driving cars. Say you have cameras mounted on a car, and you want to predict the optimal steering angle given the images from the camera and the speed of the car. Now once you have collected the data, you will have a set of images from the camera, and you will have the speed of the car at various time points. You will need to align the images with the speed of the car based on the timestamp. Secondly, if you are learning in the supervised setting, you would also have recorded the steering angles of the human drivers while collecting the above data. Again, these need to be aligned with the images and the speed data according to timestamp. What you have done so far is preprocessing — there is no machine learning yet. Now comes the machine learning part — say you train a neural network that is fed these images and corresponding speeds and is trained to predict the optimal steering angle. This is you ML algorithm. Once you’ve trained it, for new data, you perform the preprocessing by aligning camera images and speeds, and feed to the neural network. The neural network outputs a steering angle on a computer screen. Now you need to take this output and actually rewire your car in a way such that the steering wheel rotates based on this output. This part is again not ML.</p>
+<p>So this entire framework from converting raw data to data usable by ML algorithm, training an ML algorithm, and finally using the output of the ML algorithm to perform actions in the real-world is the <strong>pipeline</strong>. It is called a pipeline because it is analogous to physical pipelines — just as a liquid passes through one pipe, entering the next, sequentially, our data goes through one stage, entering into the next, sequentially.</p>
+<hr>
+<p>Baseline, on the other hand, is a totally unrelated concept. Let’s say you want to do part-of-speech tagging — given an English text, tag each word as noun, pronoun, verb, etc. Note that this is non-trivial because a lot of words could belong to several parts-of-speech, based on the context, e.g. <em>building</em>.</p>
+<p>Now, you train an ML model, and you get an accuracy of 80%. Is that good? You can’t answer that question unless you compare your accuracy to something else. That “something else” is the <strong>baseline</strong>. Sometimes, you pick a simple baseline. So for the example above, a simple baseline could be to just tag each word with its most common part-of-speech. Or you can use existing popular algorithms for that task as the baseline. The choice of the baseline depends on your objective. The goal is to either beat the baseline, if the goal of your work is to improve accuracy, or get results comparable to the baseline while improving some other aspect of the algorithm (like training time, prediction time, memory usage, etc.)</p>
+]]></content>
+      <tags>
         <tag>machine-learning</tag>
       </tags>
   </entry>
@@ -348,48 +393,23 @@
       </tags>
   </entry>
   <entry>
-    <title>What is a pipeline and baseline in machine learning algorithms?</title>
-    <url>/2018/04/07/baseline-pipeline/</url>
-    <content><![CDATA[<p><strong>This article is from Quora, and the original link is <a href="https://www.quora.com/What-is-a-pipeline-and-baseline-in-machine-learning-algorithms">here</a>.</strong></p>
-<h2 id="先简单概括一下原文："><a href="#先简单概括一下原文：" class="headerlink" title="先简单概括一下原文："></a>先简单概括一下原文：</h2><ul>
-<li>Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。</li>
-<li>而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照，看看自己到底做到了<strong>多好</strong></li>
-</ul>
+    <title>《没有色彩的多琦作和他的巡礼之年》读后感</title>
+    <url>/2019/07/16/book-review-ironaki/</url>
+    <content><![CDATA[<p>当世界各国的书，或更准确的说，小说，齐聚一堂时，我才如此清晰的意识到，文化认同感是多么的重要，以及，日本的文学与文化竟如此深刻地影响了我灵魂深处的某些东西，就宛如地震过后的路面一般，就那么存在着，仿佛它一开始就在那里。很难说这种影响是向着什么方向的，如果有方向的话。当然，也无从得知这种影响有没有可能被崭新地出现在我面前的其他文化所碾平，重新浇上沥青，再刻蚀。但只有一点是如此明亮而通透，就是作为“历史”，这种影响已经实实在在地改变了很多东西的形状，孕育了一众欢愉与烦恼，并将持续地以某种可见或不可见的方式决定着许多尚未诞生于此的事物。</p>
 <span id="more"></span>
 
-<h2 id="下面是Prasoon-Goyal大佬的原答案："><a href="#下面是Prasoon-Goyal大佬的原答案：" class="headerlink" title="下面是Prasoon Goyal大佬的原答案："></a>下面是<a href="https://www.quora.com/profile/Prasoon-Goyal">Prasoon Goyal</a>大佬的原答案：</h2><p>A machine learning algorithm usually takes clean (and often tabular) data, and learns some pattern in the data, to make predictions on new data. However, when ML is used in real-world applications, the raw information that you get from the real-world is often not ready to be fed into the ML algorithm. So you need to preprocess that information to create input data for the ML algorithm. Similarly, the output of the ML algorithm by itself is just some number in software, which will need to be processed to perform some action in the real-world.</p>
-<p>Let’s take the example of self-driving cars. Say you have cameras mounted on a car, and you want to predict the optimal steering angle given the images from the camera and the speed of the car. Now once you have collected the data, you will have a set of images from the camera, and you will have the speed of the car at various time points. You will need to align the images with the speed of the car based on the timestamp. Secondly, if you are learning in the supervised setting, you would also have recorded the steering angles of the human drivers while collecting the above data. Again, these need to be aligned with the images and the speed data according to timestamp. What you have done so far is preprocessing — there is no machine learning yet. Now comes the machine learning part — say you train a neural network that is fed these images and corresponding speeds and is trained to predict the optimal steering angle. This is you ML algorithm. Once you’ve trained it, for new data, you perform the preprocessing by aligning camera images and speeds, and feed to the neural network. The neural network outputs a steering angle on a computer screen. Now you need to take this output and actually rewire your car in a way such that the steering wheel rotates based on this output. This part is again not ML.</p>
-<p>So this entire framework from converting raw data to data usable by ML algorithm, training an ML algorithm, and finally using the output of the ML algorithm to perform actions in the real-world is the <strong>pipeline</strong>. It is called a pipeline because it is analogous to physical pipelines — just as a liquid passes through one pipe, entering the next, sequentially, our data goes through one stage, entering into the next, sequentially.</p>
-<hr>
-<p>Baseline, on the other hand, is a totally unrelated concept. Let’s say you want to do part-of-speech tagging — given an English text, tag each word as noun, pronoun, verb, etc. Note that this is non-trivial because a lot of words could belong to several parts-of-speech, based on the context, e.g. <em>building</em>.</p>
-<p>Now, you train an ML model, and you get an accuracy of 80%. Is that good? You can’t answer that question unless you compare your accuracy to something else. That “something else” is the <strong>baseline</strong>. Sometimes, you pick a simple baseline. So for the example above, a simple baseline could be to just tag each word with its most common part-of-speech. Or you can use existing popular algorithms for that task as the baseline. The choice of the baseline depends on your objective. The goal is to either beat the baseline, if the goal of your work is to improve accuracy, or get results comparable to the baseline while improving some other aspect of the algorithm (like training time, prediction time, memory usage, etc.)</p>
+<p>意外的拿起这本村上君的书时，心中是着实充满着惊喜与意外，为又一次的相遇而感动。村上书中的人物总是能给人一种奇异而美妙的亲近感，总是能在意外的地方引起人的共鸣。这些人物性格各异，有着大相径庭的职业，其中的大多都是在终归和我无缘的地方做着那些理所当然要有人做但却从未被我考虑过的工作。奇怪的是，他们总能带给我一种“生活本应是这样”的近乎玄幻的体验。作经历的生活，作体验过的困苦与纠结，作感受过到的那般颜色稀疏、静如止水、只有不知为何泛起的薄暮与绝对的黑暗交替的日日夜夜，似乎都能像是立体电影一般拼命地从身体的每个毛孔渗入进来，不知不觉间，读者已彻底变成了事件的参与者，向前翻页的动作也具象化为了在混沌与希望中向前迈进的步子，只是单纯的希望触摸即将到来的时间，如同沙子从掌隙间流过那般自然。</p>
+<p>作的巡礼也成了我继续向前探寻的自然延伸，但其间我的心理也在不断发生着变化。从一开始的急不可耐试图知道十六年前究竟发生过什么，到渐渐静下心来体味作当下那建立在尘封的记忆的盖子之上的平静生活；从试图对绿川所言进行逻辑与理性的考量，到把这当做一个单纯的故事，或曰事实来接受；从期待后文中找到强奸与勒死白根柚木的两个亦或是同一个凶手，到放弃对凶手本身的追溯，而是将感情逐渐聚焦于即将发生的故事、生者的自省上以及这个“事实”造成的影响上去了。事件已经发生，而它是怎么发生的，究竟是一个无差别杀人犯还是一个与白相识的密友做出了这般事端，都已经成为了名副其实的历史，而历史不是由点、由少数人组成的，而是由存活其间的一条条闪光的生命之线编织而成。不过一个事件的发生会将许多杂糅的东西聚合在一起，成为一个有机的整体。这包括事件成为事件之前的诸多些微的原因与征兆、事件发生这个事实与其过程、事件不同层次、不同作用的后续影响以及相关者心绪的点滴变化。而观察、追溯，甚至解开后用放大镜研究这些线束则是远为有趣的。</p>
+<p>“我们可以给记忆盖上盖子，但是绝不可能掩盖历史。”</p>
+<p>“说不定里面还有彻底凝固、再也打不开的盖子。”</p>
+<p>喜欢极了这种对话，正如我对这种沉浸式体验的喜爱。当一个旁观者总会让人多多少少变得自傲，错误地认为自己无所不能，但作为一个亲历者，能体会到的东西则大不相同。一个显著的区别是没有一位令人尊敬的上帝在一旁耳语着告诉你一些或关键或无关紧要的信息，你知道的并不比你冯依的人物更多。有些东西是永远无从得知的，比如灰田最终为何突然消失，而绿川在演奏前煞有介事地放在钢琴上的小包里到底包裹着什么秘密，或是白究竟怀着什么样的心态见证着小团体同自己预想的一样逐渐走向分崩离析，又为何在遭受灾难后选择嫁祸于作，以及后面缘何只身一人来到了一座崭新的城市。当然，文中充满了暗示，这些暗示可以帮助我理解，或单纯的揣测这绵密繁复的生命之线中刻蚀着的纹样，却永远只能止步于揣测。我很无力的发现，我能做的只是接受一个又一个的假设，而这则源于令人绝望的信息不足。提前离开的白如理所当然的一般无法再吐露出任何信息，而我能做的，只是呆呆地凝望着这个尽最大努力拼出的、残破依旧的拼图，以及走好后面的路。</p>
+<p>所有的一切都源自于这个多彩的小团体。我是先看了书籍的简介再开读的。这件事并不一定会发生，只是偶然读了简介，没有更多或更少。起先我对这个讲述小团体的主题是多少有些反感的，毕竟，我在绝大多数时候都是独立的，虽不像作一般完全没有朋友，自视为一个空荡荡的容器等待别人加入，但也长期保持并享受着这种“相对孤独”的状态。需要时，也会约一二朋友小聚，但对三人以上的场合，虽并非难以应对，但若非必要，倒也绝不会自发组织。所以我对人在“小团体”中的体会实际上是相对缺乏的，即使我并没有因此感到丝毫的不便。这种空缺就像繁忙路口中央突兀的出现的一口无盖之井，由于大家默认都会绕行，所以大抵也都对此视而不见，久而久之既不会感觉不便，也不会觉得有什么损失，但井就在那里。另外，小团体会让人不由自主的和“排他”“对立”，甚至“欺凌”联系在一起，这个发音总的来说还是令人不那么愉快的。但说来意外的是，就在不久前的旅行中，我实打实的体验了一把这种四五个人长期保持相同步调集体行动本身带来的实在感、愉悦感与安心感，也由衷的认同村上笔下的那种每个人都有自己角色，且愿将自己最好的一面贡献给小团体这种行为本身带来的“复杂的化学反应”的甘美。不得不承认，那确是十分美妙的事情。短短几天的经历便彻底颠覆了我之前的刻板印象，更何况作他们是将自己的几乎整个最为美好的青春特意抽出、然后共享的亲密无间小团体。</p>
+<p>“到了后期，小团体存在的目标就是维持其存续”。书中大致有这样一句。为了这个存续本身，大家都默认了一些规则，甚至包括扼杀心中逐渐萌芽的、写作恬淡，读作浓烈的相互间的爱慕之情。黑是一个令我倍感痛心的角色。她似乎总是藏在白投下的阴影里，作为一个陪衬使得存在愈发突出着白的存在。五人组合中的三个男生无疑都是暗地里喜欢着白的，尽管作很肯定如果黑对他告白，他一定会很自然地接受，并开始一段不一定会结果，但注定有着其独特色彩的恋情。但没人愿意打破这个小团体的稳定性。也没人愿意站出来，道出小团体有一天终将进入新的阶段这一事实。分离才是真正的永恒，迟到的分离并不会带来永久，反而会如在作画终了也不愿抬起的画笔一般，最终将完美的画面浸淫成一种面目狰狞的形状。</p>
+<p>本作对死亡边缘的景象描写的也十分真切，真切到栩栩如生，仿佛自己真的在人生的某一阶段受到过此般打击，一蹶不振到静默无声。“环顾四周，是一片布满岩石的荒凉大地。没有一滴水，不长一棵草。没有颜色，也没有像样的光。既没有太阳，又没有月亮和星星。只怕也没有方向。唯有不明底细的薄暮与深不见底的黑暗，隔一定时间交替轮换。对于拥有意识的人来说，那是终极的边境。但同时那里又是丰润之地。”作最终还是游出了那片苍茫夜色中的大海，即使他被人从甲板上唐突又不留情面地扔下了海，即使甚至没人知道他的消失。在孤独的终点，作看到的不仅仅是无边的黑暗，他也看到了那丰润之地。游泳，似乎使他的灵魂更加健壮。在感情没有经历过巨大的震动，不会轻易对何者动情这一点我也可以再作身上找到些许自己的影子。尽管近在咫尺，却终究无法拿出十分的激情去追逐，去渴求。如果说作是因为大二时被小团体抛弃所带来巨大的创伤所致，那自己又是缘何？静静期待着一个冲动，一个在特别的时光里突然涌现出的“巡礼之年”的冲动。</p>
+<p>愿你我终有一天能找寻到可以互相放心地存放心灵与记忆碎片的对方，以及愿终有一天能够品味并享受孤独与陪伴各自独特的醇香。</p>
 ]]></content>
       <tags>
-        <tag>machine-learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>How are optimizer.step() and loss.backward() related?</title>
-    <url>/2018/04/11/backwardAndStep/</url>
-    <content><![CDATA[<p>今天和同学讨论的时候发现这个地方知识存在漏洞，赶紧补了一波。问题就是optimizer.step() 和 loss.backward()这两个总是出现在一起的两个pytorch函数各自执行的功能。</p>
-<h2 id="简单的说，"><a href="#简单的说，" class="headerlink" title="简单的说，"></a>简单的说，</h2><ul>
-<li>loss.backward()根据这一轮的loss计算出了网络中所有需要计算的导数</li>
-<li>optimizer.step()根据你选择的优化器，使用上面👆loss.backward()计算出的各个导数更新了网络中的各个权值</li>
-</ul>
-<span id="more"></span>
-
-<h2 id="以下为论坛原文："><a href="#以下为论坛原文：" class="headerlink" title="以下为论坛原文："></a>以下为论坛原文：</h2><p><code>loss.backward()</code> computes <code>dloss/dx</code> for every parameter <code>x</code> which has <code>requires_grad=True</code>. These are accumulated into <code>x.grad</code> for every parameter <code>x</code>. In pseudo-code:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x.grad +&#x3D; dloss&#x2F;dx</span><br></pre></td></tr></table></figure>
-
-<p><code>optimizer.step</code> updates the value of <code>x</code> using the gradient <code>x.grad</code>. For example, the SGD optimizer performs:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">x +&#x3D; -lr * x.grad</span><br></pre></td></tr></table></figure>
-
-<p><code>optimizer.zero_grad()</code> clears <code>x.grad</code> for every parameter <code>x</code> in the optimizer. It’s important to call this before <code>loss.backward()</code>, otherwise you’ll accumulate the gradients from multiple passes.</p>
-<p>If you have multiple losses (loss1, loss2) you can sum them and then call backwards once:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loss3 &#x3D; loss1 + loss2</span><br><span class="line">loss3.backward()</span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>machine-learning</tag>
-        <tag>pytorch</tag>
+        <tag>book-review</tag>
       </tags>
   </entry>
   <entry>
@@ -451,26 +471,6 @@
       </tags>
   </entry>
   <entry>
-    <title>《没有色彩的多琦作和他的巡礼之年》读后感</title>
-    <url>/2019/07/16/book-review-ironaki/</url>
-    <content><![CDATA[<p>当世界各国的书，或更准确的说，小说，齐聚一堂时，我才如此清晰的意识到，文化认同感是多么的重要，以及，日本的文学与文化竟如此深刻地影响了我灵魂深处的某些东西，就宛如地震过后的路面一般，就那么存在着，仿佛它一开始就在那里。很难说这种影响是向着什么方向的，如果有方向的话。当然，也无从得知这种影响有没有可能被崭新地出现在我面前的其他文化所碾平，重新浇上沥青，再刻蚀。但只有一点是如此明亮而通透，就是作为“历史”，这种影响已经实实在在地改变了很多东西的形状，孕育了一众欢愉与烦恼，并将持续地以某种可见或不可见的方式决定着许多尚未诞生于此的事物。</p>
-<span id="more"></span>
-
-<p>意外的拿起这本村上君的书时，心中是着实充满着惊喜与意外，为又一次的相遇而感动。村上书中的人物总是能给人一种奇异而美妙的亲近感，总是能在意外的地方引起人的共鸣。这些人物性格各异，有着大相径庭的职业，其中的大多都是在终归和我无缘的地方做着那些理所当然要有人做但却从未被我考虑过的工作。奇怪的是，他们总能带给我一种“生活本应是这样”的近乎玄幻的体验。作经历的生活，作体验过的困苦与纠结，作感受过到的那般颜色稀疏、静如止水、只有不知为何泛起的薄暮与绝对的黑暗交替的日日夜夜，似乎都能像是立体电影一般拼命地从身体的每个毛孔渗入进来，不知不觉间，读者已彻底变成了事件的参与者，向前翻页的动作也具象化为了在混沌与希望中向前迈进的步子，只是单纯的希望触摸即将到来的时间，如同沙子从掌隙间流过那般自然。</p>
-<p>作的巡礼也成了我继续向前探寻的自然延伸，但其间我的心理也在不断发生着变化。从一开始的急不可耐试图知道十六年前究竟发生过什么，到渐渐静下心来体味作当下那建立在尘封的记忆的盖子之上的平静生活；从试图对绿川所言进行逻辑与理性的考量，到把这当做一个单纯的故事，或曰事实来接受；从期待后文中找到强奸与勒死白根柚木的两个亦或是同一个凶手，到放弃对凶手本身的追溯，而是将感情逐渐聚焦于即将发生的故事、生者的自省上以及这个“事实”造成的影响上去了。事件已经发生，而它是怎么发生的，究竟是一个无差别杀人犯还是一个与白相识的密友做出了这般事端，都已经成为了名副其实的历史，而历史不是由点、由少数人组成的，而是由存活其间的一条条闪光的生命之线编织而成。不过一个事件的发生会将许多杂糅的东西聚合在一起，成为一个有机的整体。这包括事件成为事件之前的诸多些微的原因与征兆、事件发生这个事实与其过程、事件不同层次、不同作用的后续影响以及相关者心绪的点滴变化。而观察、追溯，甚至解开后用放大镜研究这些线束则是远为有趣的。</p>
-<p>“我们可以给记忆盖上盖子，但是绝不可能掩盖历史。”</p>
-<p>“说不定里面还有彻底凝固、再也打不开的盖子。”</p>
-<p>喜欢极了这种对话，正如我对这种沉浸式体验的喜爱。当一个旁观者总会让人多多少少变得自傲，错误地认为自己无所不能，但作为一个亲历者，能体会到的东西则大不相同。一个显著的区别是没有一位令人尊敬的上帝在一旁耳语着告诉你一些或关键或无关紧要的信息，你知道的并不比你冯依的人物更多。有些东西是永远无从得知的，比如灰田最终为何突然消失，而绿川在演奏前煞有介事地放在钢琴上的小包里到底包裹着什么秘密，或是白究竟怀着什么样的心态见证着小团体同自己预想的一样逐渐走向分崩离析，又为何在遭受灾难后选择嫁祸于作，以及后面缘何只身一人来到了一座崭新的城市。当然，文中充满了暗示，这些暗示可以帮助我理解，或单纯的揣测这绵密繁复的生命之线中刻蚀着的纹样，却永远只能止步于揣测。我很无力的发现，我能做的只是接受一个又一个的假设，而这则源于令人绝望的信息不足。提前离开的白如理所当然的一般无法再吐露出任何信息，而我能做的，只是呆呆地凝望着这个尽最大努力拼出的、残破依旧的拼图，以及走好后面的路。</p>
-<p>所有的一切都源自于这个多彩的小团体。我是先看了书籍的简介再开读的。这件事并不一定会发生，只是偶然读了简介，没有更多或更少。起先我对这个讲述小团体的主题是多少有些反感的，毕竟，我在绝大多数时候都是独立的，虽不像作一般完全没有朋友，自视为一个空荡荡的容器等待别人加入，但也长期保持并享受着这种“相对孤独”的状态。需要时，也会约一二朋友小聚，但对三人以上的场合，虽并非难以应对，但若非必要，倒也绝不会自发组织。所以我对人在“小团体”中的体会实际上是相对缺乏的，即使我并没有因此感到丝毫的不便。这种空缺就像繁忙路口中央突兀的出现的一口无盖之井，由于大家默认都会绕行，所以大抵也都对此视而不见，久而久之既不会感觉不便，也不会觉得有什么损失，但井就在那里。另外，小团体会让人不由自主的和“排他”“对立”，甚至“欺凌”联系在一起，这个发音总的来说还是令人不那么愉快的。但说来意外的是，就在不久前的旅行中，我实打实的体验了一把这种四五个人长期保持相同步调集体行动本身带来的实在感、愉悦感与安心感，也由衷的认同村上笔下的那种每个人都有自己角色，且愿将自己最好的一面贡献给小团体这种行为本身带来的“复杂的化学反应”的甘美。不得不承认，那确是十分美妙的事情。短短几天的经历便彻底颠覆了我之前的刻板印象，更何况作他们是将自己的几乎整个最为美好的青春特意抽出、然后共享的亲密无间小团体。</p>
-<p>“到了后期，小团体存在的目标就是维持其存续”。书中大致有这样一句。为了这个存续本身，大家都默认了一些规则，甚至包括扼杀心中逐渐萌芽的、写作恬淡，读作浓烈的相互间的爱慕之情。黑是一个令我倍感痛心的角色。她似乎总是藏在白投下的阴影里，作为一个陪衬使得存在愈发突出着白的存在。五人组合中的三个男生无疑都是暗地里喜欢着白的，尽管作很肯定如果黑对他告白，他一定会很自然地接受，并开始一段不一定会结果，但注定有着其独特色彩的恋情。但没人愿意打破这个小团体的稳定性。也没人愿意站出来，道出小团体有一天终将进入新的阶段这一事实。分离才是真正的永恒，迟到的分离并不会带来永久，反而会如在作画终了也不愿抬起的画笔一般，最终将完美的画面浸淫成一种面目狰狞的形状。</p>
-<p>本作对死亡边缘的景象描写的也十分真切，真切到栩栩如生，仿佛自己真的在人生的某一阶段受到过此般打击，一蹶不振到静默无声。“环顾四周，是一片布满岩石的荒凉大地。没有一滴水，不长一棵草。没有颜色，也没有像样的光。既没有太阳，又没有月亮和星星。只怕也没有方向。唯有不明底细的薄暮与深不见底的黑暗，隔一定时间交替轮换。对于拥有意识的人来说，那是终极的边境。但同时那里又是丰润之地。”作最终还是游出了那片苍茫夜色中的大海，即使他被人从甲板上唐突又不留情面地扔下了海，即使甚至没人知道他的消失。在孤独的终点，作看到的不仅仅是无边的黑暗，他也看到了那丰润之地。游泳，似乎使他的灵魂更加健壮。在感情没有经历过巨大的震动，不会轻易对何者动情这一点我也可以再作身上找到些许自己的影子。尽管近在咫尺，却终究无法拿出十分的激情去追逐，去渴求。如果说作是因为大二时被小团体抛弃所带来巨大的创伤所致，那自己又是缘何？静静期待着一个冲动，一个在特别的时光里突然涌现出的“巡礼之年”的冲动。</p>
-<p>愿你我终有一天能找寻到可以互相放心地存放心灵与记忆碎片的对方，以及愿终有一天能够品味并享受孤独与陪伴各自独特的醇香。</p>
-]]></content>
-      <tags>
-        <tag>book-review</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>改变flask监听的主机地址和端口号</title>
     <url>/2018/08/27/change-flask-port/</url>
     <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>如何改变flask监听的主机地址和端口号。</p>
@@ -491,31 +491,6 @@
         <tag>python</tag>
         <tag>web</tag>
         <tag>flask</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Pytorch 的 Data Parallelism 多GPU训练</title>
-    <url>/2018/08/22/data-parallelism/</url>
-    <content><![CDATA[<h2 id="简单步骤"><a href="#简单步骤" class="headerlink" title="简单步骤"></a>简单步骤</h2><ol>
-<li><p>确定Device，看是否有可利用的GPU：<code>device = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)</code></p>
-</li>
-<li><p>正常定义并实例化模型和Dataloader</p>
-</li>
-<li><p>如果检测到的GPU多于一块，将模型并行化：</p>
-<span id="more"></span>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">  print(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">  model = nn.DataParallel(model)</span><br></pre></td></tr></table></figure></li>
-<li><p>将模型部署到相应的设备上：<code>model.to(device)</code></p>
-</li>
-<li><p>运行模型（循环中将Input数据也加载到相应设备上）：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> rand_loader:</span><br><span class="line">    <span class="built_in">input</span> = data.to(device)</span><br><span class="line">    output = model(<span class="built_in">input</span>)</span><br><span class="line">    print(<span class="string">&quot;Outside: input size&quot;</span>, <span class="built_in">input</span>.size(),</span><br><span class="line">          <span class="string">&quot;output_size&quot;</span>, output.size())</span><br></pre></td></tr></table></figure></li>
-<li><p>得到结果：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">10</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">10</span>, <span class="number">2</span>])</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
-      <tags>
-        <tag>machine-learning</tag>
-        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>
@@ -577,6 +552,50 @@
       </tags>
   </entry>
   <entry>
+    <title>Pytorch 的 Data Parallelism 多GPU训练</title>
+    <url>/2018/08/22/data-parallelism/</url>
+    <content><![CDATA[<h2 id="简单步骤"><a href="#简单步骤" class="headerlink" title="简单步骤"></a>简单步骤</h2><ol>
+<li><p>确定Device，看是否有可利用的GPU：<code>device = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)</code></p>
+</li>
+<li><p>正常定义并实例化模型和Dataloader</p>
+</li>
+<li><p>如果检测到的GPU多于一块，将模型并行化：</p>
+<span id="more"></span>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">  print(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">  model = nn.DataParallel(model)</span><br></pre></td></tr></table></figure></li>
+<li><p>将模型部署到相应的设备上：<code>model.to(device)</code></p>
+</li>
+<li><p>运行模型（循环中将Input数据也加载到相应设备上）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> rand_loader:</span><br><span class="line">    <span class="built_in">input</span> = data.to(device)</span><br><span class="line">    output = model(<span class="built_in">input</span>)</span><br><span class="line">    print(<span class="string">&quot;Outside: input size&quot;</span>, <span class="built_in">input</span>.size(),</span><br><span class="line">          <span class="string">&quot;output_size&quot;</span>, output.size())</span><br></pre></td></tr></table></figure></li>
+<li><p>得到结果：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">10</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">10</span>, <span class="number">2</span>])</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>machine-learning</tag>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计思维课程感想</title>
+    <url>/2018/03/07/design-thinking/</url>
+    <content><![CDATA[<p>本次课程时长并不算长，只有短短的32学时，共分了4个周六完成了课程。课程一开始，蔡老师就提醒我们，这门课并不是为了给我们讲述一个完整的设计思维的知识体系或是架构，一是时间不够，二是因为同学们来自各个专业，并不完全是设计专业的，所以也没有这个必要。那这门课究竟要讲什么呢？自然是方法。思维的方法，转变既定思维模式的方法，将一个给定的问题短时间内做一个清晰的分析的方法。另外这门课也可以被看做一个入门，一个通往这个对我来说崭新而又有趣的领域的大门。老师领进门，修行在个人。虽然说正如蔡老师所言，这门课程很难说有什么系统性，基本都是以互动和师生聊天似的交流构成的，但是这些交流中透露出的逻辑性和对问题分析的连贯性无疑是相当大的收获。</p>
+<span id="more"></span>    
+
+<p>一个问题给定了，要如何去思考它？在我看来，这便是这么课最为中心的问题。你站在谁的角度去看问题，决定了你思考的模式。首先是价值。你所要做的产品有着什么样的价值？拿老师第一节举过的例子雨伞来说，一把在平时看来普普通通的雨伞，其实竟然也有着这么多样的价值。最底层的是实用价值，即挡雨的功能，其次是作为一个装饰品的价值，因为雨伞也是一个随身携带的重要的装饰品，尤其是在像英国这样经常下雨的国度，雨伞的装饰价值就更高了。那么由此又可以引申出什么价值呢？仔细想来，既然是一个装饰品，那么就可以体现出人的个性，那这又是个性化的价值，其次伞的装饰和价位又可以显示出一个人的经济水平和审美能力，故也有着身份象征这样的价值。像这样不断挖掘下去，我惊奇的发现，生活中的一个个在之前看来朴实无华甚至不值一提的小物件竟然也有着这么丰富的属性和价值，这无疑扩大了我的眼界、开阔了我的思维方式。</p>
+<p>又如蔡老师讲到的苹果公司的成功之道。虽然我每天都会和苹果公司的各种产品打交道，平时也是做互联网技术的，但是真当提到这个问题的时候无非也只是能想到乔帮主的种种大牛之处和诸如苹果的追求细节，精细的产品控制，流畅的系统和大量优质的应用云云，然而蔡老师则提出了在我看来一个相当新颖的说法：苹果公司之所以能够做到今天的规模，很大程度上是在依靠其固有的闭环生态圈。老师打了一个生动形象的比喻：这就像自己修了一堵围墙，然后把里面搞得相当不错后进去自己当了国王。尽管圈内有着种种制约和限制，但是由于几乎所有的交互、所有用户需要的数码电子设备在这里都有，而且简单好用，再加上数量庞大的优质App积累和自家的审核机制，苹果公司并不难坐稳这个金灿灿的王座。</p>
+<p>说到苹果公司，蔡老师又提到了iPod的成功。iPod并不是唯一可以听歌的电子设备，在此之前也有很多类似于Walkman的产品，依靠放入唱片来听音乐。而iPod的伟大之处就在这里。它改变了一个产业。整个唱片业界在盗版的冲击下是一片低迷的景象，而iPod开启了一种崭新的模式：向电子版音乐收取版权费。音乐变得不再是一个依附于某种实体的东西，而做到了彻底的数字化——卖音乐时唱片厂商出售的东西不再是一个单纯的唱片或是磁带，而是单纯的数据！可以说苹果的iPod拯救了整个业界也不为过，这才是其畅销至今的本质原因。苹果公司把自己变成了大量唱片商 的合作方而非竞争方，这不但给自己带来了巨量的收益，也斩获了大量的重视用户，甚至有很多用户就是从iPod开始了解并爱上苹果的产品的。</p>
+<p>空间的划分也是蔡老师的课程给我留下较为深刻的印象的一部分。课上老师给我们出了一道难题：如何定义一个空间？要用几个面才可以定义一个空间？当时我们纷纷拿现实中的各种具象事物来作类比，比如说根据足球场这个没有顶的空间定义说要至少有五个面；又有的同学说周边可以使一个曲面，所以只需要两个面就够了；更有同学说只需要一个面的。说只需要一个面的同学有两种解释，一种是说像是一个球体就只需要一个面也可以定义一个其包围的空间，另一种则是从雨伞得到的灵感，认为只需要一个面来分割空间，下面和上面就有了两个空间。蔡老师比较赞同最后一种说法。“空间是由分割定义的”，他说，本无一个确定的空间，但是哪怕只有一个分割出现了，这里就产生了空间。这种活跃的思考和讨论式的思维方式也是我很喜欢的。</p>
+<p>蔡老师还和我们聊到了创业的话题。创业的本质是真正解决了目标用户群体的一个切切实实的痛点，而不是开发一个开发者认为的有用的功能。参加本次课程的一名同学就自己亲身参与了创业。蔡老师让他简单的描述这个产品的功能，结果不知道是由于紧张还是如何，描述了好几分钟也没能让老师搞明白本质到底是什么。他说这个项目比较难以理解，不容易讲清楚，但是蔡老师则表示了当场否定：“任何一款开发出来让别人用的产品如果不能在五分钟内让投资人搞明白这是怎么回事，首先在投资这一关就过不了。”在蔡老师的提示下，该同学重新整理了语言，简明扼要的说明了创业的内容：“ 一个供AI开发者使用的已经部署好了的平台。”蔡老师立即明白了其意思，他说：“这就像是我们搞设计的用的那种跑大型视频渲染的云平台嘛。”同时他表示这是有着切实需求的一个用户的痛点，确实值得一做。这种对问题的精简分析、类比熟悉事物进行快速准确的理解的能力在我看来也是一个做技术的同学应该掌握的重要技能。</p>
+<p>说到AI，蔡老师有次课上还向我们介绍了一个阿里巴巴开发的人工智能海报设计系统：鲁班系统。仅仅双十一一天，鲁班系统就设计了10亿级别的海报，不但迅速而且质量相当不错，商家只需点击鼠标选择几个需要宣传的商品图标、写上一句标语，剩下的抠图、排版、背景、字体等一系列操作都将由系统自动完成。对于这个量级，如果让人类设计师来设计，即使24小时工作，一个超级大型的设计团队也要近百年才能设计完。这就是现实。“所以我们设计系的学生更要重视掌握方法而非工具。”蔡老师提到。“如果只是会用个工具，学生们恐怕还没有毕业就要失业了。”他忧心忡忡的提到。工具是为人服务的，如果你只掌握了工具的使用，而没有领会到设计的精髓，那么也确实没有什么用处了。</p>
+<p>四个星期很快就过完了，蔡老师也给我们展示了一套他自己精练出的分析问题的方法，举了很多的实例让我们演练，可以说着实受益匪浅。虽然并没有完全地掌握这套设计思维的方法，但是我详细在之后的人生中，我也会继续给自己的自相装备上设计思维，用设计的眼光去看待一个更加多样的世界，并找机会继续学习，让设计思维真正成为自己的思维。</p>
+]]></content>
+      <tags>
+        <tag>design-thinking</tag>
+        <tag>essay</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>cs231n-assignment1</title>
     <url>/2018/04/04/cs231n-assignment1/</url>
     <content><![CDATA[<h1 id="多分类SVM"><a href="#多分类SVM" class="headerlink" title="多分类SVM"></a>多分类SVM</h1><ul>
@@ -626,74 +645,78 @@
       </tags>
   </entry>
   <entry>
-    <title>设计思维课程感想</title>
-    <url>/2018/03/07/design-thinking/</url>
-    <content><![CDATA[<p>本次课程时长并不算长，只有短短的32学时，共分了4个周六完成了课程。课程一开始，蔡老师就提醒我们，这门课并不是为了给我们讲述一个完整的设计思维的知识体系或是架构，一是时间不够，二是因为同学们来自各个专业，并不完全是设计专业的，所以也没有这个必要。那这门课究竟要讲什么呢？自然是方法。思维的方法，转变既定思维模式的方法，将一个给定的问题短时间内做一个清晰的分析的方法。另外这门课也可以被看做一个入门，一个通往这个对我来说崭新而又有趣的领域的大门。老师领进门，修行在个人。虽然说正如蔡老师所言，这门课程很难说有什么系统性，基本都是以互动和师生聊天似的交流构成的，但是这些交流中透露出的逻辑性和对问题分析的连贯性无疑是相当大的收获。</p>
-<span id="more"></span>    
+    <title>点石创校第一课理论部分笔记</title>
+    <url>/2018/03/24/dianshi-01-theory/</url>
+    <content><![CDATA[<h1 id="点石创校第一课理论部分笔记"><a href="#点石创校第一课理论部分笔记" class="headerlink" title="点石创校第一课理论部分笔记"></a>点石创校第一课理论部分笔记</h1><h2 id="书籍推荐"><a href="#书籍推荐" class="headerlink" title="书籍推荐"></a>书籍推荐</h2><ul>
+<li>《从0到1》：在现今创业的大的浪潮中，在什么想法上你和身边其他人完全不一样。差异化是判断一个项目和一个创业者能力的最重要的点。<a href="https://pan.baidu.com/s/1HeoYvIRYPyr9Aa7-oO1-TQ">下载链接:</a> 密码:zbed</li>
+<li>《蓝海战略》：蓝海市场：用户的某种渴望尚没有被满足的市场（或不准确的说，还没有被巨头们争夺的市场）</li>
+</ul>
+<span id="more"></span>
 
-<p>一个问题给定了，要如何去思考它？在我看来，这便是这么课最为中心的问题。你站在谁的角度去看问题，决定了你思考的模式。首先是价值。你所要做的产品有着什么样的价值？拿老师第一节举过的例子雨伞来说，一把在平时看来普普通通的雨伞，其实竟然也有着这么多样的价值。最底层的是实用价值，即挡雨的功能，其次是作为一个装饰品的价值，因为雨伞也是一个随身携带的重要的装饰品，尤其是在像英国这样经常下雨的国度，雨伞的装饰价值就更高了。那么由此又可以引申出什么价值呢？仔细想来，既然是一个装饰品，那么就可以体现出人的个性，那这又是个性化的价值，其次伞的装饰和价位又可以显示出一个人的经济水平和审美能力，故也有着身份象征这样的价值。像这样不断挖掘下去，我惊奇的发现，生活中的一个个在之前看来朴实无华甚至不值一提的小物件竟然也有着这么丰富的属性和价值，这无疑扩大了我的眼界、开阔了我的思维方式。</p>
-<p>又如蔡老师讲到的苹果公司的成功之道。虽然我每天都会和苹果公司的各种产品打交道，平时也是做互联网技术的，但是真当提到这个问题的时候无非也只是能想到乔帮主的种种大牛之处和诸如苹果的追求细节，精细的产品控制，流畅的系统和大量优质的应用云云，然而蔡老师则提出了在我看来一个相当新颖的说法：苹果公司之所以能够做到今天的规模，很大程度上是在依靠其固有的闭环生态圈。老师打了一个生动形象的比喻：这就像自己修了一堵围墙，然后把里面搞得相当不错后进去自己当了国王。尽管圈内有着种种制约和限制，但是由于几乎所有的交互、所有用户需要的数码电子设备在这里都有，而且简单好用，再加上数量庞大的优质App积累和自家的审核机制，苹果公司并不难坐稳这个金灿灿的王座。</p>
-<p>说到苹果公司，蔡老师又提到了iPod的成功。iPod并不是唯一可以听歌的电子设备，在此之前也有很多类似于Walkman的产品，依靠放入唱片来听音乐。而iPod的伟大之处就在这里。它改变了一个产业。整个唱片业界在盗版的冲击下是一片低迷的景象，而iPod开启了一种崭新的模式：向电子版音乐收取版权费。音乐变得不再是一个依附于某种实体的东西，而做到了彻底的数字化——卖音乐时唱片厂商出售的东西不再是一个单纯的唱片或是磁带，而是单纯的数据！可以说苹果的iPod拯救了整个业界也不为过，这才是其畅销至今的本质原因。苹果公司把自己变成了大量唱片商 的合作方而非竞争方，这不但给自己带来了巨量的收益，也斩获了大量的重视用户，甚至有很多用户就是从iPod开始了解并爱上苹果的产品的。</p>
-<p>空间的划分也是蔡老师的课程给我留下较为深刻的印象的一部分。课上老师给我们出了一道难题：如何定义一个空间？要用几个面才可以定义一个空间？当时我们纷纷拿现实中的各种具象事物来作类比，比如说根据足球场这个没有顶的空间定义说要至少有五个面；又有的同学说周边可以使一个曲面，所以只需要两个面就够了；更有同学说只需要一个面的。说只需要一个面的同学有两种解释，一种是说像是一个球体就只需要一个面也可以定义一个其包围的空间，另一种则是从雨伞得到的灵感，认为只需要一个面来分割空间，下面和上面就有了两个空间。蔡老师比较赞同最后一种说法。“空间是由分割定义的”，他说，本无一个确定的空间，但是哪怕只有一个分割出现了，这里就产生了空间。这种活跃的思考和讨论式的思维方式也是我很喜欢的。</p>
-<p>蔡老师还和我们聊到了创业的话题。创业的本质是真正解决了目标用户群体的一个切切实实的痛点，而不是开发一个开发者认为的有用的功能。参加本次课程的一名同学就自己亲身参与了创业。蔡老师让他简单的描述这个产品的功能，结果不知道是由于紧张还是如何，描述了好几分钟也没能让老师搞明白本质到底是什么。他说这个项目比较难以理解，不容易讲清楚，但是蔡老师则表示了当场否定：“任何一款开发出来让别人用的产品如果不能在五分钟内让投资人搞明白这是怎么回事，首先在投资这一关就过不了。”在蔡老师的提示下，该同学重新整理了语言，简明扼要的说明了创业的内容：“ 一个供AI开发者使用的已经部署好了的平台。”蔡老师立即明白了其意思，他说：“这就像是我们搞设计的用的那种跑大型视频渲染的云平台嘛。”同时他表示这是有着切实需求的一个用户的痛点，确实值得一做。这种对问题的精简分析、类比熟悉事物进行快速准确的理解的能力在我看来也是一个做技术的同学应该掌握的重要技能。</p>
-<p>说到AI，蔡老师有次课上还向我们介绍了一个阿里巴巴开发的人工智能海报设计系统：鲁班系统。仅仅双十一一天，鲁班系统就设计了10亿级别的海报，不但迅速而且质量相当不错，商家只需点击鼠标选择几个需要宣传的商品图标、写上一句标语，剩下的抠图、排版、背景、字体等一系列操作都将由系统自动完成。对于这个量级，如果让人类设计师来设计，即使24小时工作，一个超级大型的设计团队也要近百年才能设计完。这就是现实。“所以我们设计系的学生更要重视掌握方法而非工具。”蔡老师提到。“如果只是会用个工具，学生们恐怕还没有毕业就要失业了。”他忧心忡忡的提到。工具是为人服务的，如果你只掌握了工具的使用，而没有领会到设计的精髓，那么也确实没有什么用处了。</p>
-<p>四个星期很快就过完了，蔡老师也给我们展示了一套他自己精练出的分析问题的方法，举了很多的实例让我们演练，可以说着实受益匪浅。虽然并没有完全地掌握这套设计思维的方法，但是我详细在之后的人生中，我也会继续给自己的自相装备上设计思维，用设计的眼光去看待一个更加多样的世界，并找机会继续学习，让设计思维真正成为自己的思维。</p>
-]]></content>
-      <tags>
-        <tag>design-thinking</tag>
-        <tag>essay</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>点石创校第一课经验部分笔记</title>
-    <url>/2018/03/24/dianshi-01-exp/</url>
-    <content><![CDATA[<h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><ul>
-<li><p><strong>原则：</strong>不要让观众死一个脑细胞</p>
+<h2 id="风险投资"><a href="#风险投资" class="headerlink" title="风险投资"></a>风险投资</h2><ul>
+<li>PE：私募基金（<em>PE</em>，Private Equity），投资的主要是较为成熟的公司。它私募股权投资的一种，依据国外相关研究机构定义，是指通过向特定人群募集资金，对非上市企业进行的权益性投资，在交易实施过程中附带考虑了将来的退出机制，即通过上市、并购或管理层回购等方式，出售持股获利</li>
+<li>VC：风险投资（<em>Venture Capital</em>），投资的是中小型企业，使用美元。是风险投资的简称，在我国是一个约定俗成的具有特定内涵的概念，其实把它翻译成创业投资更加合适，它是以权益资本的方式存在的一种私募股权投资形式。在国内用人民币投资的是创业投资</li>
+<li>VC投资投资的是公司的成长性和内在价值；PE投资投资的是财务指标，上市可能。前者特点是低估值，单笔投资额度小，投资者可以主动控制；后者的特点是高估值，单笔投资额度大，投资者被动监督</li>
+<li>最初投资的时候一般不太在意公司的章程，而后期一般比较在意，因为这些章程决定了各种法律责任和机制</li>
+<li>公司是企业的一种组织形式。公司由股东组成。股东投钱注册成立一家公司，成立股东会，股东会选举产生董事会，董事会任命总经理。公司是由股东组成的，公司内部股东会拥有最高决策权，股东会选出来的董事会是执行者。谁出的钱多，谁是公司的大股东，谁拥有控股权和最高决定权。法人代表是指公司的法律责任由谁来承担，但是这个人和公司的拥有者并不一定是一个人</li>
+<li>企业的组织形式有：<ol>
+<li>公司制</li>
+<li>有限合伙制 -&gt; 普通合伙企业中所有合伙人的责任是一样的，而在有限合伙制中合伙人分为两种，一是普通合伙人，二是有限合伙人。前者只需要出1%的钱，后者出99%的钱；前者负责经营，是专业的人；后者主要负责出钱，没有太多专业知识。在这种组织形式中，普通合伙人说了算，负责决定投资谁。如：会计事务所，投资基金</li>
+<li>信托制 -&gt; 受《信托法》保护</li>
+</ol>
 </li>
-<li><p>短句子，说人话。不用复杂的定语和倒装句，不用专业名词，要让在场的听众，老百姓们不懂项目中的具体细节</p>
-</li>
-<li><p>不要用容易引起误解或是听不清楚的词句，如P2P，容易被误解为P2B、B2B等</p>
-</li>
-<li><p>不要用目前有一定负面性质的字眼，比如目前的P2P，不说为好</p>
-</li>
-<li><p>不要说一些傲慢和现在还没有实现的话，比如“我们定义了…”</p>
-</li>
-<li><p>不要在如此短的时间里说“我们…”等无意义的话</p>
-</li>
-<li><p>要点出投资人关心的Point，如谁出钱，咋盈利</p>
-<span id="more"></span></li>
+<li>公司的组成：人，钱，物</li>
+<li>投资人把钱投资入一个壳中，这个壳中的资金交由管理人进行管理。根据投资人的资金来源不同，分为公募资金和私募资金；而这个壳子是指的是法律关系，即组织形式；管理人决定了投资对象和基金类别</li>
+<li>投资人投资的是你公司的股权，并不是你个人或是你的项目</li>
+<li>全球80%以上的私募基金采用的是有限合伙制，这是企业的第二种组织形式。</li>
+<li>投资基金的合伙人可以赚的盈利的20%</li>
+<li>公司发展：种子期（种子轮） -&gt; 初创期（天使轮） -&gt; 成长期 -&gt; 成熟期 -&gt; 扩张期</li>
+<li>只投资前三个时期的是VC，投后面的交PE</li>
+<li>投资人的投资目的只有一个：追求回报</li>
+<li>好项目的评判标准：3年之内9~10亿美元以上</li>
+<li>市场决定了一个项目的天花板，一个10亿的市场无法成长出一个50亿的企业</li>
+<li>你的用户到底是谁？ -&gt; 用户与客户有什么区别，用户特征如何描述</li>
+<li>精准寻找用户需求：刚性需求的定义，蓝海市场的定义</li>
+<li>刚性需求：价格不敏感的需求，或是没有这个东西人/公司就会死掉的需求</li>
+<li>满足精神和心理需求的是最高级别的需求，超越了刚性需求。比如小米，推出了“发烧友”的概念，偷换了概念，不说自己好，而是转而去强调你身边专业的人都在用小米；其又打出了1999这条线，强调性价比，其实是利用了人性的贪婪面。小米在2016年走错了一步，当年人均年收入超过6w$，人们开始更加重视精神消费，而小米没有跟上</li>
+<li>二级市场投资的人并无法直接了解一个公司，无法知道到底是如何成功如何失败的；相反，一级市场中的投资人</li>
 </ul>
-<h2 id="项目介绍视频"><a href="#项目介绍视频" class="headerlink" title="项目介绍视频"></a>项目介绍视频</h2><ul>
-<li><strong>重点：</strong>为谁服务，怎么服务，谁掏钱</li>
-<li>不要只讲愿景，不讲数据</li>
-<li>片头和片尾不能完全一样，否则就是提供了重复的信息</li>
-<li>视频中不要放一些链接、电话之类的东西，因为没人能记得住</li>
+<table>
+<thead>
+<tr>
+<th>股东</th>
+<th>员工</th>
+<th>资产</th>
+<th>现金流</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基因</td>
+<td>肌肉</td>
+<td>骨骼</td>
+<td>血流</td>
+</tr>
+</tbody></table>
+<ul>
+<li>创业者的格局：<ol>
+<li>高度：高度是判断。站的是否足够高，是否能看到并且分析出发展的趋势，而这个分析的结果能够和投资人的判断相符合</li>
+<li>广度：广度是经历。看得有多广，是能了解全国活着全球跟你在做同样事情的人，他们在做什么，怎么做</li>
+<li>深度：深度是差别。这是优秀创业者和普通创业者不同之处。比如你是否知道并亲身体验过同行业其他人，其他公司的实际状况的时候，你的深度就上来了</li>
+</ol>
+</li>
 </ul>
-<h2 id="商业计划书（PPT）"><a href="#商业计划书（PPT）" class="headerlink" title="商业计划书（PPT）"></a>商业计划书（PPT）</h2><ul>
-<li>每页PPT中的文字不应超过四行，多于四行的部分要用形象的方法（图像、表格）展示</li>
-<li>每页PPT中的字不应超过四种颜色</li>
-<li>首页和后面的背景图要和自己的项目相关，不能用一个驴头不对马嘴的图放上去，即使它看上去很高级</li>
-<li>要学会做证明题、不断证明自己的项目好、可靠、可靠在哪里</li>
-<li>从第二页开始可以开始自问自答，也是做证明题的一部分</li>
-<li>第三页一定要体现出自己是怎么做的，要有流程的，体现出自己的创新点、核心技术</li>
-<li>不要说XXX擅长什么，因为都很年轻，要说负责什么，职位是什么</li>
-<li>介绍团队，人少的时候最好把照片放上去，可以的话放工作地的合照</li>
-<li>要突出团队成员有什么特点，什么优势</li>
-<li>要点出团队成员、融资需求，不要把过多的时间放在背景介绍方面</li>
-<li>不要用学究式的措辞，比如“包括但不限于…”，直接用“如：…”就够了</li>
-<li>可以使用欲扬先抑的手段引起投资人的兴趣，比如可以先说：“现在互联网思维鼓励去中介化，而我们为什么要加一层？”，后面再解释具体原因</li>
-<li>如果自己有核心技术，一定要强调出来</li>
-<li>品牌的名字要统一，不能一会儿用中文一会儿用英文</li>
-<li>不要既写公司总估值又写融资金额，只用写融资金额和出让股份就好</li>
-<li>不要照着PPT念稿子，会给人以这不是你自己干出来的而是copy来的这样一种不自信感</li>
-<li>如果有样机，一定要带着样机过来，一个样品胜过千言</li>
-<li>要讲加速度不要讲纯速度。即使现在一个产品也没有卖出去，只要能期望很高的增长，也是没问题的；即使现在销量不错，之后如果增长不快只会带来劣势</li>
-<li>标题：我们来自哪里？/我们是谁？-&gt; （市场痛点是什么？） -&gt; 我们想做什么？-&gt; 我们做成了什么？ -&gt; 我们要什么？</li>
-</ul>
+<h2 id="附录：什么是-GP、LP、PE、VC、FOF？"><a href="#附录：什么是-GP、LP、PE、VC、FOF？" class="headerlink" title="附录：什么是 GP、LP、PE、VC、FOF？"></a>附录：<a href="https://www.zhihu.com/question/20062244">什么是 GP、LP、PE、VC、FOF？</a></h2><p>天使投资（Angel Investment）：大多数时候，天使投资选择的企业都会是一些非常非常早期的企业，他们甚至没有一个完整的产品，或者仅仅只有一个概念。（打个比方，我有个朋友，他的毕业设计作品是一款让人保持清醒的眼镜，做工非常粗糙，完全不能进入市场销售。但他凭借这个概念以及这个原型品在美国获得了天使投资，并且目前正在该天使投资的深圳某孵化器工作室进行开发研究。）</p>
+<p>而天使投资的投资额度往往也不会很大，一般都是在5-100万这个范围之内，换取的股份则是从10%-30%不等。单纯从数字上而言，美国和中国投资额度基本接近。大多数时候，这些企业都需要至少5年以上的时间才有可能上市。</p>
+<p>此外，部分天使投资会给企业提供一些指导和帮助，甚至会给予一定人脉上的支持。</p>
+<p>如果你还不了解的话，创新工场一开始就在做天使投资的事情。</p>
+<p>风险投资（Venture Capital）：一般而言，当企业发展到一定阶段。比如说已经有个相对较为成熟的产品，或者是已经开始销售的时候，天使投资那100万的资金对于他们来说已经犹如毛毛雨一般，无足轻重了。因此，风险投资成了他们最佳的选择。一般而言，风险投资的投资额度都会在200万-1000万之内。少数重磅投资会达到几千万。但平均而言，200万-1000万是个合理的数字，换取股份一般则是从10%~20%之间。能获得风险投资青睐的企业一般都会在3-5年内有较大希望上市。</p>
+<p>如果需要现实例子的话，红杉资本可以算得上是VC里面最知名的一家公司了。后期创新工场给自己企业追加投资的时候，也是在做类似于风险投资的业务。</p>
+<p>私募基金（Private Equity）：私募基金选择投资的企业大多数已经到了比较后期的地步，企业形成了一个较大的规模，产业规范了，为了迅速占领市场，获取更多的资源，他们需要大批量的资金，那么，这时候私募基金就出场了。大多数时候，5000万<del>数亿的资金都是私募基金经常投资的数额。换取股份大多数时候不会超过20%。一般而言，这些被选择的公司，在未来2</del>3年内都会有极大的希望上市成功。</p>
+<p>去年注资阿里巴巴集团16亿美金的银湖资本（Silver Lake）和曾经投资过的Digital Sky Technology则是私募（尤其做科技类的）翘楚公司。而这16亿的资金也是历史上排名前几的一次注资了。</p>
 ]]></content>
       <tags>
         <tag>bussiness</tag>
-        <tag>bussiness-plan</tag>
+        <tag>investment</tag>
       </tags>
   </entry>
   <entry>
@@ -827,165 +850,55 @@
       </tags>
   </entry>
   <entry>
-    <title>点石创校第四课——OKR与管理</title>
-    <url>/2018/05/14/dianshi-04/</url>
-    <content><![CDATA[<h2 id="OKR-Introduction"><a href="#OKR-Introduction" class="headerlink" title="OKR Introduction"></a>OKR Introduction</h2><ul>
-<li>传统的指令管理更加适用于劳动密集型的企业和员工整体文化水平不够高的企业。</li>
-<li>目标管理的目标是激励成员，而不是为了考核而制定的三六九等，尤其是适用于创新企业和核心管理层</li>
-<li>OKR制定流程：个人愿景（初心）-&gt;目标-&gt;关键结果-&gt;任务清单</li>
-</ul>
-<span id="more"></span>
-
-<ul>
-<li>找到个人的愿景是非常重要的，因为公司的愿景并没法直接激励到个人的</li>
-<li>目标 一定要有激励作用，一般会设定一个完成度在60%~70%的目标是最有效的</li>
-<li>OKR的制定中最重要的一环是OKR会议。这个问题的关键在于“平等协商，极度透明，求同存异”</li>
-<li>OKR会议不是上级给下级布置任务的过程，而是一个平等协商的过程。上下级之间对同一个任务的理解也不一定是相同的，有时候上级对任务的难度有错误估计也是正常的，关键在于协商中的交流</li>
-<li>目标的制定原则：具体的，可度量的，可实现的，高相关性的，时间点</li>
-<li>每个层级都要制定自己的OKR，比如Dian团队要有团队OKR，项目组要由组长制定项目组的OKR，底层个人也要有自己的OKR，各司其职</li>
-</ul>
-<h2 id="Homework"><a href="#Homework" class="headerlink" title="Homework"></a>Homework</h2><ul>
-<li>加入种子班的初心是什么</li>
-<li>你在项目组中要完成的本季度目标有什么</li>
-<li>要完成每个目标的关键结果有哪些</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>investment</tag>
-        <tag>management</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>EMD, EEMD与CEEMD</title>
-    <url>/2020/03/12/eemd/</url>
-    <content><![CDATA[<h2 id="EMD"><a href="#EMD" class="headerlink" title="EMD"></a>EMD</h2><p>EMD: Empirical Mode Decomposition</p>
-<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
-<li>自适应。与小波分析相比，克服了基函数无自适应性的问题，解决了全局最优小波基在局部并非最优的问题，有基函数自适应特性。</li>
-<li>可以直接进行分解，不需要预分析和研究。</li>
-</ol>
-<span id="more"></span>
-
-<h3 id="内涵模态分量"><a href="#内涵模态分量" class="headerlink" title="内涵模态分量"></a>内涵模态分量</h3><p>内涵模态分量（Intrinsic Mode Functions, IMF）就是原始信号被EMD分解之后得到的各层信号分量。EMD的提出人黄锷认为，任何信号都可以拆分成若干个内涵模态分量之和。而内涵模态分量有两个约束条件：</p>
-<p>1）在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个。</p>
-<p>2）在任意时刻，由局部极大值点形成的上包络线和由局部极小值点形成的下包络线的平均值为零，即上、下包络线相对于时间轴局部对称。</p>
-<p>啥意思？</p>
-<p>用不严谨的语言和灵魂画师来解释一下：</p>
-<p>1）图线要反复跨越x轴，像这样：</p>
-<p><img src="/2020/03/12/eemd/v2-0e5b832aee81e8a9068c9665e6eb2a3a_1440w.jpg" alt="img"></p>
-<p>在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个</p>
-<p>而不能像这样某次穿过零点后出现多个极点：</p>
-<p><img src="/2020/03/12/eemd/v2-921bc09334db7a4e443578091117788f_1440w.jpg" alt="极点数目偏多"></p>
-<p>2）包络线要对称，像这样：</p>
-<p><img src="/2020/03/12/eemd/v2-8826ddaefd1cebee1841bf5ff083c494_1440w.jpg" alt="包络线对称"></p>
-<p>而不能像这样：</p>
-<p><img src="/2020/03/12/eemd/v2-deb9cd0d0dcb8a154f8621276cce9972_1440w.jpg" alt="包络线不对称"></p>
-<p>洗洗眼睛，看个正常点的例子吧：</p>
-<p><img src="/2020/03/12/eemd/v2-a609c2680a2f4c525648a414d9b0a358_1440w.jpg" alt="EMD分解"></p>
-<p>上图由7张图片组成，其中第1张为原始信号，后边依次为EMD分解之后得到的6个分量，分别叫做IMF1~IMF5，最后一张图为残差，每一个IMF分量代表了原始信号中存在的一种内涵模态分量。可以看出，每个IMF分量都是满足这两个约束条件的。</p>
-<h3 id="分解步骤"><a href="#分解步骤" class="headerlink" title="分解步骤"></a>分解步骤</h3><p>1）根据原始信号上下极值点，分别画出上、下包络线。</p>
-<p><img src="/2020/03/12/eemd/v2-c18c7b4e6d60711351a4d55cb8271320_1440w.jpg" alt="img">上、下包络线</p>
-<p>2）求上、下包络线的均值，画出均值包络线。</p>
-<p><img src="/2020/03/12/eemd/v2-d56c460e9dd9e245521140497afddb39_1440w.jpg" alt="img">均值包络线</p>
-<p>3）原始信号减均值包络线，得到中间信号。</p>
-<p><img src="/2020/03/12/eemd/v2-e74e49a23dda87df74a562809257ddda_1440w.jpg" alt="img">原始信号减均值包络线</p>
-<p>4）判断该中间信号是否满足IMF的两个条件，如果满足，该信号就是一个IMF分量；如果不是，以该信号为基础，重新做1）~4）的分析。IMF分量的获取通常需要若干次的迭代。</p>
-<p><img src="/2020/03/12/eemd/v2-8b6643d803c3bdfb47639e65a75d4c8d_1440w.jpg" alt="img">不满足约束2，需要继续迭代</p>
-<p>使用上述方法得到第一个IMF后，用原始信号减IMF1，作为新的原始信号，再通过1）~4）的分析，可以得到IMF2，以此类推，完成EMD分解。</p>
-<p><img src="/2020/03/12/eemd/v2-f735266df804d187b1d173fe6f1bb168_1440w.jpg" alt="img">迭代分解结果</p>
-<p>上述例子中的图来自<a href="http://perso.ens-lyon.fr/patrick.flandrin/emd.ppt">http://perso.ens-lyon.fr/patri</a></p>
-<h2 id="EEMD"><a href="#EEMD" class="headerlink" title="EEMD"></a>EEMD</h2><p>EEMD: Ensemble Empirical Mode Decomposition</p>
-<p>简单的说，EEMD是在EMD的基础上，对原始信号进行了N次添加各异等幅白噪声并分别进行EMD分解后，对每个IMF中间分量进行平均。</p>
-<p>其原理是通过加入白噪声来改变信号极值点的分布，得到符合信号特征的上下包络线，消除模态混叠效应。加入的白噪声通过多次平均消除。</p>
-<h2 id="CEEMD"><a href="#CEEMD" class="headerlink" title="CEEMD"></a>CEEMD</h2><p>CEEMD是在EEMD的基础上，把随机添加的N组白噪声改为了N/2组正噪声和N/2组负噪声，依旧是最后进行平均。</p>
-<p>根据 Yeh 等人的研究，在加入相同数量以及相同幅值的白噪声时，EEMD 剩余噪声会随着集成平均的次数而逐渐减小。CEEMD 的剩余噪声一直维持在一个较小的程度，不论集成平均次数多少。在一定程度上使用 CEEMD方法进行信号分解，可以使用相对较少的集成平均次数，从某种意义上来说，CEEMD在保证小剩余噪声干扰的情况下，能够节省计算时间。</p>
-<p><img src="/2020/03/12/eemd/931855-20190117162939850-50932674.png" alt="img"><img src="/2020/03/12/eemd/931855-20190117163017276-1187230461.png" alt="img"></p>
-<h2 id="Python库"><a href="#Python库" class="headerlink" title="Python库"></a>Python库</h2><p>EMD, EEMD, CEEMDAN and some visualization support are contained in this repository. </p>
-<p>We can use <code>pip install EMD-signal</code> to install this library.</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
-<li><a href="https://www.cnblogs.com/Dinging006/p/10282993.html">EMD——EEMD——CEEMD语音增强算法基础</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/40005057">这篇文章能让你明白经验模态分解（EMD）——基础理论篇</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/44833026">这篇文章能让你明白经验模态分解（EMD）——IMF的物理含义</a></li>
-<li><a href="https://www.researchgate.net/publication/220531146_Ensemble_Empirical_Mode_Decomposition_a_Noise-Assisted_Data_Analysis_Method">Ensemble Empirical Mode Decomposition: a Noise-Assisted Data Analysis Method</a></li>
-</ol>
-]]></content>
-      <tags>
-        <tag>signal-processing</tag>
-        <tag>audio</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>点石创校第一课理论部分笔记</title>
-    <url>/2018/03/24/dianshi-01-theory/</url>
-    <content><![CDATA[<h1 id="点石创校第一课理论部分笔记"><a href="#点石创校第一课理论部分笔记" class="headerlink" title="点石创校第一课理论部分笔记"></a>点石创校第一课理论部分笔记</h1><h2 id="书籍推荐"><a href="#书籍推荐" class="headerlink" title="书籍推荐"></a>书籍推荐</h2><ul>
-<li>《从0到1》：在现今创业的大的浪潮中，在什么想法上你和身边其他人完全不一样。差异化是判断一个项目和一个创业者能力的最重要的点。<a href="https://pan.baidu.com/s/1HeoYvIRYPyr9Aa7-oO1-TQ">下载链接:</a> 密码:zbed</li>
-<li>《蓝海战略》：蓝海市场：用户的某种渴望尚没有被满足的市场（或不准确的说，还没有被巨头们争夺的市场）</li>
-</ul>
-<span id="more"></span>
-
-<h2 id="风险投资"><a href="#风险投资" class="headerlink" title="风险投资"></a>风险投资</h2><ul>
-<li>PE：私募基金（<em>PE</em>，Private Equity），投资的主要是较为成熟的公司。它私募股权投资的一种，依据国外相关研究机构定义，是指通过向特定人群募集资金，对非上市企业进行的权益性投资，在交易实施过程中附带考虑了将来的退出机制，即通过上市、并购或管理层回购等方式，出售持股获利</li>
-<li>VC：风险投资（<em>Venture Capital</em>），投资的是中小型企业，使用美元。是风险投资的简称，在我国是一个约定俗成的具有特定内涵的概念，其实把它翻译成创业投资更加合适，它是以权益资本的方式存在的一种私募股权投资形式。在国内用人民币投资的是创业投资</li>
-<li>VC投资投资的是公司的成长性和内在价值；PE投资投资的是财务指标，上市可能。前者特点是低估值，单笔投资额度小，投资者可以主动控制；后者的特点是高估值，单笔投资额度大，投资者被动监督</li>
-<li>最初投资的时候一般不太在意公司的章程，而后期一般比较在意，因为这些章程决定了各种法律责任和机制</li>
-<li>公司是企业的一种组织形式。公司由股东组成。股东投钱注册成立一家公司，成立股东会，股东会选举产生董事会，董事会任命总经理。公司是由股东组成的，公司内部股东会拥有最高决策权，股东会选出来的董事会是执行者。谁出的钱多，谁是公司的大股东，谁拥有控股权和最高决定权。法人代表是指公司的法律责任由谁来承担，但是这个人和公司的拥有者并不一定是一个人</li>
-<li>企业的组织形式有：<ol>
-<li>公司制</li>
-<li>有限合伙制 -&gt; 普通合伙企业中所有合伙人的责任是一样的，而在有限合伙制中合伙人分为两种，一是普通合伙人，二是有限合伙人。前者只需要出1%的钱，后者出99%的钱；前者负责经营，是专业的人；后者主要负责出钱，没有太多专业知识。在这种组织形式中，普通合伙人说了算，负责决定投资谁。如：会计事务所，投资基金</li>
-<li>信托制 -&gt; 受《信托法》保护</li>
-</ol>
+    <title>点石创校第一课经验部分笔记</title>
+    <url>/2018/03/24/dianshi-01-exp/</url>
+    <content><![CDATA[<h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><ul>
+<li><p><strong>原则：</strong>不要让观众死一个脑细胞</p>
 </li>
-<li>公司的组成：人，钱，物</li>
-<li>投资人把钱投资入一个壳中，这个壳中的资金交由管理人进行管理。根据投资人的资金来源不同，分为公募资金和私募资金；而这个壳子是指的是法律关系，即组织形式；管理人决定了投资对象和基金类别</li>
-<li>投资人投资的是你公司的股权，并不是你个人或是你的项目</li>
-<li>全球80%以上的私募基金采用的是有限合伙制，这是企业的第二种组织形式。</li>
-<li>投资基金的合伙人可以赚的盈利的20%</li>
-<li>公司发展：种子期（种子轮） -&gt; 初创期（天使轮） -&gt; 成长期 -&gt; 成熟期 -&gt; 扩张期</li>
-<li>只投资前三个时期的是VC，投后面的交PE</li>
-<li>投资人的投资目的只有一个：追求回报</li>
-<li>好项目的评判标准：3年之内9~10亿美元以上</li>
-<li>市场决定了一个项目的天花板，一个10亿的市场无法成长出一个50亿的企业</li>
-<li>你的用户到底是谁？ -&gt; 用户与客户有什么区别，用户特征如何描述</li>
-<li>精准寻找用户需求：刚性需求的定义，蓝海市场的定义</li>
-<li>刚性需求：价格不敏感的需求，或是没有这个东西人/公司就会死掉的需求</li>
-<li>满足精神和心理需求的是最高级别的需求，超越了刚性需求。比如小米，推出了“发烧友”的概念，偷换了概念，不说自己好，而是转而去强调你身边专业的人都在用小米；其又打出了1999这条线，强调性价比，其实是利用了人性的贪婪面。小米在2016年走错了一步，当年人均年收入超过6w$，人们开始更加重视精神消费，而小米没有跟上</li>
-<li>二级市场投资的人并无法直接了解一个公司，无法知道到底是如何成功如何失败的；相反，一级市场中的投资人</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>股东</th>
-<th>员工</th>
-<th>资产</th>
-<th>现金流</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>基因</td>
-<td>肌肉</td>
-<td>骨骼</td>
-<td>血流</td>
-</tr>
-</tbody></table>
-<ul>
-<li>创业者的格局：<ol>
-<li>高度：高度是判断。站的是否足够高，是否能看到并且分析出发展的趋势，而这个分析的结果能够和投资人的判断相符合</li>
-<li>广度：广度是经历。看得有多广，是能了解全国活着全球跟你在做同样事情的人，他们在做什么，怎么做</li>
-<li>深度：深度是差别。这是优秀创业者和普通创业者不同之处。比如你是否知道并亲身体验过同行业其他人，其他公司的实际状况的时候，你的深度就上来了</li>
-</ol>
+<li><p>短句子，说人话。不用复杂的定语和倒装句，不用专业名词，要让在场的听众，老百姓们不懂项目中的具体细节</p>
 </li>
+<li><p>不要用容易引起误解或是听不清楚的词句，如P2P，容易被误解为P2B、B2B等</p>
+</li>
+<li><p>不要用目前有一定负面性质的字眼，比如目前的P2P，不说为好</p>
+</li>
+<li><p>不要说一些傲慢和现在还没有实现的话，比如“我们定义了…”</p>
+</li>
+<li><p>不要在如此短的时间里说“我们…”等无意义的话</p>
+</li>
+<li><p>要点出投资人关心的Point，如谁出钱，咋盈利</p>
+<span id="more"></span></li>
 </ul>
-<h2 id="附录：什么是-GP、LP、PE、VC、FOF？"><a href="#附录：什么是-GP、LP、PE、VC、FOF？" class="headerlink" title="附录：什么是 GP、LP、PE、VC、FOF？"></a>附录：<a href="https://www.zhihu.com/question/20062244">什么是 GP、LP、PE、VC、FOF？</a></h2><p>天使投资（Angel Investment）：大多数时候，天使投资选择的企业都会是一些非常非常早期的企业，他们甚至没有一个完整的产品，或者仅仅只有一个概念。（打个比方，我有个朋友，他的毕业设计作品是一款让人保持清醒的眼镜，做工非常粗糙，完全不能进入市场销售。但他凭借这个概念以及这个原型品在美国获得了天使投资，并且目前正在该天使投资的深圳某孵化器工作室进行开发研究。）</p>
-<p>而天使投资的投资额度往往也不会很大，一般都是在5-100万这个范围之内，换取的股份则是从10%-30%不等。单纯从数字上而言，美国和中国投资额度基本接近。大多数时候，这些企业都需要至少5年以上的时间才有可能上市。</p>
-<p>此外，部分天使投资会给企业提供一些指导和帮助，甚至会给予一定人脉上的支持。</p>
-<p>如果你还不了解的话，创新工场一开始就在做天使投资的事情。</p>
-<p>风险投资（Venture Capital）：一般而言，当企业发展到一定阶段。比如说已经有个相对较为成熟的产品，或者是已经开始销售的时候，天使投资那100万的资金对于他们来说已经犹如毛毛雨一般，无足轻重了。因此，风险投资成了他们最佳的选择。一般而言，风险投资的投资额度都会在200万-1000万之内。少数重磅投资会达到几千万。但平均而言，200万-1000万是个合理的数字，换取股份一般则是从10%~20%之间。能获得风险投资青睐的企业一般都会在3-5年内有较大希望上市。</p>
-<p>如果需要现实例子的话，红杉资本可以算得上是VC里面最知名的一家公司了。后期创新工场给自己企业追加投资的时候，也是在做类似于风险投资的业务。</p>
-<p>私募基金（Private Equity）：私募基金选择投资的企业大多数已经到了比较后期的地步，企业形成了一个较大的规模，产业规范了，为了迅速占领市场，获取更多的资源，他们需要大批量的资金，那么，这时候私募基金就出场了。大多数时候，5000万<del>数亿的资金都是私募基金经常投资的数额。换取股份大多数时候不会超过20%。一般而言，这些被选择的公司，在未来2</del>3年内都会有极大的希望上市成功。</p>
-<p>去年注资阿里巴巴集团16亿美金的银湖资本（Silver Lake）和曾经投资过的Digital Sky Technology则是私募（尤其做科技类的）翘楚公司。而这16亿的资金也是历史上排名前几的一次注资了。</p>
+<h2 id="项目介绍视频"><a href="#项目介绍视频" class="headerlink" title="项目介绍视频"></a>项目介绍视频</h2><ul>
+<li><strong>重点：</strong>为谁服务，怎么服务，谁掏钱</li>
+<li>不要只讲愿景，不讲数据</li>
+<li>片头和片尾不能完全一样，否则就是提供了重复的信息</li>
+<li>视频中不要放一些链接、电话之类的东西，因为没人能记得住</li>
+</ul>
+<h2 id="商业计划书（PPT）"><a href="#商业计划书（PPT）" class="headerlink" title="商业计划书（PPT）"></a>商业计划书（PPT）</h2><ul>
+<li>每页PPT中的文字不应超过四行，多于四行的部分要用形象的方法（图像、表格）展示</li>
+<li>每页PPT中的字不应超过四种颜色</li>
+<li>首页和后面的背景图要和自己的项目相关，不能用一个驴头不对马嘴的图放上去，即使它看上去很高级</li>
+<li>要学会做证明题、不断证明自己的项目好、可靠、可靠在哪里</li>
+<li>从第二页开始可以开始自问自答，也是做证明题的一部分</li>
+<li>第三页一定要体现出自己是怎么做的，要有流程的，体现出自己的创新点、核心技术</li>
+<li>不要说XXX擅长什么，因为都很年轻，要说负责什么，职位是什么</li>
+<li>介绍团队，人少的时候最好把照片放上去，可以的话放工作地的合照</li>
+<li>要突出团队成员有什么特点，什么优势</li>
+<li>要点出团队成员、融资需求，不要把过多的时间放在背景介绍方面</li>
+<li>不要用学究式的措辞，比如“包括但不限于…”，直接用“如：…”就够了</li>
+<li>可以使用欲扬先抑的手段引起投资人的兴趣，比如可以先说：“现在互联网思维鼓励去中介化，而我们为什么要加一层？”，后面再解释具体原因</li>
+<li>如果自己有核心技术，一定要强调出来</li>
+<li>品牌的名字要统一，不能一会儿用中文一会儿用英文</li>
+<li>不要既写公司总估值又写融资金额，只用写融资金额和出让股份就好</li>
+<li>不要照着PPT念稿子，会给人以这不是你自己干出来的而是copy来的这样一种不自信感</li>
+<li>如果有样机，一定要带着样机过来，一个样品胜过千言</li>
+<li>要讲加速度不要讲纯速度。即使现在一个产品也没有卖出去，只要能期望很高的增长，也是没问题的；即使现在销量不错，之后如果增长不快只会带来劣势</li>
+<li>标题：我们来自哪里？/我们是谁？-&gt; （市场痛点是什么？） -&gt; 我们想做什么？-&gt; 我们做成了什么？ -&gt; 我们要什么？</li>
+</ul>
 ]]></content>
       <tags>
         <tag>bussiness</tag>
-        <tag>investment</tag>
+        <tag>bussiness-plan</tag>
       </tags>
   </entry>
   <entry>
@@ -1086,22 +999,61 @@
       </tags>
   </entry>
   <entry>
-    <title>密苏里科技大学EMC Lab暑研 第十一周</title>
-    <url>/2018/09/29/emc-lab-note-11w/</url>
-    <content><![CDATA[<p>文 | 张中洋</p>
-<p>温馨有趣的一周。</p>
-<p>周五在导师Pommorenke家举行了一次火锅party，参与者有我们Lab的一些博士生、实习生，以及MST大学中和小帕熟识的一些中国学生，以及其儿子的一些同学。小帕有两个女儿、一个儿子，他们各自都选择在自己喜欢的填空下走着自己的路：小帕的儿子十分阳光活泼，预计留在美国继续学业；大女儿会说法语德语和英语，和男朋友在一起；而小女儿酷爱读书，喜欢在图书馆呆着，由于认为美国的医生太过重视钱而不足够关心人，她在下周四即将前往德国追求其理想中的医者仁心。小帕和其小女儿都能够说一口流利的中文，小女儿还在台湾交换留学过一年，可谓一家的中国通。最开始其实我是不太适应这种party的，感觉到的只有身处人群中的孤独，但是渐渐内心的感觉也开始发生了微妙的变化，感觉这也许是一个很棒的事情。最重要的一点是其给了我们一个以工作以外身份示人的机会。大家吃在一起，玩在一起，聊在一起，带来的是食物和酒，带走的是回忆的碎片和美好的瞬间。</p>
+    <title>EMD, EEMD与CEEMD</title>
+    <url>/2020/03/12/eemd/</url>
+    <content><![CDATA[<h2 id="EMD"><a href="#EMD" class="headerlink" title="EMD"></a>EMD</h2><p>EMD: Empirical Mode Decomposition</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
+<li>自适应。与小波分析相比，克服了基函数无自适应性的问题，解决了全局最优小波基在局部并非最优的问题，有基函数自适应特性。</li>
+<li>可以直接进行分解，不需要预分析和研究。</li>
+</ol>
 <span id="more"></span>
 
-<p>周六MST大学举办了一个各国文化节一样的活动，各个国家的国旗飘扬，大家身着各自的民族服饰，在街上举行了盛大的Parade，还有各个国家的学生联合摆摊出来向群众们售卖特色食品，舞台上学生们的纵情高歌起舞，草地上的罗拉群众们悠闲的聊天，共同在这秋日清爽的蓝天暖阳下构筑了一道靓丽的风景线。 </p>
-<p><img src="/2018/09/29/emc-lab-note-11w/006tNbRwgy1fwqb02u6o4j30de0a2qbs.jpg" alt="image-20181030155634727"></p>
-<p>周三晚上到了杰弗逊城住下，等待着次日的考试。这次考试并没有考好，原因也很显然，这回并没有做好足够的准备。还是希望下次能够拿出足够的时间准备的。当日去了州立博物馆，那里的穹顶很是恢弘壮观。</p>
-<p><img src="/2018/09/29/emc-lab-note-11w/006tNbRwgy1fwqb082jauj30de0a2gtn.jpg" alt="image-20181030155642677"></p>
+<h3 id="内涵模态分量"><a href="#内涵模态分量" class="headerlink" title="内涵模态分量"></a>内涵模态分量</h3><p>内涵模态分量（Intrinsic Mode Functions, IMF）就是原始信号被EMD分解之后得到的各层信号分量。EMD的提出人黄锷认为，任何信号都可以拆分成若干个内涵模态分量之和。而内涵模态分量有两个约束条件：</p>
+<p>1）在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个。</p>
+<p>2）在任意时刻，由局部极大值点形成的上包络线和由局部极小值点形成的下包络线的平均值为零，即上、下包络线相对于时间轴局部对称。</p>
+<p>啥意思？</p>
+<p>用不严谨的语言和灵魂画师来解释一下：</p>
+<p>1）图线要反复跨越x轴，像这样：</p>
+<p><img src="/2020/03/12/eemd/v2-0e5b832aee81e8a9068c9665e6eb2a3a_1440w.jpg" alt="img"></p>
+<p>在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个</p>
+<p>而不能像这样某次穿过零点后出现多个极点：</p>
+<p><img src="/2020/03/12/eemd/v2-921bc09334db7a4e443578091117788f_1440w.jpg" alt="极点数目偏多"></p>
+<p>2）包络线要对称，像这样：</p>
+<p><img src="/2020/03/12/eemd/v2-8826ddaefd1cebee1841bf5ff083c494_1440w.jpg" alt="包络线对称"></p>
+<p>而不能像这样：</p>
+<p><img src="/2020/03/12/eemd/v2-deb9cd0d0dcb8a154f8621276cce9972_1440w.jpg" alt="包络线不对称"></p>
+<p>洗洗眼睛，看个正常点的例子吧：</p>
+<p><img src="/2020/03/12/eemd/v2-a609c2680a2f4c525648a414d9b0a358_1440w.jpg" alt="EMD分解"></p>
+<p>上图由7张图片组成，其中第1张为原始信号，后边依次为EMD分解之后得到的6个分量，分别叫做IMF1~IMF5，最后一张图为残差，每一个IMF分量代表了原始信号中存在的一种内涵模态分量。可以看出，每个IMF分量都是满足这两个约束条件的。</p>
+<h3 id="分解步骤"><a href="#分解步骤" class="headerlink" title="分解步骤"></a>分解步骤</h3><p>1）根据原始信号上下极值点，分别画出上、下包络线。</p>
+<p><img src="/2020/03/12/eemd/v2-c18c7b4e6d60711351a4d55cb8271320_1440w.jpg" alt="img">上、下包络线</p>
+<p>2）求上、下包络线的均值，画出均值包络线。</p>
+<p><img src="/2020/03/12/eemd/v2-d56c460e9dd9e245521140497afddb39_1440w.jpg" alt="img">均值包络线</p>
+<p>3）原始信号减均值包络线，得到中间信号。</p>
+<p><img src="/2020/03/12/eemd/v2-e74e49a23dda87df74a562809257ddda_1440w.jpg" alt="img">原始信号减均值包络线</p>
+<p>4）判断该中间信号是否满足IMF的两个条件，如果满足，该信号就是一个IMF分量；如果不是，以该信号为基础，重新做1）~4）的分析。IMF分量的获取通常需要若干次的迭代。</p>
+<p><img src="/2020/03/12/eemd/v2-8b6643d803c3bdfb47639e65a75d4c8d_1440w.jpg" alt="img">不满足约束2，需要继续迭代</p>
+<p>使用上述方法得到第一个IMF后，用原始信号减IMF1，作为新的原始信号，再通过1）~4）的分析，可以得到IMF2，以此类推，完成EMD分解。</p>
+<p><img src="/2020/03/12/eemd/v2-f735266df804d187b1d173fe6f1bb168_1440w.jpg" alt="img">迭代分解结果</p>
+<p>上述例子中的图来自<a href="http://perso.ens-lyon.fr/patrick.flandrin/emd.ppt">http://perso.ens-lyon.fr/patri</a></p>
+<h2 id="EEMD"><a href="#EEMD" class="headerlink" title="EEMD"></a>EEMD</h2><p>EEMD: Ensemble Empirical Mode Decomposition</p>
+<p>简单的说，EEMD是在EMD的基础上，对原始信号进行了N次添加各异等幅白噪声并分别进行EMD分解后，对每个IMF中间分量进行平均。</p>
+<p>其原理是通过加入白噪声来改变信号极值点的分布，得到符合信号特征的上下包络线，消除模态混叠效应。加入的白噪声通过多次平均消除。</p>
+<h2 id="CEEMD"><a href="#CEEMD" class="headerlink" title="CEEMD"></a>CEEMD</h2><p>CEEMD是在EEMD的基础上，把随机添加的N组白噪声改为了N/2组正噪声和N/2组负噪声，依旧是最后进行平均。</p>
+<p>根据 Yeh 等人的研究，在加入相同数量以及相同幅值的白噪声时，EEMD 剩余噪声会随着集成平均的次数而逐渐减小。CEEMD 的剩余噪声一直维持在一个较小的程度，不论集成平均次数多少。在一定程度上使用 CEEMD方法进行信号分解，可以使用相对较少的集成平均次数，从某种意义上来说，CEEMD在保证小剩余噪声干扰的情况下，能够节省计算时间。</p>
+<p><img src="/2020/03/12/eemd/931855-20190117162939850-50932674.png" alt="img"><img src="/2020/03/12/eemd/931855-20190117163017276-1187230461.png" alt="img"></p>
+<h2 id="Python库"><a href="#Python库" class="headerlink" title="Python库"></a>Python库</h2><p>EMD, EEMD, CEEMDAN and some visualization support are contained in this repository. </p>
+<p>We can use <code>pip install EMD-signal</code> to install this library.</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
+<li><a href="https://www.cnblogs.com/Dinging006/p/10282993.html">EMD——EEMD——CEEMD语音增强算法基础</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/40005057">这篇文章能让你明白经验模态分解（EMD）——基础理论篇</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/44833026">这篇文章能让你明白经验模态分解（EMD）——IMF的物理含义</a></li>
+<li><a href="https://www.researchgate.net/publication/220531146_Ensemble_Empirical_Mode_Decomposition_a_Noise-Assisted_Data_Analysis_Method">Ensemble Empirical Mode Decomposition: a Noise-Assisted Data Analysis Method</a></li>
+</ol>
 ]]></content>
       <tags>
-        <tag>essay</tag>
-        <tag>EMC</tag>
-        <tag>abroad</tag>
+        <tag>signal-processing</tag>
+        <tag>audio</tag>
       </tags>
   </entry>
   <entry>
@@ -1126,6 +1078,54 @@
       </tags>
   </entry>
   <entry>
+    <title>点石创校第四课——OKR与管理</title>
+    <url>/2018/05/14/dianshi-04/</url>
+    <content><![CDATA[<h2 id="OKR-Introduction"><a href="#OKR-Introduction" class="headerlink" title="OKR Introduction"></a>OKR Introduction</h2><ul>
+<li>传统的指令管理更加适用于劳动密集型的企业和员工整体文化水平不够高的企业。</li>
+<li>目标管理的目标是激励成员，而不是为了考核而制定的三六九等，尤其是适用于创新企业和核心管理层</li>
+<li>OKR制定流程：个人愿景（初心）-&gt;目标-&gt;关键结果-&gt;任务清单</li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li>找到个人的愿景是非常重要的，因为公司的愿景并没法直接激励到个人的</li>
+<li>目标 一定要有激励作用，一般会设定一个完成度在60%~70%的目标是最有效的</li>
+<li>OKR的制定中最重要的一环是OKR会议。这个问题的关键在于“平等协商，极度透明，求同存异”</li>
+<li>OKR会议不是上级给下级布置任务的过程，而是一个平等协商的过程。上下级之间对同一个任务的理解也不一定是相同的，有时候上级对任务的难度有错误估计也是正常的，关键在于协商中的交流</li>
+<li>目标的制定原则：具体的，可度量的，可实现的，高相关性的，时间点</li>
+<li>每个层级都要制定自己的OKR，比如Dian团队要有团队OKR，项目组要由组长制定项目组的OKR，底层个人也要有自己的OKR，各司其职</li>
+</ul>
+<h2 id="Homework"><a href="#Homework" class="headerlink" title="Homework"></a>Homework</h2><ul>
+<li>加入种子班的初心是什么</li>
+<li>你在项目组中要完成的本季度目标有什么</li>
+<li>要完成每个目标的关键结果有哪些</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>investment</tag>
+        <tag>management</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>密苏里科技大学EMC Lab暑研 第十一周</title>
+    <url>/2018/09/29/emc-lab-note-11w/</url>
+    <content><![CDATA[<p>文 | 张中洋</p>
+<p>温馨有趣的一周。</p>
+<p>周五在导师Pommorenke家举行了一次火锅party，参与者有我们Lab的一些博士生、实习生，以及MST大学中和小帕熟识的一些中国学生，以及其儿子的一些同学。小帕有两个女儿、一个儿子，他们各自都选择在自己喜欢的填空下走着自己的路：小帕的儿子十分阳光活泼，预计留在美国继续学业；大女儿会说法语德语和英语，和男朋友在一起；而小女儿酷爱读书，喜欢在图书馆呆着，由于认为美国的医生太过重视钱而不足够关心人，她在下周四即将前往德国追求其理想中的医者仁心。小帕和其小女儿都能够说一口流利的中文，小女儿还在台湾交换留学过一年，可谓一家的中国通。最开始其实我是不太适应这种party的，感觉到的只有身处人群中的孤独，但是渐渐内心的感觉也开始发生了微妙的变化，感觉这也许是一个很棒的事情。最重要的一点是其给了我们一个以工作以外身份示人的机会。大家吃在一起，玩在一起，聊在一起，带来的是食物和酒，带走的是回忆的碎片和美好的瞬间。</p>
+<span id="more"></span>
+
+<p>周六MST大学举办了一个各国文化节一样的活动，各个国家的国旗飘扬，大家身着各自的民族服饰，在街上举行了盛大的Parade，还有各个国家的学生联合摆摊出来向群众们售卖特色食品，舞台上学生们的纵情高歌起舞，草地上的罗拉群众们悠闲的聊天，共同在这秋日清爽的蓝天暖阳下构筑了一道靓丽的风景线。 </p>
+<p><img src="/2018/09/29/emc-lab-note-11w/006tNbRwgy1fwqb02u6o4j30de0a2qbs.jpg" alt="image-20181030155634727"></p>
+<p>周三晚上到了杰弗逊城住下，等待着次日的考试。这次考试并没有考好，原因也很显然，这回并没有做好足够的准备。还是希望下次能够拿出足够的时间准备的。当日去了州立博物馆，那里的穹顶很是恢弘壮观。</p>
+<p><img src="/2018/09/29/emc-lab-note-11w/006tNbRwgy1fwqb082jauj30de0a2gtn.jpg" alt="image-20181030155642677"></p>
+]]></content>
+      <tags>
+        <tag>essay</tag>
+        <tag>EMC</tag>
+        <tag>abroad</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>密苏里科技大学EMC Lab暑研 第十二周</title>
     <url>/2018/10/06/emc-lab-note-12w/</url>
     <content><![CDATA[<p>世界线临近收束的一周。</p>
@@ -1141,6 +1141,30 @@
 <p><img src="/2018/10/06/emc-lab-note-12w/006tNbRwgy1fwqb1e24zqj30wc16kqnv.jpg" alt="image-20181006230631504"></p>
 <p>在历史的铁轨尽头矗立，在未来的信号灯的指引下向前，手持铁镐，一同开拓吧！</p>
 <p><img src="/2018/10/06/emc-lab-note-12w/006tNbRwgy1fwqb1o4axij30i00sg7nm.jpg" alt="相关图片"></p>
+]]></content>
+      <tags>
+        <tag>essay</tag>
+        <tag>EMC</tag>
+        <tag>abroad</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>密苏里科技大学EMC Lab暑研 第二周</title>
+    <url>/2018/07/26/emc-lab-note-2w/</url>
+    <content><![CDATA[<p>​    本周是2018年华中科技大学同学来密苏里科技大学进行暑研的第二周。如果用一个词来概括本周的感觉，那“渐臻佳境”将会是一个不错的选择。第一周生活划下的略显杂乱的轨迹线在此延长、伸展、放射，形成了一道优美而有序的线条。</p>
+<p>​    首先是生活方面，由于初来乍到的我们没有合适的厨具、没有料理的原料，而且更扎心的是一起生活的四个小伙伴都不会做饭，所以我们几乎吃遍了罗拉城中心地带的各种中餐厅日料店，更是消耗掉了几大包泡面。而在即将毕业学长的帮助下，我们凑 齐了厨具，去沃尔玛购买到了原料，并且下载了“下厨房”App开始了零基础的料理学习。每天一到饭点，大家就会齐心协力烹制一道道虽然简单但是却也可口的饭菜。能够自己做饭无疑大幅降低了我们在吃饭方面的开销，同时也为之后的留学生活打下了必要的基础。</p>
+<span id="more"></span>
+
+<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbfpfa9uj31kw1kw4qp.jpg" alt="IMG_1977"></p>
+<p>​    之后便是学习研究方面。在研究方面，由于之前在Dian团队打下了坚实的编程与算法的基础、培养了必要的快速学习能力，整体来说我进入状态还是相对较快的。我做的第一个项目是用matlab通过智能算法优化限定条件下ESM放射源扫描中的采样点选取问题。通过将近一周的不断优化，同时也得益于学长和各位导师们耐心的指导和激烈的讨论，在我们所特定的条件下，目前已经取得了相当不错的结果。</p>
+<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqaz36trlj31kw0l47wh.jpg" alt="image-20180728165436778"></p>
+<p>​    这个项目稍微告一段落后，紧接着张岭学长结合范教授得到知道，给我安排了另外一个更具有挑战性的任务，这个任务将主要通过深度学习方法完成，如果效果达到预期，其将作为一个大型仿真项目的一部分被整合。</p>
+<p>​    本周的活动依旧丰富。我们和实验室的导师以及学长们一同踢了足球，参加了野外烧烤、去电影院观看了刚刚上映的碟中谍。由于这里的电影院支持躺着观影，所以观影体验确实是相当不错的。不过看了这种没有字幕的电影，不由感到应该赶紧提高自己这依旧令人捉急的英语听力了。虽然平时和教授们讨论以及购物等场景还是能够应付的，不过到了更加复杂的生活场景中时还是会感到差的很远。长路漫漫，且行且思！</p>
+<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbiogksaj31kw16o4qq.jpg" alt="IMG_1975"></p>
+<h5 id="“躺着的”电影院"><a href="#“躺着的”电影院" class="headerlink" title="“躺着的”电影院"></a>“躺着的”电影院</h5><p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbifpudoj31kw0w01l0.jpg" alt="IMG_2090"></p>
+<h5 id="夕阳下的合影"><a href="#夕阳下的合影" class="headerlink" title="夕阳下的合影"></a>夕阳下的合影</h5><p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbixud7tj31kw11oe84.jpg" alt="IMG_2087"></p>
+<h5 id="足球场风采"><a href="#足球场风采" class="headerlink" title="足球场风采"></a>足球场风采</h5><p>下周我们将和实验室的导师学长们一同去加州参加一个领域内的研讨会，十分期待！</p>
+<p>2018.7.28</p>
 ]]></content>
       <tags>
         <tag>essay</tag>
@@ -1195,30 +1219,6 @@
 <p>当然，除了成长，洛杉矶也给我们带来了实实在在的堪称享受的娱乐活动。长滩午后海滨的慵懒与放松，环球影城各种项目带来的好莱坞级别级别的感官刺激、身临其境的电影艺术体验、从历史到当代最先进电影技术带来的思想碰撞，玛丽皇后号上对沧桑历史的认知和顶级banquet带来的极致奢华的体验，如果平日里的成长与体验是沙漠中的风对岩石的雕琢，那相信这些天来所有经历过的这一切会像地震和火山喷发般以极其浓缩的能量剧烈地塑造我心中的版图，撼动地基深厚的偏见的高山，并用喷薄而出的养分造就一片片新的沃土。</p>
 <p>新的一周又即将来临，命运石之门又会带来些什么惊喜呢？</p>
 <p>2018.8.3</p>
-]]></content>
-      <tags>
-        <tag>essay</tag>
-        <tag>EMC</tag>
-        <tag>abroad</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>密苏里科技大学EMC Lab暑研 第二周</title>
-    <url>/2018/07/26/emc-lab-note-2w/</url>
-    <content><![CDATA[<p>​    本周是2018年华中科技大学同学来密苏里科技大学进行暑研的第二周。如果用一个词来概括本周的感觉，那“渐臻佳境”将会是一个不错的选择。第一周生活划下的略显杂乱的轨迹线在此延长、伸展、放射，形成了一道优美而有序的线条。</p>
-<p>​    首先是生活方面，由于初来乍到的我们没有合适的厨具、没有料理的原料，而且更扎心的是一起生活的四个小伙伴都不会做饭，所以我们几乎吃遍了罗拉城中心地带的各种中餐厅日料店，更是消耗掉了几大包泡面。而在即将毕业学长的帮助下，我们凑 齐了厨具，去沃尔玛购买到了原料，并且下载了“下厨房”App开始了零基础的料理学习。每天一到饭点，大家就会齐心协力烹制一道道虽然简单但是却也可口的饭菜。能够自己做饭无疑大幅降低了我们在吃饭方面的开销，同时也为之后的留学生活打下了必要的基础。</p>
-<span id="more"></span>
-
-<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbfpfa9uj31kw1kw4qp.jpg" alt="IMG_1977"></p>
-<p>​    之后便是学习研究方面。在研究方面，由于之前在Dian团队打下了坚实的编程与算法的基础、培养了必要的快速学习能力，整体来说我进入状态还是相对较快的。我做的第一个项目是用matlab通过智能算法优化限定条件下ESM放射源扫描中的采样点选取问题。通过将近一周的不断优化，同时也得益于学长和各位导师们耐心的指导和激烈的讨论，在我们所特定的条件下，目前已经取得了相当不错的结果。</p>
-<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqaz36trlj31kw0l47wh.jpg" alt="image-20180728165436778"></p>
-<p>​    这个项目稍微告一段落后，紧接着张岭学长结合范教授得到知道，给我安排了另外一个更具有挑战性的任务，这个任务将主要通过深度学习方法完成，如果效果达到预期，其将作为一个大型仿真项目的一部分被整合。</p>
-<p>​    本周的活动依旧丰富。我们和实验室的导师以及学长们一同踢了足球，参加了野外烧烤、去电影院观看了刚刚上映的碟中谍。由于这里的电影院支持躺着观影，所以观影体验确实是相当不错的。不过看了这种没有字幕的电影，不由感到应该赶紧提高自己这依旧令人捉急的英语听力了。虽然平时和教授们讨论以及购物等场景还是能够应付的，不过到了更加复杂的生活场景中时还是会感到差的很远。长路漫漫，且行且思！</p>
-<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbiogksaj31kw16o4qq.jpg" alt="IMG_1975"></p>
-<h5 id="“躺着的”电影院"><a href="#“躺着的”电影院" class="headerlink" title="“躺着的”电影院"></a>“躺着的”电影院</h5><p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbifpudoj31kw0w01l0.jpg" alt="IMG_2090"></p>
-<h5 id="夕阳下的合影"><a href="#夕阳下的合影" class="headerlink" title="夕阳下的合影"></a>夕阳下的合影</h5><p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbixud7tj31kw11oe84.jpg" alt="IMG_2087"></p>
-<h5 id="足球场风采"><a href="#足球场风采" class="headerlink" title="足球场风采"></a>足球场风采</h5><p>下周我们将和实验室的导师学长们一同去加州参加一个领域内的研讨会，十分期待！</p>
-<p>2018.7.28</p>
 ]]></content>
       <tags>
         <tag>essay</tag>
@@ -1490,20 +1490,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C语言如何获得精确时间</title>
-    <url>/2018/08/01/get-pre-time/</url>
-    <content><![CDATA[<h1 id="C语言如何获得精确时间"><a href="#C语言如何获得精确时间" class="headerlink" title="C语言如何获得精确时间"></a>C语言如何获得精确时间</h1><h2 id="精确到秒"><a href="#精确到秒" class="headerlink" title="精确到秒"></a>精确到秒</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">time_t</span> t_start, t_end;</span><br><span class="line">    t_start = time(<span class="literal">NULL</span>) ;</span><br><span class="line">    sleep(<span class="number">3000</span>);</span><br><span class="line">    t_end = time(<span class="literal">NULL</span>) ;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;time: %.0f s\n&quot;</span>, difftime(t_end,t_start)) ;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="精确到微秒"><a href="#精确到微秒" class="headerlink" title="精确到微秒"></a>精确到微秒</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/timeb.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">getSystemTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timeb</span> <span class="title">t</span>;</span></span><br><span class="line">    ftime(&amp;t);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span> * t.time + t.millitm;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> start=getSystemTime();</span><br><span class="line">    sleep(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> end=getSystemTime();</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;time: %lld ms\n&quot;</span>, end-start);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>c</tag>
-        <tag>time</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Quick Tutorial on how to find e-books, movies and musics</title>
     <url>/2018/12/12/get-resource/</url>
     <content><![CDATA[<h2 id="1-Download-a-chrome-or-use-your-safari"><a href="#1-Download-a-chrome-or-use-your-safari" class="headerlink" title="1. Download a chrome, or use your safari"></a>1. Download a chrome, or use your safari</h2><ul>
@@ -1564,6 +1550,20 @@
       <tags>
         <tag>tech</tag>
         <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C语言如何获得精确时间</title>
+    <url>/2018/08/01/get-pre-time/</url>
+    <content><![CDATA[<h1 id="C语言如何获得精确时间"><a href="#C语言如何获得精确时间" class="headerlink" title="C语言如何获得精确时间"></a>C语言如何获得精确时间</h1><h2 id="精确到秒"><a href="#精确到秒" class="headerlink" title="精确到秒"></a>精确到秒</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;  </span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">time_t</span> t_start, t_end;</span><br><span class="line">    t_start = time(<span class="literal">NULL</span>) ;</span><br><span class="line">    sleep(<span class="number">3000</span>);</span><br><span class="line">    t_end = time(<span class="literal">NULL</span>) ;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;time: %.0f s\n&quot;</span>, difftime(t_end,t_start)) ;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="精确到微秒"><a href="#精确到微秒" class="headerlink" title="精确到微秒"></a>精确到微秒</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/timeb.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">getSystemTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timeb</span> <span class="title">t</span>;</span></span><br><span class="line">    ftime(&amp;t);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span> * t.time + t.millitm;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> start=getSystemTime();</span><br><span class="line">    sleep(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> end=getSystemTime();</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;time: %lld ms\n&quot;</span>, end-start);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>c</tag>
+        <tag>time</tag>
       </tags>
   </entry>
   <entry>
@@ -1694,7 +1694,7 @@
 </li>
 <li><p>如果您在游戏过程中发现bug或有想要提出的建议，请直接提出issue或邮件联系我。</p>
 </li>
-<li><p>如果您准备基于本项目进行改编或是再开发，请务必联系作者张中洋(<a href="mailto:&#x6d;&#105;&#114;&#97;&#99;&#x6c;&#101;&#121;&#x6f;&#x6f;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;">&#x6d;&#105;&#114;&#97;&#99;&#x6c;&#101;&#121;&#x6f;&#x6f;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;</a>)，并注明出处。</p>
+<li><p>如果您准备基于本项目进行改编或是再开发，请务必联系作者张中洋(<a href="mailto:&#x6d;&#x69;&#114;&#x61;&#99;&#108;&#x65;&#121;&#x6f;&#111;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;">&#x6d;&#x69;&#114;&#x61;&#99;&#108;&#x65;&#121;&#x6f;&#111;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#109;</a>)，并注明出处。</p>
 </li>
 </ul>
 <h3 id="游戏特征"><a href="#游戏特征" class="headerlink" title="游戏特征"></a>游戏特征</h3><ul>
@@ -1870,6 +1870,60 @@
       </tags>
   </entry>
   <entry>
+    <title>日本の高等教育システムの紹介</title>
+    <url>/2018/07/29/japanese-u/</url>
+    <content><![CDATA[<h1 id="日本の高等教育システムの紹介"><a href="#日本の高等教育システムの紹介" class="headerlink" title="日本の高等教育システムの紹介"></a>日本の高等教育システムの紹介</h1><h2 id="Overall-Introduction"><a href="#Overall-Introduction" class="headerlink" title="Overall Introduction"></a>Overall Introduction</h2><h3 id="大学"><a href="#大学" class="headerlink" title="大学"></a>大学</h3><p>　　日本的大学分为三种：国立大学、公立大学和私立大学。国立大学就是国家设立的学校，比如东京大学;公立大学为地方设置的大学，比如东京都立大学;私立大学是学校法人设立的学校，比如早稻田、庆应大学。不论国立、公立或是私立的学校，都需经国家教育主管部门的批准和监督。</p>
+<span id="more"></span>
+
+<p>　　在日本，无论国立、公立或私立大学都有少数一流大学，比如国立的东京大学、京都大学，私立的早稻田大学和庆应义塾大学等，都是世界闻名的优秀学府。总之，不能以国立或是私立的概念作为评价大学的标准。这二者的区别只是在于，国、公立大学的经费主要由国家财政拨款，其学费相对私立大学要便宜一些。</p>
+<h3 id="大学院"><a href="#大学院" class="headerlink" title="大学院"></a>大学院</h3><p>　　日本的<strong>大学院</strong>是读<strong>硕士和博士</strong>的地方。日本的<strong>硕士</strong>叫做<strong>修士</strong>，学制为<strong>两年</strong>。虽然日本也有研究生这个概念，但是与中国的“研究生”有所不同： <em>中国的“研究生”指的就是硕士，而日本的“<strong>研究生</strong>”是日本一种特殊的制度，是由于学生尚未达到读修士的水平，需花一年左右的时间跟导师补充相应的知识而设立的制度，大约相当于硕士或是博士的预科，是没有学位的。</em> 不可以与国内的研究生划等号。</p>
+<p>　　日本的还有为数不少的短大及专门学校。短大的学制为2到3年，大约相当于我国的大专，主要是家政、人文、教育及社会方面的专业。专门学校也相当于我国的大专，不过，日本的专业学校是进行职业教育，并教授可实际应用的技术、知识和技能，专业以电 子、机械、化工为主，是培养高级技术工人的学校。</p>
+<h3 id="语言学校与大学预科"><a href="#语言学校与大学预科" class="headerlink" title="语言学校与大学预科"></a>语言学校与大学预科</h3><p>　　如果留学生希望直接申请大学、大学院或是专门学校，日语必须达到二级水平(如果想进一流大学则必须达到一级)是相当关键的。但是，能满足大学所有入学条件的学生毕竟是少数，因此，为了给留学生们提供一个过渡的环境，日本出现了语言学校和大学预科。留学生在就读语言学校和大学预科时，主要是培养自己的日语能力并补习一些文化课知识，为升入大学做准备。</p>
+<h2 id="Merit-of-Going-to-Japan-to-continue-your-study-as-a-SyuuShi"><a href="#Merit-of-Going-to-Japan-to-continue-your-study-as-a-SyuuShi" class="headerlink" title="Merit of Going to Japan to continue your study as a SyuuShi"></a>Merit of Going to Japan to continue your study as a SyuuShi</h2><ol>
+<li>国、公立大学在入国管理局和大使馆有很高的信誉，所以，申请手续比较简单，签证率百分之百</li>
+<li>是留日项目中费用最低的，正式入学后<strong>学费全免或半免的比率很高</strong>，<strong>获得奖学金的机会很多</strong></li>
+<li>国、公立大学一般都设有面向留学生的免费语言课程，省去读语言学校的时间和金钱</li>
+<li>家属可以申请陪读</li>
+<li>留学生公寓</li>
+<li>享受国民健康保险</li>
+<li>毕业后就业前景广阔 </li>
+</ol>
+<h2 id="Go-to-Japan-to-study-CS"><a href="#Go-to-Japan-to-study-CS" class="headerlink" title="Go to Japan to study CS"></a>Go to Japan to study CS</h2><p>首先这个问题的产生和日本国情有关，作为早已进入发达国家（共产主义）的日本，<em>各个行业发展的都非常平衡，每个行业的待遇也都差不多</em>。既然每个行业都差不多，日本IT行业好像听起来就比较累，并且又有着“3K党”的传说（きつい、厳しい、帰れない），自然在日本本土完全就没有成为热门专业。反观国内为什么计算机这么火？说白了还是<strong>待遇问题</strong>，在国内面向funding project和面向工资编程的导向下码农大军如排山倒海之势袭来，恰有一统全国之势，因为国内不选择计算机几乎没法找到有钱途的工作。就拿我自己来说吧，当时学校最火的专业分数要比计算机高20分左右，在不求最好但求最高的心态驱使下自然就选了分数最高的专业。而高中同班同学由于比自己低20分，被从当时“最热的专业”调剂到计算机，刚开始同学还愤愤不平。毅种循环，毕业找工作的时候到了，同学年薪20w，我由于要出国只是想了解一下就业形势，结果拿到收入最高的公司offer收入没到同学2分之1…就我个人来说是不是看中了高薪才转cs的呢？这也没什么好掩饰的，没错我就是想赚钱，当然本身也感兴趣（并不是主要原因）</p>
+<p>另一方面门槛低未尝不是好事呢，在我看来这恰恰给广大由于种种原因编程并不是特别强的留学生，或者是想转行在国内又无法马上找到IT工作的人提供了机会，如果计算机在日本火起来我们还能这么容易找到工作么？对于那些编程实力很强的人想来日本，请移步六本木谷歌高盛，苹果也打算2017年3月在日本建设研发中心，不少美国企业家也都有日本情节，比如乔帮主的偶像就是盛田昭夫，对于那些很优秀的人日本也不至于埋没人才。</p>
+<p>很多人拿日本和美国cs比，我觉得这是不太公平的。首先如果真的很有学术天分，打算做一辈子学术，并且自身硬件极好，注意是一定是极好，美国名校PhD的确是最好的选择。但我想大多数人可能和我一样，本科并没有石破天惊的顶会论文，没有逆天的GPA，也没有拿到手软的国际大奖，有的只是工薪家庭自费两年会给家里带来沉重经济负担的心理压力。在这样的状态下，能够正常生活都是一个问题，还有多大的心思专心学术呢？而日本的国立大学学费可以说低到了一定境界，比日本人还便宜一半，几乎等于白送，而在美国学费是要比本土高很多的。另外湾区的生活成本要比东京高很多，虽然工资高但真按照生活质量没法说一定比东京好，日本的空气质量和生活舒适度一句话说是一个来了就不想走的地方。</p>
+<p>接下来是大家比较关心的问题，既然日本互联网环境这么不好，那对于将来的发展岂不是很可怕，什么都学不到怎么办？其实公司里还是有不少人挺厉害的，我刚刚也说过在日本选择做码农的都是真爱，和国内面向工资不一样，所以里面的人工作热情都很高。刚进去的几年肯定会有比你厉害不少的前辈，并且你遇到不会的细节里面的人会跟你一点点详细解答。当然编程最主要的还是靠自己，参观飞机场学不会开飞机，和陈立杰坐在一起也不会提高你的编程水平，自己多练是提高编程能力的唯一途径。</p>
+<p>待遇方面，工作于日本互联网可以在国内一半劳动时间，（国内996，日本964）具有国内码农一半（甚至更低）编程水平的前提下找到不低于甚至超过国内互联网公司的工作，并且不用扮演自动吸霾机的角色。</p>
+<p>抛开名校情结和大神光环不说，对于留学生能具体感受到的切实利益，</p>
+<h3 id="日本计算机方向留学相对于北美的优势究竟在哪里呢？"><a href="#日本计算机方向留学相对于北美的优势究竟在哪里呢？" class="headerlink" title="日本计算机方向留学相对于北美的优势究竟在哪里呢？"></a>日本计算机方向留学相对于北美的优势究竟在哪里呢？</h3><ol>
+<li><p>以极低的费用获得改变人生的机会，就拿我自己来说，单是美国两年天价的硕士学费就足以把家里直接拖垮。而日本国立大学的学费仅有1w5，和国内差不多，并且日本的生活费和北京没什么差别，完全不用担心经济上有任何的负担。</p>
+</li>
+<li><p>之前也提到过，能够以很小的竞争以不强的编程能力轻松找到日企互联网公司极低工作强度的工作，400万的评价年薪虽说并不比国内高很多，但注意这是在国内一半劳动强度情况下的收入。国内互联网公司普遍996甚至更夸张，而日本通常是964，为什么说964呢，因为日本假期实在太多，动不动就连休，休日，平均起来大约一周工作四天，并且互联网公司普遍不加班，那些说日企压力大的人可以醒醒了。而如果剩下的时间不想浪费怎么办？自己给自己加班，下班了多练练编程吧，想一下怎样提高代码运行效率，怎样写出更优雅简洁的代码，怎样突破自己的极限。</p>
+</li>
+<li><p>能够以硕士期间的研究状态判断自己是不是适合做学术这一条路线。拿我自己来说东大入学之前我认为将来一定是以学术路线发展的，并且肯定会读博。修士入学之后，每天基本上除了申请就是做科研了，还记得第一年修士寒假，大年三十的晚上写程序写到了半夜一点多，修士第一年连一部日剧都没追完，但越往后越深切的感受到读博士和当初想象的能够按照自己的兴趣解决问题并不一样。首先为什么要读博士？读博最理想的出路就是博士后回国找教职了，但大部分人都充当了分母的角色。就拿回国任教来说，现在都会要求发多少顶会论文，所以说现在的形势是读博士＝＝发论文，如果没法快速的发论文，教授不同意不说，就连毕业都是个问题。这样就造成了很多人为了发论文而发论文，大部分论文也极偏理论性，学到的大都是屠龙之技，往往用Matlab和Python导一下库验证一下就算完了，很少有人静下心来用C++自己先实现一遍原理，虽说不要重复发明轮子，但我认为重复制造轮子还是必须的，在正式进行科研之前首先要保证能够有足够强的工程能力实现任何论文里的代码。并且读的论文越多，越感受到大部分论文都是没有困难创造困难也要上，因此现在我可以清楚地知道自己不适合学术界闭门造车这条路，但工程能力还是要有的，所以毕业之前的研究重心就转移到了代码上。相比较而言，美国授课硕士结束想读博士的话还要重头再来五年，而日本只需要三年，衔接上也更自然。</p>
+</li>
+<li><p>申请门槛较低，相对于国内挤破头申请美国CS而言，日本似乎冷门许多。首先日本计算机原则上不需要任何语言成绩就可以申请（个别教授会要求），而美国是必须要有托福和GRE，另外日本对于GPA的要求不像美国那么高，注意不是说日本不看GPA，相反非常看，只是说不要求太高，但还是要保证中上等水平。另外门槛低是不是意味着随便谁都可以申请到呢？显然不是，就拿我三年来100多人的申请经验来说，教授的要求简直实现了新的飞跃，尤其是2017年入学的这一届。很多开始不看成绩单的教授慢慢看起了成绩单，很多刚开始接收二本学生的教授开始挑起了985，很多开始985见人就要的教授开始挑起了Top5，很多原本不要求语言的教授突然提出要求N1，很多不看计划书的教授开始要求了计划书，很多自身水平一般的教授要求计划书提出新算法解决当今学术难题，很多不面试的教授开始要求了面试，很多收过人的教授突然不再接收留学生，不一而足。申请是一场博弈，遭受挫折之后，我也会马上调整战略，与人斗其乐无穷。</p>
+</li>
+<li><p>生活舒适度极高，这体现在干净到不真实的空气，极高的国民素质和各行各业绝佳的服务体验，教授对学生研究课题以及个人的尊重，好到夸张的治安，美味的日料和二次元的天堂…</p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>university</tag>
+        <tag>Japan</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>KD-Tree的理解</title>
+    <url>/2018/04/01/kd-tree/</url>
+    <content><![CDATA[<h2 id="由下图可以大致看出KD-Tree的构造方式："><a href="#由下图可以大致看出KD-Tree的构造方式：" class="headerlink" title="由下图可以大致看出KD-Tree的构造方式："></a>由下图可以大致看出KD-Tree的构造方式：</h2><img src="/2018/04/01/kd-tree/kd-tree.png" class="" title="KD-Tree 理解图">
+
+<p>首先问题是隶属于分类问题的。每个sample有若干个属性（axis），如（3，4）就是一个有两个属性的sample。我们按axis=0，1，2，…的方式分别寻找每个维度（属性）的中位数并分别划分开来，就得到了一个树状结构，这样预测一个新的数据点的时候就可以很方便的按照树状结构将其归位到某个分区里去，而不用花费大量的计算资源去计算距离了。</p>
+]]></content>
+      <tags>
+        <tag>machine-learning</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Pytorch中常用图像变换</title>
     <url>/2018/04/13/img-pre-process/</url>
     <content><![CDATA[<h1 id="pytorch-torchvision-transform"><a href="#pytorch-torchvision-transform" class="headerlink" title="pytorch torchvision transform"></a>pytorch torchvision transform</h1><ol>
@@ -1953,111 +2007,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用IPV6和远程桌面连接局域网中的主机</title>
-    <url>/2019/09/18/ipv6-out/</url>
-    <content><![CDATA[<p>前几天装配了一个性能和体验都十分不错的主机之后，考虑到后面可能大多数时间我可能还是会在实验室里工作，所以为了随时能够访问主机中的各种资料、程序以及游戏而不用随时插拔并背上沉重的硬盘等设备，使用远程桌面进行访问是非常有必要的。</p>
-<p>整个过程持续了接近一天，最终做到了：**不用花一分钱（前提是你拥有一个可用的域名），不使用花生壳之类的服务，能在相互间链路支持IPV6的设备访问自己的主机。(这一假设能否成立由相互间物理距离以及身边ipv6普及情况而定)**下面是详细的步骤说明：</p>
-<span id="more"></span>
-
-<h2 id="查看主机与路由器的基本信息"><a href="#查看主机与路由器的基本信息" class="headerlink" title="查看主机与路由器的基本信息"></a>查看主机与路由器的基本信息</h2><p>为了远程访问我们的主机，首先有必要搞清楚一些基本的信息，如使用<code>ipconfig</code>确定IPV4/IPV6地址，并判断其ip是属于局域网还是公网。局域网有三段地址，判断方式如下：</p>
-<p>A类，第一段为10的都为私网地址，或10.0.0.1–10.255.255.254，其中10.0.0.0表示整个网段，10.0.0.255是广播地址。<br>B类，以172.16–172.31开头的都是私网地址，或172.16.0.0.1–172.31.255.254，其中172.16.0.0表示整个网段，172.16.255.255是广播地址<br>C类，以192.168开头的都是私网地址，或192.168.0.1–192.168.255.254，其中192.168.0.0表示整个网段，192.168.0.255是广播地址</p>
-<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr7qshmj30qo0dcjsm.jpg"></p>
-<p>通常情况下，我们家中或实验室中的设备被分配的都是内网ip，注意这里的ip指的都是ipv4，之后再经由NAT(Net Adress Translation)被映射出外网。</p>
-<p>查询路由器对应的公网ip由调查所知有两种易行方案：</p>
-<ol>
-<li>直接登录路由器的管理页面查看<br> 比如我使用的xfinity路由器，登录界面就是这样。而登录网址，往往是上图中的“默认网关”的ip地址，在我这里就是10.0.0.1</li>
-</ol>
-<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr40md9j30xf0u0wh2.jpg" alt="路由器登录界面"><br><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr2xyohj30u0133wi0.jpg" alt="路由器详细信息"></p>
-<ol start="2">
-<li>使用一些提供公网ip查询的<a href="https://ifconfig.me/">网站</a>进行查询。由于内网中的设备都经过了NAT的转换，所以查出来的这个ip既是你对外暴露的ipv4地址，也是路由器的ipv4地址，但这种方式比起直接登录查看可能会差一些，适用于没有路由器权限时使用。<br> <img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwra8jl2j30u013gq70.jpg"></li>
-</ol>
-<h2 id="打开主机上的关于远程连接的设置"><a href="#打开主机上的关于远程连接的设置" class="headerlink" title="打开主机上的关于远程连接的设置"></a>打开主机上的关于远程连接的设置</h2><p>具体操作如下图所示，打开控制面板中的远程设置，勾选相应选项即可。</p>
-<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr6gm1wj31hb0u0djp.jpg"></p>
-<h2 id="局域网下验证ipv4连接与ipv6连接"><a href="#局域网下验证ipv4连接与ipv6连接" class="headerlink" title="局域网下验证ipv4连接与ipv6连接"></a>局域网下验证ipv4连接与ipv6连接</h2><p>在主机以外的设备上尝试对主机进行连接，确认局域网下可以进行连接。这里推荐微软的<strong>Microsoft Remote Desktop</strong>软件。其支持Windows、Mac、iOS、Android等主流平台，使用十分简易方便。此处不展开。</p>
-<h2 id="设置二级域名与解析"><a href="#设置二级域名与解析" class="headerlink" title="设置二级域名与解析"></a>设置二级域名与解析</h2><h3 id="登录域名服务商"><a href="#登录域名服务商" class="headerlink" title="登录域名服务商"></a>登录域名服务商</h3><p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr8uolrj31p10u0goq.jpg"></p>
-<p>点击对应域名最右侧的“解析”按钮（在截图外面），进入域名解析设置。由于ipv4被设置了NAT，所以很难在不做内网穿透的情况下进行使用，尤其是在没有服务器的情况下，而租赁服务器的价格并不便宜，且链接速度将会同时受到穿透服务器的网速制约，所以并不推荐。</p>
-<h3 id="添加二级域名解析记录"><a href="#添加二级域名解析记录" class="headerlink" title="添加二级域名解析记录"></a>添加二级域名解析记录</h3><p>综上所述，这里决定采用IPV6直接解析，这样做的好处是IPV6是不做NAT的，也即其和设备是唯一对应的，这是一个很方便的地方。于是，我们将在我们已经入手的域名上添加一个二级域名，即在一级域名前再加一个前缀，如<code>domainname.com</code>可以拥有无数个<code>xxx.domainname.com</code>，这个xxx可以自定义。</p>
-<p>由于我们要做的是对ipv6的解析，所以这里添加一条<strong>AAAA</strong>记录。而这个记录是为了我的windows域名解析服务，所以这里我使用了“win”这个前缀（这个随意其实）。</p>
-<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr58axpj33k60mqq77.jpg"></p>
-<p>这条记录对应的记录值即为刚才我们用ipconfig查出来的那个“临时ipv6地址”。保存退出。</p>
-<h2 id="在电脑上部署DDNS服务"><a href="#在电脑上部署DDNS服务" class="headerlink" title="在电脑上部署DDNS服务"></a>在电脑上部署DDNS服务</h2><p>我们现在已经拥有了一个与主机ipv6对应的域名，即我们现在已经可以使用域名访问我们的主机了（前提是前面在局域网内测试通过），我们在Microsoft Remote Desktop上新建一个连接，把刚才输入ip的地方这次输成刚才解析的域名，在我这即为“win.xxxxxxxx.xxx”。做一次连接测试，如果连接成功，那么恭喜你，你的ipv6地址已经很好的绑定到域名上了，我们可进行下一步——部署DDNS服务。</p>
-<p>至于什么事DDNS，既然有现成的解释，我就不强行再加工了，下面附上<a href="https://zhuanlan.zhihu.com/p/46580280">知乎</a>上一段说明：</p>
-<blockquote>
-<p>DDNS的全称是动态域名服务，简单的说就是把一个IP地址映射到一个域名身上，一般大公司诸如百度这些IP都是固定的，而对个人用户来说，想有一个固定的家庭网络IP地址显然是一件不现实的事情，因为首先不说大部分人都是运营商的内网IP，即便少部分人申请到了公网IP，也都不是固定的，因为IPV4资源很紧张，不可能给每个人都分配公网IP，这个问题到IPV6可以解决，但是那也是以后的事情了，而且固定IP费用非常高昂，不是一般人可以承受的。但是我们在外网想要访问我们的家庭网络怎么办呢？这就需要DDNS了，DDNS将用户的动态IP地址映射到一个固定的域名解析服务上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态IP地址传送给位于服务商主机上的服务器程序，而服务器程序负责提供DNS服务并实现动态域名解析。这样我们只要在外部输入我们的域名就可以访问了，即便IP换了也是一样的。</p>
-</blockquote>
-<p>当然，原文是讲用ipv4做DDNS，并要涉及到花生壳和路由器设置，但很多情况下着并不是我们想要和想要承受的负担。那么如何在没有路由器权限的情况下做到动态的域名解析？</p>
-<p>这里我使用了码云上一个<a href="https://gitee.com/XuChaoProject/AliyunDdnsCSharp">Windows的动态域名解析服务</a>，详情请自行点击链接研究，这里不做过多说明。简单的原理就是它在后台开了一个Windows服务，这个服务每隔x分钟便会将你电脑当前的ipv6地址解析到阿里云的云解析服务器上，最优秀的是它是默认开机启动的，从此妈妈再也不用担心我的域名没法实时解析！</p>
-<p>当然，如果你是linux用户，其实你的选择更多，GitHub上有好几个动态解析代码可供使用，这里列出几个：</p>
-<ol>
-<li><a href="https://github.com/yyqian/aliyun-ddns">https://github.com/yyqian/aliyun-ddns</a></li>
-<li><a href="https://github.com/AlanLang/aliyun-ddns-server">https://github.com/AlanLang/aliyun-ddns-server</a></li>
-<li><a href="https://github.com/rfancn/aliyun-ddns-client">https://github.com/rfancn/aliyun-ddns-client</a> （这个是py脚本，不过只支持ipv4解析，姑且列上来）</li>
-</ol>
-<p>配置好后，理论上你就拥有了一个可以被外网访问到的主机了，恭喜你！</p>
-]]></content>
-      <tags>
-        <tag>tech</tag>
-        <tag>tool</tag>
-        <tag>ipv6</tag>
-        <tag>reverse-proxy</tag>
-        <tag>windows</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>KD-Tree的理解</title>
-    <url>/2018/04/01/kd-tree/</url>
-    <content><![CDATA[<h2 id="由下图可以大致看出KD-Tree的构造方式："><a href="#由下图可以大致看出KD-Tree的构造方式：" class="headerlink" title="由下图可以大致看出KD-Tree的构造方式："></a>由下图可以大致看出KD-Tree的构造方式：</h2><img src="/2018/04/01/kd-tree/kd-tree.png" class="" title="KD-Tree 理解图">
-
-<p>首先问题是隶属于分类问题的。每个sample有若干个属性（axis），如（3，4）就是一个有两个属性的sample。我们按axis=0，1，2，…的方式分别寻找每个维度（属性）的中位数并分别划分开来，就得到了一个树状结构，这样预测一个新的数据点的时候就可以很方便的按照树状结构将其归位到某个分区里去，而不用花费大量的计算资源去计算距离了。</p>
-]]></content>
-      <tags>
-        <tag>machine-learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>日本の高等教育システムの紹介</title>
-    <url>/2018/07/29/japanese-u/</url>
-    <content><![CDATA[<h1 id="日本の高等教育システムの紹介"><a href="#日本の高等教育システムの紹介" class="headerlink" title="日本の高等教育システムの紹介"></a>日本の高等教育システムの紹介</h1><h2 id="Overall-Introduction"><a href="#Overall-Introduction" class="headerlink" title="Overall Introduction"></a>Overall Introduction</h2><h3 id="大学"><a href="#大学" class="headerlink" title="大学"></a>大学</h3><p>　　日本的大学分为三种：国立大学、公立大学和私立大学。国立大学就是国家设立的学校，比如东京大学;公立大学为地方设置的大学，比如东京都立大学;私立大学是学校法人设立的学校，比如早稻田、庆应大学。不论国立、公立或是私立的学校，都需经国家教育主管部门的批准和监督。</p>
-<span id="more"></span>
-
-<p>　　在日本，无论国立、公立或私立大学都有少数一流大学，比如国立的东京大学、京都大学，私立的早稻田大学和庆应义塾大学等，都是世界闻名的优秀学府。总之，不能以国立或是私立的概念作为评价大学的标准。这二者的区别只是在于，国、公立大学的经费主要由国家财政拨款，其学费相对私立大学要便宜一些。</p>
-<h3 id="大学院"><a href="#大学院" class="headerlink" title="大学院"></a>大学院</h3><p>　　日本的<strong>大学院</strong>是读<strong>硕士和博士</strong>的地方。日本的<strong>硕士</strong>叫做<strong>修士</strong>，学制为<strong>两年</strong>。虽然日本也有研究生这个概念，但是与中国的“研究生”有所不同： <em>中国的“研究生”指的就是硕士，而日本的“<strong>研究生</strong>”是日本一种特殊的制度，是由于学生尚未达到读修士的水平，需花一年左右的时间跟导师补充相应的知识而设立的制度，大约相当于硕士或是博士的预科，是没有学位的。</em> 不可以与国内的研究生划等号。</p>
-<p>　　日本的还有为数不少的短大及专门学校。短大的学制为2到3年，大约相当于我国的大专，主要是家政、人文、教育及社会方面的专业。专门学校也相当于我国的大专，不过，日本的专业学校是进行职业教育，并教授可实际应用的技术、知识和技能，专业以电 子、机械、化工为主，是培养高级技术工人的学校。</p>
-<h3 id="语言学校与大学预科"><a href="#语言学校与大学预科" class="headerlink" title="语言学校与大学预科"></a>语言学校与大学预科</h3><p>　　如果留学生希望直接申请大学、大学院或是专门学校，日语必须达到二级水平(如果想进一流大学则必须达到一级)是相当关键的。但是，能满足大学所有入学条件的学生毕竟是少数，因此，为了给留学生们提供一个过渡的环境，日本出现了语言学校和大学预科。留学生在就读语言学校和大学预科时，主要是培养自己的日语能力并补习一些文化课知识，为升入大学做准备。</p>
-<h2 id="Merit-of-Going-to-Japan-to-continue-your-study-as-a-SyuuShi"><a href="#Merit-of-Going-to-Japan-to-continue-your-study-as-a-SyuuShi" class="headerlink" title="Merit of Going to Japan to continue your study as a SyuuShi"></a>Merit of Going to Japan to continue your study as a SyuuShi</h2><ol>
-<li>国、公立大学在入国管理局和大使馆有很高的信誉，所以，申请手续比较简单，签证率百分之百</li>
-<li>是留日项目中费用最低的，正式入学后<strong>学费全免或半免的比率很高</strong>，<strong>获得奖学金的机会很多</strong></li>
-<li>国、公立大学一般都设有面向留学生的免费语言课程，省去读语言学校的时间和金钱</li>
-<li>家属可以申请陪读</li>
-<li>留学生公寓</li>
-<li>享受国民健康保险</li>
-<li>毕业后就业前景广阔 </li>
-</ol>
-<h2 id="Go-to-Japan-to-study-CS"><a href="#Go-to-Japan-to-study-CS" class="headerlink" title="Go to Japan to study CS"></a>Go to Japan to study CS</h2><p>首先这个问题的产生和日本国情有关，作为早已进入发达国家（共产主义）的日本，<em>各个行业发展的都非常平衡，每个行业的待遇也都差不多</em>。既然每个行业都差不多，日本IT行业好像听起来就比较累，并且又有着“3K党”的传说（きつい、厳しい、帰れない），自然在日本本土完全就没有成为热门专业。反观国内为什么计算机这么火？说白了还是<strong>待遇问题</strong>，在国内面向funding project和面向工资编程的导向下码农大军如排山倒海之势袭来，恰有一统全国之势，因为国内不选择计算机几乎没法找到有钱途的工作。就拿我自己来说吧，当时学校最火的专业分数要比计算机高20分左右，在不求最好但求最高的心态驱使下自然就选了分数最高的专业。而高中同班同学由于比自己低20分，被从当时“最热的专业”调剂到计算机，刚开始同学还愤愤不平。毅种循环，毕业找工作的时候到了，同学年薪20w，我由于要出国只是想了解一下就业形势，结果拿到收入最高的公司offer收入没到同学2分之1…就我个人来说是不是看中了高薪才转cs的呢？这也没什么好掩饰的，没错我就是想赚钱，当然本身也感兴趣（并不是主要原因）</p>
-<p>另一方面门槛低未尝不是好事呢，在我看来这恰恰给广大由于种种原因编程并不是特别强的留学生，或者是想转行在国内又无法马上找到IT工作的人提供了机会，如果计算机在日本火起来我们还能这么容易找到工作么？对于那些编程实力很强的人想来日本，请移步六本木谷歌高盛，苹果也打算2017年3月在日本建设研发中心，不少美国企业家也都有日本情节，比如乔帮主的偶像就是盛田昭夫，对于那些很优秀的人日本也不至于埋没人才。</p>
-<p>很多人拿日本和美国cs比，我觉得这是不太公平的。首先如果真的很有学术天分，打算做一辈子学术，并且自身硬件极好，注意是一定是极好，美国名校PhD的确是最好的选择。但我想大多数人可能和我一样，本科并没有石破天惊的顶会论文，没有逆天的GPA，也没有拿到手软的国际大奖，有的只是工薪家庭自费两年会给家里带来沉重经济负担的心理压力。在这样的状态下，能够正常生活都是一个问题，还有多大的心思专心学术呢？而日本的国立大学学费可以说低到了一定境界，比日本人还便宜一半，几乎等于白送，而在美国学费是要比本土高很多的。另外湾区的生活成本要比东京高很多，虽然工资高但真按照生活质量没法说一定比东京好，日本的空气质量和生活舒适度一句话说是一个来了就不想走的地方。</p>
-<p>接下来是大家比较关心的问题，既然日本互联网环境这么不好，那对于将来的发展岂不是很可怕，什么都学不到怎么办？其实公司里还是有不少人挺厉害的，我刚刚也说过在日本选择做码农的都是真爱，和国内面向工资不一样，所以里面的人工作热情都很高。刚进去的几年肯定会有比你厉害不少的前辈，并且你遇到不会的细节里面的人会跟你一点点详细解答。当然编程最主要的还是靠自己，参观飞机场学不会开飞机，和陈立杰坐在一起也不会提高你的编程水平，自己多练是提高编程能力的唯一途径。</p>
-<p>待遇方面，工作于日本互联网可以在国内一半劳动时间，（国内996，日本964）具有国内码农一半（甚至更低）编程水平的前提下找到不低于甚至超过国内互联网公司的工作，并且不用扮演自动吸霾机的角色。</p>
-<p>抛开名校情结和大神光环不说，对于留学生能具体感受到的切实利益，</p>
-<h3 id="日本计算机方向留学相对于北美的优势究竟在哪里呢？"><a href="#日本计算机方向留学相对于北美的优势究竟在哪里呢？" class="headerlink" title="日本计算机方向留学相对于北美的优势究竟在哪里呢？"></a>日本计算机方向留学相对于北美的优势究竟在哪里呢？</h3><ol>
-<li><p>以极低的费用获得改变人生的机会，就拿我自己来说，单是美国两年天价的硕士学费就足以把家里直接拖垮。而日本国立大学的学费仅有1w5，和国内差不多，并且日本的生活费和北京没什么差别，完全不用担心经济上有任何的负担。</p>
-</li>
-<li><p>之前也提到过，能够以很小的竞争以不强的编程能力轻松找到日企互联网公司极低工作强度的工作，400万的评价年薪虽说并不比国内高很多，但注意这是在国内一半劳动强度情况下的收入。国内互联网公司普遍996甚至更夸张，而日本通常是964，为什么说964呢，因为日本假期实在太多，动不动就连休，休日，平均起来大约一周工作四天，并且互联网公司普遍不加班，那些说日企压力大的人可以醒醒了。而如果剩下的时间不想浪费怎么办？自己给自己加班，下班了多练练编程吧，想一下怎样提高代码运行效率，怎样写出更优雅简洁的代码，怎样突破自己的极限。</p>
-</li>
-<li><p>能够以硕士期间的研究状态判断自己是不是适合做学术这一条路线。拿我自己来说东大入学之前我认为将来一定是以学术路线发展的，并且肯定会读博。修士入学之后，每天基本上除了申请就是做科研了，还记得第一年修士寒假，大年三十的晚上写程序写到了半夜一点多，修士第一年连一部日剧都没追完，但越往后越深切的感受到读博士和当初想象的能够按照自己的兴趣解决问题并不一样。首先为什么要读博士？读博最理想的出路就是博士后回国找教职了，但大部分人都充当了分母的角色。就拿回国任教来说，现在都会要求发多少顶会论文，所以说现在的形势是读博士＝＝发论文，如果没法快速的发论文，教授不同意不说，就连毕业都是个问题。这样就造成了很多人为了发论文而发论文，大部分论文也极偏理论性，学到的大都是屠龙之技，往往用Matlab和Python导一下库验证一下就算完了，很少有人静下心来用C++自己先实现一遍原理，虽说不要重复发明轮子，但我认为重复制造轮子还是必须的，在正式进行科研之前首先要保证能够有足够强的工程能力实现任何论文里的代码。并且读的论文越多，越感受到大部分论文都是没有困难创造困难也要上，因此现在我可以清楚地知道自己不适合学术界闭门造车这条路，但工程能力还是要有的，所以毕业之前的研究重心就转移到了代码上。相比较而言，美国授课硕士结束想读博士的话还要重头再来五年，而日本只需要三年，衔接上也更自然。</p>
-</li>
-<li><p>申请门槛较低，相对于国内挤破头申请美国CS而言，日本似乎冷门许多。首先日本计算机原则上不需要任何语言成绩就可以申请（个别教授会要求），而美国是必须要有托福和GRE，另外日本对于GPA的要求不像美国那么高，注意不是说日本不看GPA，相反非常看，只是说不要求太高，但还是要保证中上等水平。另外门槛低是不是意味着随便谁都可以申请到呢？显然不是，就拿我三年来100多人的申请经验来说，教授的要求简直实现了新的飞跃，尤其是2017年入学的这一届。很多开始不看成绩单的教授慢慢看起了成绩单，很多刚开始接收二本学生的教授开始挑起了985，很多开始985见人就要的教授开始挑起了Top5，很多原本不要求语言的教授突然提出要求N1，很多不看计划书的教授开始要求了计划书，很多自身水平一般的教授要求计划书提出新算法解决当今学术难题，很多不面试的教授开始要求了面试，很多收过人的教授突然不再接收留学生，不一而足。申请是一场博弈，遭受挫折之后，我也会马上调整战略，与人斗其乐无穷。</p>
-</li>
-<li><p>生活舒适度极高，这体现在干净到不真实的空气，极高的国民素质和各行各业绝佳的服务体验，教授对学生研究课题以及个人的尊重，好到夸张的治安，美味的日料和二次元的天堂…</p>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>university</tag>
-        <tag>Japan</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>主要神经网络layer的合理排布顺序</title>
     <url>/2018/08/21/layer-order/</url>
     <content><![CDATA[<h3 id="开篇名义，先把普遍的神经网络层的排布顺序展示出来："><a href="#开篇名义，先把普遍的神经网络层的排布顺序展示出来：" class="headerlink" title="开篇名义，先把普遍的神经网络层的排布顺序展示出来："></a>开篇名义，先把普遍的神经网络层的排布顺序展示出来：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Enter: Convlution -&gt; Batch Normalization -&gt; Relu -&gt; Max Pool</span><br><span class="line">Middle: Convlution -&gt; Batch Normalization -&gt; Relu</span><br><span class="line">Middle Complicated: -&gt; CONV&#x2F;FC -&gt; BatchNorm -&gt; ReLu(or other activation) -&gt; Dropout -&gt; CONV&#x2F;FC -&gt;</span><br><span class="line">Tail: Max Pool -&gt; View -&gt; (Dropout) -&gt; Fc</span><br></pre></td></tr></table></figure>
@@ -2128,6 +2077,57 @@
 ]]></content>
       <tags>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用IPV6和远程桌面连接局域网中的主机</title>
+    <url>/2019/09/18/ipv6-out/</url>
+    <content><![CDATA[<p>前几天装配了一个性能和体验都十分不错的主机之后，考虑到后面可能大多数时间我可能还是会在实验室里工作，所以为了随时能够访问主机中的各种资料、程序以及游戏而不用随时插拔并背上沉重的硬盘等设备，使用远程桌面进行访问是非常有必要的。</p>
+<p>整个过程持续了接近一天，最终做到了：**不用花一分钱（前提是你拥有一个可用的域名），不使用花生壳之类的服务，能在相互间链路支持IPV6的设备访问自己的主机。(这一假设能否成立由相互间物理距离以及身边ipv6普及情况而定)**下面是详细的步骤说明：</p>
+<span id="more"></span>
+
+<h2 id="查看主机与路由器的基本信息"><a href="#查看主机与路由器的基本信息" class="headerlink" title="查看主机与路由器的基本信息"></a>查看主机与路由器的基本信息</h2><p>为了远程访问我们的主机，首先有必要搞清楚一些基本的信息，如使用<code>ipconfig</code>确定IPV4/IPV6地址，并判断其ip是属于局域网还是公网。局域网有三段地址，判断方式如下：</p>
+<p>A类，第一段为10的都为私网地址，或10.0.0.1–10.255.255.254，其中10.0.0.0表示整个网段，10.0.0.255是广播地址。<br>B类，以172.16–172.31开头的都是私网地址，或172.16.0.0.1–172.31.255.254，其中172.16.0.0表示整个网段，172.16.255.255是广播地址<br>C类，以192.168开头的都是私网地址，或192.168.0.1–192.168.255.254，其中192.168.0.0表示整个网段，192.168.0.255是广播地址</p>
+<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr7qshmj30qo0dcjsm.jpg"></p>
+<p>通常情况下，我们家中或实验室中的设备被分配的都是内网ip，注意这里的ip指的都是ipv4，之后再经由NAT(Net Adress Translation)被映射出外网。</p>
+<p>查询路由器对应的公网ip由调查所知有两种易行方案：</p>
+<ol>
+<li>直接登录路由器的管理页面查看<br> 比如我使用的xfinity路由器，登录界面就是这样。而登录网址，往往是上图中的“默认网关”的ip地址，在我这里就是10.0.0.1</li>
+</ol>
+<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr40md9j30xf0u0wh2.jpg" alt="路由器登录界面"><br><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr2xyohj30u0133wi0.jpg" alt="路由器详细信息"></p>
+<ol start="2">
+<li>使用一些提供公网ip查询的<a href="https://ifconfig.me/">网站</a>进行查询。由于内网中的设备都经过了NAT的转换，所以查出来的这个ip既是你对外暴露的ipv4地址，也是路由器的ipv4地址，但这种方式比起直接登录查看可能会差一些，适用于没有路由器权限时使用。<br> <img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwra8jl2j30u013gq70.jpg"></li>
+</ol>
+<h2 id="打开主机上的关于远程连接的设置"><a href="#打开主机上的关于远程连接的设置" class="headerlink" title="打开主机上的关于远程连接的设置"></a>打开主机上的关于远程连接的设置</h2><p>具体操作如下图所示，打开控制面板中的远程设置，勾选相应选项即可。</p>
+<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr6gm1wj31hb0u0djp.jpg"></p>
+<h2 id="局域网下验证ipv4连接与ipv6连接"><a href="#局域网下验证ipv4连接与ipv6连接" class="headerlink" title="局域网下验证ipv4连接与ipv6连接"></a>局域网下验证ipv4连接与ipv6连接</h2><p>在主机以外的设备上尝试对主机进行连接，确认局域网下可以进行连接。这里推荐微软的<strong>Microsoft Remote Desktop</strong>软件。其支持Windows、Mac、iOS、Android等主流平台，使用十分简易方便。此处不展开。</p>
+<h2 id="设置二级域名与解析"><a href="#设置二级域名与解析" class="headerlink" title="设置二级域名与解析"></a>设置二级域名与解析</h2><h3 id="登录域名服务商"><a href="#登录域名服务商" class="headerlink" title="登录域名服务商"></a>登录域名服务商</h3><p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr8uolrj31p10u0goq.jpg"></p>
+<p>点击对应域名最右侧的“解析”按钮（在截图外面），进入域名解析设置。由于ipv4被设置了NAT，所以很难在不做内网穿透的情况下进行使用，尤其是在没有服务器的情况下，而租赁服务器的价格并不便宜，且链接速度将会同时受到穿透服务器的网速制约，所以并不推荐。</p>
+<h3 id="添加二级域名解析记录"><a href="#添加二级域名解析记录" class="headerlink" title="添加二级域名解析记录"></a>添加二级域名解析记录</h3><p>综上所述，这里决定采用IPV6直接解析，这样做的好处是IPV6是不做NAT的，也即其和设备是唯一对应的，这是一个很方便的地方。于是，我们将在我们已经入手的域名上添加一个二级域名，即在一级域名前再加一个前缀，如<code>domainname.com</code>可以拥有无数个<code>xxx.domainname.com</code>，这个xxx可以自定义。</p>
+<p>由于我们要做的是对ipv6的解析，所以这里添加一条<strong>AAAA</strong>记录。而这个记录是为了我的windows域名解析服务，所以这里我使用了“win”这个前缀（这个随意其实）。</p>
+<p><img src="/2019/09/18/ipv6-out/006y8mN6ly1g7lwr58axpj33k60mqq77.jpg"></p>
+<p>这条记录对应的记录值即为刚才我们用ipconfig查出来的那个“临时ipv6地址”。保存退出。</p>
+<h2 id="在电脑上部署DDNS服务"><a href="#在电脑上部署DDNS服务" class="headerlink" title="在电脑上部署DDNS服务"></a>在电脑上部署DDNS服务</h2><p>我们现在已经拥有了一个与主机ipv6对应的域名，即我们现在已经可以使用域名访问我们的主机了（前提是前面在局域网内测试通过），我们在Microsoft Remote Desktop上新建一个连接，把刚才输入ip的地方这次输成刚才解析的域名，在我这即为“win.xxxxxxxx.xxx”。做一次连接测试，如果连接成功，那么恭喜你，你的ipv6地址已经很好的绑定到域名上了，我们可进行下一步——部署DDNS服务。</p>
+<p>至于什么事DDNS，既然有现成的解释，我就不强行再加工了，下面附上<a href="https://zhuanlan.zhihu.com/p/46580280">知乎</a>上一段说明：</p>
+<blockquote>
+<p>DDNS的全称是动态域名服务，简单的说就是把一个IP地址映射到一个域名身上，一般大公司诸如百度这些IP都是固定的，而对个人用户来说，想有一个固定的家庭网络IP地址显然是一件不现实的事情，因为首先不说大部分人都是运营商的内网IP，即便少部分人申请到了公网IP，也都不是固定的，因为IPV4资源很紧张，不可能给每个人都分配公网IP，这个问题到IPV6可以解决，但是那也是以后的事情了，而且固定IP费用非常高昂，不是一般人可以承受的。但是我们在外网想要访问我们的家庭网络怎么办呢？这就需要DDNS了，DDNS将用户的动态IP地址映射到一个固定的域名解析服务上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态IP地址传送给位于服务商主机上的服务器程序，而服务器程序负责提供DNS服务并实现动态域名解析。这样我们只要在外部输入我们的域名就可以访问了，即便IP换了也是一样的。</p>
+</blockquote>
+<p>当然，原文是讲用ipv4做DDNS，并要涉及到花生壳和路由器设置，但很多情况下着并不是我们想要和想要承受的负担。那么如何在没有路由器权限的情况下做到动态的域名解析？</p>
+<p>这里我使用了码云上一个<a href="https://gitee.com/XuChaoProject/AliyunDdnsCSharp">Windows的动态域名解析服务</a>，详情请自行点击链接研究，这里不做过多说明。简单的原理就是它在后台开了一个Windows服务，这个服务每隔x分钟便会将你电脑当前的ipv6地址解析到阿里云的云解析服务器上，最优秀的是它是默认开机启动的，从此妈妈再也不用担心我的域名没法实时解析！</p>
+<p>当然，如果你是linux用户，其实你的选择更多，GitHub上有好几个动态解析代码可供使用，这里列出几个：</p>
+<ol>
+<li><a href="https://github.com/yyqian/aliyun-ddns">https://github.com/yyqian/aliyun-ddns</a></li>
+<li><a href="https://github.com/AlanLang/aliyun-ddns-server">https://github.com/AlanLang/aliyun-ddns-server</a></li>
+<li><a href="https://github.com/rfancn/aliyun-ddns-client">https://github.com/rfancn/aliyun-ddns-client</a> （这个是py脚本，不过只支持ipv4解析，姑且列上来）</li>
+</ol>
+<p>配置好后，理论上你就拥有了一个可以被外网访问到的主机了，恭喜你！</p>
+]]></content>
+      <tags>
+        <tag>tech</tag>
+        <tag>tool</tag>
+        <tag>ipv6</tag>
+        <tag>reverse-proxy</tag>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -2344,7 +2344,7 @@
 <h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><ol>
 <li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
 <li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
-<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#x75;&#x73;&#101;&#114;&#x6e;&#x61;&#x6d;&#101;&#64;&#x69;&#112;&#x2e;&#97;&#100;&#x64;&#x72;&#101;&#x73;&#x73;">&#x75;&#x73;&#101;&#114;&#x6e;&#x61;&#x6d;&#101;&#64;&#x69;&#112;&#x2e;&#97;&#100;&#x64;&#x72;&#101;&#x73;&#x73;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
+<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#117;&#115;&#x65;&#114;&#x6e;&#97;&#x6d;&#x65;&#x40;&#105;&#112;&#46;&#x61;&#100;&#x64;&#x72;&#101;&#x73;&#x73;">&#117;&#115;&#x65;&#114;&#x6e;&#97;&#x6d;&#x65;&#x40;&#105;&#112;&#46;&#x61;&#100;&#x64;&#x72;&#101;&#x73;&#x73;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
 <li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
 </ol>
 ]]></content>
@@ -2571,51 +2571,65 @@
       </tags>
   </entry>
   <entry>
-    <title>MATLAB中列出文件夹下内容并提取含Pattern文件名存储</title>
-    <url>/2018/08/27/matlab-list-folder-and-save/</url>
-    <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>MATLAB中如何将一个文件夹下所有文件列出并储存到一个字符串数组中，最后提取含有特定Pattern的文件名。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">filenames = dir;</span><br><span class="line">filenames = &#123;filenames.name&#125;;</span><br><span class="line">filenames = string(filenames);</span><br><span class="line">STTF = startsWith(filenames,<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">filenames = filenames(~STTF);</span><br><span class="line">MTF = contains(filenames,<span class="string">&#x27;.mat&#x27;</span>);</span><br><span class="line">filenames = filenames(MTF);</span><br><span class="line">filenum = <span class="built_in">length</span>(filenames);</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>matlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MATLAB的数组元胞结构解析</title>
-    <url>/2018/08/27/matlab-list-matrix/</url>
-    <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>MATLAB的数组、元胞、字符串数组分别有什么特点？其与Python等语言的数组有什么较大区别？存储和转换时有什么需要注意？</p>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><ol>
-<li><p>MATLAB的元胞其实和Python中的数组更加相近，二者都可以储存混合大小和类型的变量，如果在元胞中储存数组，它们没必要维度相同。而MATLAB的数组必须保证每一维度的元素数目相同。</p>
-</li>
-<li><p>MATLAB数组各个维度的存储顺序和Python正好相反。一个在Python中shape为[2,3,4,5]的数组到了MATLAB中会变成[5,4,3,2]。这种数据的储存方法是和<a href="https://zh.wikipedia.org/zh-hans/Fortran">Fortran</a>相似的，採用列優先（Column first）。Python中的几个数组通过[A, B]的方式合并时会在最左边（第一维）增加一个“2”（因为这里合并的是两个数组），而MATLAB的cat方法合并两个数组则会在最右边（最后一维）增加一个“2”。</p>
-</li>
-<li><p>如果是普通数组拿来存储字符串，则必须要保证每个字符串长度相同。但是MATLAB提供了字符串数组这种数据格式。</p>
+    <title>MATLAB实用Tricks</title>
+    <url>/2018/09/15/matlab-tricks/</url>
+    <content><![CDATA[<h1 id="permute"><a href="#permute" class="headerlink" title="permute"></a>permute</h1><p>重新排列 N 维数组的维度</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>B = permute(A,order)</code></p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><code>B = permute(A,order)</code> 重新排列 <code>A</code> 的维度使其按向量 <code>order</code> 所指定的顺序排列。<code>B</code> 含有与 <code>A</code> 相同的值，但访问任意特定元素所需的下标的顺序已按 <code>order</code> 所指定的顺序重新排列。<code>order</code> 的所有元素都必须是唯一的正整数实数值。</p>
 <span id="more"></span>
 
-<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>您可以通过用双引号括起一段文本来创建字符串。从 R2017a 开始引入双引号。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">str &#x3D; &quot;Hello, world&quot; </span><br><span class="line"></span><br><span class="line">str &#x3D; &quot;Hello, world&quot; </span><br></pre></td></tr></table></figure>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>全部折叠</p>
+<h3 id="置换数组维度"><a href="#置换数组维度" class="headerlink" title="置换数组维度"></a>置换数组维度</h3><p>创建一个 3×4×5 数组，并置换它，以便将第一个和第三个维度交换。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A = <span class="built_in">rand</span>(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">B = <span class="built_in">permute</span>(A,[<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]);</span><br><span class="line"><span class="built_in">size</span>(B)</span><br><span class="line"><span class="built_in">ans</span> = </span><br><span class="line"></span><br><span class="line">     <span class="number">5</span>     <span class="number">4</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
-<p>创建字符串数组的一种方法是使用方括号将字符串串联成数组，就像将数字串联成数值数组一样。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">str &#x3D; [&quot;Mercury&quot;,&quot;Gemini&quot;,&quot;Apollo&quot;; &quot;Skylab&quot;,&quot;Skylab B&quot;,&quot;ISS&quot;] </span><br><span class="line"></span><br><span class="line">str &#x3D; 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot; &quot;Skylab&quot; &quot;Skylab B&quot; &quot;ISS&quot; </span><br></pre></td></tr></table></figure>
 
-<p>也可以按如下所述，使用 <code>string</code> 函数将不同数据类型的变量转换成字符串数组。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p><code>str = string(A)</code></p>
-<p><code>str = string(D)</code></p>
-<p><code>str = string(D,fmt)</code></p>
-<p><code>str = string(D,fmt,locale)</code></p>
-</li>
-<li><p>将元胞转换成普通List：</p>
-<h2 id="cell2mat"><a href="#cell2mat" class="headerlink" title="cell2mat"></a>cell2mat</h2><p>将元胞数组转换为基础数据类型的普通数组</p>
-<h2 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A &#x3D; cell2mat(C)</span><br></pre></td></tr></table></figure></li>
-<li><p>将元胞数组转为字符串数组：</p>
-<p>直接<code>string(C)</code></p>
-</li>
-<li><p>储存的时候，当待储存的变量小于2G时可以使用scipy读取，而大于2G时会储存为<a href="https://stackoverflow.com/questions/17316880/reading-v-7-3-mat-file-in-python">v 7.3 mat file in python</a>，这时如果想用Python读取.mat数据，传统的scipy则不再支持，这时需要使用h5py模块读取。但是请注意：scipy在读取的时候回自动把MATLAB数据格式转化成Python格式的顺序，即可以维持原来的顺序不变，而用h5py模块时则会将MATLAB的数组顺序完全颠倒过来。此时，需要使用<code>np.transpose</code>函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ! v 7.3 .mat file</span></span><br><span class="line"><span class="keyword">import</span> scipy.io</span><br><span class="line">mat = scipy.io.loadmat(<span class="string">&#x27;test.mat&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># v 7.3 .mat file</span></span><br><span class="line"><span class="keyword">import</span> h5py</span><br><span class="line"><span class="keyword">with</span> h5py.File(<span class="string">&#x27;test.mat&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.keys()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># transpose</span></span><br><span class="line">X = np.transpose(X, (<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>))</span><br></pre></td></tr></table></figure></li>
-<li><p>当然，也可以在MATLAB中存储大数据时先提前把顺序倒好：</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X = <span class="built_in">permute</span>(X, [<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>]);</span><br></pre></td></tr></table></figure></li>
-</ol>
+
+<h2 id="通过-Python-调用用户脚本和函数"><a href="#通过-Python-调用用户脚本和函数" class="headerlink" title="通过 Python 调用用户脚本和函数"></a>通过 Python 调用用户脚本和函数</h2><p>此示例显示如何通过 Python® 来调用 MATLAB® 脚本，以计算三角形的面积。</p>
+<p>在您的当前文件夹中名为 <code>triarea.m</code> 的文件中创建一个 MATLAB 脚本。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">b = <span class="number">5</span>;</span><br><span class="line">h = <span class="number">3</span>;</span><br><span class="line">a = <span class="number">0.5</span>*(b.* h)</span><br></pre></td></tr></table></figure>
+
+<p>保存该文件后，启动 Python 并调用该脚本。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">import matlab.engine</span><br><span class="line">eng = matlab.engine.start_matlab()</span><br><span class="line">eng.triarea(nargout=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">a =</span><br><span class="line"></span><br><span class="line">    <span class="number">7.5000</span></span><br></pre></td></tr></table></figure>
+
+<p>指定 <code>nargout=0</code>。尽管脚本会打印输出，但它不会向 Python 返回任何输出参数。</p>
+<p>将脚本转换为函数并通过引擎调用该函数。要编辑文件，请打开 MATLAB 编辑器。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">eng.edit(<span class="string">&#x27;triarea&#x27;</span>,nargout=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>删除三个语句。然后添加一条函数声明并保存文件。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> = <span class="title">triarea</span><span class="params">(b,h)</span></span></span><br><span class="line">a = <span class="number">0.5</span>*(b.* h);</span><br></pre></td></tr></table></figure>
+
+<p>通过引擎调用新的 <code>triarea</code> 函数。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">ret = eng.triarea(<span class="number">1.0</span>,<span class="number">5.0</span>)</span><br><span class="line">print(ret)</span><br><span class="line"><span class="number">2.5</span></span><br></pre></td></tr></table></figure>
+
+<p><code>triarea</code> 函数仅返回一个输出参数，因此无需指定 <code>nargout</code>。</p>
+<h1 id="调用其他文件夹中的方法"><a href="#调用其他文件夹中的方法" class="headerlink" title="调用其他文件夹中的方法"></a>调用其他文件夹中的方法</h1><p>有时我们希望把matlab的函数文件单独放到一个文件夹，或是其他涉及将.m文件分散放置的情况，这时候要添加路径。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">addpath Datasets</span><br><span class="line">addpath /Users/miracle/Desktop/MST Project/project code/auto-scan-point</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以调用添加的路径下的m文件了。</p>
+<h1 id="列出某文件夹内容的方法"><a href="#列出某文件夹内容的方法" class="headerlink" title="列出某文件夹内容的方法"></a>列出某文件夹内容的方法</h1><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">dir</span><br><span class="line">dir name</span><br><span class="line">listing = dir(name)</span><br></pre></td></tr></table></figure>
+
+<h1 id="查找与指定名称匹配的文件"><a href="#查找与指定名称匹配的文件" class="headerlink" title="查找与指定名称匹配的文件"></a>查找与指定名称匹配的文件</h1><p>列出包含词语 <code>my</code> 且扩展名为 <code>.m</code> 的所有文件。</p>
+<p>创建文件夹 <code>myfolder</code>，其包含文件 <code>myfile1.m</code>、<code>myfile2.m</code> 和 <code>myfile3.txt</code>。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">mkdir myfolder </span><br><span class="line">movefile myfile1.m myfolder</span><br><span class="line">movefile myfile2.m myfolder</span><br><span class="line">movefile myfile3.txt myfolder </span><br></pre></td></tr></table></figure>
+
+<p>列出 <code>myfolder</code> 中符合条件的文件。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">cd myfolder </span><br><span class="line">dir *my*.m </span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; myfile1.m myfile2.m </span><br></pre></td></tr></table></figure>
+<h1 id="在子文件夹中查找文件"><a href="#在子文件夹中查找文件" class="headerlink" title="在子文件夹中查找文件"></a>在子文件夹中查找文件</h1><p>列出当前文件夹中和当前文件夹的所有子文件夹中的所有文件。</p>
+<p>创建文件夹 <code>myfolder1</code>，其中包含以下文件和文件夹：</p>
+<pre><code>文件结构
+myfile1.m 
+myfolder2 
+    myfile2.m 
+    myfolder3.m 
+        myfile3.m
+
+mkdir myfolder1 mkdir myfolder1/myfolder2 mkdir myfolder1/myfolder2/myfolder3 movefile myfile1.m myfolder1 movefile myfile2.m myfolder1/myfolder2 movefile myfile3.m myfolder1/myfolder2/myfolder3 
+</code></pre>
+<p>列出 <code>myfolder1</code> 中和 <code>myfolder1</code> 的子文件夹中扩展名为 <code>.m</code> 的所有文件。</p>
+<pre><code>cd myfolder1 dir **/*.m 
+
+Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Files Found in: myfolder2/myfolder3 myfile3.m 
+</code></pre>
 ]]></content>
       <tags>
         <tag>matlab</tag>
@@ -2685,71 +2699,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MATLAB实用Tricks</title>
-    <url>/2018/09/15/matlab-tricks/</url>
-    <content><![CDATA[<h1 id="permute"><a href="#permute" class="headerlink" title="permute"></a>permute</h1><p>重新排列 N 维数组的维度</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>B = permute(A,order)</code></p>
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><code>B = permute(A,order)</code> 重新排列 <code>A</code> 的维度使其按向量 <code>order</code> 所指定的顺序排列。<code>B</code> 含有与 <code>A</code> 相同的值，但访问任意特定元素所需的下标的顺序已按 <code>order</code> 所指定的顺序重新排列。<code>order</code> 的所有元素都必须是唯一的正整数实数值。</p>
-<span id="more"></span>
-
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>全部折叠</p>
-<h3 id="置换数组维度"><a href="#置换数组维度" class="headerlink" title="置换数组维度"></a>置换数组维度</h3><p>创建一个 3×4×5 数组，并置换它，以便将第一个和第三个维度交换。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">A = <span class="built_in">rand</span>(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">B = <span class="built_in">permute</span>(A,[<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]);</span><br><span class="line"><span class="built_in">size</span>(B)</span><br><span class="line"><span class="built_in">ans</span> = </span><br><span class="line"></span><br><span class="line">     <span class="number">5</span>     <span class="number">4</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="通过-Python-调用用户脚本和函数"><a href="#通过-Python-调用用户脚本和函数" class="headerlink" title="通过 Python 调用用户脚本和函数"></a>通过 Python 调用用户脚本和函数</h2><p>此示例显示如何通过 Python® 来调用 MATLAB® 脚本，以计算三角形的面积。</p>
-<p>在您的当前文件夹中名为 <code>triarea.m</code> 的文件中创建一个 MATLAB 脚本。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">b = <span class="number">5</span>;</span><br><span class="line">h = <span class="number">3</span>;</span><br><span class="line">a = <span class="number">0.5</span>*(b.* h)</span><br></pre></td></tr></table></figure>
-
-<p>保存该文件后，启动 Python 并调用该脚本。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">import matlab.engine</span><br><span class="line">eng = matlab.engine.start_matlab()</span><br><span class="line">eng.triarea(nargout=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">a =</span><br><span class="line"></span><br><span class="line">    <span class="number">7.5000</span></span><br></pre></td></tr></table></figure>
-
-<p>指定 <code>nargout=0</code>。尽管脚本会打印输出，但它不会向 Python 返回任何输出参数。</p>
-<p>将脚本转换为函数并通过引擎调用该函数。要编辑文件，请打开 MATLAB 编辑器。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">eng.edit(<span class="string">&#x27;triarea&#x27;</span>,nargout=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<p>删除三个语句。然后添加一条函数声明并保存文件。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> = <span class="title">triarea</span><span class="params">(b,h)</span></span></span><br><span class="line">a = <span class="number">0.5</span>*(b.* h);</span><br></pre></td></tr></table></figure>
-
-<p>通过引擎调用新的 <code>triarea</code> 函数。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">ret = eng.triarea(<span class="number">1.0</span>,<span class="number">5.0</span>)</span><br><span class="line">print(ret)</span><br><span class="line"><span class="number">2.5</span></span><br></pre></td></tr></table></figure>
-
-<p><code>triarea</code> 函数仅返回一个输出参数，因此无需指定 <code>nargout</code>。</p>
-<h1 id="调用其他文件夹中的方法"><a href="#调用其他文件夹中的方法" class="headerlink" title="调用其他文件夹中的方法"></a>调用其他文件夹中的方法</h1><p>有时我们希望把matlab的函数文件单独放到一个文件夹，或是其他涉及将.m文件分散放置的情况，这时候要添加路径。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">addpath Datasets</span><br><span class="line">addpath /Users/miracle/Desktop/MST Project/project code/auto-scan-point</span><br></pre></td></tr></table></figure>
-
-<p>这样就可以调用添加的路径下的m文件了。</p>
-<h1 id="列出某文件夹内容的方法"><a href="#列出某文件夹内容的方法" class="headerlink" title="列出某文件夹内容的方法"></a>列出某文件夹内容的方法</h1><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">dir</span><br><span class="line">dir name</span><br><span class="line">listing = dir(name)</span><br></pre></td></tr></table></figure>
-
-<h1 id="查找与指定名称匹配的文件"><a href="#查找与指定名称匹配的文件" class="headerlink" title="查找与指定名称匹配的文件"></a>查找与指定名称匹配的文件</h1><p>列出包含词语 <code>my</code> 且扩展名为 <code>.m</code> 的所有文件。</p>
-<p>创建文件夹 <code>myfolder</code>，其包含文件 <code>myfile1.m</code>、<code>myfile2.m</code> 和 <code>myfile3.txt</code>。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">mkdir myfolder </span><br><span class="line">movefile myfile1.m myfolder</span><br><span class="line">movefile myfile2.m myfolder</span><br><span class="line">movefile myfile3.txt myfolder </span><br></pre></td></tr></table></figure>
-
-<p>列出 <code>myfolder</code> 中符合条件的文件。</p>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">cd myfolder </span><br><span class="line">dir *my*.m </span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; myfile1.m myfile2.m </span><br></pre></td></tr></table></figure>
-<h1 id="在子文件夹中查找文件"><a href="#在子文件夹中查找文件" class="headerlink" title="在子文件夹中查找文件"></a>在子文件夹中查找文件</h1><p>列出当前文件夹中和当前文件夹的所有子文件夹中的所有文件。</p>
-<p>创建文件夹 <code>myfolder1</code>，其中包含以下文件和文件夹：</p>
-<pre><code>文件结构
-myfile1.m 
-myfolder2 
-    myfile2.m 
-    myfolder3.m 
-        myfile3.m
-
-mkdir myfolder1 mkdir myfolder1/myfolder2 mkdir myfolder1/myfolder2/myfolder3 movefile myfile1.m myfolder1 movefile myfile2.m myfolder1/myfolder2 movefile myfile3.m myfolder1/myfolder2/myfolder3 
-</code></pre>
-<p>列出 <code>myfolder1</code> 中和 <code>myfolder1</code> 的子文件夹中扩展名为 <code>.m</code> 的所有文件。</p>
-<pre><code>cd myfolder1 dir **/*.m 
-
-Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Files Found in: myfolder2/myfolder3 myfile3.m 
-</code></pre>
-]]></content>
-      <tags>
-        <tag>matlab</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2018年于密苏里科技大学暑研感想</title>
     <url>/2018/10/12/mst-feel/</url>
     <content><![CDATA[<h1 id="2018年于密苏里科技大学暑研感想"><a href="#2018年于密苏里科技大学暑研感想" class="headerlink" title="2018年于密苏里科技大学暑研感想"></a>2018年于密苏里科技大学暑研感想</h1><p>脚下坚实的土地是球形的，但徒步向前的旅人一步步走着笔直的路；指缝中划过的时间是不断流逝的，但驻足于此的行者却认为同样的时光将无限地流转。休假、旅行、访学，从某处离去，又终将归来，同样的处所、相同的人、不变的关切和思念，却又有了些不同的记忆、熟识了另一批友人、拥有了新的想法和兴趣以及微调过的思想。行走于一条莫比乌斯环，漫步一周，归来，虽情景依旧，却再也无法当初。</p>
@@ -2785,6 +2734,57 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
         <tag>essay</tag>
         <tag>EMC</tag>
         <tag>abroad</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MATLAB中列出文件夹下内容并提取含Pattern文件名存储</title>
+    <url>/2018/08/27/matlab-list-folder-and-save/</url>
+    <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>MATLAB中如何将一个文件夹下所有文件列出并储存到一个字符串数组中，最后提取含有特定Pattern的文件名。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">filenames = dir;</span><br><span class="line">filenames = &#123;filenames.name&#125;;</span><br><span class="line">filenames = string(filenames);</span><br><span class="line">STTF = startsWith(filenames,<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">filenames = filenames(~STTF);</span><br><span class="line">MTF = contains(filenames,<span class="string">&#x27;.mat&#x27;</span>);</span><br><span class="line">filenames = filenames(MTF);</span><br><span class="line">filenum = <span class="built_in">length</span>(filenames);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>matlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MATLAB的数组元胞结构解析</title>
+    <url>/2018/08/27/matlab-list-matrix/</url>
+    <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>MATLAB的数组、元胞、字符串数组分别有什么特点？其与Python等语言的数组有什么较大区别？存储和转换时有什么需要注意？</p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><ol>
+<li><p>MATLAB的元胞其实和Python中的数组更加相近，二者都可以储存混合大小和类型的变量，如果在元胞中储存数组，它们没必要维度相同。而MATLAB的数组必须保证每一维度的元素数目相同。</p>
+</li>
+<li><p>MATLAB数组各个维度的存储顺序和Python正好相反。一个在Python中shape为[2,3,4,5]的数组到了MATLAB中会变成[5,4,3,2]。这种数据的储存方法是和<a href="https://zh.wikipedia.org/zh-hans/Fortran">Fortran</a>相似的，採用列優先（Column first）。Python中的几个数组通过[A, B]的方式合并时会在最左边（第一维）增加一个“2”（因为这里合并的是两个数组），而MATLAB的cat方法合并两个数组则会在最右边（最后一维）增加一个“2”。</p>
+</li>
+<li><p>如果是普通数组拿来存储字符串，则必须要保证每个字符串长度相同。但是MATLAB提供了字符串数组这种数据格式。</p>
+<span id="more"></span>
+
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>您可以通过用双引号括起一段文本来创建字符串。从 R2017a 开始引入双引号。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">str &#x3D; &quot;Hello, world&quot; </span><br><span class="line"></span><br><span class="line">str &#x3D; &quot;Hello, world&quot; </span><br></pre></td></tr></table></figure>
+
+<p>创建字符串数组的一种方法是使用方括号将字符串串联成数组，就像将数字串联成数值数组一样。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">str &#x3D; [&quot;Mercury&quot;,&quot;Gemini&quot;,&quot;Apollo&quot;; &quot;Skylab&quot;,&quot;Skylab B&quot;,&quot;ISS&quot;] </span><br><span class="line"></span><br><span class="line">str &#x3D; 2x3 string array &quot;Mercury&quot; &quot;Gemini&quot; &quot;Apollo&quot; &quot;Skylab&quot; &quot;Skylab B&quot; &quot;ISS&quot; </span><br></pre></td></tr></table></figure>
+
+<p>也可以按如下所述，使用 <code>string</code> 函数将不同数据类型的变量转换成字符串数组。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p><code>str = string(A)</code></p>
+<p><code>str = string(D)</code></p>
+<p><code>str = string(D,fmt)</code></p>
+<p><code>str = string(D,fmt,locale)</code></p>
+</li>
+<li><p>将元胞转换成普通List：</p>
+<h2 id="cell2mat"><a href="#cell2mat" class="headerlink" title="cell2mat"></a>cell2mat</h2><p>将元胞数组转换为基础数据类型的普通数组</p>
+<h2 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A &#x3D; cell2mat(C)</span><br></pre></td></tr></table></figure></li>
+<li><p>将元胞数组转为字符串数组：</p>
+<p>直接<code>string(C)</code></p>
+</li>
+<li><p>储存的时候，当待储存的变量小于2G时可以使用scipy读取，而大于2G时会储存为<a href="https://stackoverflow.com/questions/17316880/reading-v-7-3-mat-file-in-python">v 7.3 mat file in python</a>，这时如果想用Python读取.mat数据，传统的scipy则不再支持，这时需要使用h5py模块读取。但是请注意：scipy在读取的时候回自动把MATLAB数据格式转化成Python格式的顺序，即可以维持原来的顺序不变，而用h5py模块时则会将MATLAB的数组顺序完全颠倒过来。此时，需要使用<code>np.transpose</code>函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ! v 7.3 .mat file</span></span><br><span class="line"><span class="keyword">import</span> scipy.io</span><br><span class="line">mat = scipy.io.loadmat(<span class="string">&#x27;test.mat&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># v 7.3 .mat file</span></span><br><span class="line"><span class="keyword">import</span> h5py</span><br><span class="line"><span class="keyword">with</span> h5py.File(<span class="string">&#x27;test.mat&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.keys()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># transpose</span></span><br><span class="line">X = np.transpose(X, (<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>))</span><br></pre></td></tr></table></figure></li>
+<li><p>当然，也可以在MATLAB中存储大数据时先提前把顺序倒好：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">X = <span class="built_in">permute</span>(X, [<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>]);</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>matlab</tag>
       </tags>
   </entry>
   <entry>
@@ -2848,19 +2848,6 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>namedtuple</title>
-    <url>/2018/08/19/namedtuple/</url>
-    <content><![CDATA[<h1 id="Python-namedtuple使用详解"><a href="#Python-namedtuple使用详解" class="headerlink" title="Python namedtuple使用详解"></a>Python namedtuple使用详解</h1><p>本文转载至：<a href="https://blog.csdn.net/kongxx/article/details/51553362">链接</a></p>
-<p>namedtuple是继承自tuple的子类。namedtuple创建一个和tuple类似的对象，而且对象拥有可访问的属性。</p>
-<p>下面看个例子：</p>
-<span id="more"></span>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个namedtuple类型User，并包含name，sex和age属性。</span></span><br><span class="line">User = namedtuple(<span class="string">&#x27;User&#x27;</span>, [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>, <span class="string">&#x27;age&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个User对象</span></span><br><span class="line">user = User(name=<span class="string">&#x27;kongxx&#x27;</span>, sex=<span class="string">&#x27;male&#x27;</span>, age=<span class="number">21</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以通过一个list来创建一个User对象，这里注意需要使用&quot;_make&quot;方法</span></span><br><span class="line">user = User._make([<span class="string">&#x27;kongxx&#x27;</span>, <span class="string">&#x27;male&#x27;</span>, <span class="number">21</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> user</span><br><span class="line"><span class="comment"># User(name=&#x27;user1&#x27;, sex=&#x27;male&#x27;, age=21)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户的属性</span></span><br><span class="line"><span class="built_in">print</span> user.name</span><br><span class="line"><span class="built_in">print</span> user.sex</span><br><span class="line"><span class="built_in">print</span> user.age</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改对象属性，注意要使用&quot;_replace&quot;方法</span></span><br><span class="line">user = user._replace(age=<span class="number">22</span>)</span><br><span class="line"><span class="built_in">print</span> user</span><br><span class="line"><span class="comment"># User(name=&#x27;user1&#x27;, sex=&#x27;male&#x27;, age=21)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将User对象转换成字典，注意要使用&quot;_asdict&quot;</span></span><br><span class="line"><span class="built_in">print</span> user._asdict()</span><br><span class="line"><span class="comment"># OrderedDict([(&#x27;name&#x27;, &#x27;kongxx&#x27;), (&#x27;sex&#x27;, &#x27;male&#x27;), (&#x27;age&#x27;, 22)])</span></span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Pytorch 自动生成网络结构图</title>
     <url>/2018/08/11/net-visualization/</url>
     <content><![CDATA[<h1 id="Pytorch-自动生成网络结构图"><a href="#Pytorch-自动生成网络结构图" class="headerlink" title="Pytorch 自动生成网络结构图"></a>Pytorch 自动生成网络结构图</h1><p>Pytorch没有TensorFlow类似的原生支持，尽管也可以用TensorBoardX进行可视化，但是其生成的网络图不适合直接展示。所以，有没有合适的自动化方案？</p>
@@ -2884,6 +2871,70 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
         <tag>machine-learning</tag>
         <tag>pytorch</tag>
         <tag>visualization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nohup 命令总结</title>
+    <url>/2018/05/06/nohup/</url>
+    <content><![CDATA[<p><strong>用途</strong>：不挂断地运行命令。</p>
+<p><strong>语法</strong>：<code>nohup Command [ Arg … </code>][ &amp; ]</p>
+<p><strong>描述</strong>：nohup 命令运行由 Command 参数和任何相关的 Arg 参数指定的命令，忽略所有挂断（SIGHUP）信号。在注销后使用 nohup 命令运行后台中的程序。要运行后台中的 nohup 命令，添加 &amp; （ 表示”and”的符号）到命令的尾部。</p>
+<p><strong>输出被重定向</strong>到myout.file文件：<code>nohup command &gt; myout.file 2&gt;&amp;1 &amp;</code></p>
+<p>两个常用的<strong>ftp工具</strong>：ncftpget和ncftpput，可以实现后台的ftp上传和下载，这样就可以利用这些命令在后台上传和下载文件了。</p>
+<span id="more"></span>
+
+<p>如何杀死nohup进程：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">this is how I try to find the process ID:</span><br><span class="line">ps -ef |grep nohup </span><br><span class="line">this is the <span class="built_in">command</span> to <span class="built_in">kill</span></span><br><span class="line"><span class="built_in">kill</span> -9 1787 787</span><br></pre></td></tr></table></figure>
+
+<p>查看最新输出文件内容：<code>tail my.log</code></p>
+<p>动态追踪最新输出内容：<code>tail -f my.log</code></p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>namedtuple</title>
+    <url>/2018/08/19/namedtuple/</url>
+    <content><![CDATA[<h1 id="Python-namedtuple使用详解"><a href="#Python-namedtuple使用详解" class="headerlink" title="Python namedtuple使用详解"></a>Python namedtuple使用详解</h1><p>本文转载至：<a href="https://blog.csdn.net/kongxx/article/details/51553362">链接</a></p>
+<p>namedtuple是继承自tuple的子类。namedtuple创建一个和tuple类似的对象，而且对象拥有可访问的属性。</p>
+<p>下面看个例子：</p>
+<span id="more"></span>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个namedtuple类型User，并包含name，sex和age属性。</span></span><br><span class="line">User = namedtuple(<span class="string">&#x27;User&#x27;</span>, [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>, <span class="string">&#x27;age&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个User对象</span></span><br><span class="line">user = User(name=<span class="string">&#x27;kongxx&#x27;</span>, sex=<span class="string">&#x27;male&#x27;</span>, age=<span class="number">21</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以通过一个list来创建一个User对象，这里注意需要使用&quot;_make&quot;方法</span></span><br><span class="line">user = User._make([<span class="string">&#x27;kongxx&#x27;</span>, <span class="string">&#x27;male&#x27;</span>, <span class="number">21</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> user</span><br><span class="line"><span class="comment"># User(name=&#x27;user1&#x27;, sex=&#x27;male&#x27;, age=21)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户的属性</span></span><br><span class="line"><span class="built_in">print</span> user.name</span><br><span class="line"><span class="built_in">print</span> user.sex</span><br><span class="line"><span class="built_in">print</span> user.age</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改对象属性，注意要使用&quot;_replace&quot;方法</span></span><br><span class="line">user = user._replace(age=<span class="number">22</span>)</span><br><span class="line"><span class="built_in">print</span> user</span><br><span class="line"><span class="comment"># User(name=&#x27;user1&#x27;, sex=&#x27;male&#x27;, age=21)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将User对象转换成字典，注意要使用&quot;_asdict&quot;</span></span><br><span class="line"><span class="built_in">print</span> user._asdict()</span><br><span class="line"><span class="comment"># OrderedDict([(&#x27;name&#x27;, &#x27;kongxx&#x27;), (&#x27;sex&#x27;, &#x27;male&#x27;), (&#x27;age&#x27;, 22)])</span></span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Numpy矩阵拼接数据集</title>
+    <url>/2018/08/18/numpy-concatenate/</url>
+    <content><![CDATA[<p>机器学习中，有时候需要自己生成含有n个channel、size相同的输入数据。这个时候就需要进行numpy的拼接操作了。</p>
+<h3 id="先看示例代码："><a href="#先看示例代码：" class="headerlink" title="先看示例代码："></a>先看示例代码：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_input</span>(<span class="params">Vn, Vp, nx1, ny1, net_charge</span>):</span></span><br><span class="line">    net_charge = np.array(net_charge)[np.newaxis, :]</span><br><span class="line">    border_cond = np.zeros((<span class="number">1</span>, <span class="built_in">int</span>(ny1), <span class="built_in">int</span>(nx1)))</span><br><span class="line">    border_cond[<span class="number">0</span>, :, <span class="number">0</span>] = Vn</span><br><span class="line">    border_cond[<span class="number">0</span>, :, -<span class="number">1</span>] = Vp</span><br><span class="line">    model_input = np.concatenate((net_charge, border_cond), axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> model_input[np.newaxis, :]</span><br></pre></td></tr></table></figure>
+
+<p>上面的net_charge和border_cond即为需要进行拼接操作的两个matrix，分别使用了[np.newaxis,:]和初始化的时候就多生成一维的方法，最后使用np.concatenate进行拼接。</p>
+<span id="more"></span>
+
+<h3 id="数组拼接方法一"><a href="#数组拼接方法一" class="headerlink" title="数组拼接方法一"></a>数组拼接方法一</h3><p>思路：首先将数组转成列表，然后利用列表的拼接函数append()、extend()等进行拼接处理，最后将列表转成数组。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a_list.extend(b_list)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a_list</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.array(a_list)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">5</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>])</span><br></pre></td></tr></table></figure>
+
+<p>该方法只适用于简单的一维数组拼接，由于转换过程很耗时间，对于大量数据的拼接一般不建议使用。</p>
+<h3 id="数组拼接方法二"><a href="#数组拼接方法二" class="headerlink" title="数组拼接方法二"></a>数组拼接方法二</h3><p>思路：numpy提供了numpy.append(arr, values, axis=None)函数。对于参数规定，要么一个数组和一个数值；要么两个数组，不能三个及以上数组直接append拼接。append函数返回的始终是一个一维数组。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.append(a,<span class="number">10</span>)</span><br><span class="line">array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">10</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.array([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.append(a,b)</span><br><span class="line">array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>]) </span><br></pre></td></tr></table></figure>
+
+<p>numpy的数组没有动态改变大小的功能，numpy.append()函数每次都会重新分配整个数组，并把原来的数组复制到新数组中。 </p>
+<h3 id="数组拼接方法三"><a href="#数组拼接方法三" class="headerlink" title="数组拼接方法三"></a>数组拼接方法三</h3><p>思路：numpy提供了numpy.concatenate((a1,a2,…), axis=0)函数。能够一次完成多个数组的拼接。其中a1,a2,…是数组类型的参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.array([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.array([<span class="number">44</span>,<span class="number">55</span>,<span class="number">66</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.concatenate((a,b,c),axis=<span class="number">0</span>)  <span class="comment"># 默认情况下，axis=0可以不写</span></span><br><span class="line">array([ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">55</span>, <span class="number">66</span>]) <span class="comment">#对于一维数组拼接，axis的值不影响最后的结果</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.concatenate((a,b),axis=<span class="number">1</span>)  <span class="comment">#axis=1表示对应行的数组进行拼接</span></span><br><span class="line">array([[ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>, <span class="number">11</span>, <span class="number">21</span>, <span class="number">31</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>]])</span><br></pre></td></tr></table></figure>
+
+<h3 id="拼接方法时间比较"><a href="#拼接方法时间比较" class="headerlink" title="拼接方法时间比较"></a>拼接方法时间比较</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> time <span class="keyword">import</span> clock <span class="keyword">as</span> now</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time1=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.append(a,b)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time2=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> time2-time1</span><br><span class="line"><span class="number">28.2316728446</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time1=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.concatenate((a,b),axis=<span class="number">0</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time2=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> time2-time1</span><br><span class="line"><span class="number">20.3934997107</span></span><br></pre></td></tr></table></figure>
+
+<p>可知，concatenate()效率更高，适合大规模的数据拼接</p>
+<h3 id="numpy添加新的维度：newaxis"><a href="#numpy添加新的维度：newaxis" class="headerlink" title="numpy添加新的维度：newaxis"></a>numpy添加新的维度：newaxis</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = np.random.randint(<span class="number">1</span>, <span class="number">8</span>, size=<span class="number">5</span>)</span><br><span class="line">x</span><br><span class="line">Out[<span class="number">48</span>]: array([<span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>])</span><br><span class="line">x1 = x[np.newaxis, :]</span><br><span class="line">x1</span><br><span class="line">Out[<span class="number">50</span>]: array([[<span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>]])</span><br><span class="line">x2 = x[:, np.newaxis]</span><br><span class="line">x2</span><br><span class="line">Out[<span class="number">52</span>]: </span><br><span class="line">array([[<span class="number">4</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">5</span>]])</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>numpy</tag>
       </tags>
   </entry>
   <entry>
@@ -2935,54 +2986,20 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>Numpy矩阵拼接数据集</title>
-    <url>/2018/08/18/numpy-concatenate/</url>
-    <content><![CDATA[<p>机器学习中，有时候需要自己生成含有n个channel、size相同的输入数据。这个时候就需要进行numpy的拼接操作了。</p>
-<h3 id="先看示例代码："><a href="#先看示例代码：" class="headerlink" title="先看示例代码："></a>先看示例代码：</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_input</span>(<span class="params">Vn, Vp, nx1, ny1, net_charge</span>):</span></span><br><span class="line">    net_charge = np.array(net_charge)[np.newaxis, :]</span><br><span class="line">    border_cond = np.zeros((<span class="number">1</span>, <span class="built_in">int</span>(ny1), <span class="built_in">int</span>(nx1)))</span><br><span class="line">    border_cond[<span class="number">0</span>, :, <span class="number">0</span>] = Vn</span><br><span class="line">    border_cond[<span class="number">0</span>, :, -<span class="number">1</span>] = Vp</span><br><span class="line">    model_input = np.concatenate((net_charge, border_cond), axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> model_input[np.newaxis, :]</span><br></pre></td></tr></table></figure>
-
-<p>上面的net_charge和border_cond即为需要进行拼接操作的两个matrix，分别使用了[np.newaxis,:]和初始化的时候就多生成一维的方法，最后使用np.concatenate进行拼接。</p>
+    <title>Off-Policy &amp; On-Policy</title>
+    <url>/2019/01/22/off-on-policy/</url>
+    <content><![CDATA[<p>On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。</p>
+<p><img src="/2019/01/22/off-on-policy/006tKfTcgy1g0f8y7lartj30ib0kf768.jpg"></p>
 <span id="more"></span>
 
-<h3 id="数组拼接方法一"><a href="#数组拼接方法一" class="headerlink" title="数组拼接方法一"></a>数组拼接方法一</h3><p>思路：首先将数组转成列表，然后利用列表的拼接函数append()、extend()等进行拼接处理，最后将列表转成数组。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a_list.extend(b_list)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a_list</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.array(a_list)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">5</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>])</span><br></pre></td></tr></table></figure>
-
-<p>该方法只适用于简单的一维数组拼接，由于转换过程很耗时间，对于大量数据的拼接一般不建议使用。</p>
-<h3 id="数组拼接方法二"><a href="#数组拼接方法二" class="headerlink" title="数组拼接方法二"></a>数组拼接方法二</h3><p>思路：numpy提供了numpy.append(arr, values, axis=None)函数。对于参数规定，要么一个数组和一个数值；要么两个数组，不能三个及以上数组直接append拼接。append函数返回的始终是一个一维数组。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.append(a,<span class="number">10</span>)</span><br><span class="line">array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">10</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.array([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.append(a,b)</span><br><span class="line">array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>]) </span><br></pre></td></tr></table></figure>
-
-<p>numpy的数组没有动态改变大小的功能，numpy.append()函数每次都会重新分配整个数组，并把原来的数组复制到新数组中。 </p>
-<h3 id="数组拼接方法三"><a href="#数组拼接方法三" class="headerlink" title="数组拼接方法三"></a>数组拼接方法三</h3><p>思路：numpy提供了numpy.concatenate((a1,a2,…), axis=0)函数。能够一次完成多个数组的拼接。其中a1,a2,…是数组类型的参数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.array([<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.array([<span class="number">44</span>,<span class="number">55</span>,<span class="number">66</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.concatenate((a,b,c),axis=<span class="number">0</span>)  <span class="comment"># 默认情况下，axis=0可以不写</span></span><br><span class="line">array([ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">55</span>, <span class="number">66</span>]) <span class="comment">#对于一维数组拼接，axis的值不影响最后的结果</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.concatenate((a,b),axis=<span class="number">1</span>)  <span class="comment">#axis=1表示对应行的数组进行拼接</span></span><br><span class="line">array([[ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>, <span class="number">11</span>, <span class="number">21</span>, <span class="number">31</span>],</span><br><span class="line">       [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>]])</span><br></pre></td></tr></table></figure>
-
-<h3 id="拼接方法时间比较"><a href="#拼接方法时间比较" class="headerlink" title="拼接方法时间比较"></a>拼接方法时间比较</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> time <span class="keyword">import</span> clock <span class="keyword">as</span> now</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time1=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.append(a,b)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time2=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> time2-time1</span><br><span class="line"><span class="number">28.2316728446</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b=np.arange(<span class="number">9999</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time1=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c=np.concatenate((a,b),axis=<span class="number">0</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time2=now()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> time2-time1</span><br><span class="line"><span class="number">20.3934997107</span></span><br></pre></td></tr></table></figure>
-
-<p>可知，concatenate()效率更高，适合大规模的数据拼接</p>
-<h3 id="numpy添加新的维度：newaxis"><a href="#numpy添加新的维度：newaxis" class="headerlink" title="numpy添加新的维度：newaxis"></a>numpy添加新的维度：newaxis</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = np.random.randint(<span class="number">1</span>, <span class="number">8</span>, size=<span class="number">5</span>)</span><br><span class="line">x</span><br><span class="line">Out[<span class="number">48</span>]: array([<span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>])</span><br><span class="line">x1 = x[np.newaxis, :]</span><br><span class="line">x1</span><br><span class="line">Out[<span class="number">50</span>]: array([[<span class="number">4</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>]])</span><br><span class="line">x2 = x[:, np.newaxis]</span><br><span class="line">x2</span><br><span class="line">Out[<span class="number">52</span>]: </span><br><span class="line">array([[<span class="number">4</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">6</span>],</span><br><span class="line">       [<span class="number">5</span>]])</span><br></pre></td></tr></table></figure>
-
+<p><img src="/2019/01/22/off-on-policy/006tKfTcgy1g0f8yhlj6cj30ja0cv75a.jpg"></p>
+<p>Sarsa更新Q值的时候对下一步的估计采用的是Q本身的$Q(S’,A’)$，而Q-Learning更新的时候对下一步的估计部分则采用的是直接取采取动作a后环境中各个a’对应的Q的最大值，即其在选择Action的时候使用的是e-greedy算法，而更新Q值的时候则采用了直接取最大值的greedy算法。</p>
+<h2 id="反映到结果上"><a href="#反映到结果上" class="headerlink" title="反映到结果上"></a>反映到结果上</h2><p><strong>On-policy</strong>：必须本人在场, 并且一定是本人边玩边学习。<br><strong>Off-policy</strong>：可以选择自己玩, 也可以选择看着别人玩, 通过看别人玩来学习别人的行为准则。</p>
 ]]></content>
       <tags>
-        <tag>python</tag>
-        <tag>numpy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nohup 命令总结</title>
-    <url>/2018/05/06/nohup/</url>
-    <content><![CDATA[<p><strong>用途</strong>：不挂断地运行命令。</p>
-<p><strong>语法</strong>：<code>nohup Command [ Arg … </code>][ &amp; ]</p>
-<p><strong>描述</strong>：nohup 命令运行由 Command 参数和任何相关的 Arg 参数指定的命令，忽略所有挂断（SIGHUP）信号。在注销后使用 nohup 命令运行后台中的程序。要运行后台中的 nohup 命令，添加 &amp; （ 表示”and”的符号）到命令的尾部。</p>
-<p><strong>输出被重定向</strong>到myout.file文件：<code>nohup command &gt; myout.file 2&gt;&amp;1 &amp;</code></p>
-<p>两个常用的<strong>ftp工具</strong>：ncftpget和ncftpput，可以实现后台的ftp上传和下载，这样就可以利用这些命令在后台上传和下载文件了。</p>
-<span id="more"></span>
-
-<p>如何杀死nohup进程：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">this is how I try to find the process ID:</span><br><span class="line">ps -ef |grep nohup </span><br><span class="line">this is the <span class="built_in">command</span> to <span class="built_in">kill</span></span><br><span class="line"><span class="built_in">kill</span> -9 1787 787</span><br></pre></td></tr></table></figure>
-
-<p>查看最新输出文件内容：<code>tail my.log</code></p>
-<p>动态追踪最新输出内容：<code>tail -f my.log</code></p>
-]]></content>
-      <tags>
-        <tag>linux</tag>
+        <tag>machine-learning</tag>
+        <tag>deep-learning</tag>
+        <tag>reinforcement-learning</tag>
       </tags>
   </entry>
   <entry>
@@ -3099,6 +3116,60 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
+    <title>OKR初认识</title>
+    <url>/2018/03/22/okr/</url>
+    <content><![CDATA[<h1 id="OKR-初认识"><a href="#OKR-初认识" class="headerlink" title="OKR 初认识"></a>OKR 初认识</h1><ul>
+<li>O是Objective，KR是Key Results。每个项目组的O是其当前的主要目标，比如把准确率提升至80%；KR是关键目标，比如要继续调研多少种模型。</li>
+<li>KR记住一定要加上时间节点进去</li>
+<li>O一般不超过4个，每个O下面对应的KR最多也不超过4个</li>
+<li>年度目标，季度目标，每周目标，每日目标</li>
+<li>最好70%完成度的目标比较合适，可以使得任务的完成度充分拉伸</li>
+<li>关键是要有一个具体的数据并且要起到激励作用，而不要使用副词“大幅度”，“尽量”等</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>management</tag>
+        <tag>okr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Server One-Key Setup</title>
+    <url>/2019/09/20/one-key-linux/</url>
+    <content><![CDATA[<p>推荐一下新写的Linux系统一键装机脚本(๑´∀｀๑)一行命令获得常用命令行软件、zsh、方便好用的诸多zsh插件（如自动补全、一键解压、目录快速跳转、命令行语法高亮等。详见readme和source code）以及一个配置好的spacevim。当前只支持ubuntu。后面将会支持centos。</p>
+<p>你将在任何一个新的Linux系统上一键得到一个稳定可靠的使用体验！当然，脚本高度可定制，以上所有内容都可以简单地增减。有问题或需求欢迎提issue～（注意⚠️在已经使用并配置过的电脑上运行可能会出现zshrc配置重复问题）</p>
+<p><a href="https://github.com/miracleyoo/initialize-server-script">GitHub链接</a></p>
+<span id="more"></span>
+
+<p><strong>下面是英文的使用说明：</strong></p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>This project aims to conveniently setup and deploy a Linux environment which is easy to use and help install many useful packages. It mainly have the ability to deploy zsh with a set of handy plugins, and a spacevim, which is my favorite vim distro. You will not encounter messy installation problems and the script is tested on ubuntu and WSL ubuntu.</p>
+<p>Currently, it only support Ubuntu system, but the support of centos is also on the way, maybe also the MacOS version.</p>
+<p>It is highly customizable and elegantly wrote, you can folk and customize your own version based on it!</p>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1"></a>Method 1</h3><ol>
+<li>Make sure you already have curl installed by “sudo apt-get install curl”.</li>
+<li>Use command <code>curl -fsSL https://raw.githubusercontent.com/miracleyoo/initialize-server-script/master/one-key-linux-setup.sh -o minit.sh &amp;&amp; sudo bash minit.sh</code></li>
+<li>You are all set! Here is an awesome new linux!</li>
+</ol>
+<h3 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2"></a>Method 2</h3><ol>
+<li>Make sure you already have curl installed by “sudo apt-get install git”.</li>
+<li>Clone this repo using <code>git clone https://github.com/miracleyoo/initialize-server-script</code></li>
+<li>Switch into this folder and run <code>./one-key-linux-setup.sh</code></li>
+<li>You are all set!</li>
+</ol>
+<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><ol>
+<li><code>apt-get install packags</code> like git, curl, tmux, vim, and python supports.</li>
+<li>A <code>zsh</code> which has plenty of handy plugins like <code>oh-my-zsh</code>, <code>git</code>, <code>zsh-autosuggestions</code>, <code>zsh-syntax-highlighting</code>, <code>zsh-completions</code> , <code>extract</code>, <code>z</code>, <code>cp</code>. They are managed with <code>antigen</code>, which made it easy and decent to mange your zsh plugins. You can get even more plugins <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins-Overview">here</a>.</li>
+<li>A <code>.zshrc</code> file which contains some basic but useful functions. You can change it to your own favorite commands and alias.</li>
+<li>A <a href="https://github.com/SpaceVim/SpaceVim">spacevim</a>, which is a quite good version of vim. It initially installed several famous plugins, with a nice interface. You will find it a really vim distro as you use it. Certainly, you can change to your own version, while I’ve tested several distro and they all have some kinds of inconvenience, like the line number, extra space, wrong background color and so on.</li>
+<li>More on the way!</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>server</tag>
+        <tag>tool</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>目标检测学习笔记</title>
     <url>/2019/02/16/obj-det/</url>
     <content><![CDATA[<h2 id="Pre-Knowledge"><a href="#Pre-Knowledge" class="headerlink" title="Pre Knowledge"></a>Pre Knowledge</h2><h3 id="Anchors"><a href="#Anchors" class="headerlink" title="Anchors"></a>Anchors</h3><p>提到RPN网络，就不能不说anchors。所谓anchors，实际上就是一组作用在滑动窗口上的不同大小、不同形状的检测框。实际上，论文通过anchors引入了检测中常用到的多尺度方法。</p>
@@ -3209,40 +3280,6 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>Off-Policy &amp; On-Policy</title>
-    <url>/2019/01/22/off-on-policy/</url>
-    <content><![CDATA[<p>On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法是沿用既定的策略（on-policy）还是使用新策略（off-policy）。</p>
-<p><img src="/2019/01/22/off-on-policy/006tKfTcgy1g0f8y7lartj30ib0kf768.jpg"></p>
-<span id="more"></span>
-
-<p><img src="/2019/01/22/off-on-policy/006tKfTcgy1g0f8yhlj6cj30ja0cv75a.jpg"></p>
-<p>Sarsa更新Q值的时候对下一步的估计采用的是Q本身的$Q(S’,A’)$，而Q-Learning更新的时候对下一步的估计部分则采用的是直接取采取动作a后环境中各个a’对应的Q的最大值，即其在选择Action的时候使用的是e-greedy算法，而更新Q值的时候则采用了直接取最大值的greedy算法。</p>
-<h2 id="反映到结果上"><a href="#反映到结果上" class="headerlink" title="反映到结果上"></a>反映到结果上</h2><p><strong>On-policy</strong>：必须本人在场, 并且一定是本人边玩边学习。<br><strong>Off-policy</strong>：可以选择自己玩, 也可以选择看着别人玩, 通过看别人玩来学习别人的行为准则。</p>
-]]></content>
-      <tags>
-        <tag>machine-learning</tag>
-        <tag>deep-learning</tag>
-        <tag>reinforcement-learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OKR初认识</title>
-    <url>/2018/03/22/okr/</url>
-    <content><![CDATA[<h1 id="OKR-初认识"><a href="#OKR-初认识" class="headerlink" title="OKR 初认识"></a>OKR 初认识</h1><ul>
-<li>O是Objective，KR是Key Results。每个项目组的O是其当前的主要目标，比如把准确率提升至80%；KR是关键目标，比如要继续调研多少种模型。</li>
-<li>KR记住一定要加上时间节点进去</li>
-<li>O一般不超过4个，每个O下面对应的KR最多也不超过4个</li>
-<li>年度目标，季度目标，每周目标，每日目标</li>
-<li>最好70%完成度的目标比较合适，可以使得任务的完成度充分拉伸</li>
-<li>关键是要有一个具体的数据并且要起到激励作用，而不要使用副词“大幅度”，“尽量”等</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>management</tag>
-        <tag>okr</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Pandas Resample</title>
     <url>/2020/03/24/pandas-resample/</url>
     <content><![CDATA[<p>Pandas原生支持<code>resample</code>功能，前提是目标DataFrame需要有一个index的column。假设我们现在在对一个取样率为30Hz的DataFrame做操作，并想将它变resample为16Hz。</p>
@@ -3276,43 +3313,6 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
         <tag>deep-learning</tag>
         <tag>EMC</tag>
         <tag>paper</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux Server One-Key Setup</title>
-    <url>/2019/09/20/one-key-linux/</url>
-    <content><![CDATA[<p>推荐一下新写的Linux系统一键装机脚本(๑´∀｀๑)一行命令获得常用命令行软件、zsh、方便好用的诸多zsh插件（如自动补全、一键解压、目录快速跳转、命令行语法高亮等。详见readme和source code）以及一个配置好的spacevim。当前只支持ubuntu。后面将会支持centos。</p>
-<p>你将在任何一个新的Linux系统上一键得到一个稳定可靠的使用体验！当然，脚本高度可定制，以上所有内容都可以简单地增减。有问题或需求欢迎提issue～（注意⚠️在已经使用并配置过的电脑上运行可能会出现zshrc配置重复问题）</p>
-<p><a href="https://github.com/miracleyoo/initialize-server-script">GitHub链接</a></p>
-<span id="more"></span>
-
-<p><strong>下面是英文的使用说明：</strong></p>
-<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>This project aims to conveniently setup and deploy a Linux environment which is easy to use and help install many useful packages. It mainly have the ability to deploy zsh with a set of handy plugins, and a spacevim, which is my favorite vim distro. You will not encounter messy installation problems and the script is tested on ubuntu and WSL ubuntu.</p>
-<p>Currently, it only support Ubuntu system, but the support of centos is also on the way, maybe also the MacOS version.</p>
-<p>It is highly customizable and elegantly wrote, you can folk and customize your own version based on it!</p>
-<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1"></a>Method 1</h3><ol>
-<li>Make sure you already have curl installed by “sudo apt-get install curl”.</li>
-<li>Use command <code>curl -fsSL https://raw.githubusercontent.com/miracleyoo/initialize-server-script/master/one-key-linux-setup.sh -o minit.sh &amp;&amp; sudo bash minit.sh</code></li>
-<li>You are all set! Here is an awesome new linux!</li>
-</ol>
-<h3 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2"></a>Method 2</h3><ol>
-<li>Make sure you already have curl installed by “sudo apt-get install git”.</li>
-<li>Clone this repo using <code>git clone https://github.com/miracleyoo/initialize-server-script</code></li>
-<li>Switch into this folder and run <code>./one-key-linux-setup.sh</code></li>
-<li>You are all set!</li>
-</ol>
-<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><ol>
-<li><code>apt-get install packags</code> like git, curl, tmux, vim, and python supports.</li>
-<li>A <code>zsh</code> which has plenty of handy plugins like <code>oh-my-zsh</code>, <code>git</code>, <code>zsh-autosuggestions</code>, <code>zsh-syntax-highlighting</code>, <code>zsh-completions</code> , <code>extract</code>, <code>z</code>, <code>cp</code>. They are managed with <code>antigen</code>, which made it easy and decent to mange your zsh plugins. You can get even more plugins <a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins-Overview">here</a>.</li>
-<li>A <code>.zshrc</code> file which contains some basic but useful functions. You can change it to your own favorite commands and alias.</li>
-<li>A <a href="https://github.com/SpaceVim/SpaceVim">spacevim</a>, which is a quite good version of vim. It initially installed several famous plugins, with a nice interface. You will find it a really vim distro as you use it. Certainly, you can change to your own version, while I’ve tested several distro and they all have some kinds of inconvenience, like the line number, extra space, wrong background color and so on.</li>
-<li>More on the way!</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>server</tag>
-        <tag>tool</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -3930,40 +3930,6 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>优雅地使用ssh免密登录</title>
-    <url>/2018/08/27/ssh-no-password/</url>
-    <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>如何优雅地使用ssh登录，并不需要每次输入密码。</p>
-<span id="more"></span>
-
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="步骤一：使用Alias或config记住Server信息"><a href="#步骤一：使用Alias或config记住Server信息" class="headerlink" title="步骤一：使用Alias或config记住Server信息"></a>步骤一：使用<em>Alias</em>或<em>config</em>记住Server信息</h2><h3 id="添加Alias"><a href="#添加Alias" class="headerlink" title="添加Alias"></a>添加Alias</h3><p>如果你正在使用默认的bash，别名<em>alias</em>信息会被保存在<code>~/.bashrc</code>文件中；如果你使用了zsh，那么你需要在<code>~/.zshrc</code>文件中修改。</p>
-<p>添加别名操作只需在该文件的任意位置插入以下命令（不过建议加载最前或最后方便管理和查找）：</p>
-<p><code>alias new_name=&quot;ssh user@domain -p port_num&quot;</code></p>
-<p>并在保存并退出后激活该文件：<code>source ~/.bashrc</code> 或 <code>source ~/.zshrc</code></p>
-<h3 id="添加-ssh-config配置"><a href="#添加-ssh-config配置" class="headerlink" title="添加~/.ssh/config配置"></a>添加~/.ssh/config配置</h3><p>打开该文件，并添加如下代码段：</p>
-<p><strong>有IdentityFile：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host miracle</span><br><span class="line">        HostName `xxx.xxx.xxx.xxx`</span><br><span class="line">        User `username`</span><br><span class="line">        Port `2880`</span><br><span class="line">        IdentityFile `~/xxx/xxx/cert.pem`</span><br><span class="line">        UseKeychain yes</span><br><span class="line">        AddKeysToAgent yes</span><br></pre></td></tr></table></figure>
-
-<p><strong>无IdentityFile：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host yoo</span><br><span class="line">        HostName `xxx.xxx.xxx.xxx`</span><br><span class="line">        User `username`</span><br><span class="line">        Port `2880`</span><br><span class="line">        UseKeychain yes</span><br><span class="line">        AddKeysToAgent yes</span><br></pre></td></tr></table></figure>
-
-<p>其中，IdentityFile、UseKeychain、AddKeysToAgent等项不是必须的。</p>
-<p>登录方法：<code>ssh miracle</code>，其中此处的miracle是你给你的Host起的名字。</p>
-<p><strong>优点</strong>：方便，更易于管理，并且使用scp等时也会更方便，比如：<code>scp *.mat miracle:~ </code></p>
-<h2 id="步骤二：免密登录"><a href="#步骤二：免密登录" class="headerlink" title="步骤二：免密登录"></a>步骤二：免密登录</h2><ol>
-<li>如果你没有使用过rsa密钥对，先生成：<code>ssh-keygen</code> ，选项可以一路Enter</li>
-<li>切换到 <em>~/.ssh/</em> 文件夹下将公钥发送到服务器上的某文件夹里：<code>scp -P 2880 ~/.ssh/id_rsa.pub root@xxx.xxx.xxx.xxx:~</code></li>
-<li>登录服务器，把PC端的公钥添加至ssh信任列表末尾：<code>cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code></li>
-<li>如果服务器上没有生成rsa密钥对，按（1）中操作在服务器上重复</li>
-<li>如果做了这些后依然需要你输入一个<em>passphrase</em>：<code>Enter passphrase for /Users/miracle/.ssh/id_rsa:</code>，这个passphase是指你生成ssh密钥时输入的一个字符串，如果你一直按的Enter，这里也直接Enter就好，但是如果不幸你当时输入了一个字符串，那么你需要进行步骤（6）：</li>
-<li>Add Identity Using Keychain：<code>ssh-add -K ~/.ssh/id_rsa</code>，之后它会让你输入上面提到的这个字符串，做完这一步之后，你将会永远不用再在登录这台服务器时输入密码</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>ssh</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>种子班中英文介绍</title>
     <url>/2018/03/08/seed-class-english/</url>
     <content><![CDATA[<h1 id="基于项目信息类专业教育实验班（种子班）本科培养计划-2-2"><a href="#基于项目信息类专业教育实验班（种子班）本科培养计划-2-2" class="headerlink" title="基于项目信息类专业教育实验班（种子班）本科培养计划(2+2)"></a>基于项目信息类专业教育实验班（种子班）本科培养计划(2+2)</h1><p><strong>Undergraduate Program for Advanced Project-based Information Science Education (Seeds Class)</strong></p>
@@ -4010,6 +3976,40 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
 ]]></content>
       <tags>
         <tag>seed-class</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>优雅地使用ssh免密登录</title>
+    <url>/2018/08/27/ssh-no-password/</url>
+    <content><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>如何优雅地使用ssh登录，并不需要每次输入密码。</p>
+<span id="more"></span>
+
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="步骤一：使用Alias或config记住Server信息"><a href="#步骤一：使用Alias或config记住Server信息" class="headerlink" title="步骤一：使用Alias或config记住Server信息"></a>步骤一：使用<em>Alias</em>或<em>config</em>记住Server信息</h2><h3 id="添加Alias"><a href="#添加Alias" class="headerlink" title="添加Alias"></a>添加Alias</h3><p>如果你正在使用默认的bash，别名<em>alias</em>信息会被保存在<code>~/.bashrc</code>文件中；如果你使用了zsh，那么你需要在<code>~/.zshrc</code>文件中修改。</p>
+<p>添加别名操作只需在该文件的任意位置插入以下命令（不过建议加载最前或最后方便管理和查找）：</p>
+<p><code>alias new_name=&quot;ssh user@domain -p port_num&quot;</code></p>
+<p>并在保存并退出后激活该文件：<code>source ~/.bashrc</code> 或 <code>source ~/.zshrc</code></p>
+<h3 id="添加-ssh-config配置"><a href="#添加-ssh-config配置" class="headerlink" title="添加~/.ssh/config配置"></a>添加~/.ssh/config配置</h3><p>打开该文件，并添加如下代码段：</p>
+<p><strong>有IdentityFile：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host miracle</span><br><span class="line">        HostName `xxx.xxx.xxx.xxx`</span><br><span class="line">        User `username`</span><br><span class="line">        Port `2880`</span><br><span class="line">        IdentityFile `~/xxx/xxx/cert.pem`</span><br><span class="line">        UseKeychain yes</span><br><span class="line">        AddKeysToAgent yes</span><br></pre></td></tr></table></figure>
+
+<p><strong>无IdentityFile：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Host yoo</span><br><span class="line">        HostName `xxx.xxx.xxx.xxx`</span><br><span class="line">        User `username`</span><br><span class="line">        Port `2880`</span><br><span class="line">        UseKeychain yes</span><br><span class="line">        AddKeysToAgent yes</span><br></pre></td></tr></table></figure>
+
+<p>其中，IdentityFile、UseKeychain、AddKeysToAgent等项不是必须的。</p>
+<p>登录方法：<code>ssh miracle</code>，其中此处的miracle是你给你的Host起的名字。</p>
+<p><strong>优点</strong>：方便，更易于管理，并且使用scp等时也会更方便，比如：<code>scp *.mat miracle:~ </code></p>
+<h2 id="步骤二：免密登录"><a href="#步骤二：免密登录" class="headerlink" title="步骤二：免密登录"></a>步骤二：免密登录</h2><ol>
+<li>如果你没有使用过rsa密钥对，先生成：<code>ssh-keygen</code> ，选项可以一路Enter</li>
+<li>切换到 <em>~/.ssh/</em> 文件夹下将公钥发送到服务器上的某文件夹里：<code>scp -P 2880 ~/.ssh/id_rsa.pub root@xxx.xxx.xxx.xxx:~</code></li>
+<li>登录服务器，把PC端的公钥添加至ssh信任列表末尾：<code>cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</code></li>
+<li>如果服务器上没有生成rsa密钥对，按（1）中操作在服务器上重复</li>
+<li>如果做了这些后依然需要你输入一个<em>passphrase</em>：<code>Enter passphrase for /Users/miracle/.ssh/id_rsa:</code>，这个passphase是指你生成ssh密钥时输入的一个字符串，如果你一直按的Enter，这里也直接Enter就好，但是如果不幸你当时输入了一个字符串，那么你需要进行步骤（6）：</li>
+<li>Add Identity Using Keychain：<code>ssh-add -K ~/.ssh/id_rsa</code>，之后它会让你输入上面提到的这个字符串，做完这一步之后，你将会永远不用再在登录这台服务器时输入密码</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
       </tags>
   </entry>
   <entry>
@@ -4063,7 +4063,7 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
 <li>本地端口转发</li>
 </ol>
 <p>ssh转发命令：ssh -L <local host><local port>:<remote host>:<remote port> <SSH hostname> 最好是在vim ~/.zshrc   中设置别名如：</p>
-<p>alias aihubjn1=’ssh -L localhost:9999:localhost:8989 <a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#x73;&#97;&#x61;&#115;&#x2e;&#97;&#x69;&#104;&#117;&#98;&#x2e;&#102;&#105;&#110;&#x61;&#x6c;&#115;&#x68;&#97;&#114;&#x65;&#115;&#46;&#x63;&#x6f;&#x6d;">&#114;&#x6f;&#111;&#x74;&#64;&#x73;&#97;&#x61;&#115;&#x2e;&#97;&#x69;&#104;&#117;&#98;&#x2e;&#102;&#105;&#110;&#x61;&#x6c;&#115;&#x68;&#97;&#114;&#x65;&#115;&#46;&#x63;&#x6f;&#x6d;</a> -p 2880’ </p>
+<p>alias aihubjn1=’ssh -L localhost:9999:localhost:8989 <a href="mailto:&#x72;&#111;&#111;&#116;&#64;&#115;&#97;&#x61;&#115;&#46;&#x61;&#x69;&#104;&#117;&#98;&#46;&#102;&#x69;&#x6e;&#97;&#x6c;&#115;&#x68;&#x61;&#x72;&#101;&#x73;&#x2e;&#99;&#111;&#x6d;">&#x72;&#111;&#111;&#116;&#64;&#115;&#97;&#x61;&#115;&#46;&#x61;&#x69;&#104;&#117;&#98;&#46;&#102;&#x69;&#x6e;&#97;&#x6c;&#115;&#x68;&#x61;&#x72;&#101;&#x73;&#x2e;&#99;&#111;&#x6d;</a> -p 2880’ </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">第一步：启动ssh端口转发</span><br><span class="line">ssh -L localhost:9999:localhost:8989 root@saas.aihub.finalshares.com -p 2880</span><br><span class="line">第二步：在服务器发起jupyter服务</span><br><span class="line">jupyter notebook --port 8989</span><br><span class="line">第三步：本地开启9999</span><br><span class="line">浏览器访问：http:&#x2F;&#x2F;localhost:9999&#x2F;</span><br></pre></td></tr></table></figure>
 
 <p>这里root为username,登录ssh的账号，saas.aihub.finalshares.com:2880是老师提供的服务器ssh端口，我使用自己的9999端口监听服务器上的8989端口，信息通过ssh转发，在服务器上启动jupyter即可本地登录，爽的飞起。</p>
@@ -4164,45 +4164,6 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu的apt-get找不到软件包解决方案</title>
-    <url>/2018/08/15/ubuntu-apt-get-fail/</url>
-    <content><![CDATA[<p>有时Ubuntu系统自带的apt-get会让人头疼的什么包都安装失败，提示无法找到相应包。</p>
-<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p><code>apt-get</code>命令太久未更新，或是服务器自带版本过低，需要手动更新并升级相应的库。</p>
-<h2 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>linux</tag>
-        <tag>apt-get</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Plan of Project Tomasulo Visual</title>
-    <url>/2019/10/22/tomasulo/</url>
-    <content><![CDATA[<h1 id="Aims"><a href="#Aims" class="headerlink" title="Aims"></a>Aims</h1><ol>
-<li>Build a project to visualize the workflow of Tomasulo’s algorithm.</li>
-<li>The project should contain at least these parts: Cycle graph, Register info, Pipeline, Data info, Code info and statistics.</li>
-<li>We can add some additional components.</li>
-</ol>
-<span id="more"></span>
-
-<h1 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h1><ol>
-<li>Language: Java</li>
-<li>GUI Support: Swing</li>
-<li>Collaboration Platform: <a href="https://github.com/miracleyoo/Tomasulo-Visual">GitHub</a></li>
-<li>Divide pattern: By components. Each one 2 components.</li>
-<li>DDL: Next week(Oct 29)</li>
-<li>Algorithm Reference: <a href="https://youtu.be/jyjE6NHtkiA">Youtube</a></li>
-</ol>
-<h1 id="Reference-Images"><a href="#Reference-Images" class="headerlink" title="Reference Images"></a>Reference Images</h1><p>![WinMips64](Plan de Project Tomasulo Visual/image-20191022180533866.png)</p>
-<p>![Slides](Plan de Project Tomasulo Visual/image-20191022180615852.png)</p>
-<p>![Youtube Course](Plan de Project Tomasulo Visual/image-20191022180646659.png)</p>
-]]></content>
-      <tags>
-        <tag>computer-architecture</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用tree生成目录树并显示中文</title>
     <url>/2018/05/14/tree/</url>
     <content><![CDATA[<p>当你想优雅地生成一个指定目录的文件目录树时，相信这个tree工具可以帮助你</p>
@@ -4250,6 +4211,30 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
         <tag>server</tag>
         <tag>tool</tag>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu的apt-get找不到软件包解决方案</title>
+    <url>/2018/08/15/ubuntu-apt-get-fail/</url>
+    <content><![CDATA[<p>有时Ubuntu系统自带的apt-get会让人头疼的什么包都安装失败，提示无法找到相应包。</p>
+<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p><code>apt-get</code>命令太久未更新，或是服务器自带版本过低，需要手动更新并升级相应的库。</p>
+<h2 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>apt-get</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Win10支持多用户同时登陆方法</title>
+    <url>/2018/08/22/win10-multi-user/</url>
+    <content><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>普通的（非Win Server）Win10系统并不支持同时多用户登录，只能一个把另一个挤下去才能继续，而且多人共享一个桌面。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>见GitHub：<a href="https://github.com/stascorp/rdpwrap">链接</a>，stascorp大神写了一个插件，直接安装即可享受多用户同时登录。</p>
+<p>可供下载的release包的地址：<a href="https://github.com/stascorp/rdpwrap/releases">链接</a></p>
+]]></content>
+      <tags>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -4354,14 +4339,70 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
       </tags>
   </entry>
   <entry>
-    <title>Win10支持多用户同时登陆方法</title>
-    <url>/2018/08/22/win10-multi-user/</url>
-    <content><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>普通的（非Win Server）Win10系统并不支持同时多用户登录，只能一个把另一个挤下去才能继续，而且多人共享一个桌面。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>见GitHub：<a href="https://github.com/stascorp/rdpwrap">链接</a>，stascorp大神写了一个插件，直接安装即可享受多用户同时登录。</p>
-<p>可供下载的release包的地址：<a href="https://github.com/stascorp/rdpwrap/releases">链接</a></p>
+    <title>Plan of Project Tomasulo Visual</title>
+    <url>/2019/10/22/tomasulo/</url>
+    <content><![CDATA[<h1 id="Aims"><a href="#Aims" class="headerlink" title="Aims"></a>Aims</h1><ol>
+<li>Build a project to visualize the workflow of Tomasulo’s algorithm.</li>
+<li>The project should contain at least these parts: Cycle graph, Register info, Pipeline, Data info, Code info and statistics.</li>
+<li>We can add some additional components.</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="Points"><a href="#Points" class="headerlink" title="Points"></a>Points</h1><ol>
+<li>Language: Java</li>
+<li>GUI Support: Swing</li>
+<li>Collaboration Platform: <a href="https://github.com/miracleyoo/Tomasulo-Visual">GitHub</a></li>
+<li>Divide pattern: By components. Each one 2 components.</li>
+<li>DDL: Next week(Oct 29)</li>
+<li>Algorithm Reference: <a href="https://youtu.be/jyjE6NHtkiA">Youtube</a></li>
+</ol>
+<h1 id="Reference-Images"><a href="#Reference-Images" class="headerlink" title="Reference Images"></a>Reference Images</h1><p>![WinMips64](Plan de Project Tomasulo Visual/image-20191022180533866.png)</p>
+<p>![Slides](Plan de Project Tomasulo Visual/image-20191022180615852.png)</p>
+<p>![Youtube Course](Plan de Project Tomasulo Visual/image-20191022180646659.png)</p>
 ]]></content>
       <tags>
-        <tag>windows</tag>
+        <tag>computer-architecture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mac OS下C开发相关事项</title>
+    <url>/2018/07/29/xcode-c/</url>
+    <content><![CDATA[<h1 id="Xcode简明教程（Mac-OS下C开发环境的搭建）"><a href="#Xcode简明教程（Mac-OS下C开发环境的搭建）" class="headerlink" title="Xcode简明教程（Mac OS下C开发环境的搭建）"></a>Xcode简明教程（Mac OS下C开发环境的搭建）</h1><p>在 Mac OS X 下学习C语言使用 Xcode。Xcode 是由Apple官方开发的IDE，支持C、C++、Objective-C、Swift等，可以用来开发 Mac OS X 和 iOS 上的应用程序。Xcode最初使用GCC作为编译器，后来由于GCC的不配合，改用LLVM/Clang。</p>
+<p>Xcode 的安装非常简单，在 APP Store 上直接下载即可，这里不再赘述。</p>
+<span id="more"></span>
+
+<h2 id="在Xcode上运行C语言程序"><a href="#在Xcode上运行C语言程序" class="headerlink" title="在Xcode上运行C语言程序"></a>在Xcode上运行C语言程序</h2><p>在 Xcode 上运行C语言程序需要先创建工程，再在工程中添加源代码。</p>
+<ol>
+<li>打开 Xcode，选择“Create a new Xcode project”创建一个新工程，如下图所示：</li>
+</ol>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj0gvwv6j314c0ngth9.jpg" alt="image-20180729181817554"></p>
+<ol start="2">
+<li>接下来，选择要创建的工程类型，如下图所示：</li>
+</ol>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj13r485j31420ssjuw.jpg" alt="image-20180729181855118"></p>
+<ol start="3">
+<li>选择“OS X –&gt; Application –&gt; Command Line Tool”，点击“Next”。Command Line Tool 是“命令行工具”的意思，也就是控制台程序。</li>
+</ol>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj1kdat7j31460t0mzl.jpg" alt="image-20180729181921915"></p>
+<p>这里需要填写和工程相关的一些信息：</p>
+<ul>
+<li>Product Name：产品名称，即工程名称。</li>
+<li>Organization Name：组织名称，即公司、个人、协会、团队等的名称。</li>
+<li>Organization Identifier：组织标识符，即有别于其他组织的一个标记，例如身份证号、公司网址、组织机构代码证等。</li>
+<li>Bundle Identifier：程序标识符，即有别于其他程序的一个标记，由 Organization Identifier + Product Name 组成。</li>
+<li>Language：工程所用的编程语言，这里选择C语言。</li>
+</ul>
+<ol start="4">
+<li>点击“Next”，保存文件后即可进入当前工程，如下图所示： </li>
+</ol>
+<p>左侧是工程目录，主要包含了工程所用到的文件和资源。单击“main.c”，即可进入代码编辑模式，这里 Xcode 已经为我们创建好了一个“Hello World”小程序。点击上方的“运行”按钮，即可在右下角的选项卡中看到输出结果。</p>
+<h1 id="修改工作路径使之与当前代码存放目录一致"><a href="#修改工作路径使之与当前代码存放目录一致" class="headerlink" title="修改工作路径使之与当前代码存放目录一致"></a>修改工作路径使之与当前代码存放目录一致</h1><p>如下图在Xcode中点击工程名，选择Edit Scheme，之后在Use custom working directory前打钩，并将工作路径修改为**/Users/mac/Desktop/test**。</p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrjltwyphj30ji084jsl.jpg" alt="image-20180729183848469"></p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrjmjg1v2j31di0rowkh.jpg" alt="image-20180729183918230"></p>
+]]></content>
+      <tags>
+        <tag>c</tag>
+        <tag>xcode</tag>
       </tags>
   </entry>
   <entry>
@@ -4512,47 +4553,6 @@ Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Fil
 ]]></content>
       <tags>
         <tag>word</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mac OS下C开发相关事项</title>
-    <url>/2018/07/29/xcode-c/</url>
-    <content><![CDATA[<h1 id="Xcode简明教程（Mac-OS下C开发环境的搭建）"><a href="#Xcode简明教程（Mac-OS下C开发环境的搭建）" class="headerlink" title="Xcode简明教程（Mac OS下C开发环境的搭建）"></a>Xcode简明教程（Mac OS下C开发环境的搭建）</h1><p>在 Mac OS X 下学习C语言使用 Xcode。Xcode 是由Apple官方开发的IDE，支持C、C++、Objective-C、Swift等，可以用来开发 Mac OS X 和 iOS 上的应用程序。Xcode最初使用GCC作为编译器，后来由于GCC的不配合，改用LLVM/Clang。</p>
-<p>Xcode 的安装非常简单，在 APP Store 上直接下载即可，这里不再赘述。</p>
-<span id="more"></span>
-
-<h2 id="在Xcode上运行C语言程序"><a href="#在Xcode上运行C语言程序" class="headerlink" title="在Xcode上运行C语言程序"></a>在Xcode上运行C语言程序</h2><p>在 Xcode 上运行C语言程序需要先创建工程，再在工程中添加源代码。</p>
-<ol>
-<li>打开 Xcode，选择“Create a new Xcode project”创建一个新工程，如下图所示：</li>
-</ol>
-<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj0gvwv6j314c0ngth9.jpg" alt="image-20180729181817554"></p>
-<ol start="2">
-<li>接下来，选择要创建的工程类型，如下图所示：</li>
-</ol>
-<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj13r485j31420ssjuw.jpg" alt="image-20180729181855118"></p>
-<ol start="3">
-<li>选择“OS X –&gt; Application –&gt; Command Line Tool”，点击“Next”。Command Line Tool 是“命令行工具”的意思，也就是控制台程序。</li>
-</ol>
-<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj1kdat7j31460t0mzl.jpg" alt="image-20180729181921915"></p>
-<p>这里需要填写和工程相关的一些信息：</p>
-<ul>
-<li>Product Name：产品名称，即工程名称。</li>
-<li>Organization Name：组织名称，即公司、个人、协会、团队等的名称。</li>
-<li>Organization Identifier：组织标识符，即有别于其他组织的一个标记，例如身份证号、公司网址、组织机构代码证等。</li>
-<li>Bundle Identifier：程序标识符，即有别于其他程序的一个标记，由 Organization Identifier + Product Name 组成。</li>
-<li>Language：工程所用的编程语言，这里选择C语言。</li>
-</ul>
-<ol start="4">
-<li>点击“Next”，保存文件后即可进入当前工程，如下图所示： </li>
-</ol>
-<p>左侧是工程目录，主要包含了工程所用到的文件和资源。单击“main.c”，即可进入代码编辑模式，这里 Xcode 已经为我们创建好了一个“Hello World”小程序。点击上方的“运行”按钮，即可在右下角的选项卡中看到输出结果。</p>
-<h1 id="修改工作路径使之与当前代码存放目录一致"><a href="#修改工作路径使之与当前代码存放目录一致" class="headerlink" title="修改工作路径使之与当前代码存放目录一致"></a>修改工作路径使之与当前代码存放目录一致</h1><p>如下图在Xcode中点击工程名，选择Edit Scheme，之后在Use custom working directory前打钩，并将工作路径修改为**/Users/mac/Desktop/test**。</p>
-<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrjltwyphj30ji084jsl.jpg" alt="image-20180729183848469"></p>
-<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrjmjg1v2j31di0rowkh.jpg" alt="image-20180729183918230"></p>
-]]></content>
-      <tags>
-        <tag>c</tag>
-        <tag>xcode</tag>
       </tags>
   </entry>
   <entry>

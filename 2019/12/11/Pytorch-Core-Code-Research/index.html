@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128194349295.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128223910466.png">
 <meta property="article:published_time" content="2019-12-11T21:35:01.000Z">
-<meta property="article:modified_time" content="2019-12-12T01:08:49.630Z">
+<meta property="article:modified_time" content="2021-03-12T22:42:33.940Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="deep learning">
@@ -304,10 +304,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2019-12-11 16:35:01 / Modified: 20:08:49" itemprop="dateCreated datePublished" datetime="2019-12-11T16:35:01-05:00">2019-12-11</time>
+      <time title="Created: 2019-12-11 16:35:01" itemprop="dateCreated datePublished" datetime="2019-12-11T16:35:01-05:00">2019-12-11</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 17:42:33" itemprop="dateModified" datetime="2021-03-12T17:42:33-05:00">2021-03-12</time>
+      </span>
 
   
     <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -345,6 +351,8 @@
         <h2 id="Pytorch-Release-Version-Composition"><a href="#Pytorch-Release-Version-Composition" class="headerlink" title="Pytorch Release Version Composition"></a>Pytorch Release Version Composition</h2><p>The repository cloned from GitHub <a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">pytorch/pytorch</a> is different from the package we download using <code>pip install</code> or <code>conda install</code>. In fact, the former contains many C/C++ based files, which consist of the basic of Pytorch, while the latter is more concise and contains compiled libraries and dll files instead. </p>
 <p>Here, let’s discuss the release version, or the installed package at first. The package has a lot of components, Here I only pick out some most important parts to do explanation.</p>
 <p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128191350467.png" alt="image-20191128191350467"></p>
+<span id="more"></span>
+
 <h4 id="nn"><a href="#nn" class="headerlink" title="nn"></a>nn</h4><p>All deep learning layers’ python entrance are located here. They mainly collect parameters from init input and do some modification to the input data. After that it will send core computation operation together with parameters into <code>torch._C</code> based functions. </p>
 <h4 id="autograd"><a href="#autograd" class="headerlink" title="autograd"></a>autograd</h4><p>Contains a series of base functions which serves for back propagation. Also, if you dig in, the core implementation is still from C libraries. Variable wrap is also put here, but now it is just omitted because of the merge of tensor and Variable.</p>
 <h4 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h4><p>Mainly these parts are contained in <code>cuda</code> folder: Stream, Event, Broadcast and Random. </p>

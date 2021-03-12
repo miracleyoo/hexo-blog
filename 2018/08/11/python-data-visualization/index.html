@@ -31,7 +31,7 @@
 <meta property="og:description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。 简单说下对比结果： 最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/1*grNVtaqUzJi76I-X_dXuPA.png">
+<meta property="og:image" content="https://www.miracleyoo.com/1*grNVtaqUzJi76I-X_dXuPA.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg">
@@ -286,7 +286,7 @@
         <h1 id="Python-Data-Visualization-—-Comparing-5-Tools"><a href="#Python-Data-Visualization-—-Comparing-5-Tools" class="headerlink" title="Python Data Visualization — Comparing 5 Tools"></a>Python Data Visualization — Comparing 5 Tools</h1><h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><p>本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。</p>
 <h4 id="简单说下对比结果："><a href="#简单说下对比结果：" class="headerlink" title="简单说下对比结果："></a>简单说下对比结果：</h4><ol>
 <li><p>最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察来说至关重要。效果如下图：你不但可以得到漂亮的绘图，还可以通过鼠标左右键、滚轮轻松调整尺度、方向等关键参数，更可以通过右上角的各种工具进行进一步调整。当然，其也支持3D图的Subplot。</p>
-<p><img src="0069RVTdly1fu6sramtv3j317u0nsjyv.jpg" alt="image-20180811231857431"></p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg" alt="image-20180811231857431"></p>
 <ol start="2">
 <li>Plotly 库的缺点：这个库并不是完全免费的。尽管这样，基本不会影响你的正常使用，除非你用for循环高速下载成百上千张图片。其每天画图数目是无限的，不过保存只有100张限额。其有在线和离线两种模式，在线支持直接保存，离线很麻烦。另外，实际上离线会比在线更快。</li>
 <li>Bokeh：这个库在二位统计绘图上是有很大吸引力的。图像质量很高，提供的配色很精美，并且也支持鼠标交互，支持多幅图共享一份数据并且交互时同步变化，特色明显。但对3D画图支持较差。</li>
@@ -302,14 +302,14 @@
 <p>To start the data visualization, first step is to load the library and import the data. Usually, the data stored in .csv (comma separated values) file, where each column is separated by comma, and each row by a new line. To create a bar plot with Pandas the following Python input code can be used.</p>
 <p>import numpy as np<br>import pandas as pd<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’, ascending = False)[:5]<br>mortality_age.plot(kind = “bar”)</p>
 <p>That code executes the plot with detailed columns and title with default colors and background. Figure 1 shows the following plot output.</p>
-<p><img src="1*grNVtaqUzJi76I-X_dXuPA.png" alt="img"></p>
+<p><img src="/1*grNVtaqUzJi76I-X_dXuPA.png" alt="img"></p>
 <p>Pandas Simple Bar Chart Input Example</p>
 <p>The simple form of this plot looks acceptable and easy to read. The bar chart looks nice and clean. However, it is impossible to customize the graph into more detailed visualization just by using Pandas.</p>
 <h4 id="Seaborn"><a href="#Seaborn" class="headerlink" title="Seaborn"></a>Seaborn</h4><p>Second tool is Seaborn. This tool integrates great with Pandas. It was invented and developed by Michael Waskom in 2014. It is another open-source software library for data analysis and visualization. Seaborn is a popular library for making appealing statistical data graphs in Python. It provides high level of graphic interface for drawing platform and helps to easily identify patterns and draw attention to key elements. It includes built in themes for styling of informative data plots. It uses grid object method that connects the structure of the figure to the visual structure of the given data set. The main goal of this method is to simplify complicated plots. Additional, Seaborn offers variety of styles that allow to modify colors and make it look even more appealing.</p>
 <p>To run the example, the following code below is needed:</p>
 <p>import pandas as pd<br>import seaborn as sns<br>import matplotlib.pyplot as plt<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’,<br>ascending = False)[:5]<br>sns.set(style=”darkgrid”)<br>mortality_age_plot = sns.barplot(x=mortality_age<br>[“Age Range”], y=mortality_age[“Deaths per 100,000 Live Births:”],<br>palette = “muted”, order=mortality_age[“Age Range”].tolist())<br>plt.xticks(rotation=90)<br>plt.show()</p>
 <p>That code executes the plot with detailed titles, nicely colored bars and grid. Figure 2 shows what the bar chart looks like.</p>
-<p><img src="0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg" alt="img"></p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg" alt="img"></p>
 <p>Seaborn Simple Bar Chart Input Example</p>
 <p>This method made it possible to rotate x and y axis to make the categories and titles readable. The visual graphic looks appealing and more exciting than the previous one.</p>
 <h4 id="Bokeh"><a href="#Bokeh" class="headerlink" title="Bokeh"></a>Bokeh</h4><p>Third tool is Bokeh. It is different from the previous two methods. It was developed by Anaconda’s development team in 2012 with funding from Defence Advanced Research Projects Agency. Bokeh is an open source and free to use for any type of project. It is versatile, integrates great with javascript and novel graphics style. It is an interactive library that was created for modern web browsers to visualize highly interactive plots and data applications. Bokeh’s method can create any kind of graphical plot including dash boards and variety of charts.</p>
@@ -318,19 +318,19 @@
 <p># x-axis labels pulled from the interpreter column, stacking labels from sample column<br>bar = Bar(data, values=’Deaths per 100,000 Live Births’,<br>label=’Deaths per 100,000 Live Births’,<br>stack=’Age Range’, agg=’mean’,<br>title=”Maternal Deaths per 100,000 Live Births”,<br>legend=’top_right’, width=400)</p>
 <p>output_file(“barchart.html”)<br>show(bar)</p>
 <p>The code opens up a browser’s window and displays an HTML page with the plot. Figure 3 below displays the plotted output.</p>
-<p><img src="0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg" alt="img"></p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg" alt="img"></p>
 <p>Bokeh Simple Bar Chart Output Example</p>
 <p>The graph looks much nicer and cleaner. Bokeh method has a lot of customization option and functionality. Even thought it looks nice, it does not make sense to use for a simple bar visualization.</p>
 <h4 id="Pygal"><a href="#Pygal" class="headerlink" title="Pygal"></a>Pygal</h4><p>Forth tool is Pygal. It is a part of Python’s library that exports vector charts in different shapes and styles. It was created by a developer named Florian Mounier in 2012. It is also an open source free library and has been widely used because of its high customization options and simplicity at the same time. Options for creating visualizations are wide open and include pie charts, bar graphs, histograms, maps and so on. It all depends on the required look and feel of the graphic.</p>
 <p>To create a simple bar chart the following input code can be used:</p>
 <p>import pygal<br>horizontalbar_chart = pygal.HorizontalBar()<br>horizontalbar_chart.title = ‘Maternal Mortality By Age (in %)’<br>horizontalbar_chart.add(‘Under 20 Years:’, 7.1)<br>horizontalbar_chart.add(‘20–24 Years:’, 8.1)<br>horizontalbar_chart.add(‘25–29 Years:’, 9.4)<br>horizontalbar_chart.add(‘30–34 Years: ‘, 12.1)<br>horizontalbar_chart.add(’35 Years and Older:’, 32.2)<br>horizontalbar_chart.render()</p>
 <p>The output of the vector file looks really nice and visually appealing in style. It does not provide a zooming effect same as in the previous method, however it includes tool-tip hover state. It can be embedded into a web-page by using tag or code. Figure 4 displays the plotted output.</p>
-<p><img src="0069RVTdly1fu6rjoiov8j30b0089q32.jpg" alt="img"></p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg" alt="img"></p>
 <p>Pygal Simple Bar Chart Input Example</p>
 <p>The interactive and vector nature of the image could be utilized widely in websites and data applications.</p>
 <h4 id="Plotly"><a href="#Plotly" class="headerlink" title="Plotly"></a>Plotly</h4><p>Fifth tool is Plotly, also named as Plot.ly because of its main platform online. It is an interactive online visualization tool that is being used for data analytics, scientific graphs and other visualization. It contains a great API including one for Python. There are lot of interactive, professional quality visualizations online that were created with this module.<br>Plotly was developed by multiple developers, including Alex Johnson, Chris Parmer, Jack Parmer and Matthew Sundquist. The tool was named one of the ‘’Top 20 Hottest Innovative Companies in Canada’’ by the Canadian Innovation Exchange.<br>It is different from other Python’s libraries by being an interactive online tool for creating the renderings. Therefore, everything that is being created with this tool is posted on the web. The great thing about Plotly is that it integrates well with pandas.<br>The simplest way to use it is through Plotly’s online tools and import the data by uploading the data set file. It has many convenient features to interact with, extract and visualize the data. Additionally, the tool accepts many formats, such as .xls, .xlsx, or .csv files.</p>
 <p>Figure 5 shows the user interface and settings within the dashboard of the online tool.</p>
-<p><img src="0069RVTdly1fu6rjr8fztj30o70dngm0.jpg" alt="img"></p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjr8fztj30o70dngm0.jpg" alt="img"></p>
 <p>Plotly User Interface Tool Online</p>
 <p>Figure 5 above shows the resulted bar chart after executing provided parameters setup and imported data sets file.</p>
 <p>The process generated an amazing and beautiful highly interactive bar chart with tool-tips and varieties of other tool options such as zooming effect, panning, selecting, auto-scale, moving, resetting and so on. It is easily modified by clicking on different parts and parameters of the graph without code knowledge.</p>

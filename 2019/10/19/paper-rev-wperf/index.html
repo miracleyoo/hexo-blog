@@ -299,9 +299,9 @@
 <li>wPerf treat I/O device as a pseudo I/O thread.</li>
 <li>In order to minimize the overhead, recorder buffers events and flushs the buffers to trace file in the background. Also, the recorder creates a buffer and a trace file for each core to avoid contention.</li>
 </ol>
-<p><img src="image-20191019213731331.png" alt="image-20191019213731331"></p>
-<h2 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h2><p><img src="image-20191019184627121.png" alt="image-20191019184627121"></p>
-<p><img src="image-20191019193352798.png" alt="image-20191019193352798"></p>
+<p><img src="/2019/10/19/paper-rev-wperf/image-20191019213731331.png" alt="image-20191019213731331"></p>
+<h2 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h2><p><img src="/2019/10/19/paper-rev-wperf/image-20191019184627121.png" alt="image-20191019184627121"></p>
+<p><img src="/2019/10/19/paper-rev-wperf/image-20191019193352798.png" alt="image-20191019193352798"></p>
 <h2 id="Pros"><a href="#Pros" class="headerlink" title="Pros"></a>Pros</h2><ol>
 <li>It innovatively utilizes the “wait-for” graph method to investigate the wating relationship between threads, which make it easy to locate the bottleneck.</li>
 <li>wPerf takes all these I/O operation, busy waiting, false wakeup into consideration, which make it more accuarte and competible to various cases.</li>

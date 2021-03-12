@@ -288,7 +288,7 @@
 <li><p>tensorboardx画网络图的实例：<a target="_blank" rel="noopener" href="https://github.com/lanpa/tensorboardX/blob/master/examples/demo_graph.py">实例</a></p>
 </li>
 <li><p>结果展示：</p>
-<p><img src="006tNbRwgy1fuemv60tllj30ba0isn4w.jpg" alt="image-20180818175931766"></p>
+<p><img src="/2018/08/18/tensorboardx-net-visualization/006tNbRwgy1fuemv60tllj30ba0isn4w.jpg" alt="image-20180818175931766"></p>
 </li>
 </ol>
 <h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dummy_input = Variable(torch.rand(<span class="number">13</span>, <span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>))</span><br><span class="line">model = Net1()</span><br><span class="line"><span class="keyword">with</span> SummaryWriter(comment=<span class="string">&#x27;Net1&#x27;</span>) <span class="keyword">as</span> w:</span><br><span class="line">    w.add_graph(model, (dummy_input, ))</span><br></pre></td></tr></table></figure>

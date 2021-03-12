@@ -31,9 +31,9 @@
 <meta property="og:description" content="本文引用了莫烦大大和几位知乎答主的部分文字，由于时间较长，无法一一确认，在这里统一感谢。如有侵害到您版权的行为，请您尽快联系我修改，感谢。 Reinforcement Learning Basic定义强化学习涉及一个智能体，一组“状态”S和每个状态下的动作集合A。通过执行一个行动 ，该智能体从一个状态转移到另一个状态。在一个特定的状态下执行一个动作时，智能体还可以得到一个奖励。智能体的目标是最大化">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/4611d85173cd3b508e67077d4a1252c9c05abca2">
-<meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/7daff47fa58cdfd29dc333def748ff5fa4c923e3">
-<meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/1*B8tGarFYboV9maL93sF45Q.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/1*NdEQk3LeJfkzImOiQij_NA.png">
+<meta property="og:image" content="https://www.miracleyoo.com/7daff47fa58cdfd29dc333def748ff5fa4c923e3">
+<meta property="og:image" content="https://www.miracleyoo.com/1*B8tGarFYboV9maL93sF45Q.png">
+<meta property="og:image" content="https://www.miracleyoo.com/1*NdEQk3LeJfkzImOiQij_NA.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/006tKfTcgy1g0lby5lsouj30yi0k841d.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/006tKfTcly1g0eb38iqwoj30y00rmq5g.jpg">
 <meta property="og:image" content="https://www.miracleyoo.com/2019/01/19/rl-basic/006tKfTcly1g0e2yu8s6zj30cc06wmx6.jpg">
@@ -289,7 +289,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <p><strong>本文引用了莫烦大大和几位知乎答主的部分文字，由于时间较长，无法一一确认，在这里统一感谢。如有侵害到您版权的行为，请您尽快联系我修改，感谢。</strong></p>
-<h2 id="Reinforcement-Learning-Basic"><a href="#Reinforcement-Learning-Basic" class="headerlink" title="Reinforcement Learning Basic"></a>Reinforcement Learning Basic</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>强化学习涉及一个智能体，一组“状态”S<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4611d85173cd3b508e67077d4a1252c9c05abca2" alt="S">和每个状态下的动作集合A<img src="7daff47fa58cdfd29dc333def748ff5fa4c923e3" alt="A">。通过执行一个行动 ，该智能体从一个状态转移到另一个状态。在一个特定的状态下执行一个动作时，智能体还可以得到一个奖励。<br>智能体的目标是最大化其奖励的累加。这个潜在的奖励是所有未来可以拿到的奖励值的期望的加权和。<br>例如，假设现在你要上地铁，奖励就是你所花的时间的相反数。一种策略就是车门一开就往上挤，但是还有很多人要下车，逆着人流往上挤也会花费不少时间，这个时候你花的总时间可能是：</p>
+<h2 id="Reinforcement-Learning-Basic"><a href="#Reinforcement-Learning-Basic" class="headerlink" title="Reinforcement Learning Basic"></a>Reinforcement Learning Basic</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>强化学习涉及一个智能体，一组“状态”S<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4611d85173cd3b508e67077d4a1252c9c05abca2" alt="S">和每个状态下的动作集合A<img src="/7daff47fa58cdfd29dc333def748ff5fa4c923e3" alt="A">。通过执行一个行动 ，该智能体从一个状态转移到另一个状态。在一个特定的状态下执行一个动作时，智能体还可以得到一个奖励。<br>智能体的目标是最大化其奖励的累加。这个潜在的奖励是所有未来可以拿到的奖励值的期望的加权和。<br>例如，假设现在你要上地铁，奖励就是你所花的时间的相反数。一种策略就是车门一开就往上挤，但是还有很多人要下车，逆着人流往上挤也会花费不少时间，这个时候你花的总时间可能是：</p>
 <ul>
 <li>  0秒钟等待时间+15秒挤上去的时间<br>在接下来的一天，很巧合，你决定先让别人下车。虽然这个时候看起来等待的时间稍微增加了，但是下车的人也会下的更顺畅，这个时候你可能花的时间是：</li>
 <li>  5秒等待时间+0秒挤上去的时间。</li>
@@ -385,10 +385,10 @@
 </ul>
 <h2 id="Q-Learning"><a href="#Q-Learning" class="headerlink" title="Q-Learning"></a>Q-Learning</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p><strong>Q-学习</strong>是强化学习的一种方法。Q-学习就是要学习的政策，告诉智能体什么情况下采取什么行动。Q-learning不需要对环境进行建模，即使是对带有随机因素的转移函数或者奖励函数也不需要进行特别的改动就可以进行。<br>对于任何有限的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%A6%AC%E5%8F%AF%E5%A4%AB%E6%B1%BA%E7%AD%96%E9%81%8E%E7%A8%8B" title="马可夫决策过程">马可夫决策过程</a>（FMDP），Q-learning可以找到一个可以最大化所有步骤的奖励期望的策略。<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Q%E5%AD%A6%E4%B9%A0#cite_note-auto-1">[1]</a>，在给定一个部分随机的策略和无限的探索时间，Q-learning可以给出一个最佳的动作选择策略。“Q”这个字母在强化学习中表示一个动作的质量（quality )。<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Q%E5%AD%A6%E4%B9%A0#cite_note-:0-2">[2]</a><br>Q-Learning 最简单的实现方式就是将值存储在一个表格中，但是这种方式受限于状态和动作空间的数目。</p>
 <p><strong>输入</strong>：状态（State）<br><strong>输出</strong>：该状态下可能采取的各种动作（Action）时对应的Q值</p>
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p><img src="1*B8tGarFYboV9maL93sF45Q.png"></p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p><img src="/1*B8tGarFYboV9maL93sF45Q.png"></p>
 <h2 id="SARSA"><a href="#SARSA" class="headerlink" title="SARSA"></a>SARSA</h2><p>SARSA非常像Q-learning。SARSA和Q-learning的关键区别在于SARSA是一种on-policy算法。这意味着SARSA是根据当前策略执行的动作而不是贪婪策略来学习q值的。</p>
 <p><strong>输入</strong>：状态（State）<br><strong>输出</strong>：该状态下可能采取的各种动作（Action）时对应的Q值</p>
-<h3 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h3><p><img src="1*NdEQk3LeJfkzImOiQij_NA.png"></p>
+<h3 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h3><p><img src="/1*NdEQk3LeJfkzImOiQij_NA.png"></p>
 <h2 id="DQN"><a href="#DQN" class="headerlink" title="DQN"></a>DQN</h2><p><strong>输入（1）</strong>：状态（State）</p>
 <p><strong>输出（1）</strong>：该状态下可能采取的各种动作（Action）时对应的Q值</p>
 <p><strong>输入（2）</strong>：状态（State）和动作（Action）</p>
@@ -401,9 +401,9 @@
 <li>是一种 off-policy 离线学习法，它能学习当前经历着的, 也能学习过去经历过的, 甚至是学习别人的经历。</li>
 </ol>
 <p><strong>类比</strong>：Q表。这里的神经网络的功能就好比一个Q表，输入要查找的内容，输出相应值。</p>
-<h3 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h3><p><img src="006tKfTcgy1g0lby5lsouj30yi0k841d.jpg"></p>
-<h3 id="算法-2"><a href="#算法-2" class="headerlink" title="算法"></a>算法</h3><p><img src="006tKfTcly1g0eb38iqwoj30y00rmq5g.jpg" alt="更新算法"></p>
-<p><img src="006tKfTcly1g0e2yu8s6zj30cc06wmx6.jpg" alt="网络更新方法"></p>
+<h3 id="原理图"><a href="#原理图" class="headerlink" title="原理图"></a>原理图</h3><p><img src="/2019/01/19/rl-basic/006tKfTcgy1g0lby5lsouj30yi0k841d.jpg"></p>
+<h3 id="算法-2"><a href="#算法-2" class="headerlink" title="算法"></a>算法</h3><p><img src="/2019/01/19/rl-basic/006tKfTcly1g0eb38iqwoj30y00rmq5g.jpg" alt="更新算法"></p>
+<p><img src="/2019/01/19/rl-basic/006tKfTcly1g0e2yu8s6zj30cc06wmx6.jpg" alt="网络更新方法"></p>
 <h3 id="为何使用两个网络？"><a href="#为何使用两个网络？" class="headerlink" title="为何使用两个网络？"></a>为何使用两个网络？</h3><blockquote>
 <p>The second modification to online Q-learning aimed at further improving the stability of our method with neural networks is to use a separate network for gen- erating the targets yj in the Q-learning update. More precisely, every C updates we clone the network Q to obtain a target network Q^ and use Q^ for generating the Q-learning targets yj for the following C updates to Q. This modification makes the algorithm more stable compared to standard online Q-learning, where an update that increases Q(st,at) often also increases Q(st 1 1,a) for all a and hence also increases the target yj, possibly leading to oscillations or divergence of the policy. Generating the targets using an older set of parameters adds a delay between the time an update to Q is made and the time the update affects the targets yj, making divergence or oscillations much more unlikely.</p>
 </blockquote>
@@ -440,9 +440,9 @@
 <p><strong>特点</strong>：输出的直接是当前状态下采取各种可能动作的概率。每种动作都可能以其对应概率被选到。</p>
 <p><strong>应用场景</strong>：连续行为场景</p>
 <h3 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h3><p>在RL领域，DDPG主要从：PG -&gt; DPG -&gt; DDPG 发展而来。<br>Deepmind在2016年提出DDPG，全称是：Deep Deterministic Policy Gradient,是将深度学习神经网络融合进DPG的策略学习方法。<br>相对于DPG的核心改进是： 采用卷积神经网络作为策略函数μ和Q函数的模拟，即策略网络和Q网络；然后使用深度学习的方法来训练上述神经网络。<br>Q函数的实现和训练方法，采用了Deepmind 2015年发表的DQN方法。</p>
-<h3 id="原理图-1"><a href="#原理图-1" class="headerlink" title="原理图"></a>原理图</h3><p><img src="006tKfTcgy1g0lbvxv1tnj30y40kojrs.jpg"></p>
-<p><img src="006tNc79ly1g23g4gt1wdj31760u0k7h.jpg"></p>
-<h3 id="算法-3"><a href="#算法-3" class="headerlink" title="算法"></a>算法</h3><p><img src="006tKfTcgy1g0lbwow8guj31590u0n12.jpg"></p>
+<h3 id="原理图-1"><a href="#原理图-1" class="headerlink" title="原理图"></a>原理图</h3><p><img src="/2019/01/19/rl-basic/006tKfTcgy1g0lbvxv1tnj30y40kojrs.jpg"></p>
+<p><img src="/2019/01/19/rl-basic/006tNc79ly1g23g4gt1wdj31760u0k7h.jpg"></p>
+<h3 id="算法-3"><a href="#算法-3" class="headerlink" title="算法"></a>算法</h3><p><img src="/2019/01/19/rl-basic/006tKfTcgy1g0lbwow8guj31590u0n12.jpg"></p>
 
     </div>
 

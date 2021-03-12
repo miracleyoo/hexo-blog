@@ -261,7 +261,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><img src="cv.png" alt="Resume_ZhongyangZhang_HUST"></p>
+          <p><img src="/2118/10/30/resume/cv.png" alt="Resume_ZhongyangZhang_HUST"></p>
 
       
     </div>
@@ -382,31 +382,31 @@
 <li>在所有需要同步的电脑上登录Zotero的账号，如没有，请注册。</li>
 <li>打开设置，更改<code>Files and Folders</code> 中的<code>Base Directory</code>选项为你的同步盘地址，如Dropbox，OneDrive，坚果云等。请不要动下面的<code>Data Directory Location</code>，这个是Zotero的总体数据库的地址，不建议放到云文件夹下，因为只要有两个端同时使用Zotero这个同步就崩掉了。</li>
 </ol>
-<p><img src="paper-zotero-dropbox/image-20191110225913571.png" alt="image-20191110225913571"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110225913571.png" alt="image-20191110225913571"></p>
 <ol start="3">
 <li>安装<a target="_blank" rel="noopener" href="http://zotfile.com/">zotfile</a>。更改有关文件的设置。</li>
 </ol>
 <p>从Tools栏进入ZotFile Preference</p>
-<p><img src="paper-zotero-dropbox/image-20191110230601630.png" alt="image-20191110230601630"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110230601630.png" alt="image-20191110230601630"></p>
 <p>更改PDF文件存储位置。这里是把文件储存到云盘的关键步骤。上面那个更改文件存储地址的作用是指定未来加入的PDF文件的存储地址，而这里是把已经在库的文件移动到这个地址。两个地址相同。</p>
-<p><img src="paper-zotero-dropbox/image-20191110230944192.png" alt="image-20191110230944192"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110230944192.png" alt="image-20191110230944192"></p>
 <p>更改重命名相关的设置。这里的%y就是论文发表年份，%j是期刊名，%t是论文标题。而中间的下划线则只是单纯的会在重命名后的文件名中的两个元素之间加一个下滑线罢了，这里可以替换做任意。</p>
-<p><img src="paper-zotero-dropbox/image-20191110230654373.png" alt="image-20191110230654373"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110230654373.png" alt="image-20191110230654373"></p>
 <p>在你的所有需要同步的电脑上做完上述步骤后，如果你之前没有Zotero或它是全新的没有条目，那你的设定已经结束。如果库中已有很多论文，想要直接移动到Dropbox相应目录下，那么请执行下一步：</p>
 <ol start="4">
 <li>移动与重命名已有文件</li>
 </ol>
-<p><img src="paper-zotero-dropbox/image-20191110231928468.png" alt="image-20191110231928468"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110231928468.png" alt="image-20191110231928468"></p>
 <p>点击 My Library，全选所有条目，右键选择<code>Manage Attachments</code>-&gt;<code>Rename Attachments</code>开始移动和重命名。</p>
-<p><img src="paper-zotero-dropbox/image-20191110232045736.png" alt="image-20191110232045736"></p>
-<p><img src="paper-zotero-dropbox/image-20191110232150562.png" alt="image-20191110232150562"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110232045736.png" alt="image-20191110232045736"></p>
+<p><img src="/paper-zotero-dropbox/image-20191110232150562.png" alt="image-20191110232150562"></p>
 <h3 id="iPad设置部分"><a href="#iPad设置部分" class="headerlink" title="iPad设置部分"></a>iPad设置部分</h3><ol>
 <li>下载Dropbox和Acrobat。</li>
 <li>打开Dropbox，进入你的论文同步文件夹，任选一篇点击打开</li>
 <li>右下角找到一个光标键，点击，会提示用Adobe Acrobat Reader打开。</li>
 <li>All set.</li>
 </ol>
-<p><img src="paper-zotero-dropbox/IMG_2601.jpg" alt="IMG_2601"></p>
+<p><img src="/paper-zotero-dropbox/IMG_2601.jpg" alt="IMG_2601"></p>
 
       
     </div>
@@ -651,7 +651,7 @@
 <li><p>先放<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker">链接</a>。这里是Nvidia Docker的Github仓库。</p>
 </li>
 <li><p>再说作用。若想在Docker中运行GPU程序，则普通的Docker是做不到的，程序无法默认在Docker中使用GPU计算资源；另一方面，如果本地已经安装了某个版本的CUDA，但目标程序需要依赖另一个版本，这也是非常麻烦的。而Nvidia Docker的出现则很好解决了这个问题。它相当于在Docker的下面塞进了一层CUDA层，介于Container和OS之间。</p>
-<p><img src="docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png" alt="Nvidia Docker 原理图"></p>
+<p><img src="/docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png" alt="Nvidia Docker 原理图"></p>
 </li>
 <li><p>然后是安装。</p>
 <ol>
@@ -886,7 +886,7 @@
 <h3 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h3><ol>
 <li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
 <li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
-<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#117;&#x73;&#101;&#x72;&#x6e;&#97;&#x6d;&#x65;&#64;&#105;&#x70;&#46;&#x61;&#100;&#x64;&#x72;&#101;&#115;&#115;">&#117;&#x73;&#101;&#x72;&#x6e;&#97;&#x6d;&#x65;&#64;&#105;&#x70;&#46;&#x61;&#100;&#x64;&#x72;&#101;&#115;&#115;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
+<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;<a href="mailto:&#x75;&#115;&#x65;&#114;&#x6e;&#97;&#x6d;&#x65;&#64;&#x69;&#x70;&#x2e;&#97;&#x64;&#x64;&#x72;&#101;&#x73;&#115;">&#x75;&#115;&#x65;&#114;&#x6e;&#97;&#x6d;&#x65;&#64;&#x69;&#x70;&#x2e;&#97;&#x64;&#x64;&#x72;&#101;&#x73;&#115;</a>:/the/source/path&gt; 与本机目标挂载位置</li>
 <li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
 </ol>
 
@@ -1050,34 +1050,34 @@
 <p>啥意思？</p>
 <p>用不严谨的语言和灵魂画师来解释一下：</p>
 <p>1）图线要反复跨越x轴，像这样：</p>
-<p><img src="eemd/v2-0e5b832aee81e8a9068c9665e6eb2a3a_1440w.jpg" alt="img"></p>
+<p><img src="/eemd/v2-0e5b832aee81e8a9068c9665e6eb2a3a_1440w.jpg" alt="img"></p>
 <p>在整个数据段内，极值点的个数和过零点的个数必须相等或相差最多不能超过一个</p>
 <p>而不能像这样某次穿过零点后出现多个极点：</p>
-<p><img src="eemd/v2-921bc09334db7a4e443578091117788f_1440w.jpg" alt="极点数目偏多"></p>
+<p><img src="/eemd/v2-921bc09334db7a4e443578091117788f_1440w.jpg" alt="极点数目偏多"></p>
 <p>2）包络线要对称，像这样：</p>
-<p><img src="eemd/v2-8826ddaefd1cebee1841bf5ff083c494_1440w.jpg" alt="包络线对称"></p>
+<p><img src="/eemd/v2-8826ddaefd1cebee1841bf5ff083c494_1440w.jpg" alt="包络线对称"></p>
 <p>而不能像这样：</p>
-<p><img src="eemd/v2-deb9cd0d0dcb8a154f8621276cce9972_1440w.jpg" alt="包络线不对称"></p>
+<p><img src="/eemd/v2-deb9cd0d0dcb8a154f8621276cce9972_1440w.jpg" alt="包络线不对称"></p>
 <p>洗洗眼睛，看个正常点的例子吧：</p>
-<p><img src="eemd/v2-a609c2680a2f4c525648a414d9b0a358_1440w.jpg" alt="EMD分解"></p>
+<p><img src="/eemd/v2-a609c2680a2f4c525648a414d9b0a358_1440w.jpg" alt="EMD分解"></p>
 <p>上图由7张图片组成，其中第1张为原始信号，后边依次为EMD分解之后得到的6个分量，分别叫做IMF1~IMF5，最后一张图为残差，每一个IMF分量代表了原始信号中存在的一种内涵模态分量。可以看出，每个IMF分量都是满足这两个约束条件的。</p>
 <h3 id="分解步骤"><a href="#分解步骤" class="headerlink" title="分解步骤"></a>分解步骤</h3><p>1）根据原始信号上下极值点，分别画出上、下包络线。</p>
-<p><img src="eemd/v2-c18c7b4e6d60711351a4d55cb8271320_1440w.jpg" alt="img">上、下包络线</p>
+<p><img src="/eemd/v2-c18c7b4e6d60711351a4d55cb8271320_1440w.jpg" alt="img">上、下包络线</p>
 <p>2）求上、下包络线的均值，画出均值包络线。</p>
-<p><img src="eemd/v2-d56c460e9dd9e245521140497afddb39_1440w.jpg" alt="img">均值包络线</p>
+<p><img src="/eemd/v2-d56c460e9dd9e245521140497afddb39_1440w.jpg" alt="img">均值包络线</p>
 <p>3）原始信号减均值包络线，得到中间信号。</p>
-<p><img src="eemd/v2-e74e49a23dda87df74a562809257ddda_1440w.jpg" alt="img">原始信号减均值包络线</p>
+<p><img src="/eemd/v2-e74e49a23dda87df74a562809257ddda_1440w.jpg" alt="img">原始信号减均值包络线</p>
 <p>4）判断该中间信号是否满足IMF的两个条件，如果满足，该信号就是一个IMF分量；如果不是，以该信号为基础，重新做1）~4）的分析。IMF分量的获取通常需要若干次的迭代。</p>
-<p><img src="eemd/v2-8b6643d803c3bdfb47639e65a75d4c8d_1440w.jpg" alt="img">不满足约束2，需要继续迭代</p>
+<p><img src="/eemd/v2-8b6643d803c3bdfb47639e65a75d4c8d_1440w.jpg" alt="img">不满足约束2，需要继续迭代</p>
 <p>使用上述方法得到第一个IMF后，用原始信号减IMF1，作为新的原始信号，再通过1）~4）的分析，可以得到IMF2，以此类推，完成EMD分解。</p>
-<p><img src="eemd/v2-f735266df804d187b1d173fe6f1bb168_1440w.jpg" alt="img">迭代分解结果</p>
+<p><img src="/eemd/v2-f735266df804d187b1d173fe6f1bb168_1440w.jpg" alt="img">迭代分解结果</p>
 <p>上述例子中的图来自<a target="_blank" rel="noopener" href="http://perso.ens-lyon.fr/patrick.flandrin/emd.ppt">http://perso.ens-lyon.fr/patri</a></p>
 <h2 id="EEMD"><a href="#EEMD" class="headerlink" title="EEMD"></a>EEMD</h2><p>EEMD: Ensemble Empirical Mode Decomposition</p>
 <p>简单的说，EEMD是在EMD的基础上，对原始信号进行了N次添加各异等幅白噪声并分别进行EMD分解后，对每个IMF中间分量进行平均。</p>
 <p>其原理是通过加入白噪声来改变信号极值点的分布，得到符合信号特征的上下包络线，消除模态混叠效应。加入的白噪声通过多次平均消除。</p>
 <h2 id="CEEMD"><a href="#CEEMD" class="headerlink" title="CEEMD"></a>CEEMD</h2><p>CEEMD是在EEMD的基础上，把随机添加的N组白噪声改为了N/2组正噪声和N/2组负噪声，依旧是最后进行平均。</p>
 <p>根据 Yeh 等人的研究，在加入相同数量以及相同幅值的白噪声时，EEMD 剩余噪声会随着集成平均的次数而逐渐减小。CEEMD 的剩余噪声一直维持在一个较小的程度，不论集成平均次数多少。在一定程度上使用 CEEMD方法进行信号分解，可以使用相对较少的集成平均次数，从某种意义上来说，CEEMD在保证小剩余噪声干扰的情况下，能够节省计算时间。</p>
-<p><img src="eemd/931855-20190117162939850-50932674.png" alt="img"><img src="eemd/931855-20190117163017276-1187230461.png" alt="img"></p>
+<p><img src="/eemd/931855-20190117162939850-50932674.png" alt="img"><img src="/eemd/931855-20190117163017276-1187230461.png" alt="img"></p>
 <h2 id="Python库"><a href="#Python库" class="headerlink" title="Python库"></a>Python库</h2><p>EMD, EEMD, CEEMDAN and some visualization support are contained in this repository. </p>
 <p>We can use <code>pip install EMD-signal</code> to install this library.</p>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
@@ -1154,7 +1154,7 @@
 <li>Most of the landmark detectors need to take in an square bounding box for the detection. </li>
 <li>Although the bounding box shape is different, they roughly have the same shape center. For the square and rectangle, they have the same bounding box center, and the edge length of the square box is roughly the same as the mean value of the two edge lengths of the rectangle. Here is a sample.</li>
 </ol>
-<p><img src="face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
+<p><img src="/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
 <blockquote>
 <p>White: Dlib Result</p>
 <p>Green: RetinaFace Result</p>
@@ -1491,7 +1491,7 @@
 
 <p>Visualization of yaw, pitch and roll: <a target="_blank" rel="noopener" href="http://www.ctralie.com/Teaching/COMPSCI290/Materials/EulerAnglesViz/">Link</a></p>
 <p><strong>Euler angles:</strong></p>
-<p><img src="face-features/300px-Eulerangles.svg.png" alt="img"></p>
+<p><img src="/face-features/300px-Eulerangles.svg.png" alt="img"></p>
 <h5 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h5><img src="face-features/image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;" />
 
 <p>Use the 3D landmark computed, and set the vector from 1 to 17 as the x axis, and 9 to 28 as the y axis, then the z axis is computed by set it perpendicular to both x and y, pointing out of front face.</p>
@@ -1695,7 +1695,7 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="Pytorch-Release-Version-Composition"><a href="#Pytorch-Release-Version-Composition" class="headerlink" title="Pytorch Release Version Composition"></a>Pytorch Release Version Composition</h2><p>The repository cloned from GitHub <a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">pytorch/pytorch</a> is different from the package we download using <code>pip install</code> or <code>conda install</code>. In fact, the former contains many C/C++ based files, which consist of the basic of Pytorch, while the latter is more concise and contains compiled libraries and dll files instead. </p>
 <p>Here, let’s discuss the release version, or the installed package at first. The package has a lot of components, Here I only pick out some most important parts to do explanation.</p>
-<p><img src="image-20191128191350467.png" alt="image-20191128191350467"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128191350467.png" alt="image-20191128191350467"></p>
 <h4 id="nn"><a href="#nn" class="headerlink" title="nn"></a>nn</h4><p>All deep learning layers’ python entrance are located here. They mainly collect parameters from init input and do some modification to the input data. After that it will send core computation operation together with parameters into <code>torch._C</code> based functions. </p>
 <h4 id="autograd"><a href="#autograd" class="headerlink" title="autograd"></a>autograd</h4><p>Contains a series of base functions which serves for back propagation. Also, if you dig in, the core implementation is still from C libraries. Variable wrap is also put here, but now it is just omitted because of the merge of tensor and Variable.</p>
 <h4 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h4><p>Mainly these parts are contained in <code>cuda</code> folder: Stream, Event, Broadcast and Random. </p>
@@ -1716,7 +1716,7 @@
 <h3 id="How-Tensor-organizes"><a href="#How-Tensor-organizes" class="headerlink" title="How Tensor organizes"></a>How Tensor organizes</h3><p>TH library is responsible for the computation,storage and memory management of Tensor. It divide the “Tensor” into two separate parts: Storage and Access/View. </p>
 <p>Storage: <strong>THStorage</strong>. It manage the way of storing the Tensor.</p>
 <p>Access: <strong>THTensor</strong>. It provide a access to user.</p>
-<p><img src="image-20191203093005864.png" alt="image-20191203093005864"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191203093005864.png" alt="image-20191203093005864"></p>
 <h4 id="Data-Storage"><a href="#Data-Storage" class="headerlink" title="Data Storage"></a>Data Storage</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">THStorage</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"> real *data;</span><br><span class="line"> <span class="keyword">ptrdiff_t</span> size;</span><br><span class="line"> <span class="keyword">int</span> refcount;</span><br><span class="line"> <span class="keyword">char</span> flag;</span><br><span class="line"> THAllocator *allocator;</span><br><span class="line"> <span class="keyword">void</span> *allocatorContext;</span><br><span class="line"> <span class="class"><span class="keyword">struct</span> <span class="title">THStorage</span> *<span class="title">view</span>;</span></span><br><span class="line">&#125; THStorage;</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -1742,20 +1742,20 @@
 </blockquote>
 <h3 id="Understand-Parameters"><a href="#Understand-Parameters" class="headerlink" title="Understand Parameters"></a>Understand Parameters</h3><p>It is hard and not straightforward enough to understand stride and storage offset, so let’s borrow some images from <a target="_blank" rel="noopener" href="http://blog.ezyang.com/2019/05/pytorch-internals/">ezyang</a>, who is supposed to be an inner developer of Pytorch, to elaborate this problem.</p>
 <p>A tensor is a mathematical concept. But to represent it on our computers, we have to define some sort of physical representation for them. The most common representation is to lay out each element of the tensor contiguously in memory (that’s where the term contiguous comes from), writing out each row to memory.</p>
-<p><img src="image-20191128191750794.png" alt="image-20191128191750794"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128191750794.png" alt="image-20191128191750794"></p>
 <p>Please notice the relationship of sizes and strides. If we get a tensor with a size of (D,H,W) and this tensor is directly defined by user rather than a slice or result of some operation, the stride of it will be (H*W, W, 1). You can compare and draw a conclusion yourself. Each stride element in a certain dimension will be the product of all the following dimensions, and the stride of the last dimension will be 1. </p>
 <p>Physically, stride means how many blocks of memory computer need to skip to get to the starting position of the next corresponding dimension. And if we use a formula to compute the memory position of a $Tensor[i,j,k]$, it will be $storageOffset + i * stride[0] + j * stride[1] + k * stride[2]$.</p>
 <p>In the example image above, I’ve specified that the tensor contains 32-bit integers, so you can see that each integer lies in a physical address, each offset four bytes from each other. To remember what the actual dimensions of the tensor are, we have to also record what the sizes are as extra metadata. </p>
-<p><img src="image-20191128192741907.png" alt="image-20191128192741907"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128192741907.png" alt="image-20191128192741907"></p>
 <p>Then comes to the memory offset. What does this mean? As we has mentioned before, a tensor storage may support multiple tensor view, and if we sliced the first N elements, then we will start from N+1 memory position. The following examples will give a further explanation.</p>
-<p><img src="image-20191128193018098.png" alt="image-20191128193018098"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128193018098.png" alt="image-20191128193018098"></p>
 <p> You can see in the left example, we start at the third element block, so that means we skip two block, and here the offset is 2. Because of the slice, the two dimensional tensor becomes one dimensional tensor, and conjoint elements are continuous in physical storage, this means the strides is [1]. Size is the number of elements in this case and it is 2. </p>
 <p>In the right example, conjoint elements are not continuous, but it do start from the beginning, so the strides is [2] and offset is 0. There are still two elements in total so the sizes don’t change.</p>
 <p>What’s more, if you still find it somehow difficult to understand, you may try <a target="_blank" rel="noopener" href="https://ezyang.github.io/stride-visualizer/index.html">this website</a> to playing with these parameters and see the dynamic process.</p>
 <h3 id="Tensor-implementation-dispatch"><a href="#Tensor-implementation-dispatch" class="headerlink" title="Tensor implementation dispatch"></a>Tensor implementation dispatch</h3><p>As we know, although in Python, you can use any type of data as you wish, as the interpreter will take care of the rest of the things. However, since the basic kernels are written in C/C++, functions from Python need to be dispatched into same functions with different input and device type. To a C/C++ functions, a certain function cannot take in <code>int</code> and <code>float</code> Tensor as a same <code>X</code> at the same time, they need separate implementation.</p>
-<p><img src="image-20191128221930437.png" alt="image-20191128221930437"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128221930437.png" alt="image-20191128221930437"></p>
 <h3 id="How-to-dispatch"><a href="#How-to-dispatch" class="headerlink" title="How to dispatch"></a>How to dispatch</h3><p>As we discussed above, the basic C/C++ implementation need to dispatch according to data and device type. But in code, how to actually do this work?</p>
-<p><img src="image-20191128222130891.png" alt="image-20191128222130891"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128222130891.png" alt="image-20191128222130891"></p>
 <p>There are basically three methods.</p>
 <ol>
 <li>Write these functions with different data and device type separately, and manually.</li>
@@ -1798,7 +1798,7 @@
 
 <p>We will only traced here and this show a representative example of how pytorch inner code call and implement those method.</p>
 <h2 id="Autograd"><a href="#Autograd" class="headerlink" title="Autograd"></a>Autograd</h2><p>Autograd is a method which support automatic computation of gradient which will be used in the back propagation. Autograd depend directly on the computational graph. Computational graph is used for defining the pipeline of a model. It combines functions with variables and shows how they connect to each other.</p>
-<p><img src="image-20191128215249350.png" alt="image-20191128215249350"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128215249350.png" alt="image-20191128215249350"></p>
 <p>A directed graph with the following property:</p>
 <ol>
 <li>Edge: a function, or a function’s dependency</li>
@@ -1812,7 +1812,7 @@
 </ul>
 <p>Pytorch, on the other hand, utilize dynamic graph. The structure of the graph is established at the same time as the forward, so there is no need to use placeholder.</p>
 <p>Here is an example inner code of autograd. </p>
-<p><img src="image-20191128215538638.png" alt="image-20191128215538638"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128215538638.png" alt="image-20191128215538638"></p>
 <p>Here we will elaborate these parameters which get involved in this process.</p>
 <ul>
 <li><p><strong>Data</strong>: It’s the data a variable is holding. </p>
@@ -1834,17 +1834,17 @@
 </ol>
 </li>
 </ul>
-<p><img src="image-20191128215740348.png" alt="image-20191128215740348"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128215740348.png" alt="image-20191128215740348"></p>
 <h2 id="Pytorch-Source-Code-Composition"><a href="#Pytorch-Source-Code-Composition" class="headerlink" title="Pytorch Source Code Composition"></a>Pytorch Source Code Composition</h2><p>Since different data type, different devices are supported, and python code call C/C++ based code, the source code structure is not easy to understand. Here is the most important parts in the root directory.</p>
-<p><img src="image-20191128193909092.png" alt="image-20191128193909092"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128193909092.png" alt="image-20191128193909092"></p>
 <p>And provide a more detailed directory comment as well as explanation below.</p>
-<p><img src="image-20191128194349295.png" alt="image-20191128194349295"></p>
+<p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128194349295.png" alt="image-20191128194349295"></p>
 <h3 id="Explanation-of-crucial-folders"><a href="#Explanation-of-crucial-folders" class="headerlink" title="Explanation of crucial folders"></a>Explanation of crucial folders</h3><h4 id="C10"><a href="#C10" class="headerlink" title="C10"></a>C10</h4><p><strong>C</strong>affe <strong>Ten</strong>sor Library: Most basic tensor library. Codes here can be deployed to mobile devices as well as servers. It contains the core abstractions of PyTorch, including the actual implementations of the Tensor and Storage data structures.</p>
 <h4 id="ATen"><a href="#ATen" class="headerlink" title="ATen"></a>ATen</h4><p><strong>A</strong> <strong>TEN</strong>sor library for C++11, the C++ tensor library for Pytorch. It is a C++ library that implements the <strong>operations</strong> of Tensors. If you’re looking for where some kernel code lives, chances are it’s in ATen. ATen itself bifurcates into two neighborhoods of operators: the “native” operators, which are modern, C++ implementations of operators, and the “legacy” operators (TH, THC, THNN, THCUNN), which are legacy, C implementations. The legacy operators are the bad part of town; try not to spend too much time there if you can. </p>
 <h4 id="Caffe2"><a href="#Caffe2" class="headerlink" title="Caffe2"></a>Caffe2</h4><p>This part is from the original Caffe2. After the merge of Pytorch and Caffe2, Caffe2 become a kind of backend in Pytorch.</p>
 <h4 id="Torch"><a href="#Torch" class="headerlink" title="Torch"></a>Torch</h4><p>This is the part normally called by user when then use Pytorch to train or test their models. It contains what you are most familiar with: the actual Python modules that you import and use. </p>
 <h4 id="Torch-csrc"><a href="#Torch-csrc" class="headerlink" title="Torch/csrc"></a>Torch/csrc</h4><p>The C++ code that implements what you might call the frontend of PyTorch. In more descriptive terms, it implements the binding code that translates between the Python and C++ universe, and also some pretty important pieces of PyTorch, like the autograd engine and the JIT compiler. It also contains the C++ frontend code. </p>
-<h3 id="Mechanism-inside-a-simple-call"><a href="#Mechanism-inside-a-simple-call" class="headerlink" title="Mechanism inside a simple call"></a>Mechanism inside a simple call</h3><p><img src="image-20191128223910466.png" alt="image-20191128223910466"></p>
+<h3 id="Mechanism-inside-a-simple-call"><a href="#Mechanism-inside-a-simple-call" class="headerlink" title="Mechanism inside a simple call"></a>Mechanism inside a simple call</h3><p><img src="/2019/12/11/Pytorch-Core-Code-Research/image-20191128223910466.png" alt="image-20191128223910466"></p>
 <h2 id="Basic-Condition-of-Memory-Management-in-Pytorch"><a href="#Basic-Condition-of-Memory-Management-in-Pytorch" class="headerlink" title="Basic Condition of Memory Management in Pytorch"></a>Basic Condition of Memory Management in Pytorch</h2><ol>
 <li>Every tensor will be assigned with a allocator when it is initialized. </li>
 <li><code>c10/core/Allocator.h</code>: Pytorch default allocator class defined here.</li>

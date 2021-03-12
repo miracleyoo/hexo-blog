@@ -274,7 +274,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># scatGaAs[3, :, 2]</span></span><br><span class="line">scatGaAs[np.ix_([<span class="number">3</span>], np.arange(<span class="number">1</span>, Ek_pts+<span class="number">1</span>), [<span class="number">1</span>])]</span><br></pre></td></tr></table></figure>
 
 <p>乱七八糟的，还是画图吧 </p>
-<p><img src="0069RVTdly1fu5rpz0moij30yu196tfn.jpg" alt="image-20180811015729519"></p>
+<p><img src="/2018/08/11/numpy-high-dim-slicing/0069RVTdly1fu5rpz0moij30yu196tfn.jpg" alt="image-20180811015729519"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]), np.array([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>])]<span class="comment">#这里的y就是上面创建的5*7的二维数组，这里可以理解成x坐标0,2,4，y坐标0,1,2的三个数</span></span><br><span class="line">array([ <span class="number">0</span>, <span class="number">15</span>, <span class="number">30</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]), np.array([<span class="number">0</span>,<span class="number">1</span>])]</span><br><span class="line">&lt;<span class="built_in">type</span> ’exceptions.ValueError’&gt;: shape mismatch: objects cannot be broadcast to a single shape</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]),<span class="number">0</span>:<span class="number">1</span>]</span><br><span class="line">array([[ <span class="number">0</span>],</span><br><span class="line">       [<span class="number">14</span>],</span><br><span class="line">       [<span class="number">28</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]), <span class="number">1</span>]</span><br><span class="line">array([ <span class="number">1</span>, <span class="number">15</span>, <span class="number">29</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>])]<span class="comment">#取0行，2行，4行</span></span><br><span class="line">array([[ <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">[<span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>, <span class="number">20</span>],</span><br><span class="line">[<span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>, <span class="number">34</span>]])<span class="number">1234567891011121314</span></span><br></pre></td></tr></table></figure>
 
 <p>布尔类型的索引</p>
@@ -446,7 +446,7 @@
 <ul>
 <li>如果依然有安装问题，继续下载 <code>pip install git+https://github.com/szagoruyko/pytorchviz</code></li>
 </ul>
-<h2 id="官方效果如下图："><a href="#官方效果如下图：" class="headerlink" title="官方效果如下图："></a>官方效果如下图：</h2><p><img src="0069RVTdly1fu5opw86r4j30nq0ou416.jpg" alt="image-20180811001334071"></p>
+<h2 id="官方效果如下图："><a href="#官方效果如下图：" class="headerlink" title="官方效果如下图："></a>官方效果如下图：</h2><p><img src="/2018/08/11/net-visualization/0069RVTdly1fu5opw86r4j30nq0ou416.jpg" alt="image-20180811001334071"></p>
 
       
     </div>
@@ -520,21 +520,21 @@
           <p>机翼拂过地表的风，穿过天边的云，越过无垠的大海与起伏的丘陵；极目远眺，无数的灯火点缀着这片宁静的夜。Los Angeles，我们的脚尖轻触这片多情的地，任生命的画卷被这座城浸染。</p>
 <p>纵横交错的路携手含情脉脉的灯，编织出了一条条闪烁的金线；从高空俯瞰，这座四四方方的城市好似一块硕大无朋的电路板，流动的车与人则好似股股电流，于其间不知疲倦的穿梭往复。短短五天的洛杉矶之行，就此宣告拉开了帷幕。</p>
 <p>本次出行是参加IEEE组织的EMC行业相当于年会的Symposium，既有学界各路大佬牛人宣讲其paper，也有业界各大公司商行来此做Exhibition，推广宣传其软硬件产品。我们一行人中，既有来做报告的导师及PhD的学长学姐，也有来做会议志愿者的实习生和研究生们，大家搭乘飞机，于周日晚抵达洛杉矶。</p>
-<p><img src="006tKfTcly1fty8o7ib95j31kw16rtyp.jpg" alt="IMG_2164"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1fty8o7ib95j31kw16rtyp.jpg" alt="IMG_2164"></p>
 <p>洛杉矶长滩海滩</p>
 <p>细数起这几天的经历，惊喜地发现了诸多人生中的“第一次”。大到第一次在大型Symposium上做志愿者、第一次不靠别人引荐在宴会和Gala Banquet上和来自各个国家的大佬们“Social”、第一次真正意义上交到外国朋友、第一次用日语和一桌日本教授愉快交流、第一次拿到别人的名片，小到第一次住motel、第一次在美国搭乘Uber出行，第一次游玩环球影城，第一次吃甜甜圈状的汉堡。</p>
-<p><img src="006tKfTcly1fty8oh72bxj30u0140wjy.jpg" alt="IMG_2755"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1fty8oh72bxj30u0140wjy.jpg" alt="IMG_2755"></p>
 <p>环球影城标志</p>
-<p><img src="006tKfTcly1fty8ovh6e7j31420u0tc6.jpg" alt="IMG_2757"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1fty8ovh6e7j31420u0tc6.jpg" alt="IMG_2757"></p>
 <p>哈利波特小城</p>
-<p><img src="006tKfTcly1fty8p1s5lcj31420u0juy.jpg" alt="IMG_2758"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1fty8p1s5lcj31420u0juy.jpg" alt="IMG_2758"></p>
 <p>与“哈式”工作人员合影</p>
-<p><img src="006tKfTcly1ftymtaeda3j31kw16r4qp.jpg" alt="IMG_2826"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1ftymtaeda3j31kw16r4qp.jpg" alt="IMG_2826"></p>
 <p>玛丽皇后号</p>
 <p>这片陌生的土地也告诉了我许多熟悉的道理：外语口语只有多用才能产生自信、努力工作将会得到赏识、只有大胆追求机会才会来临、陌生人通过交流会变成可爱可敬的人。刚来到这里时其实胆怯和保守心理还是占据上风的，尽量避免和陌生人产生不必要的会话，尽量少搭话防止打扰大佬们，展会上展示的东西都是我不清楚的而且也不会去买所以还是别去以防尴尬，社交晚会很庸俗尽量远离为好等等。但这些天中不断发生着的A到Z，都渐渐扭转了我之前执拗而有失偏颇的想法。大佬们虽然确实很优秀，但他们也并不会因此就鄙视别人，拒绝谈话；虽然展会上展出的东西的确你都不会买，但那也不是想卖给个人的，去转转还是挺有趣的；社交晚宴确实挺吵闹，但就是在那里我终于和同为实习生的3位韩国小哥成为了朋友，并得以认识了不少来自世界各地的有趣而有料的教授和会社人；多张口问别人问题、与人交流并不会因为poor的口语而被嘲笑，而是渐渐增强了自信，更敢于和别人用各种外语交流了。</p>
-<p><img src="006tKfTcly1ftymw51rhqj31kw16onpd.jpg" alt="IMG_2879"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1ftymw51rhqj31kw16onpd.jpg" alt="IMG_2879"></p>
 <p>志愿者证与在Banquet收到的名片</p>
-<p><img src="006tKfTcly1fty8pf5qmpj31kw16r4qp.jpg" alt="IMG_2868"></p>
+<p><img src="/2018/08/04/emc-lab-note-3w/006tKfTcly1fty8pf5qmpj31kw16r4qp.jpg" alt="IMG_2868"></p>
 <p>在玛丽皇后展馆中和韩国小哥们合影</p>
 <p>当然，除了成长，洛杉矶也给我们带来了实实在在的堪称享受的娱乐活动。长滩午后海滨的慵懒与放松，环球影城各种项目带来的好莱坞级别级别的感官刺激、身临其境的电影艺术体验、从历史到当代最先进电影技术带来的思想碰撞，玛丽皇后号上对沧桑历史的认知和顶级banquet带来的极致奢华的体验，如果平日里的成长与体验是沙漠中的风对岩石的雕琢，那相信这些天来所有经历过的这一切会像地震和火山喷发般以极其浓缩的能量剧烈地塑造我心中的版图，撼动地基深厚的偏见的高山，并用喷薄而出的养分造就一片片新的沃土。</p>
 <p>新的一周又即将来临，命运石之门又会带来些什么惊喜呢？</p>
@@ -1150,15 +1150,15 @@
 <ol>
 <li>打开 Xcode，选择“Create a new Xcode project”创建一个新工程，如下图所示：</li>
 </ol>
-<p><img src="006tNc79ly1ftrj0gvwv6j314c0ngth9.jpg" alt="image-20180729181817554"></p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj0gvwv6j314c0ngth9.jpg" alt="image-20180729181817554"></p>
 <ol start="2">
 <li>接下来，选择要创建的工程类型，如下图所示：</li>
 </ol>
-<p><img src="006tNc79ly1ftrj13r485j31420ssjuw.jpg" alt="image-20180729181855118"></p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj13r485j31420ssjuw.jpg" alt="image-20180729181855118"></p>
 <ol start="3">
 <li>选择“OS X –&gt; Application –&gt; Command Line Tool”，点击“Next”。Command Line Tool 是“命令行工具”的意思，也就是控制台程序。</li>
 </ol>
-<p><img src="006tNc79ly1ftrj1kdat7j31460t0mzl.jpg" alt="image-20180729181921915"></p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrj1kdat7j31460t0mzl.jpg" alt="image-20180729181921915"></p>
 <p>这里需要填写和工程相关的一些信息：</p>
 <ul>
 <li>Product Name：产品名称，即工程名称。</li>
@@ -1172,8 +1172,8 @@
 </ol>
 <p>左侧是工程目录，主要包含了工程所用到的文件和资源。单击“main.c”，即可进入代码编辑模式，这里 Xcode 已经为我们创建好了一个“Hello World”小程序。点击上方的“运行”按钮，即可在右下角的选项卡中看到输出结果。</p>
 <h1 id="修改工作路径使之与当前代码存放目录一致"><a href="#修改工作路径使之与当前代码存放目录一致" class="headerlink" title="修改工作路径使之与当前代码存放目录一致"></a>修改工作路径使之与当前代码存放目录一致</h1><p>如下图在Xcode中点击工程名，选择Edit Scheme，之后在Use custom working directory前打钩，并将工作路径修改为**/Users/mac/Desktop/test**。</p>
-<p><img src="006tNc79ly1ftrjltwyphj30ji084jsl.jpg" alt="image-20180729183848469"></p>
-<p><img src="006tNc79ly1ftrjmjg1v2j31di0rowkh.jpg" alt="image-20180729183918230"></p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrjltwyphj30ji084jsl.jpg" alt="image-20180729183848469"></p>
+<p><img src="/2018/07/29/xcode-c/006tNc79ly1ftrjmjg1v2j31di0rowkh.jpg" alt="image-20180729183918230"></p>
 
       
     </div>
@@ -1398,7 +1398,7 @@
 <p>每年的生活费20K</p>
 <p>第六年参加工作，税后的收入80K（经统计，CS博士学位的软件工程师平均工资税前106K(<a href="https://link.zhihu.com/?target=https://www.payscale.com/research/US/Degree=Doctorate_(PhD)%252C_Computer_Science_(CS)/Salary">Doctorate (PhD), Computer Science (CS) Degree Salaries</a>)，因此80K不算高估）。生活费30K。每年的工资涨幅为6%（都PhD了，总要稍微比Master高那么一点点吧，当然这个数据不改变最后结果，设为10%也一样）</p>
 <p>下面是我的博士生画的比较图：</p>
-<p><img src="v2-b9f0316405ac67d864340615ee5e272c_hd.jpg" alt="img"></p>
+<p><img src="/2018/07/29/american-u/v2-b9f0316405ac67d864340615ee5e272c_hd.jpg" alt="img"></p>
 <p>我们发现，<strong>CS PhD的净收入恒高于硕士</strong>。再考虑到通货膨胀率，其实第一年欠下的学费后面需要更多的钱才能补上，所以差距应该更明显。</p>
 <h3 id="深度讨论"><a href="#深度讨论" class="headerlink" title="深度讨论"></a>深度讨论</h3><ol>
 <li>问： PhD看起来也没比Master多多少钱啊</li>
@@ -1509,11 +1509,11 @@
           <h1 id="GAN网络"><a href="#GAN网络" class="headerlink" title="GAN网络"></a>GAN网络</h1><ul>
 <li>基本架构：</li>
 </ul>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/v2-61e1b1a6d1feb23a7d3c52966d11be08_hd.png" alt="img"></p>
+<p><img src="/../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/v2-61e1b1a6d1feb23a7d3c52966d11be08_hd.png" alt="img"></p>
 <ul>
 <li>如何训练GAN网络？</li>
 </ul>
-<p><img src="006tKfTcly1ft8wo4ne7uj30k00cajsu.jpg" alt="img"></p>
+<p><img src="/2018/07/29/emclab-day1/006tKfTcly1ft8wo4ne7uj30k00cajsu.jpg" alt="img"></p>
 <ul>
 <li>GAN的优点：</li>
 </ul>
@@ -1538,11 +1538,11 @@
 <ul>
 <li>玻尔兹曼机的特点</li>
 </ul>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/image-20180713160524512.png" alt="image-20180713160524512"></p>
+<p><img src="/../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/image-20180713160524512.png" alt="image-20180713160524512"></p>
 <ul>
 <li>受限玻尔兹曼机：</li>
 </ul>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/image-20180713160614434.png" alt="image-20180713160614434"></p>
+<p><img src="/../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/image-20180713160614434.png" alt="image-20180713160614434"></p>
 <ul>
 <li>玻尔兹曼机与受限玻尔兹曼机的区别：是否是全连接的。前者是所有节点全连接，后者只要求不同层之间的节点与另一层中所有节点连接。</li>
 <li>玻尔兹曼机可以解决的问题：</li>
@@ -1555,7 +1555,7 @@
 </blockquote>
 <h1 id="深度信念网络"><a href="#深度信念网络" class="headerlink" title="深度信念网络"></a>深度信念网络</h1><ul>
 <li><p>定义：深度信念网络(Deep Belief Network，DBN)是一种深层的概率有向图模 型，其图结构由多层的节点构成。每层节点的内部没有连接，相邻两层的节点 之间为全连接。网络的最底层为可观测变量，其它层节点都为隐变量。最顶部 的两层间的连接是无向的，其他层之间的连接是有向的。 </p>
-<p><img src="../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/image-20180713162115387.png" alt="image-20180713162115387"></p>
+<p><img src="/../../../../%E5%9B%BE%E7%89%87/Markdown_Image_Temp/image-20180713162115387.png" alt="image-20180713162115387"></p>
 </li>
 <li><p>训练方式：在预训练阶段，采用逐层训练的方式，将深度信念网络的训练简化为对多个受限玻尔兹曼机的训练。 </p>
 </li>
@@ -1631,14 +1631,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>​    本周是2018年华中科技大学同学来密苏里科技大学进行暑研的第二周。如果用一个词来概括本周的感觉，那“渐臻佳境”将会是一个不错的选择。第一周生活划下的略显杂乱的轨迹线在此延长、伸展、放射，形成了一道优美而有序的线条。</p>
-<p>​    首先是生活方面，由于初来乍到的我们没有合适的厨具、没有料理的原料，而且更扎心的是一起生活的四个小伙伴都不会做饭，所以我们几乎吃遍了罗拉城中心地带的各种中餐厅日料店，更是消耗掉了几大包泡面。而在即将毕业学长的帮助下，我们凑 齐了厨具，去沃尔玛购买到了原料，并且下载了“下厨房”App开始了零基础的料理学习。每天一到饭点，大家就会齐心协力烹制一道道虽然简单但是却也可口的饭菜。能够自己做饭无疑大幅降低了我们在吃饭方面的开销，同时也为之后的留学生活打下了必要的基础。<br><img src="006tKfTcly1ftqbfpfa9uj31kw1kw4qp.jpg" alt="IMG_1977"></p>
+<p>​    首先是生活方面，由于初来乍到的我们没有合适的厨具、没有料理的原料，而且更扎心的是一起生活的四个小伙伴都不会做饭，所以我们几乎吃遍了罗拉城中心地带的各种中餐厅日料店，更是消耗掉了几大包泡面。而在即将毕业学长的帮助下，我们凑 齐了厨具，去沃尔玛购买到了原料，并且下载了“下厨房”App开始了零基础的料理学习。每天一到饭点，大家就会齐心协力烹制一道道虽然简单但是却也可口的饭菜。能够自己做饭无疑大幅降低了我们在吃饭方面的开销，同时也为之后的留学生活打下了必要的基础。<br><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbfpfa9uj31kw1kw4qp.jpg" alt="IMG_1977"></p>
 <p>​    之后便是学习研究方面。在研究方面，由于之前在Dian团队打下了坚实的编程与算法的基础、培养了必要的快速学习能力，整体来说我进入状态还是相对较快的。我做的第一个项目是用matlab通过智能算法优化限定条件下ESM放射源扫描中的采样点选取问题。通过将近一周的不断优化，同时也得益于学长和各位导师们耐心的指导和激烈的讨论，在我们所特定的条件下，目前已经取得了相当不错的结果。</p>
-<p><img src="006tKfTcly1ftqaz36trlj31kw0l47wh.jpg" alt="image-20180728165436778"></p>
+<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqaz36trlj31kw0l47wh.jpg" alt="image-20180728165436778"></p>
 <p>​    这个项目稍微告一段落后，紧接着张岭学长结合范教授得到知道，给我安排了另外一个更具有挑战性的任务，这个任务将主要通过深度学习方法完成，如果效果达到预期，其将作为一个大型仿真项目的一部分被整合。</p>
 <p>​    本周的活动依旧丰富。我们和实验室的导师以及学长们一同踢了足球，参加了野外烧烤、去电影院观看了刚刚上映的碟中谍。由于这里的电影院支持躺着观影，所以观影体验确实是相当不错的。不过看了这种没有字幕的电影，不由感到应该赶紧提高自己这依旧令人捉急的英语听力了。虽然平时和教授们讨论以及购物等场景还是能够应付的，不过到了更加复杂的生活场景中时还是会感到差的很远。长路漫漫，且行且思！</p>
-<p><img src="006tKfTcly1ftqbiogksaj31kw16o4qq.jpg" alt="IMG_1975"></p>
-<h5 id="“躺着的”电影院"><a href="#“躺着的”电影院" class="headerlink" title="“躺着的”电影院"></a>“躺着的”电影院</h5><p><img src="006tKfTcly1ftqbifpudoj31kw0w01l0.jpg" alt="IMG_2090"></p>
-<h5 id="夕阳下的合影"><a href="#夕阳下的合影" class="headerlink" title="夕阳下的合影"></a>夕阳下的合影</h5><p><img src="006tKfTcly1ftqbixud7tj31kw11oe84.jpg" alt="IMG_2087"></p>
+<p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbiogksaj31kw16o4qq.jpg" alt="IMG_1975"></p>
+<h5 id="“躺着的”电影院"><a href="#“躺着的”电影院" class="headerlink" title="“躺着的”电影院"></a>“躺着的”电影院</h5><p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbifpudoj31kw0w01l0.jpg" alt="IMG_2090"></p>
+<h5 id="夕阳下的合影"><a href="#夕阳下的合影" class="headerlink" title="夕阳下的合影"></a>夕阳下的合影</h5><p><img src="/2018/07/26/emc-lab-note-2w/006tKfTcly1ftqbixud7tj31kw11oe84.jpg" alt="IMG_2087"></p>
 <h5 id="足球场风采"><a href="#足球场风采" class="headerlink" title="足球场风采"></a>足球场风采</h5><p>下周我们将和实验室的导师学长们一同去加州参加一个领域内的研讨会，十分期待！</p>
 <p>2018.7.28</p>
 

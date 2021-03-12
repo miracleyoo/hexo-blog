@@ -30,27 +30,27 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="本文主要内容转载自：Multi-Armed Bandit: Thompson Sampling，经过部分整合修改 背景假设我们开了一家叫Surprise Me的饭馆，客人来了不用点餐，由算法来决定改做哪道菜，整个过程如下： 步骤 1: 客人 user &#x3D; 1…T 依次到达餐馆 步骤 2: 给客人推荐一道菜，客人接受则留下吃饭(reward&#x3D;1)，拒绝则离开(reward&#x3D;0) 步骤 3: 记录选择">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%7Bp%7D">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%7Bp%7D">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Ctilde%7Bp%7D">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Ctilde%7Bp%7D">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cepsilon">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=1-%5Cepsilon">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy+">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D">
-<meta property="og:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D">
+<meta property="og:image" content="https://www.miracleyoo.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy">
 <meta property="article:published_time" content="2018-11-29T19:41:32.000Z">
 <meta property="article:modified_time" content="2019-10-04T02:14:34.270Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D">
+<meta name="twitter:image" content="https://www.miracleyoo.com/equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2018/11/29/multi-armed-bandit/">
@@ -306,25 +306,25 @@
 <li>菜好吃不好吃只有客人才说的算，饭馆是事先不知道的（<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32410420">先验知识会在Bayesian Bandit中考虑</a>）</li>
 </ol>
 <h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h2><p>**探索阶段 (Exploration)：通过多次观测推断出一道菜做的好吃的概率 － **如果一道菜已经推荐了k遍（获取了k次反馈），我们就可以算出菜做的好吃的概率：</p>
-<p><img src="equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D" alt="\\tilde{p} = \\frac{\\sum{reward_i}}{k}"></p>
-<p>如果推荐的次数足够多，k足够大，那么 <img src="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D" alt="\\tilde{p}"> 会趋近于真实的菜做的好吃的概率 <img src="equation?tex=%7Bp%7D" alt="{p}"> 。</p>
-<p>**利用阶段 (Exploitation)：已知所有的菜做的好吃的概率，该如何推荐？－ **如果每道菜都推荐了多遍，我们就可以计算出N道菜做的好吃的概率 { <img src="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D" alt="\\tilde{p}\_{1}, \\tilde{p}\_{2}, ..., \\tilde{p}\_{N}">}，那么我们就可以推荐 <img src="equation?tex=%5Ctilde%7Bp%7D" alt="\\tilde{p}"> 最大的那道菜。</p>
+<p><img src="/equation?tex=%5Ctilde%7Bp%7D+=+%5Cfrac%7B%5Csum%7Breward_i%7D%7D%7Bk%7D" alt="\\tilde{p} = \\frac{\\sum{reward_i}}{k}"></p>
+<p>如果推荐的次数足够多，k足够大，那么 <img src="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D" alt="\\tilde{p}"> 会趋近于真实的菜做的好吃的概率 <img src="/equation?tex=%7Bp%7D" alt="{p}"> 。</p>
+<p>**利用阶段 (Exploitation)：已知所有的菜做的好吃的概率，该如何推荐？－ **如果每道菜都推荐了多遍，我们就可以计算出N道菜做的好吃的概率 { <img src="https://www.zhihu.com/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D" alt="\\tilde{p}\_{1}, \\tilde{p}\_{2}, ..., \\tilde{p}\_{N}">}，那么我们就可以推荐 <img src="/equation?tex=%5Ctilde%7Bp%7D" alt="\\tilde{p}"> 最大的那道菜。</p>
 <h2 id="核心问题：什么时候探索-Exploration-，什么时候利用-Exploitation"><a href="#核心问题：什么时候探索-Exploration-，什么时候利用-Exploitation" class="headerlink" title="核心问题：什么时候探索(Exploration)，什么时候利用 (Exploitation)?"></a>核心问题：什么时候探索(Exploration)，什么时候利用 (Exploitation)?</h2><p>探索 (Exploration) v.s. 利用(Exploitation)，这是一个经久不衰的问题：</p>
 <ul>
 <li>Exploration的代价是要不停的拿用户去试菜，影响客户的体验，但有助于更加准确的估计每道菜好吃的概率</li>
 <li>Exploitation会基于目前的估计拿出“最好的”菜来服务客户，但目前的估计可能是不准的（因为试吃的人还不够多）</li>
 </ul>
-<p>解决方法 <img src="equation?tex=%5Cepsilon+%EF%BC%8D+greedy" alt="\\epsilon － greedy"> ：每当客人到来时:</p>
+<p>解决方法 <img src="/equation?tex=%5Cepsilon+%EF%BC%8D+greedy" alt="\\epsilon － greedy"> ：每当客人到来时:</p>
 <ul>
-<li>以 <img src="https://www.zhihu.com/equation?tex=%5Cepsilon" alt="\\epsilon"> 的概率选择探索 (Exploration) ，从N道菜中随机选择(概率为<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D" alt="\\frac{\\epsilon}{N}"> )一个让客人试吃，根据客人的反馈更新菜的做的好吃的概率 { <img src="equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D" alt="\\tilde{p}\_{1}, \\tilde{p}\_{2}, ..., \\tilde{p}\_{N}">}</li>
-<li>以 <img src="https://www.zhihu.com/equation?tex=1-%5Cepsilon" alt="1-\\epsilon"> 的概率选择利用 (Exploitation)，从N道菜{ <img src="equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D" alt="\\tilde{p}\_{1}, \\tilde{p}\_{2}, ..., \\tilde{p}\_{N}">}中选择好吃的概率最高的菜推荐给用户 </li>
+<li>以 <img src="https://www.zhihu.com/equation?tex=%5Cepsilon" alt="\\epsilon"> 的概率选择探索 (Exploration) ，从N道菜中随机选择(概率为<img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D" alt="\\frac{\\epsilon}{N}"> )一个让客人试吃，根据客人的反馈更新菜的做的好吃的概率 { <img src="/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D" alt="\\tilde{p}\_{1}, \\tilde{p}\_{2}, ..., \\tilde{p}\_{N}">}</li>
+<li>以 <img src="https://www.zhihu.com/equation?tex=1-%5Cepsilon" alt="1-\\epsilon"> 的概率选择利用 (Exploitation)，从N道菜{ <img src="/equation?tex=%5Ctilde%7Bp%7D_%7B1%7D,+%5Ctilde%7Bp%7D_%7B2%7D,+...,+%5Ctilde%7Bp%7D_%7BN%7D" alt="\\tilde{p}\_{1}, \\tilde{p}\_{2}, ..., \\tilde{p}\_{N}">}中选择好吃的概率最高的菜推荐给用户 </li>
 </ul>
-<p>那么 <img src="equation?tex=%5Cepsilon+%EF%BC%8D+greedy" alt="\\epsilon － greedy"> 的缺点是什么呢：</p>
+<p>那么 <img src="/equation?tex=%5Cepsilon+%EF%BC%8D+greedy" alt="\\epsilon － greedy"> 的缺点是什么呢：</p>
 <ul>
-<li><strong>在试吃次数相同的情况下，好吃和难吃的菜得到试吃的概率是一样的</strong>：有一道菜持续能得到好吃的反馈，而另一道菜持续得到难吃的反馈，但在 <img src="https://www.zhihu.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy+" alt="\\epsilon － greedy "> 中，探索两道菜的概率是一样的（均为<img src="equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D" alt="\\frac{\\epsilon}{N}">）。</li>
+<li><strong>在试吃次数相同的情况下，好吃和难吃的菜得到试吃的概率是一样的</strong>：有一道菜持续能得到好吃的反馈，而另一道菜持续得到难吃的反馈，但在 <img src="https://www.zhihu.com/equation?tex=%5Cepsilon+%EF%BC%8D+greedy+" alt="\\epsilon － greedy "> 中，探索两道菜的概率是一样的（均为<img src="/equation?tex=%5Cfrac%7B%5Cepsilon%7D%7BN%7D" alt="\\frac{\\epsilon}{N}">）。</li>
 <li><strong>在估计的成功概率相同的情况下，试吃次数多的和试吃次数少的菜得到再试吃的概率是一样的</strong>：假设有两道菜，第一道菜50人当中30个人说好，第二道菜5个人当中3个人说好，虽然两道菜的成功概率都是60%(30/50 = 3/50)，但显然反馈的人越多，概率估计的越准。再探索时，应该把重心放在试吃次数少的菜上。</li>
 </ul>
-<p>最后附上 <img src="equation?tex=%5Cepsilon+%EF%BC%8D+greedy" alt="\\epsilon － greedy"> 的完整代码：</p>
+<p>最后附上 <img src="/equation?tex=%5Cepsilon+%EF%BC%8D+greedy" alt="\\epsilon － greedy"> 的完整代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">T &#x3D; 100000 # T个客人</span><br><span class="line">N &#x3D; 10 # N道菜</span><br><span class="line"></span><br><span class="line">true_rewards &#x3D; np.random.uniform(low&#x3D;0, high&#x3D;1, size&#x3D;N) # N道菜好吃的概率</span><br><span class="line">estimated_rewards &#x3D; np.zeros(N)</span><br><span class="line">number_of_trials &#x3D; np.zeros(N)</span><br><span class="line">total_reward &#x3D; 0 </span><br><span class="line"></span><br><span class="line">def alpha_greedy(N, alpha&#x3D;0.1):</span><br><span class="line">    item &#x3D; 0</span><br><span class="line">    if np.random.random() &lt; alpha:</span><br><span class="line">        item &#x3D; np.random.randint(low&#x3D;0, high&#x3D;N)</span><br><span class="line">    else:</span><br><span class="line">        item &#x3D; np.argmax(estimated_rewards)</span><br><span class="line">    reward &#x3D; np.random.binomial(n&#x3D;1, p&#x3D;true_rewards[item])</span><br><span class="line">    return item, reward</span><br><span class="line"></span><br><span class="line">for t in range(1, T): # T个客人依次进入餐馆</span><br><span class="line">   # 从N道菜中推荐一个，reward &#x3D; 1 表示客人接受，reward &#x3D; 0 表示客人拒绝并离开</span><br><span class="line">   item, reward &#x3D; alpha_greedy(N)</span><br><span class="line">   total_reward +&#x3D; reward # 一共有多少客人接受了推荐</span><br><span class="line"></span><br><span class="line">   # 更新菜的平均成功概率</span><br><span class="line">   number_of_trials[item] +&#x3D; 1</span><br><span class="line">   estimated_rewards[item] &#x3D; ((number_of_trials[item] - 1) * estimated_rewards[item] + reward) &#x2F; number_of_trials[item]</span><br><span class="line"></span><br><span class="line">print(&quot;total_reward&#x3D;&quot; + str(total_reward))</span><br></pre></td></tr></table></figure>
 
     </div>

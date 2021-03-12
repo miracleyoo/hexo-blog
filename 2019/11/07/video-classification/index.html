@@ -298,7 +298,7 @@
 <li>Try to make decision based on the whole video rather than only parts of it.</li>
 <li>Try to decrease the computational cost and remove the long pre-process.</li>
 </ol>
-<h2 id="Two-basic-methods"><a href="#Two-basic-methods" class="headerlink" title="Two basic methods"></a>Two basic methods</h2><h3 id="Single-Stream-Network"><a href="#Single-Stream-Network" class="headerlink" title="Single Stream Network"></a><a target="_blank" rel="noopener" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42455.pdf">Single Stream Network</a></h3><p><img src="image-20191028125241454.png" alt="image-20191028125241454"></p>
+<h2 id="Two-basic-methods"><a href="#Two-basic-methods" class="headerlink" title="Two basic methods"></a>Two basic methods</h2><h3 id="Single-Stream-Network"><a href="#Single-Stream-Network" class="headerlink" title="Single Stream Network"></a><a target="_blank" rel="noopener" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42455.pdf">Single Stream Network</a></h3><p><img src="/2019/11/07/video-classification/image-20191028125241454.png" alt="image-20191028125241454"></p>
 <p>There are four ways of fusion, which means combine the information from each frame together to derive the final answer. They are:</p>
 <ol>
 <li> Single frame uses single architecture that fuses information from all frames at the last stage.</li>
@@ -306,54 +306,54 @@
 <li>Early fusion combines in the first layer by convolving over 10 frames. </li>
 <li>Slow fusion involves fusing at multiple stages, a balance between early and late fusion.</li>
 </ol>
-<h3 id="Two-Stream-Networks"><a href="#Two-Stream-Networks" class="headerlink" title="Two Stream Networks"></a><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1406.2199.pdf">Two Stream Networks</a></h3><p><img src="image-20191028125608889.png" alt="image-20191028125608889"></p>
+<h3 id="Two-Stream-Networks"><a href="#Two-Stream-Networks" class="headerlink" title="Two Stream Networks"></a><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1406.2199.pdf">Two Stream Networks</a></h3><p><img src="/2019/11/07/video-classification/image-20191028125608889.png" alt="image-20191028125608889"></p>
 <p>Video can naturally be decomposed into spatial and temporal components. </p>
 <ol>
 <li>The spatial part, in the form of individual frame appearance, carries information about scenes and objects depicted in the video. </li>
 <li>The temporal part, in the form of motion across the frames, conveys the movement of the observer (the camera) and the objects. In fact, the essence of “motion” is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Optical_flow">optical flow</a>.</li>
 </ol>
 <h1 id="Improvement-of-methods"><a href="#Improvement-of-methods" class="headerlink" title="Improvement of methods"></a>Improvement of methods</h1><p>Firstly I’d like to show a graph which shows an overview of all previous action classification architectures drawn in the paper <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset</a>.  </p>
-<p><img src="image-20191028130233266.png" alt="image-20191028130233266"></p>
+<p><img src="/2019/11/07/video-classification/image-20191028130233266.png" alt="image-20191028130233266"></p>
 <p>To summarize, there are these kinds of improved methods:</p>
 <ol>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1411.4389">LRCN</a>: Long-term Recurrent Convolutional Networks for Visual Recognition and Description </p>
-<p> <img src="GenericLRCN_high.png" alt="2 stream architecture"> </p>
+<p> <img src="/2019/11/07/video-classification/GenericLRCN_high.png" alt="2 stream architecture"> </p>
 <p>Send each frame to a CNN at first and then uses the features extracted as the input of LSTM.</p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1412.0767">C3D</a>: Learning Spatiotemporal Features with 3D Convolutional Networks </p>
-<p> <img src="c3d_high-1572285955778.png" alt="SegNet Architecture"> </p>
+<p> <img src="/2019/11/07/video-classification/c3d_high-1572285955778.png" alt="SegNet Architecture"> </p>
 <p>The first time using 3D Conv to process frames. </p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1502.08029">Conv3D &amp; Attention</a>: Describing Videos by Exploiting Temporal Structure </p>
-<p> <img src="Larochelle_paper_high.png" alt="Attention Mechanism"></p>
+<p> <img src="/2019/11/07/video-classification/Larochelle_paper_high.png" alt="Attention Mechanism"></p>
 <p>Add a attention mask before send the CNN-extracted feature into LSTM. </p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.06573">TwoStreamFusion</a>: Convolutional Two-Stream Network Fusion for Video Action Recognition </p>
-<p> <img src="fusion_strategies_high.png" alt="SegNet Architecture"></p>
+<p> <img src="/2019/11/07/video-classification/fusion_strategies_high.png" alt="SegNet Architecture"></p>
 <p>Fuse two stream in a smarter way and get a better result. </p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.00859">TSN</a> :Temporal Segment Networks: Towards Good Practices for Deep Action Recognition </p>
-<p> <img src="tsn_high.png" alt="SegNet Architecture"></p>
+<p> <img src="/2019/11/07/video-classification/tsn_high.png" alt="SegNet Architecture"></p>
 <p>Select video snippets not completely randomly, but divide the video into k equal-length parts and choose a snippets randomly from each division. </p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1704.02895.pdf">ActionVlad</a>:ActionVLAD: Learning spatio-temporal aggregation for action classification</p>
-<p> <img src="actionvlad-1572285243641.png" alt="SegNet Architecture"></p>
+<p> <img src="/2019/11/07/video-classification/actionvlad-1572285243641.png" alt="SegNet Architecture"></p>
 <p> In this work, the most notable contribution by the authors is the usage of learnable feature aggregation (VLAD) as compared to normal aggregation using maxpool or avgpool.  </p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.00389">HiddenTwoStream</a>:Hidden Two-Stream Convolutional Networks for Action Recognition </p>
-<p><img src="image-20191028134438690.png" alt="image-20191028134438690"></p>
+<p><img src="/2019/11/07/video-classification/image-20191028134438690.png" alt="image-20191028134438690"></p>
 <p>It uses a “MotionNet” to take the place of optical flow.</p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">I3D</a>: Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset </p>
 <p>Mainly used pretrained network by ImageNet and Kinetics dataset. Also, it use different 3D network for images and optical flows.</p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.08200">T3D</a>: Temporal 3D ConvNets: New Architecture and Transfer Learning for Video Classification </p>
-<p> <img src="ttl_layer_high.png" alt="SegNet Architecture"></p>
+<p> <img src="/2019/11/07/video-classification/ttl_layer_high.png" alt="SegNet Architecture"></p>
 <p>Transfer a 2-D DenseNet to a 3D one. </p>
 </li>
 </ol>
-<h1 id="Result-comparation"><a href="#Result-comparation" class="headerlink" title="Result comparation"></a>Result comparation</h1><p><img src="image-20191028133828231.png" alt="image-20191028133828231"></p>
-<p><img src="image-20191028133226300.png" alt="image-20191028133226300"></p>
+<h1 id="Result-comparation"><a href="#Result-comparation" class="headerlink" title="Result comparation"></a>Result comparation</h1><p><img src="/2019/11/07/video-classification/image-20191028133828231.png" alt="image-20191028133828231"></p>
+<p><img src="/2019/11/07/video-classification/image-20191028133226300.png" alt="image-20191028133226300"></p>
 <h1 id="Current-Thought"><a href="#Current-Thought" class="headerlink" title="Current Thought"></a>Current Thought</h1><p>As we can see from the analysis above, the I3D is the most computational efficient and accurate method. Also, the pre-trained model of I3D is provided by the author, so we can also take advantage of it. Now I think we should collect enough data of the corresponding action. Moreover, I noticed that there are many new method on Temporal Action Proposals, Temporal Action Localization and Dense-Captioning Events in Videos appearing this year in the competition ActivityNet, I may research into it to get better result later.</p>
 <h1 id="Datasets"><a href="#Datasets" class="headerlink" title="Datasets"></a>Datasets</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.crcv.ucf.edu/data/UCF101.php">UCF101</a></li>

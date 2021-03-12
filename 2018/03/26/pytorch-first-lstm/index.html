@@ -30,6 +30,13 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。     具体意义： 贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文&#x2F;句中蕴含的信息，可以理解为主干内容。    LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)      更详细的内容请参见：LSTM始祖级博客  L">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-chain.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM2-notation.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-C-line.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-f.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-i.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg">
 <meta property="article:published_time" content="2018-03-27T00:23:36.000Z">
 <meta property="article:modified_time" content="2019-10-04T02:04:49.240Z">
 <meta property="article:author" content="Miracle Yoo">
@@ -37,6 +44,7 @@
 <meta property="article:tag" content="pytorch">
 <meta property="article:tag" content="lstm">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-chain.png">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/">
@@ -279,25 +287,25 @@
     <div class="post-body" itemprop="articleBody">
         <h2 id="LSTM模型简介"><a href="#LSTM模型简介" class="headerlink" title="LSTM模型简介"></a>LSTM模型简介</h2><h3 id="整体认识："><a href="#整体认识：" class="headerlink" title="整体认识："></a>整体认识：</h3><ul>
 <li><p>下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。</p>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-chain.png" class="" title="The repeating module in an LSTM contains four interacting layers">
 
-
-
+<img src="/2018/03/26/pytorch-first-lstm/LSTM2-notation.png" class="" title="Notion used above">
 
 <h3 id="具体意义："><a href="#具体意义：" class="headerlink" title="具体意义："></a>具体意义：</h3></li>
 <li><p>贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文/句中蕴含的信息，可以理解为主干内容。</p>
-</li>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-C-line.png" class=""></li>
 </ul>
 <ul>
 <li><p>LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)</p>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-f.png" class="" title="忘记控制，把已经不重要的信息过滤掉">
 
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-i.png" class="" title="输入控制，把有价值的信息放到主干中">
 
-
-
-</li>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png" class="" title="输出控制，把本节点和主干中的重要信息输出"></li>
 <li><p>更详细的内容请参见：<a target="_blank" rel="noopener" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">LSTM始祖级博客</a></p>
 </li>
 <li><p>LSTM有两种 Input-&gt;Output 模式，一种是一对一，一种是多对一，如下图:</p>
-
+<img src="/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg" class="" title="LSTM Paterns">
 
 <p>其中，这里的“多”和“一”指的是输入和输出节点。输入节点在我们这个例子中意味着一句话的几个单词，每个单词都会输出一个hidden层的TensorFlow，而如果我们把每个Tensor都考虑再后续的层中，比如在给句子中的每个单词标注词性的时候，那么就是“多”个单词 -&gt; “多”个输出（打上的标签）；而像是句子分类情况下，就是“多”个单词 -&gt; “一”个输出（句子的具体分类）。</p>
 </li>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true}};
+  </script>
+<meta name="description" content="IoU, AP, mAP, &amp;#109;&amp;#x41;&amp;#x50;&amp;#64;&amp;#x30;&amp;#46;&amp;#x35;, mAP@[0.5: 0.95],  Average mAPTL;DR IoU：两个框框重叠部分面积&#x2F;两个框框合并后的总面积​ AP：绘制Recall-Precision图，经过平滑后曲线的下面全面积。这个图的绘制方法是：按照每个预测结果的Confidence从上往下排列，先只取一个画出图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IoU, AP, mAP等对比">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="IoU, AP, mAP, &amp;#109;&amp;#x41;&amp;#x50;&amp;#64;&amp;#x30;&amp;#46;&amp;#x35;, mAP@[0.5: 0.95],  Average mAPTL;DR IoU：两个框框重叠部分面积&#x2F;两个框框合并后的总面积​ AP：绘制Recall-Precision图，经过平滑后曲线的下面全面积。这个图的绘制方法是：按照每个预测结果的Confidence从上往下排列，先只取一个画出图">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-11ed1bf4a882ee38f9ea1f73a2593472_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-284022eaa7bbb8dd7b4f8488e0495fcd_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-8e1e070d1a59043a349eb1f921ea1e1c_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-fa34f541cee564e83435562297e768ab_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-0a899369aeab8824dc3dd3e4fe572cd3_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-666e46a022e32981aeb07b85958803cc_1440w.jpg">
+<meta property="article:published_time" content="2020-07-14T22:01:42.000Z">
+<meta property="article:modified_time" content="2021-03-12T22:15:03.097Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="deep-learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/07/14/iou-ap-map/v2-11ed1bf4a882ee38f9ea1f73a2593472_1440w.jpg">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2020/07/14/iou-ap-map/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>IoU, AP, mAP等对比 | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IoU-AP-mAP-109-x41-x50-64-x30-46-x35-mAP-0-5-0-95-Average-mAP"><span class="nav-number">1.</span> <span class="nav-text">IoU, AP, mAP, &amp;#109;&amp;#x41;&amp;#x50;&amp;#64;&amp;#x30;&amp;#46;&amp;#x35;, mAP@[0.5: 0.95],  Average mAP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.1.</span> <span class="nav-text">TL;DR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E5%87%86%E7%8E%87%EF%BC%88Precision%EF%BC%89%E5%92%8C%E6%9F%A5%E5%85%A8%E7%8E%87%EF%BC%88recall%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">查准率（Precision）和查全率（recall）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E5%B9%B6%E6%AF%94IoU-Intersection-over-union"><span class="nav-number">1.3.</span> <span class="nav-text">交并比IoU(Intersection over union)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%B1%BB%E5%88%ABAP-Average-Precision-%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">1.4.</span> <span class="nav-text">单类别AP(Average Precision)的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mAP%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-number">1.5.</span> <span class="nav-text">mAP的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.6.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/07/14/iou-ap-map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IoU, AP, mAP等对比
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-07-14 18:01:42" itemprop="dateCreated datePublished" datetime="2020-07-14T18:01:42-04:00">2020-07-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 17:15:03" itemprop="dateModified" datetime="2021-03-12T17:15:03-05:00">2021-03-12</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="IoU-AP-mAP-109-x41-x50-64-x30-46-x35-mAP-0-5-0-95-Average-mAP"><a href="#IoU-AP-mAP-109-x41-x50-64-x30-46-x35-mAP-0-5-0-95-Average-mAP" class="headerlink" title="IoU, AP, mAP, &#109;&#x41;&#x50;&#64;&#x30;&#46;&#x35;, mAP@[0.5: 0.95],  Average mAP"></a>IoU, AP, mAP, <a href="mailto:&#109;&#x41;&#x50;&#64;&#x30;&#46;&#x35;">&#109;&#x41;&#x50;&#64;&#x30;&#46;&#x35;</a>, mAP@[0.5: 0.95],  Average mAP</h1><h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ol>
+<li>IoU：两个框框重叠部分面积/两个框框合并后的总面积​</li>
+<li>AP：绘制Recall-Precision图，经过平滑后曲线的下面全面积。这个图的绘制方法是：按照每个预测结果的Confidence从上往下排列，先只取一个画出图上左上角第一个点，然后是只取前两个，直到取完。</li>
+<li>mAP：AP是针对某一个类的，而mAP是把各个类的AP做一个平均。</li>
+<li><a href="mailto:&#109;&#x41;&#x50;&#x40;&#x30;&#46;&#x35;">&#109;&#x41;&#x50;&#x40;&#x30;&#46;&#x35;</a>：当IoU阈值为0.5时的mAP。</li>
+<li>mAP@[0.5:0.95]：COCO要求IoU阈值在[0.5, 0.95]区间内每隔0.05取一次，这样就可以计算出10个类似于PASCAL的mAP，然后这10个还要再做平均。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="查准率（Precision）和查全率（recall）"><a href="#查准率（Precision）和查全率（recall）" class="headerlink" title="查准率（Precision）和查全率（recall）"></a><strong>查准率（Precision）和查全率（recall）</strong></h2><p>查准率（Precision）是指在所有预测为正例中真正例的比率，也即预测的准确性。</p>
+<p>查全率（Recall）是指在所有正例中被正确预测的比率，也即预测正确的覆盖率。</p>
+<p>一个样本模型预测按正确与否分类如下：</p>
+<p>真正例： $TP=True\space Positive$</p>
+<p>真反例： $TN=True\space Negative$</p>
+<p>假正例：$FP=False\space Positive$</p>
+<p>假反例：$FN=False\space Negative$</p>
+<p><strong>则，查准率和查全率计算公式：</strong></p>
+<p><strong>查准率</strong>：$Precision=\frac{TP}{TP+FP}$</p>
+<p><strong>查全率</strong>：$Recall=\frac{TP}{TP+FN}$</p>
+<h2 id="交并比IoU-Intersection-over-union"><a href="#交并比IoU-Intersection-over-union" class="headerlink" title="交并比IoU(Intersection over union)"></a><strong>交并比IoU(Intersection over union)</strong></h2><p>交并比IoU衡量的是两个区域的重叠程度，是两个区域重叠部分面积占二者总面积（重叠部分只计算一次）的比例。如下图，两个矩形框的IoU是交叉面积（中间图片红色部分）与合并面积（右图红色部分）面积之比。</p>
+<p><img src="/2020/07/14/iou-ap-map/v2-11ed1bf4a882ee38f9ea1f73a2593472_1440w.jpg" alt="img">IoU计算重叠度</p>
+<p>这里需要注意的是IoU=0.5，并不意味着每个框刚好有50%与另外一个框交叉部分，而是每个框大约有2/3被交叉。有点反直觉。</p>
+<p>我当初看到IoU，非常疑惑为啥不按交叉面积占每个框的比例（IoA 也即Intersection over Area）取大值计算重叠度，更符合直觉。其实这种算法只反应小图片的被遮盖度，并不能反映互相之间的重叠度，一般情况下不可取。如下图，橙色部分较小，IoA很大，但对于蓝色部分，IoA就很小，只按橙色取IoA显然有失偏驳。</p>
+<p><img src="/2020/07/14/iou-ap-map/v2-284022eaa7bbb8dd7b4f8488e0495fcd_1440w.jpg" alt="img">IoA计算重叠度</p>
+<h2 id="单类别AP-Average-Precision-的计算"><a href="#单类别AP-Average-Precision-的计算" class="headerlink" title="单类别AP(Average Precision)的计算"></a><strong>单类别AP(Average Precision)的计算</strong></h2><p>物体检测中的每一个预测结果包含两部分，预测框（bounding box）和置信概率（Pc）。bounding box通常以矩形预测框的左上角和右下角的坐标表示，即x_min, y_min, x_max, y_max，如下图。置信概率Pc有两层意思，一是所预测bounding box的类别，二是这个类别的置信概率，如下图中的P_dog=0.88，代表预测绿色框为dog，并且置信概率为88%。</p>
+<p><img src="/2020/07/14/iou-ap-map/v2-8e1e070d1a59043a349eb1f921ea1e1c_1440w.jpg" alt="img"></p>
+<p>那么，怎么才叫预测正确呢？显而易见的，必须满足两个条件：</p>
+<ol>
+<li>类别正确且置信度大于一定阀值（P_threshold）</li>
+<li>预测框与真实框（ground truth）的IoU大于一定阀值（IoU_threshold）</li>
+</ol>
+<p>如下图，假如P_threshold=0.6，IoU_threshold=0.5，则绿色框预测正确，记为True Positive。</p>
+<p><img src="/2020/07/14/iou-ap-map/v2-fa34f541cee564e83435562297e768ab_1440w.jpg" alt="img"></p>
+<p>而在衡量模型性能时，IoU_threshold先取一个定值，然后综合考虑各种P_threshold取值时的性能，进而得到一个与P_threshold选定无关的模型性能衡量标准。</p>
+<p><strong>AP是计算单类别的模型平均准确度。</strong></p>
+<p>假如目标类别为Dog，有5张照片，共包含7只Dog，也即GT（Ground Truth）数量为7，经模型预测，得到了Dog的10个预测结果，选定IoU_threshold=0.5，然后按confidence从高到低排序，如下图。其中，BB表示Bounding Box序号，GT=1表示有GT与所预测的Bounding Box的IoU&gt;=IoU_threshold，Bounding Box序号相同代表所对应的GT是同一个。</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>BB</th>
+<th>confidence</th>
+<th>GT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>BB1</td>
+<td>0.9</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>BB2</td>
+<td>0.8</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>BB1</td>
+<td>0.8</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>BB3</td>
+<td>0.5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>BB4</td>
+<td>0.4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>BB5</td>
+<td>0.4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>BB6</td>
+<td>0.3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>BB7</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>BB8</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>BB9</td>
+<td>0.1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>因此，如果设置P_threshold=0，则有 TP=5 (BB1, BB2, BB5, BB8, BB9)，FP=5 (重复检测到的BB1也算FP)。除了表里检测到的5个GT以外，我们还有2个GT没被检测到，因此: FN = 2.</p>
+<p>然后依次从上到下设定对应的rank为正反分界线，此rank之前（包含此rank）的预测为正，此rank之后的预测为反，然后计算对应的Precision和Recall：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">rank=1  precision=1.00 and recall=0.14</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=2  precision=1.00 and recall=0.29</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=3  precision=0.66 and recall=0.29</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=4  precision=0.50 and recall=0.29</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=5  precision=0.40 and recall=0.29</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=6  precision=0.50 and recall=0.43</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=7  precision=0.43 and recall=0.43</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=8  precision=0.38 and recall=0.43</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=9  precision=0.44 and recall=0.57</span><br><span class="line">--------------------------------------</span><br><span class="line">rank=10 precision=0.50 and recall=0.71</span><br><span class="line">--------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>比如rank=4时，TP=2 (BB1, BB2)，则</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Precision=2/4=0.5，Recall=TP/GT=2/7=0.29</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，随着预测正反分割线的向下移动，Recall稳步变大，Precision整体减小，局部上下跳动，PR曲线如下图：</p>
+<p><img src="/2020/07/14/iou-ap-map/v2-0a899369aeab8824dc3dd3e4fe572cd3_1440w.jpg" alt="img"></p>
+<p>AP(Average Precision)的计算基本等同于计算PR曲线下的面积，但略有不同。需要先将PR曲线平滑化。</p>
+<p>方法是，查全率r对应的查准率p，取查全率大于等于r时最大的查准率p。即，<br>$$<br>tex=p(r)=\max_{\tilde{r}\geq r}{p(\tilde{r})}<br>$$<br>平滑后的曲线如下图中的绿色曲线：</p>
+<p><img src="/2020/07/14/iou-ap-map/v2-666e46a022e32981aeb07b85958803cc_1440w.jpg" alt="img"></p>
+<p>对于AP(Average Precision)的计算有两种方法：</p>
+<p><strong>1. VOC2010之前的方法</strong></p>
+<p>AP =（平滑后PR曲线上，Recall分别等于0，0.1，0.2，… , 1.0等11处Precision的平均值）。<br>$$<br>AP=\frac{1}{11}\sum_{r\subseteq\left{0,0.1,..,1.0\right}}{p\left(r\right)}<br>$$</p>
+<p>这里则有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AP = (1 + 1 + 1 + 0.5 + 0.5 + 0.5 + 0.5 + 0.5 + 0 + 0 + 0) / 11 = 0.5</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. VOC2010及以后的方法</strong></p>
+<p>AP=平滑后PR曲线下包围的面积</p>
+<p>这里则有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AP = (0.14-0) * 1 + (0.29-0.14) * 1 + (0.43-0.29) * 0.5 + (0.57-0.43) * 0.5 + (0.71-0.57) * 0.5 + (1-0.71) * 0 = 0.5</span><br></pre></td></tr></table></figure>
+
+<p>这里两种方案得出的AP值相同，但通常是不同的。</p>
+<p>需要注意的是上述AP的计算并没有显式设定<code>P_threshold</code>，而是通过从上到下依次指定每一个rank为正反分界线来变相的反映<code>P_threshold</code>不同取值。</p>
+<h2 id="mAP的计算"><a href="#mAP的计算" class="headerlink" title="mAP的计算"></a><strong>mAP的计算</strong></h2><p>上述计算的AP只是针对dog这个类别，物体检测通常有多个类别，模型性能肯定是多个类别准度的综合度量。</p>
+<p><strong>1. VOC数据集中的mAP</strong></p>
+<p>VOC数据集中的mAP计算的是<code>IoU_threshold=0.5</code>时各个类别AP的均值。</p>
+<p><strong>2. COCO数据集中的mAP</strong></p>
+<p>检测是否正确有两个超参数，<code>P_threshold</code>和<code>IoU_threshold</code>。AP是固定了<code>IoU_threshold</code>，再综合考虑各个<code>P_threshold</code>下的模型平均准确度。</p>
+<p>VOC认为<code>IoU_threshold</code>固定一个单值0.5即可，COCO则认为固定了<code>IoU_threshold</code>的取值，无法衡量<code>IoU_threshold</code>对模型性能的影响。</p>
+<p>比如，</p>
+<p>A模型在<code>IoU_threshold=0.5</code>时，<code>mAP=0.4</code>。</p>
+<p>B模型在<code>IoU_threshold=0.7</code>时，<code>mAP</code>同样为0.4。</p>
+<p>依据VOC的标准，AB模型的性能一样，但显然B模型的框更准，性能更优。</p>
+<p>COCO在VOC标准的基础上，取<code>IoU_threshold=0.5，0.55， 0.6，… , 0.95</code>时各个mAP的均值。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://arleyzhang.github.io/articles/c521a01c/">目标检测评价标准-AP mAP</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_9db078090102whzw.html">多标签图像分类任务的评价方法-mAP</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56961620">详解object detection中的mAP</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/luke_sanjayzzzhong/article/details/89851944">对于目标检测中mAP@0.5的理解</a></li>
+<li><a target="_blank" rel="noopener" href="https://datascience.stackexchange.com/questions/16797/what-does-the-notation-map-5-95-mean">What does the notation mAP@[.5:.95] mean?</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/10/20/paper-rev-wnce/" rel="bookmark">Paper Reading： "W!NCE： Unobtrusive Sensing of Upper Facial Action Units with EOG-based Eyewear"</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/02/16/obj-det/" rel="bookmark">目标检测学习笔记</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/04/11/linux-setup/" rel="bookmark">Linux(Ubuntu)装机与配置笔记</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来点儿赏钱支持创作了解下？(◍•ᴗ•`◍)*＊</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Miracle Yoo WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Miracle Yoo Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/11/pytorch-official-network-analysis/" rel="prev" title="Pytorch官方模型实现分析">
+                  <i class="fa fa-chevron-left"></i> Pytorch官方模型实现分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/05/cascade-recursive/" rel="next" title="Cascade, Recursive, Residual and Dense 辨析">
+                  Cascade, Recursive, Residual and Dense 辨析 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">377k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">11:25</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "miracleyoo/utterances-repo");
+  script.setAttribute('issue-term', "pathname");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+</body>
+</html>

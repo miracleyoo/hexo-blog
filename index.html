@@ -314,6 +314,13 @@
 
       <time title="Created: 2021-03-11 20:09:57" itemprop="dateCreated datePublished" datetime="2021-03-11T20:09:57-05:00">2021-03-11</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 02:05:49" itemprop="dateModified" datetime="2021-03-12T02:05:49-05:00">2021-03-12</time>
+      </span>
 
   
 </div>
@@ -336,7 +343,7 @@
 <li><p>Pytorch-Lighting 的核心设计思想是“自给自足”。每个网络也同时包含了如何训练、如何测试、优化器定义等内容。</p>
 </li>
 </ul>
-<p><img src="/pytorch-lightning/plres.png" alt="img"></p>
+<p><img src="/2021/03/11/pytorch-lightning/plres.png" alt="img"></p>
 <h2 id="推荐使用方法"><a href="#推荐使用方法" class="headerlink" title="推荐使用方法"></a>推荐使用方法</h2><p>这一部分放在最前面，因为全文内容太长，如果放后面容易忽略掉这部分精华。</p>
 <p>Pytorch-Lightning 是一个很好的库，或者说是pytorch的抽象和包装。它的好处是可复用性强，易维护，逻辑清晰等。缺点也很明显，这个包需要学习和理解的内容还是挺多的，或者换句话说，很重。如果直接按照官方的模板写代码，小型project还好，如果是大型项目，有复数个需要调试验证的模型和数据集，那就不太好办，甚至更加麻烦了。经过几天的摸索和调试，我总结出了下面这样一套好用的模板，也可以说是对Pytorch-Lightning的进一步抽象。</p>
 <p>欢迎大家尝试这一套代码风格，如果用习惯的话还是相当方便复用的，也不容易半道退坑。</p>
@@ -837,6 +844,13 @@
 
       <time title="Created: 2020-04-26 18:09:00" itemprop="dateCreated datePublished" datetime="2020-04-26T18:09:00-04:00">2020-04-26</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 02:06:15" itemprop="dateModified" datetime="2021-03-12T02:06:15-05:00">2021-03-12</time>
+      </span>
 
   
 </div>
@@ -905,31 +919,31 @@
 <li>在所有需要同步的电脑上登录Zotero的账号，如没有，请注册。</li>
 <li>打开设置，更改<code>Files and Folders</code> 中的<code>Base Directory</code>选项为你的同步盘地址，如Dropbox，OneDrive，坚果云等。请不要动下面的<code>Data Directory Location</code>，这个是Zotero的总体数据库的地址，不建议放到云文件夹下，因为只要有两个端同时使用Zotero这个同步就崩掉了。</li>
 </ol>
-<p><img src="/paper-zotero-dropbox/image-20191110225913571.png" alt="image-20191110225913571"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110225913571.png" alt="image-20191110225913571"></p>
 <ol start="3">
 <li>安装<a target="_blank" rel="noopener" href="http://zotfile.com/">zotfile</a>。更改有关文件的设置。</li>
 </ol>
 <p>从Tools栏进入ZotFile Preference</p>
-<p><img src="/paper-zotero-dropbox/image-20191110230601630.png" alt="image-20191110230601630"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110230601630.png" alt="image-20191110230601630"></p>
 <p>更改PDF文件存储位置。这里是把文件储存到云盘的关键步骤。上面那个更改文件存储地址的作用是指定未来加入的PDF文件的存储地址，而这里是把已经在库的文件移动到这个地址。两个地址相同。</p>
-<p><img src="/paper-zotero-dropbox/image-20191110230944192.png" alt="image-20191110230944192"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110230944192.png" alt="image-20191110230944192"></p>
 <p>更改重命名相关的设置。这里的%y就是论文发表年份，%j是期刊名，%t是论文标题。而中间的下划线则只是单纯的会在重命名后的文件名中的两个元素之间加一个下滑线罢了，这里可以替换做任意。</p>
-<p><img src="/paper-zotero-dropbox/image-20191110230654373.png" alt="image-20191110230654373"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110230654373.png" alt="image-20191110230654373"></p>
 <p>在你的所有需要同步的电脑上做完上述步骤后，如果你之前没有Zotero或它是全新的没有条目，那你的设定已经结束。如果库中已有很多论文，想要直接移动到Dropbox相应目录下，那么请执行下一步：</p>
 <ol start="4">
 <li>移动与重命名已有文件</li>
 </ol>
-<p><img src="/paper-zotero-dropbox/image-20191110231928468.png" alt="image-20191110231928468"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110231928468.png" alt="image-20191110231928468"></p>
 <p>点击 My Library，全选所有条目，右键选择<code>Manage Attachments</code>-&gt;<code>Rename Attachments</code>开始移动和重命名。</p>
-<p><img src="/paper-zotero-dropbox/image-20191110232045736.png" alt="image-20191110232045736"></p>
-<p><img src="/paper-zotero-dropbox/image-20191110232150562.png" alt="image-20191110232150562"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110232045736.png" alt="image-20191110232045736"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/image-20191110232150562.png" alt="image-20191110232150562"></p>
 <h3 id="iPad设置部分"><a href="#iPad设置部分" class="headerlink" title="iPad设置部分"></a>iPad设置部分</h3><ol>
 <li>下载Dropbox和Acrobat。</li>
 <li>打开Dropbox，进入你的论文同步文件夹，任选一篇点击打开</li>
 <li>右下角找到一个光标键，点击，会提示用Adobe Acrobat Reader打开。</li>
 <li>All set.</li>
 </ol>
-<p><img src="/paper-zotero-dropbox/IMG_2601.jpg" alt="IMG_2601"></p>
+<p><img src="/2020/04/26/paper-zotero-dropbox/IMG_2601.jpg" alt="IMG_2601"></p>
 
       
     </div>

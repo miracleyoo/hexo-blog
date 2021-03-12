@@ -30,17 +30,17 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="符号变量 syms在MATLAB中创建或定义一个函数需要用到符号变量。一般情况下，想要绘制函数图像时，往往使用x&#x3D;[a:0.01:b]的方式先创建一个x的离散定义域，然后再用y&#x3D;func(x)的方式定义函数本身，最后使用plot(x,y)的方式绘制图像。 然而，当涉及到函数极值、求导、方程求解、连续图像绘制等问题时，这种方法就不够用了。 想要创建一个符号函数，我们首先要创建一个或多个符号变量，用以">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/matlab-func/specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/matlab-func/FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/matlab-func/image-20200216152601687.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/matlab-func/image-20200216153158018.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/image-20200216152601687.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/image-20200216153158018.png">
 <meta property="article:published_time" content="2020-01-11T00:01:11.000Z">
-<meta property="article:modified_time" content="2020-04-26T23:03:26.220Z">
+<meta property="article:modified_time" content="2021-03-12T07:07:11.217Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="matlab">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/01/10/matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2020/01/10/matlab-func/">
@@ -261,7 +261,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-04-26 19:03:26" itemprop="dateModified" datetime="2020-04-26T19:03:26-04:00">2020-04-26</time>
+        <time title="Modified: 2021-03-12 02:07:11" itemprop="dateModified" datetime="2021-03-12T02:07:11-05:00">2021-03-12</time>
       </span>
 
   
@@ -302,19 +302,19 @@
 <p>$cos(x)\space 0&lt;x&lt;3$</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用 <span class="built_in">hold</span> on 绘制多个线条。使用 fplot 的第二个输入参数指定绘图区间。使用 <span class="string">&#x27;b&#x27;</span> 将绘制的线条颜色指定为蓝色。在相同坐标区中绘制多个线条时，坐标轴范围会调整以容纳所有数据。</span><br><span class="line">fplot(@(x) <span class="built_in">exp</span>(x),[<span class="number">-3</span> <span class="number">0</span>],<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">fplot(@(x) <span class="built_in">cos</span>(x),[<span class="number">0</span> <span class="number">3</span>],<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br><span class="line">grid on</span><br></pre></td></tr></table></figure>
 
-<img src="./matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
+<img src="./specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
 
 <p>当然，使用<code>fplot</code>方法绘制的图像也是可以进行样式自定义的：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fplot(@(x) <span class="built_in">sin</span>(x+<span class="built_in">pi</span>/<span class="number">5</span>),<span class="string">&#x27;Linewidth&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">fplot(@(x) <span class="built_in">sin</span>(x-<span class="built_in">pi</span>/<span class="number">5</span>),<span class="string">&#x27;--or&#x27;</span>);</span><br><span class="line">fplot(@(x) <span class="built_in">sin</span>(x),<span class="string">&#x27;-.*c&#x27;</span>)</span><br><span class="line"><span class="built_in">hold</span> off</span><br></pre></td></tr></table></figure>
 
-<img src="./matlab-func/specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
+<img src="./specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
 
 <h2 id="解方程"><a href="#解方程" class="headerlink" title="解方程"></a>解方程</h2><p>MATLAB中有两种常用解方程的函数：<code>solve</code>和<code>vpasolve</code>。前者会返回一个符号解，它的做法就像人类手工推理一样，计算出所有的符号解。而后者则会计算方程的数值解，且只会返回其找到的第一个数值解。</p>
 <p>当我们想要使用<code>vpasolve</code>算出某个x范围中的所有解时候，我们有两种方法：</p>
 <h3 id="1-画出方程对应的函数图像，并传给vpasolve一个猜测起点"><a href="#1-画出方程对应的函数图像，并传给vpasolve一个猜测起点" class="headerlink" title="1. 画出方程对应的函数图像，并传给vpasolve一个猜测起点"></a>1. 画出方程对应的函数图像，并传给<code>vpasolve</code>一个猜测起点</h3><p>如给定方程$200*sin(x) = x^3 - 1$, 我们先画出它的图像进行观察：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">eqnLeft = <span class="number">200</span>*<span class="built_in">sin</span>(x);</span><br><span class="line">eqnRight = x^<span class="number">3</span> - <span class="number">1</span>;</span><br><span class="line">fplot([eqnLeft eqnRight])</span><br><span class="line">title([texlabel(eqnLeft) <span class="string">&#x27; = &#x27;</span> texlabel(eqnRight)])</span><br></pre></td></tr></table></figure>
 
-<img src="./matlab-func/FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png" alt="img" style="zoom:50%;" />
+<img src="./FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png" alt="img" style="zoom:50%;" />
 
 <p>观察后发现，这个方程有三个解，分别在-3, 0, 4的附近，于是我们可以用以下语句找到其所有的三个解</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">S1 = vpasolve(eqnLeft == eqnRight, x);</span><br><span class="line">S2 = vpasolve(eqnLeft == eqnRight, x, <span class="number">-3</span>);</span><br><span class="line">S3 = vpasolve(eqnLeft == eqnRight, x, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
@@ -326,7 +326,7 @@
 <p>与前面提到的解方程类似，由于该函数并不会直接的把全局最值给你，所以最好先把函数图像画出来，然后观察需要求的极值在那个点附近，然后使用<code>fminsearch</code>函数把相关点的横坐标解出，如果需要最值的值，再把这个横坐标带回去求值。</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">y=<span class="built_in">real</span>((<span class="number">1</span>-<span class="built_in">exp</span>(<span class="number">8</span>*<span class="built_in">i</span>*<span class="built_in">pi</span>*<span class="built_in">cos</span>(x)))/(<span class="number">1</span>-<span class="built_in">exp</span>(<span class="built_in">i</span>*<span class="built_in">pi</span>*<span class="built_in">cos</span>(x))));</span><br><span class="line">fplot(y,[<span class="number">0</span>,<span class="number">3</span>]);</span><br><span class="line">fminsearch(matlabFunction(-y),<span class="number">1.5</span>);</span><br><span class="line"><span class="comment">% ans = 1.5708</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<img src="./matlab-func/image-20200216152601687.png" alt="image-20200216152601687" style="zoom:35%;" />
+<img src="./image-20200216152601687.png" alt="image-20200216152601687" style="zoom:35%;" />
 
 <p>请注意，这里在search的时候我将y改为了-y，因为我要找的是极大值而非极小值。</p>
 <p>接着，我们将函数y变为<code>matlabFunction</code>型变量，在根据刚才输出的值求出极值大小：</p>
@@ -336,7 +336,7 @@
 <p>你甚至可以看到MATLAB的优化路径：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">options = optimset(<span class="string">&#x27;PlotFcns&#x27;</span>,@optimplotfval);</span><br><span class="line">fun = @(x)<span class="number">100</span>*(x(<span class="number">2</span>) - x(<span class="number">1</span>)^<span class="number">2</span>)^<span class="number">2</span> + (<span class="number">1</span> - x(<span class="number">1</span>))^<span class="number">2</span>;</span><br><span class="line">x0 = [<span class="number">-1.2</span>,<span class="number">1</span>];</span><br><span class="line">x = fminsearch(fun,x0,options)</span><br></pre></td></tr></table></figure>
 
-<img src="matlab-func/image-20200216153158018.png" alt="image-20200216153158018" style="zoom:33%;" />
+<img src="./image-20200216153158018.png" alt="image-20200216153158018" style="zoom:33%;" />
 
 <h2 id="对函数求导"><a href="#对函数求导" class="headerlink" title="对函数求导"></a>对函数求导</h2><p>定义好一个符号函数后，直接使用<code>diff</code>命令即可对函数进行符号求导。</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">syms x</span><br><span class="line">fun=<span class="number">0.5</span>*x*(<span class="built_in">exp</span>(<span class="number">-2</span>*x)+<span class="built_in">exp</span>(<span class="number">-1.5</span>*x)+<span class="built_in">exp</span>(-x))</span><br><span class="line">diff(fun) <span class="comment">% or diff(fun, x)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>

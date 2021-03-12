@@ -30,15 +30,15 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="Pytorch-Lighting写在前面Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉它很重很难学，而且似乎自己也用不上。但是后面随着做的项目开始出现了一些稍微高阶的要求，我发现我总是不断地在相似工程代码上花费大量时间，Debug也是这些代码花的时间最多，而且渐渐产生了一个矛盾之处：如果想要更多更好的功能，如TensorBoard支持，Early Stop，LR Sc">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.miracleyoo.com/pytorch-lightning/plres.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/03/11/pytorch-lightning/plres.png">
 <meta property="article:published_time" content="2021-03-12T01:09:57.000Z">
-<meta property="article:modified_time" content="2021-03-12T01:09:57.185Z">
+<meta property="article:modified_time" content="2021-03-12T07:05:49.254Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="deep-learning">
 <meta property="article:tag" content="pytorch">
 <meta property="article:tag" content="pytorch-lightning">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.miracleyoo.com/pytorch-lightning/plres.png">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2021/03/11/pytorch-lightning/plres.png">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2021/03/11/pytorch-lightning/">
@@ -254,6 +254,13 @@
 
       <time title="Created: 2021-03-11 20:09:57" itemprop="dateCreated datePublished" datetime="2021-03-11T20:09:57-05:00">2021-03-11</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-03-12 02:05:49" itemprop="dateModified" datetime="2021-03-12T02:05:49-05:00">2021-03-12</time>
+      </span>
 
   
     <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -283,7 +290,7 @@
 <li><p>Pytorch-Lighting 的核心设计思想是“自给自足”。每个网络也同时包含了如何训练、如何测试、优化器定义等内容。</p>
 </li>
 </ul>
-<p><img src="/pytorch-lightning/plres.png" alt="img"></p>
+<p><img src="/2021/03/11/pytorch-lightning/plres.png" alt="img"></p>
 <h2 id="推荐使用方法"><a href="#推荐使用方法" class="headerlink" title="推荐使用方法"></a>推荐使用方法</h2><p>这一部分放在最前面，因为全文内容太长，如果放后面容易忽略掉这部分精华。</p>
 <p>Pytorch-Lightning 是一个很好的库，或者说是pytorch的抽象和包装。它的好处是可复用性强，易维护，逻辑清晰等。缺点也很明显，这个包需要学习和理解的内容还是挺多的，或者换句话说，很重。如果直接按照官方的模板写代码，小型project还好，如果是大型项目，有复数个需要调试验证的模型和数据集，那就不太好办，甚至更加麻烦了。经过几天的摸索和调试，我总结出了下面这样一套好用的模板，也可以说是对Pytorch-Lightning的进一步抽象。</p>
 <p>欢迎大家尝试这一套代码风格，如果用习惯的话还是相当方便复用的，也不容易半道退坑。</p>

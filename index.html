@@ -248,7 +248,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 03:55:43" itemprop="dateModified" datetime="2021-03-12T03:55:43-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 03:58:03" itemprop="dateModified" datetime="2021-03-12T03:58:03-05:00">2021-03-12</time>
       </span>
 
   
@@ -278,7 +278,8 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="Pytorch-Lighting"><a href="#Pytorch-Lighting" class="headerlink" title="Pytorch-Lighting"></a>Pytorch-Lighting</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉它很重很难学，而且似乎自己也用不上。但是后面随着做的项目开始出现了一些稍微高阶的要求，我发现我总是不断地在相似工程代码上花费大量时间，Debug也是这些代码花的时间最多，而且渐渐产生了一个矛盾之处：如果想要更多更好的功能，如TensorBoard支持，Early Stop，LR Scheduler，分布式训练，快速测试等，代码就无可避免地变得越来越长，看起来也越来越乱，同时核心的训练逻辑也渐渐被这些工程代码盖过。那么有没有更好的解决方案，甚至能一键解决所有这些问题呢？</p>
-<p>&lt; !– more –&gt;</p>
+<span id="more"></span>
+
 <p>于是我第二次发现了Pytorch-Lightning。</p>
 <p>真香。</p>
 <p>但是问题还是来了。这个框架并没有因为香而变得更加易学。官网的教程很丰富，可以看出来开发者们在努力做了。但是很多相连的知识点都被分布在了不同的版块里，还有一些核心的理解要点并没有被强调出来，而是小字带过，这让我想做一个普惠的教程，包含所有我在学习过程中认为重要的概念，好用的参数，一些注意点、坑点，大量的示例代码段和一些核心问题的集中讲解。</p>
@@ -576,7 +577,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-12 03:55:19" itemprop="dateModified" datetime="2021-03-12T03:55:19-05:00">2021-03-12</time>
+        <time title="Modified: 2021-03-12 03:58:20" itemprop="dateModified" datetime="2021-03-12T03:58:20-05:00">2021-03-12</time>
       </span>
 
   
@@ -609,8 +610,7 @@
 <li><p>清除所有已经停止的container：<code>docker container prune -f</code> 。其中 <code>-f</code> 表示不弹出确认提示。也可使用<code>docker rm $(docker ps -a -q)</code>来清理。其中，<code>docker rm</code>代表删除container，而<code>docker rmi</code>则是删除image。</p>
 </li>
 <li><p>如果你需要实例化一个只用一次的container，那么使用<code>docker run --rm</code>参数，结束后会自动删除。</p>
-<p>&lt; !– more –&gt;</p>
-</li>
+<span id="more"></span></li>
 <li><p><code>docker ps &lt;-a&gt;</code> 可以列出正在运行的/全部的container。其效果和<code>docker container ls &lt;-a&gt;</code>相同。而若想列出全部images，则要使用<code>docker images</code>。</p>
 </li>
 <li><p>docker images中的环境变量有四个来源：</p>
@@ -1472,7 +1472,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">10:32</span>
+    <span title="Reading time total">10:31</span>
   </span>
 </div>
 <div class="busuanzi-count">

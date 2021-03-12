@@ -285,14 +285,6 @@
 <p>周三晚上到了杰弗逊城住下，等待着次日的考试。这次考试并没有考好，原因也很显然，这回并没有做好足够的准备。还是希望下次能够拿出足够的时间准备的。当日去了州立博物馆，那里的穹顶很是恢弘壮观。</p>
 <p><img src="/2018/09/29/emc-lab-note-11w/006tNbRwgy1fwqb082jauj30de0a2gtn.jpg" alt="image-20181030155642677"></p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/29/emc-lab-note-11w/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -388,14 +380,6 @@
 <p>另外就是论文了。本周终于在张岭和孙泽两位学长的指导下完成了初步的论文的修改工作。本周主要加入了孙泽学长负责的粒子仿真部分的介绍和公式推导，并且使用了Zotero这个软件成功的完成了文献的收集到引用一条龙的工作，掌握了公式的编号等问题的解决方法，总体来说还是收获颇丰的。</p>
 <p>下周就要考GRE了，尽力准备吧！(๑´ ω｀๑)  </p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/22/emc-lab-note-10w/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -486,14 +470,57 @@
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><code>B = permute(A,order)</code> 重新排列 <code>A</code> 的维度使其按向量 <code>order</code> 所指定的顺序排列。<code>B</code> 含有与 <code>A</code> 相同的值，但访问任意特定元素所需的下标的顺序已按 <code>order</code> 所指定的顺序重新排列。<code>order</code> 的所有元素都必须是唯一的正整数实数值。</p>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>全部折叠</p>
 <h3 id="置换数组维度"><a href="#置换数组维度" class="headerlink" title="置换数组维度"></a>置换数组维度</h3><p>创建一个 3×4×5 数组，并置换它，以便将第一个和第三个维度交换。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/15/matlab-tricks/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A = <span class="built_in">rand</span>(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">B = <span class="built_in">permute</span>(A,[<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]);</span><br><span class="line"><span class="built_in">size</span>(B)</span><br><span class="line"><span class="built_in">ans</span> = </span><br><span class="line"></span><br><span class="line">     <span class="number">5</span>     <span class="number">4</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="通过-Python-调用用户脚本和函数"><a href="#通过-Python-调用用户脚本和函数" class="headerlink" title="通过 Python 调用用户脚本和函数"></a>通过 Python 调用用户脚本和函数</h2><p>此示例显示如何通过 Python® 来调用 MATLAB® 脚本，以计算三角形的面积。</p>
+<p>在您的当前文件夹中名为 <code>triarea.m</code> 的文件中创建一个 MATLAB 脚本。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">5</span>;</span><br><span class="line">h = <span class="number">3</span>;</span><br><span class="line">a = <span class="number">0.5</span>*(b.* h)</span><br></pre></td></tr></table></figure>
+
+<p>保存该文件后，启动 Python 并调用该脚本。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import matlab.engine</span><br><span class="line">eng = matlab.engine.start_matlab()</span><br><span class="line">eng.triarea(nargout=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">a =</span><br><span class="line"></span><br><span class="line">    <span class="number">7.5000</span></span><br></pre></td></tr></table></figure>
+
+<p>指定 <code>nargout=0</code>。尽管脚本会打印输出，但它不会向 Python 返回任何输出参数。</p>
+<p>将脚本转换为函数并通过引擎调用该函数。要编辑文件，请打开 MATLAB 编辑器。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eng.edit(<span class="string">&#x27;triarea&#x27;</span>,nargout=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>删除三个语句。然后添加一条函数声明并保存文件。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> = <span class="title">triarea</span><span class="params">(b,h)</span></span></span><br><span class="line">a = <span class="number">0.5</span>*(b.* h);</span><br></pre></td></tr></table></figure>
+
+<p>通过引擎调用新的 <code>triarea</code> 函数。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ret = eng.triarea(<span class="number">1.0</span>,<span class="number">5.0</span>)</span><br><span class="line">print(ret)</span><br><span class="line"><span class="number">2.5</span></span><br></pre></td></tr></table></figure>
+
+<p><code>triarea</code> 函数仅返回一个输出参数，因此无需指定 <code>nargout</code>。</p>
+<h1 id="调用其他文件夹中的方法"><a href="#调用其他文件夹中的方法" class="headerlink" title="调用其他文件夹中的方法"></a>调用其他文件夹中的方法</h1><p>有时我们希望把matlab的函数文件单独放到一个文件夹，或是其他涉及将.m文件分散放置的情况，这时候要添加路径。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">addpath Datasets</span><br><span class="line">addpath /Users/miracle/Desktop/MST Project/project code/auto-scan-point</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以调用添加的路径下的m文件了。</p>
+<h1 id="列出某文件夹内容的方法"><a href="#列出某文件夹内容的方法" class="headerlink" title="列出某文件夹内容的方法"></a>列出某文件夹内容的方法</h1><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir</span><br><span class="line">dir name</span><br><span class="line">listing = dir(name)</span><br></pre></td></tr></table></figure>
+
+<h1 id="查找与指定名称匹配的文件"><a href="#查找与指定名称匹配的文件" class="headerlink" title="查找与指定名称匹配的文件"></a>查找与指定名称匹配的文件</h1><p>列出包含词语 <code>my</code> 且扩展名为 <code>.m</code> 的所有文件。</p>
+<p>创建文件夹 <code>myfolder</code>，其包含文件 <code>myfile1.m</code>、<code>myfile2.m</code> 和 <code>myfile3.txt</code>。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir myfolder </span><br><span class="line">movefile myfile1.m myfolder</span><br><span class="line">movefile myfile2.m myfolder</span><br><span class="line">movefile myfile3.txt myfolder </span><br></pre></td></tr></table></figure>
+
+<p>列出 <code>myfolder</code> 中符合条件的文件。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd myfolder </span><br><span class="line">dir *my*.m </span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; myfile1.m myfile2.m </span><br></pre></td></tr></table></figure>
+<h1 id="在子文件夹中查找文件"><a href="#在子文件夹中查找文件" class="headerlink" title="在子文件夹中查找文件"></a>在子文件夹中查找文件</h1><p>列出当前文件夹中和当前文件夹的所有子文件夹中的所有文件。</p>
+<p>创建文件夹 <code>myfolder1</code>，其中包含以下文件和文件夹：</p>
+<pre><code>文件结构
+myfile1.m 
+myfolder2 
+    myfile2.m 
+    myfolder3.m 
+        myfile3.m
+
+mkdir myfolder1 mkdir myfolder1/myfolder2 mkdir myfolder1/myfolder2/myfolder3 movefile myfile1.m myfolder1 movefile myfile2.m myfolder1/myfolder2 movefile myfile3.m myfolder1/myfolder2/myfolder3 
+</code></pre>
+<p>列出 <code>myfolder1</code> 中和 <code>myfolder1</code> 的子文件夹中扩展名为 <code>.m</code> 的所有文件。</p>
+<pre><code>cd myfolder1 dir **/*.m 
+
+Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Files Found in: myfolder2/myfolder3 myfile3.m 
+</code></pre>
+
       
     </div>
 
@@ -586,14 +613,6 @@
 <p>完毕后，可以使用<code>echo %PATH%</code>查看当前系统路径中是否已经完成添加</p>
 <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>这种添加仅限于在当前命令行中有效，重启命令行请重新操作。</p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/15/windows-norestart-set-env/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -688,14 +707,6 @@
 <p>有趣的是我发现Pytorch在今年4月更新版本之后引入了许多新的特性，这些新特性无疑再次提高了其易用程度，在代码对各种设备的兼容性方面也做出了显著的提升，希望Pytorch和Python能越来越好！</p>
 <p>论文也终于进入了修改阶段，希望下周能给出一版像样的稿子交由老师修改。</p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/15/emc-lab-note-9w/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -789,14 +800,6 @@
 <p><img src="/2018/09/08/emc-lab-note-8w/006tNc79ly1fvawrm7yk5j31841tg45o.jpg" alt="Work Flow"></p>
 <p>下周来参加本次暑期实习的浙大同学们就要回国了，想来的确十分不舍这段共度的美好时光，也希望他们能一路平安，顺利回国继续学业。我们的日程也已过大半，只有一个月就要归国了，不由感叹时光之易逝，更要充实的度过余下的时光。</p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/08/emc-lab-note-8w/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -887,14 +890,6 @@
 <p> 另外一件令我印象深刻的事是在学长们的帮助下修订组会PPT。虽然我也很习惯于做PPT，但是有许多理念性的问题依然存在着不足之处。比如我们应该站在听众的角度讲解自己做出的项目，要讲明白自己项目的原因和起源；也要点明之前别人做过的类似的项目和自己项目的不同之处，以及自己项目的“亮点”在哪里。当然，能用图片解释的项目原理都尽量使用流程图解释，而非大段文字…… 这些细节都让人感到一股专业感和对听众的尊重。最后就是当英文还不是很熟悉时提前预讲一遍是很重要的，因为这样能够先踩一遍本应踩到的雷，也会使你的演讲过程更加连贯。</p>
 <p> 下周我的mentor将会有一场博士的Qualify考试，而我也将在他给出的指导的基础上将前期的工作做整理成论文，希望可以顺利进行。在当前项目的基础上进一步优化项目，跑出更多数据、学习强化学习将是之后的目标。</p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/04/emc-lab-note-7w/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1007,14 +1002,7 @@
 <li><p>下载：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BaiduPCS-Go download &lt;网盘文件或目录的路径1&gt; &lt;文件或目录2&gt; &lt;文件或目录3&gt; ...</span><br><span class="line">BaiduPCS-Go d &lt;网盘文件或目录的路径1&gt; &lt;文件或目录2&gt; &lt;文件或目录3&gt; ...</span><br></pre></td></tr></table></figure></li>
 </ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/08/28/linux-baidu-netdisk/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+
       
     </div>
 
@@ -1114,14 +1102,7 @@
 <li>点选掉合适量的CPU内核</li>
 </ol>
 <p><img src="/2018/08/28/restrict-win10-cpu/006tNbRwgy1fupx797p23j31b01601kx.jpg" alt="image-20180828121647347"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/08/28/restrict-win10-cpu/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+
       
     </div>
 
@@ -1229,15 +1210,15 @@
 <li>看到一堆乱码，此时按住组合键进入zssh：<code>ctrl+@</code></li>
 <li>接住对应的文件：<code>zssh &gt; rz </code></li>
 </ol>
-<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/08/27/zssh-file/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><ol>
+<li><p>zssh 相当于一个套在后续服务器端操作上的一层壳，你按下<code>ctrl+@</code>时就回到了你的本机进行操作。</p>
+</li>
+<li><p>传输文件分为两步进行，分别是<code>rz</code>：接收和<code>sz</code>：传输</p>
+</li>
+<li><p>补充命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zssh &gt; pwd &#x2F;&#x2F;查看本地机器的目录位置</span><br><span class="line">zssh &gt; cd  &#x2F;&#x2F;xxx&#x2F;xxx&#x2F;xxx 切换目录</span><br><span class="line">zssh &gt; ls  &#x2F;&#x2F;查看当前目录下文件列表</span><br></pre></td></tr></table></figure></li>
+</ol>
+
       
     </div>
 

@@ -287,7 +287,7 @@
 <li>串联所有区块的直方图，这就得到了当前检测窗口的特征向量。</li>
 <li>Python实现库函数：<a target="_blank" rel="noopener" href="http://scikit-image.org/docs/stable/api/skimage.feature.html#local-binary-pattern">请点这里</a></li>
 </ul>
-<img src="/2018/04/02/img-features/20131025114220937.png" class title="局部二值模式">
+<img src="/2018/04/02/img-features/20131025114220937.png" class="" title="局部二值模式">
 
 <h2 id="方向梯度直方图（英语：Histogram-of-oriented-gradient，简称HOG）"><a href="#方向梯度直方图（英语：Histogram-of-oriented-gradient，简称HOG）" class="headerlink" title="方向梯度直方图（英语：Histogram of oriented gradient，简称HOG）"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/395f0582c5f7">方向梯度直方图（英语：Histogram of oriented gradient，简称HOG）</a></h2><ul>
 <li><strong>方向梯度直方图</strong>是应用在<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89">计算机视觉</a>和<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>领域，用于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B&action=edit&redlink=1">目标检测</a>的特征描述器。这项技术是用来计算局部图像梯度的方向信息的统计值。这种方法跟<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E8%BE%B9%E7%BC%98%E6%96%B9%E5%90%91%E7%9B%B4%E6%96%B9%E5%9B%BE&action=edit&redlink=1">边缘方向直方图</a>（edge orientation histograms）、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B0%BA%E5%BA%A6%E4%B8%8D%E5%8F%98%E7%89%B9%E5%BE%81%E5%8F%98%E6%8D%A2">尺度不变特征变换</a>（scale-invariant feature transform descriptors）以及<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E5%BD%A2%E7%8A%B6%E4%B8%8A%E4%B8%8B%E6%96%87%E6%96%B9%E6%B3%95&action=edit&redlink=1">形状上下文方法</a>（ shape contexts）有很多相似之处，但与它们的不同点是：HOG描述器是在一个网格密集的大小统一的细胞单元（dense grid of uniformly spaced cells）上计算，而且为了提高性能，还采用了重叠的局部对比度归一化（overlapping local contrast normalization）技术</li>
@@ -295,21 +295,76 @@
 <li>与其他的特征描述方法相比，HOG描述器有很多优点。首先，由于HOG方法是在图像的局部细胞单元上操作，所以它对图像几何的（geometric）和光学的（photometric）形变都能保持很好的不变性，这两种形变只会出现在更大的空间领域上。其次，作者通过实验发现，在粗的空域抽样（coarse spatial sampling）、精细的方向抽样（fine orientation sampling）以及较强的局部光学归一化（strong local photometric normalization）等条件下，只要行人大体上能够保持直立的姿势，就容许行人有一些细微的肢体动作，这些细微的动作可以被忽略而不影响检测效果。综上所述，HOG方法是特别适合于做图像中的行人检测的。</li>
 <li>Python实现库函数：<a target="_blank" rel="noopener" href="http://scikit-image.org/docs/stable/api/skimage.feature.html#hog">请点这里</a></li>
 </ul>
-<img src="/2018/04/02/img-features/v2-890c6f08045598e83c90f2d52b946c17_hd.jpg" class title="梯度直方图">
+<img src="/2018/04/02/img-features/v2-890c6f08045598e83c90f2d52b946c17_hd.jpg" class="" title="梯度直方图">
 
-<img src="/2018/04/02/img-features/v2-f356313f5806fdaaf59ec9196af353b7_hd.jpg" class title="8*8网格直方图">
+<img src="/2018/04/02/img-features/v2-f356313f5806fdaaf59ec9196af353b7_hd.jpg" class="" title="8*8网格直方图">
 
-<img src="/2018/04/02/img-features/v2-802e88923e7e26459250d31086e033ea_hd.jpg" class title="visualizing_histogram">
+<img src="/2018/04/02/img-features/v2-802e88923e7e26459250d31086e033ea_hd.jpg" class="" title="visualizing_histogram">
 
-<h2 id="尺度不变特征转换-Scale-invariant-feature-transform-或-SIFT"><a href="#尺度不变特征转换-Scale-invariant-feature-transform-或-SIFT" class="headerlink" title="尺度不变特征转换(Scale-invariant feature transform 或 SIFT)"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/zddblog/article/details/7521424">尺度不变特征转换(Scale-invariant feature transform 或 SIFT)</a></h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/04/02/img-features/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<h2 id="尺度不变特征转换-Scale-invariant-feature-transform-或-SIFT"><a href="#尺度不变特征转换-Scale-invariant-feature-transform-或-SIFT" class="headerlink" title="尺度不变特征转换(Scale-invariant feature transform 或 SIFT)"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/zddblog/article/details/7521424">尺度不变特征转换(Scale-invariant feature transform 或 SIFT)</a></h2><ul>
+<li><p>尺度不变特征转换(Scale-invariant feature transform或SIFT)是一种电脑视觉的算法用来侦测与描述影像中的局部性特征，它在空间尺度中寻找极值点，并提取出其位置、尺度、旋转不变量，此算法由 David Lowe在1999年所发表，2004年完善总结。其应用范围包含物体辨识、机器人地图感知与导航、影像缝合、3D模型建立、手势辨识、影像追踪和动作比对。局部影像特征的描述与侦测可以帮助辨识物体，SIFT 特征是基于物体上的一些局部外观的兴趣点而与影像的大小和旋转无关。对于光线、噪声、些微视角改变的容忍度也相当高。基于这些特性，它们是高度显著而且相对容易撷取，在母数庞大的特征数据库中，很容易辨识物体而且鲜有误认。使用 SIFT特征描述对于部分物体遮蔽的侦测率也相当高，甚至只需要3个以上的SIFT物体特征就足以计算出位置与方位。在现今的电脑硬件速度下和小型的特征数据库条件下，辨识速度可接近即时运算。SIFT特征的信息量大，适合在海量数据库中快速准确匹配。</p>
+</li>
+<li><p>SIFT算法的特点有：</p>
+<ol>
+<li>SIFT特征是图像的局部特征，其对旋转、尺度缩放、亮度变化保持不变性，对视角变化、仿射变换、噪声也保持一定程度的稳定性；</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>独特性（Distinctiveness）好，信息量丰富，适用于在海量特征数据库中进行快速、准确的匹配；</li>
+</ol>
+<ol start="3">
+<li>多量性，即使少数的几个物体也可以产生大量的SIFT特征向量；</li>
+</ol>
+<ol start="4">
+<li><p>高速性，经优化的SIFT匹配算法甚至可以达到实时的要求；</p>
+</li>
+<li><p>可扩展性，可以很方便的与其他形式的特征向量进行联合。</p>
+</li>
+</ol>
+<ul>
+<li><p>SIFT算法可以解决的问题：</p>
+<p>目标的自身状态、场景所处的环境和成像器材的成像特性等因素影响图像配准/目标识别跟踪的性能。而SIFT算法在一定程度上可解决：</p>
+<ol>
+<li>目标的旋转、缩放、平移（RST）</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>图像仿射/投影变换（视点viewpoint）</li>
+</ol>
+<ol start="3">
+<li>光照影响（illumination）</li>
+</ol>
+<ol start="4">
+<li>目标遮挡（occlusion）</li>
+</ol>
+<ol start="5">
+<li>杂物场景（clutter）</li>
+</ol>
+<ol start="6">
+<li>噪声</li>
+</ol>
+<ul>
+<li><p>Lowe将SIFT算法分解为如下四步：</p>
+<ol>
+<li>尺度空间极值检测：搜索所有尺度上的图像位置。通过高斯微分函数来识别潜在的对于尺度和旋转不变的兴趣点。</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>关键点定位：在每个候选的位置上，通过一个拟合精细的模型来确定位置和尺度。关键点的选择依据于它们的稳定程度。</li>
+</ol>
+<ol start="3">
+<li>方向确定：基于图像局部的梯度方向，分配给每个关键点位置一个或多个方向。所有后面的对图像数据的操作都相对于关键点的方向、尺度和位置进行变换，从而提供对于这些变换的不变性。</li>
+</ol>
+<ol start="4">
+<li>关键点描述：在每个关键点周围的邻域内，在选定的尺度上测量图像局部的梯度。这些梯度被变换成一种表示，这种表示允许比较大的局部形状的变形和光照变化。</li>
+</ol>
+<ul>
+<li>Python实现库函数：<a target="_blank" rel="noopener" href="http://scikit-image.org/docs/stable/api/skimage.feature.html#daisy">请点这里</a> （这个实现有近似成分）</li>
+</ul>
+<h2 id="以上内容的Python实现-Github-地址：请点这里"><a href="#以上内容的Python实现-Github-地址：请点这里" class="headerlink" title="以上内容的Python实现 Github 地址：请点这里"></a>以上内容的Python实现 Github 地址：<a target="_blank" rel="noopener" href="https://github.com/miracleyou/cs231n_assignment_HUST/blob/master/cs231n_assignment1_HUST.ipynb">请点这里</a></h2>
       
     </div>
 
@@ -395,18 +450,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="由下图可以大致看出KD-Tree的构造方式："><a href="#由下图可以大致看出KD-Tree的构造方式：" class="headerlink" title="由下图可以大致看出KD-Tree的构造方式："></a>由下图可以大致看出KD-Tree的构造方式：</h2><img src="/2018/04/01/kd-tree/kd-tree.png" class title="KD-Tree 理解图">
+          <h2 id="由下图可以大致看出KD-Tree的构造方式："><a href="#由下图可以大致看出KD-Tree的构造方式：" class="headerlink" title="由下图可以大致看出KD-Tree的构造方式："></a>由下图可以大致看出KD-Tree的构造方式：</h2><img src="/2018/04/01/kd-tree/kd-tree.png" class="" title="KD-Tree 理解图">
 
 <p>首先问题是隶属于分类问题的。每个sample有若干个属性（axis），如（3，4）就是一个有两个属性的sample。我们按axis=0，1，2，…的方式分别寻找每个维度（属性）的中位数并分别划分开来，就得到了一个树状结构，这样预测一个新的数据点的时候就可以很方便的按照树状结构将其归位到某个分区里去，而不用花费大量的计算资源去计算距离了。</p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/04/01/kd-tree/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -527,14 +574,6 @@
 <p>And also, I am familiar with hardware, too. I’ve learned how to draw a PCB board in my previous courses and I’m trying to make a game box for a certain game named “Dont stop！Quaver” recently.</p>
 <p>My hobby is learning foreign language and management. I can speak fluent Japanese and I also learned basic French.</p>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/29/English-interview/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -657,7 +696,7 @@
 <li><p>近似最近邻法（Approximate Nearest Neighbor）：有一套库FLANN，现在已经被集成到OPENCV中</p>
 </li>
 <li><p>超参数：不是被数据驱动的参数，是不会再训练中被改变的</p>
-<img src="/2018/03/28/cs231n-01/L1L2-Distance.png" class title="L1L2-Distance"></li>
+<img src="/2018/03/28/cs231n-01/L1L2-Distance.png" class="" title="L1L2-Distance"></li>
 <li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/holybin/article/details/27185659">交叉验证（Cross Validation）</a> ：交叉验证（Cross Validation）是用来验证分类器的性能一种统计分析方法，基本思想是把在某种意义下将原始数据（dataset）进行分组，一部分做为训练集（training set），另一部分做为验证集（validation set），首先用训练集对分类器进行训练，在利用验证集来测试训练得到的模型（model），以此来做为评价分类器的性能指标。</p>
 </li>
 <li><p>之所以叫模式识别，是因为在各层网络中，每层都会开始学习到一些特征，或称模式，比如第一层可能学习的是人的眼、嘴，后面的层学习到了人脸的轮廓。</p>
@@ -665,14 +704,6 @@
 </li>
 </ul>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/28/cs231n-01/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -760,25 +791,25 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="LSTM模型简介"><a href="#LSTM模型简介" class="headerlink" title="LSTM模型简介"></a>LSTM模型简介</h2><h3 id="整体认识："><a href="#整体认识：" class="headerlink" title="整体认识："></a>整体认识：</h3><ul>
 <li><p>下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。</p>
-<img src="/2018/03/26/pytorch-first-lstm/LSTM3-chain.png" class title="The repeating module in an LSTM contains four interacting layers">
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-chain.png" class="" title="The repeating module in an LSTM contains four interacting layers">
 
-<img src="/2018/03/26/pytorch-first-lstm/LSTM2-notation.png" class title="Notion used above">
+<img src="/2018/03/26/pytorch-first-lstm/LSTM2-notation.png" class="" title="Notion used above">
 
 <h3 id="具体意义："><a href="#具体意义：" class="headerlink" title="具体意义："></a>具体意义：</h3></li>
 <li><p>贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文/句中蕴含的信息，可以理解为主干内容。</p>
-<img src="/2018/03/26/pytorch-first-lstm/LSTM3-C-line.png" class></li>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-C-line.png" class=""></li>
 </ul>
 <ul>
 <li><p>LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)</p>
-<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-f.png" class title="忘记控制，把已经不重要的信息过滤掉">
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-f.png" class="" title="忘记控制，把已经不重要的信息过滤掉">
 
-<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-i.png" class title="输入控制，把有价值的信息放到主干中">
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-i.png" class="" title="输入控制，把有价值的信息放到主干中">
 
-<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png" class title="输出控制，把本节点和主干中的重要信息输出"></li>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png" class="" title="输出控制，把本节点和主干中的重要信息输出"></li>
 <li><p>更详细的内容请参见：<a target="_blank" rel="noopener" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">LSTM始祖级博客</a></p>
 </li>
 <li><p>LSTM有两种 Input-&gt;Output 模式，一种是一对一，一种是多对一，如下图:</p>
-<img src="/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg" class title="LSTM Paterns">
+<img src="/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg" class="" title="LSTM Paterns">
 
 <p>其中，这里的“多”和“一”指的是输入和输出节点。输入节点在我们这个例子中意味着一句话的几个单词，每个单词都会输出一个hidden层的TensorFlow，而如果我们把每个Tensor都考虑再后续的层中，比如在给句子中的每个单词标注词性的时候，那么就是“多”个单词 -&gt; “多”个输出（打上的标签）；而像是句子分类情况下，就是“多”个单词 -&gt; “一”个输出（句子的具体分类）。</p>
 </li>
@@ -821,14 +852,12 @@
 <p>​</p>
 </li>
 </ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/26/pytorch-first-lstm/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<h2 id="我的代码实现："><a href="#我的代码实现：" class="headerlink" title="我的代码实现："></a>我的代码实现：</h2><h3 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many to One"></a>Many to One</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.autograd</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line">torch.manual_seed(<span class="number">233</span>)</span><br><span class="line">random.seed(<span class="number">233</span>)</span><br><span class="line">np.random.seed(<span class="number">233</span>)</span><br><span class="line">EMBEDDING_DIM = <span class="number">200</span></span><br><span class="line">HIDDEN_DIM    = <span class="number">640</span></span><br><span class="line">BATCH_SIZE    = <span class="number">256</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Neural Networks model : LSTM</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, embedding_dim, hidden_dim, tagset_size</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(LSTM, self).__init__()</span><br><span class="line">        self.hidden_dim = hidden_dim</span><br><span class="line">        self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br><span class="line">        self.hidden2tag = nn.Linear(hidden_dim, tagset_size)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_hidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)),</span><br><span class="line">                Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, wordvecs</span>):</span></span><br><span class="line">        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)</span><br><span class="line">        tag_space = self.hidden2tag(lstm_out[:,-<span class="number">1</span>,:])</span><br><span class="line">        tag_scores = F.softmax(tag_space)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line">        <span class="keyword">return</span> tag_scores</span><br></pre></td></tr></table></figure>
+
+<h3 id="Many-to-many"><a href="#Many-to-many" class="headerlink" title="Many to many"></a>Many to many</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.autograd</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line">torch.manual_seed(<span class="number">233</span>)</span><br><span class="line">random.seed(<span class="number">233</span>)</span><br><span class="line">np.random.seed(<span class="number">233</span>)</span><br><span class="line">EMBEDDING_DIM = <span class="number">200</span></span><br><span class="line">HIDDEN_DIM    = <span class="number">640</span></span><br><span class="line">BATCH_SIZE    = <span class="number">256</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Neural Networks model : LSTM</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, embedding_dim, hidden_dim, tagset_size</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(LSTM, self).__init__()</span><br><span class="line">        self.hidden_dim = hidden_dim</span><br><span class="line">        self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br><span class="line">        self.hidden2tag = nn.Linear(hidden_dim*<span class="number">20</span>, tagset_size)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_hidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)),</span><br><span class="line">                Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, wordvecs</span>):</span></span><br><span class="line">        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)</span><br><span class="line">        tag_space = self.hidden2tag(lstm_out.view(-<span class="number">1</span>, self.hidden_dim*<span class="number">20</span>))</span><br><span class="line">        tag_scores = F.softmax(tag_space)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line">        <span class="keyword">return</span> tag_scores</span><br></pre></td></tr></table></figure>
+
+<p>两者最大的差别在于在lstm的输出之后是取output[:,-1,:]，即截取一句话的最后一个节点的Hidden层的输出（Many to One），还是要所有的输出，即output.view(-1, self.hidden_dim*20)，把batch的维度和sentence的维度打平，把两维降到一维。</p>
+
       
     </div>
 
@@ -972,14 +1001,13 @@
 </ul>
 <h2 id="附录：什么是-GP、LP、PE、VC、FOF？"><a href="#附录：什么是-GP、LP、PE、VC、FOF？" class="headerlink" title="附录：什么是 GP、LP、PE、VC、FOF？"></a>附录：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20062244">什么是 GP、LP、PE、VC、FOF？</a></h2><p>天使投资（Angel Investment）：大多数时候，天使投资选择的企业都会是一些非常非常早期的企业，他们甚至没有一个完整的产品，或者仅仅只有一个概念。（打个比方，我有个朋友，他的毕业设计作品是一款让人保持清醒的眼镜，做工非常粗糙，完全不能进入市场销售。但他凭借这个概念以及这个原型品在美国获得了天使投资，并且目前正在该天使投资的深圳某孵化器工作室进行开发研究。）</p>
 <p>而天使投资的投资额度往往也不会很大，一般都是在5-100万这个范围之内，换取的股份则是从10%-30%不等。单纯从数字上而言，美国和中国投资额度基本接近。大多数时候，这些企业都需要至少5年以上的时间才有可能上市。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/24/dianshi-01-theory/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p>此外，部分天使投资会给企业提供一些指导和帮助，甚至会给予一定人脉上的支持。</p>
+<p>如果你还不了解的话，创新工场一开始就在做天使投资的事情。</p>
+<p>风险投资（Venture Capital）：一般而言，当企业发展到一定阶段。比如说已经有个相对较为成熟的产品，或者是已经开始销售的时候，天使投资那100万的资金对于他们来说已经犹如毛毛雨一般，无足轻重了。因此，风险投资成了他们最佳的选择。一般而言，风险投资的投资额度都会在200万-1000万之内。少数重磅投资会达到几千万。但平均而言，200万-1000万是个合理的数字，换取股份一般则是从10%~20%之间。能获得风险投资青睐的企业一般都会在3-5年内有较大希望上市。</p>
+<p>如果需要现实例子的话，红杉资本可以算得上是VC里面最知名的一家公司了。后期创新工场给自己企业追加投资的时候，也是在做类似于风险投资的业务。</p>
+<p>私募基金（Private Equity）：私募基金选择投资的企业大多数已经到了比较后期的地步，企业形成了一个较大的规模，产业规范了，为了迅速占领市场，获取更多的资源，他们需要大批量的资金，那么，这时候私募基金就出场了。大多数时候，5000万<del>数亿的资金都是私募基金经常投资的数额。换取股份大多数时候不会超过20%。一般而言，这些被选择的公司，在未来2</del>3年内都会有极大的希望上市成功。</p>
+<p>去年注资阿里巴巴集团16亿美金的银湖资本（Silver Lake）和曾经投资过的Digital Sky Technology则是私募（尤其做科技类的）翘楚公司。而这16亿的资金也是历史上排名前几的一次注资了。</p>
+
       
     </div>
 
@@ -1102,14 +1130,6 @@
 <li>标题：我们来自哪里？/我们是谁？-&gt; （市场痛点是什么？） -&gt; 我们想做什么？-&gt; 我们做成了什么？ -&gt; 我们要什么？</li>
 </ul>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/24/dianshi-01-exp/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1204,14 +1224,6 @@
 <li>关键是要有一个具体的数据并且要起到激励作用，而不要使用副词“大幅度”，“尽量”等</li>
 </ul>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/22/okr/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1312,14 +1324,6 @@
 <li>最后可以尝试建立R2X这样的从正则表达式利用GAN的方法自动生成有价值的，像是正常log的问题</li>
 </ul>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/19/2018318-gangge/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -1441,14 +1445,6 @@
 </li>
 </ul>
 
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/19/pytorch-start/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。 简单说下对比结果： 最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Data Visualization Libs Comparing">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Python Data Visualization — Comparing 5 Tools背景介绍本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。 简单说下对比结果： 最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/1*grNVtaqUzJi76I-X_dXuPA.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjr8fztj30o70dngm0.jpg">
+<meta property="article:published_time" content="2018-08-12T03:29:14.000Z">
+<meta property="article:modified_time" content="2019-10-04T02:06:10.720Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="visualization">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2018/08/11/python-data-visualization/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>Python Data Visualization Libs Comparing | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-Data-Visualization-%E2%80%94-Comparing-5-Tools"><span class="nav-number">1.</span> <span class="nav-text">Python Data Visualization — Comparing 5 Tools</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.0.1.</span> <span class="nav-text">背景介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%8B%E5%AF%B9%E6%AF%94%E7%BB%93%E6%9E%9C%EF%BC%9A"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">简单说下对比结果：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AF%E5%BC%95%E6%96%87%EF%BC%9A"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">下面是引文：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">1.0.2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Essential-Visualization-Tools"><span class="nav-number">1.0.3.</span> <span class="nav-text">Essential Visualization Tools</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pandas"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">Pandas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Seaborn"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">Seaborn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bokeh"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">Bokeh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pygal"><span class="nav-number">1.0.3.4.</span> <span class="nav-text">Pygal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Plotly"><span class="nav-number">1.0.3.5.</span> <span class="nav-text">Plotly</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conclusions"><span class="nav-number">1.0.4.</span> <span class="nav-text">Conclusions</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/11/python-data-visualization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python Data Visualization Libs Comparing
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-11 23:29:14" itemprop="dateCreated datePublished" datetime="2018-08-11T23:29:14-04:00">2018-08-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:06:10" itemprop="dateModified" datetime="2019-10-03T22:06:10-04:00">2019-10-03</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>11k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Python-Data-Visualization-—-Comparing-5-Tools"><a href="#Python-Data-Visualization-—-Comparing-5-Tools" class="headerlink" title="Python Data Visualization — Comparing 5 Tools"></a>Python Data Visualization — Comparing 5 Tools</h1><h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><p>本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。</p>
+<h4 id="简单说下对比结果："><a href="#简单说下对比结果：" class="headerlink" title="简单说下对比结果："></a>简单说下对比结果：</h4><ol>
+<li><p>最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察来说至关重要。效果如下图：你不但可以得到漂亮的绘图，还可以通过鼠标左右键、滚轮轻松调整尺度、方向等关键参数，更可以通过右上角的各种工具进行进一步调整。当然，其也支持3D图的Subplot。</p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg" alt="image-20180811231857431"></p>
+<ol start="2">
+<li>Plotly 库的缺点：这个库并不是完全免费的。尽管这样，基本不会影响你的正常使用，除非你用for循环高速下载成百上千张图片。其每天画图数目是无限的，不过保存只有100张限额。其有在线和离线两种模式，在线支持直接保存，离线很麻烦。另外，实际上离线会比在线更快。</li>
+<li>Bokeh：这个库在二位统计绘图上是有很大吸引力的。图像质量很高，提供的配色很精美，并且也支持鼠标交互，支持多幅图共享一份数据并且交互时同步变化，特色明显。但对3D画图支持较差。</li>
+</ol>
+</li>
+</ol>
+<h4 id="下面是引文："><a href="#下面是引文：" class="headerlink" title="下面是引文："></a>下面是<a target="_blank" rel="noopener" href="https://codeburst.io/overview-of-python-data-visualization-tools-e32e1f716d10">引文</a>：</h4><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Big data and analytics can be beautifully presented by using visualization tools in Python. Python is a great programming language with variety of options. It is object oriented, semantically structured and great for scripting programs as well as connecting other programmable components. Python is a favorite tool for programmers and data scientists because it’s easy to learn, and the extensive list of built-in features and importable libraries contribute to increased productivity. The Python language has been around for nearly 30 years and the numerous user contributed libraries (e.g. Pandas) have many use cases, such as image modification, data analysis, and server automation. This means that sometimes it can be really difficult to pick the right tool for data analysis or visualization and figure out which one to use. For this purpose, different visualization methods in Python have been summarized, rendered and explained. The techniques were done within the same amount of time and same data sets to demonstrate the difference between each output. The point of the comparison is to understand which visualization tool is the simplest and visually presentable at the same time.</p>
+<h3 id="Essential-Visualization-Tools"><a href="#Essential-Visualization-Tools" class="headerlink" title="Essential Visualization Tools"></a>Essential Visualization Tools</h3><p>The most common type of visualization is a simple bar chart. It is popular and commonly used type of visualization to make comparison between values and variety of categories. It can be vertically or horizontally oriented by adjusting x and y axes, depending on what kind of information or categories the chart requires to present. Parameters need to be identified, such as axes, similarities, title and decided on what exactly the visualization supposed to show. To make a simple bar chart, a number some of the most popular tools and libraries that have been invented for plotting the data could be utilized. These include the most used and common tools such as: Pandas, Seaborn, Bokeh, Pygal and Ploty.</p>
+<p>Python libraries overview with analyzed examples below contain illustrative samples of the tools with data-set taken from <a target="_blank" rel="noopener" href="https://mchb.hrsa.gov/whusa10/hstat/mh/pages/237mm.html">Women’s Health USA</a>. The data includes maternal mortality rates evaluated by age in five rows and titles in two columns to keep it simple. Same data set is being used for all examples that are demonstrated below. Additionally, just like any other programming language issues, errors or questions with the libraries can be found on stack overflow page by Google search.</p>
+<h4 id="Pandas"><a href="#Pandas" class="headerlink" title="Pandas"></a>Pandas</h4><p>First tool is Pandas. The Pandas name is derived from panel data, a term for multidimensional structured data-set. It is a free software that was developed by Wes McKinney in 2008 while working at Applied Quantitative Research Capital Management global firm based in Greenwich, Connecticut, United States. It all started when the company needed a productive, easy to use tool to analyze quantitative data on financial data-sets. By the end of 2009, Wes McKinney convinced management to permit him to open source the library and it is being supported by other contributors ever since, to make it even better.</p>
+<p>The Pandas library became highly optimized for usage, with useful written code that provides high function and rich data structured design. It is fast and easy to implement and contains a software library that is used within Python for powerful data analysis and manipulating data visualization.</p>
+<p>The main feature of Pandas is data-frame that supplies built in options for plotting visualization in two dimension tabular style. It is column oriented with row and columns structured style. Pandas works great with other libraries to create a wide variety of plots. Pandas data structure can have different written values as well as labels and their axes.</p>
+<p>To start the data visualization, first step is to load the library and import the data. Usually, the data stored in .csv (comma separated values) file, where each column is separated by comma, and each row by a new line. To create a bar plot with Pandas the following Python input code can be used.</p>
+<p>import numpy as np<br>import pandas as pd<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’, ascending = False)[:5]<br>mortality_age.plot(kind = “bar”)</p>
+<p>That code executes the plot with detailed columns and title with default colors and background. Figure 1 shows the following plot output.</p>
+<p><img src="/1*grNVtaqUzJi76I-X_dXuPA.png" alt="img"></p>
+<p>Pandas Simple Bar Chart Input Example</p>
+<p>The simple form of this plot looks acceptable and easy to read. The bar chart looks nice and clean. However, it is impossible to customize the graph into more detailed visualization just by using Pandas.</p>
+<h4 id="Seaborn"><a href="#Seaborn" class="headerlink" title="Seaborn"></a>Seaborn</h4><p>Second tool is Seaborn. This tool integrates great with Pandas. It was invented and developed by Michael Waskom in 2014. It is another open-source software library for data analysis and visualization. Seaborn is a popular library for making appealing statistical data graphs in Python. It provides high level of graphic interface for drawing platform and helps to easily identify patterns and draw attention to key elements. It includes built in themes for styling of informative data plots. It uses grid object method that connects the structure of the figure to the visual structure of the given data set. The main goal of this method is to simplify complicated plots. Additional, Seaborn offers variety of styles that allow to modify colors and make it look even more appealing.</p>
+<p>To run the example, the following code below is needed:</p>
+<p>import pandas as pd<br>import seaborn as sns<br>import matplotlib.pyplot as plt<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’,<br>ascending = False)[:5]<br>sns.set(style=”darkgrid”)<br>mortality_age_plot = sns.barplot(x=mortality_age<br>[“Age Range”], y=mortality_age[“Deaths per 100,000 Live Births:”],<br>palette = “muted”, order=mortality_age[“Age Range”].tolist())<br>plt.xticks(rotation=90)<br>plt.show()</p>
+<p>That code executes the plot with detailed titles, nicely colored bars and grid. Figure 2 shows what the bar chart looks like.</p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg" alt="img"></p>
+<p>Seaborn Simple Bar Chart Input Example</p>
+<p>This method made it possible to rotate x and y axis to make the categories and titles readable. The visual graphic looks appealing and more exciting than the previous one.</p>
+<h4 id="Bokeh"><a href="#Bokeh" class="headerlink" title="Bokeh"></a>Bokeh</h4><p>Third tool is Bokeh. It is different from the previous two methods. It was developed by Anaconda’s development team in 2012 with funding from Defence Advanced Research Projects Agency. Bokeh is an open source and free to use for any type of project. It is versatile, integrates great with javascript and novel graphics style. It is an interactive library that was created for modern web browsers to visualize highly interactive plots and data applications. Bokeh’s method can create any kind of graphical plot including dash boards and variety of charts.</p>
+<p>The simple visualization of a bar chart is in the example below. It shows the standard method to plot the data.</p>
+<p>from bokeh.charts import Bar, output_file, show<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>data = {<br>‘Age Range’: mortality_age[‘Age Range’],<br>‘Deaths per 100,000 Live Births’: mortality_age[‘Deaths per 100,000 Live Births:’]<br>}</p>
+<p># x-axis labels pulled from the interpreter column, stacking labels from sample column<br>bar = Bar(data, values=’Deaths per 100,000 Live Births’,<br>label=’Deaths per 100,000 Live Births’,<br>stack=’Age Range’, agg=’mean’,<br>title=”Maternal Deaths per 100,000 Live Births”,<br>legend=’top_right’, width=400)</p>
+<p>output_file(“barchart.html”)<br>show(bar)</p>
+<p>The code opens up a browser’s window and displays an HTML page with the plot. Figure 3 below displays the plotted output.</p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg" alt="img"></p>
+<p>Bokeh Simple Bar Chart Output Example</p>
+<p>The graph looks much nicer and cleaner. Bokeh method has a lot of customization option and functionality. Even thought it looks nice, it does not make sense to use for a simple bar visualization.</p>
+<h4 id="Pygal"><a href="#Pygal" class="headerlink" title="Pygal"></a>Pygal</h4><p>Forth tool is Pygal. It is a part of Python’s library that exports vector charts in different shapes and styles. It was created by a developer named Florian Mounier in 2012. It is also an open source free library and has been widely used because of its high customization options and simplicity at the same time. Options for creating visualizations are wide open and include pie charts, bar graphs, histograms, maps and so on. It all depends on the required look and feel of the graphic.</p>
+<p>To create a simple bar chart the following input code can be used:</p>
+<p>import pygal<br>horizontalbar_chart = pygal.HorizontalBar()<br>horizontalbar_chart.title = ‘Maternal Mortality By Age (in %)’<br>horizontalbar_chart.add(‘Under 20 Years:’, 7.1)<br>horizontalbar_chart.add(‘20–24 Years:’, 8.1)<br>horizontalbar_chart.add(‘25–29 Years:’, 9.4)<br>horizontalbar_chart.add(‘30–34 Years: ‘, 12.1)<br>horizontalbar_chart.add(’35 Years and Older:’, 32.2)<br>horizontalbar_chart.render()</p>
+<p>The output of the vector file looks really nice and visually appealing in style. It does not provide a zooming effect same as in the previous method, however it includes tool-tip hover state. It can be embedded into a web-page by using tag or code. Figure 4 displays the plotted output.</p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg" alt="img"></p>
+<p>Pygal Simple Bar Chart Input Example</p>
+<p>The interactive and vector nature of the image could be utilized widely in websites and data applications.</p>
+<h4 id="Plotly"><a href="#Plotly" class="headerlink" title="Plotly"></a>Plotly</h4><p>Fifth tool is Plotly, also named as Plot.ly because of its main platform online. It is an interactive online visualization tool that is being used for data analytics, scientific graphs and other visualization. It contains a great API including one for Python. There are lot of interactive, professional quality visualizations online that were created with this module.<br>Plotly was developed by multiple developers, including Alex Johnson, Chris Parmer, Jack Parmer and Matthew Sundquist. The tool was named one of the ‘’Top 20 Hottest Innovative Companies in Canada’’ by the Canadian Innovation Exchange.<br>It is different from other Python’s libraries by being an interactive online tool for creating the renderings. Therefore, everything that is being created with this tool is posted on the web. The great thing about Plotly is that it integrates well with pandas.<br>The simplest way to use it is through Plotly’s online tools and import the data by uploading the data set file. It has many convenient features to interact with, extract and visualize the data. Additionally, the tool accepts many formats, such as .xls, .xlsx, or .csv files.</p>
+<p>Figure 5 shows the user interface and settings within the dashboard of the online tool.</p>
+<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjr8fztj30o70dngm0.jpg" alt="img"></p>
+<p>Plotly User Interface Tool Online</p>
+<p>Figure 5 above shows the resulted bar chart after executing provided parameters setup and imported data sets file.</p>
+<p>The process generated an amazing and beautiful highly interactive bar chart with tool-tips and varieties of other tool options such as zooming effect, panning, selecting, auto-scale, moving, resetting and so on. It is easily modified by clicking on different parts and parameters of the graph without code knowledge.</p>
+<h3 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h3><p>All the Big Data without proper visualization extremly difficult to analyze. Python is one of the most innovative and popular tool for data visualization. The good news that it does not take much to create visualization in Python since this language has been around for over twenty years and accumulated exclusive libraries. There are multiple tools and options to visualize the data. However, having variety of options complicates the matter and create confusion for users. Identifying proper method that should be used depends on a project requirements and expectations. The proper way is to test different techniques and understand which one is appropriate.</p>
+<p>Various visualization methods have been demonstrated by using same data-set to plot a simple bar chart. By using most common techniques demonstrated here, Pandas is the simplest method for basic plots. While Seaborn is great for creating visually appealing statistical charts that include color. Bokeh works great for more complicated visualizations and ideal for web based interactive presentations. Pygal works well for generating vector and interactive files. However, it does not have flexibility as other methods. Plotly is the most useful and easiest option for creating web based highly interactive visualizations.</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/08/18/numpy-concatenate/" rel="bookmark">Numpy矩阵拼接数据集</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/08/13/anaconda-2et3/" rel="bookmark">Anaconda2和3的并存一键安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/05/14/auto-env/" rel="bookmark">自动生成和安装requirements.txt依赖</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来点儿赏钱支持创作了解下？(◍•ᴗ•`◍)*＊</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Miracle Yoo WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Miracle Yoo Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/visualization/" rel="tag"># visualization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/11/emc-lab-note-4w/" rel="prev" title="密苏里科技大学EMC Lab暑研 第四周">
+                  <i class="fa fa-chevron-left"></i> 密苏里科技大学EMC Lab暑研 第四周
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/13/anaconda-2et3/" rel="next" title="Anaconda2和3的并存一键安装">
+                  Anaconda2和3的并存一键安装 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">347k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:16</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "miracleyoo/utterances-repo");
+  script.setAttribute('issue-term', "pathname");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+</body>
+</html>

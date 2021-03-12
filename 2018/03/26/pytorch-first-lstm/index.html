@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。     具体意义： 贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文&#x2F;句中蕴含的信息，可以理解为主干内容。    LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)      更详细的内容请参见：LSTM始祖级博客  L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一把Pytorch实现LSTM经验总结">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="LSTM模型简介整体认识： 下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。     具体意义： 贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文&#x2F;句中蕴含的信息，可以理解为主干内容。    LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)      更详细的内容请参见：LSTM始祖级博客  L">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-chain.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM2-notation.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-C-line.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-f.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-i.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg">
+<meta property="article:published_time" content="2018-03-27T00:23:36.000Z">
+<meta property="article:modified_time" content="2019-10-04T02:04:49.240Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="pytorch">
+<meta property="article:tag" content="lstm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/LSTM3-chain.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>第一把Pytorch实现LSTM经验总结 | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LSTM%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">LSTM模型简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E8%AE%A4%E8%AF%86%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">整体认识：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%84%8F%E4%B9%89%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">具体意义：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%87%E5%9D%91%E7%AC%94%E8%AE%B0%EF%BC%88%E5%AE%9E%E8%B7%B5%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">采坑笔记（实践）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">我的代码实现：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Many-to-One"><span class="nav-number">3.1.</span> <span class="nav-text">Many to One</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Many-to-many"><span class="nav-number">3.2.</span> <span class="nav-text">Many to many</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/03/26/pytorch-first-lstm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第一把Pytorch实现LSTM经验总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-03-26 20:23:36" itemprop="dateCreated datePublished" datetime="2018-03-26T20:23:36-04:00">2018-03-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>4.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="LSTM模型简介"><a href="#LSTM模型简介" class="headerlink" title="LSTM模型简介"></a>LSTM模型简介</h2><h3 id="整体认识："><a href="#整体认识：" class="headerlink" title="整体认识："></a>整体认识：</h3><ul>
+<li><p>下图是LSTM模型的基本“细胞”，在处理一个句子时，每个单词都对应一个“细胞”。</p>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-chain.png" class="" title="The repeating module in an LSTM contains four interacting layers">
+
+<img src="/2018/03/26/pytorch-first-lstm/LSTM2-notation.png" class="" title="Notion used above">
+
+<h3 id="具体意义："><a href="#具体意义：" class="headerlink" title="具体意义："></a>具体意义：</h3></li>
+<li><p>贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文/句中蕴含的信息，可以理解为主干内容。</p>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-C-line.png" class=""></li>
+</ul>
+<ul>
+<li><p>LSTM 和普通 RNN 相比, 多出了三个控制器. (输入控制, 输出控制, 忘记控制)</p>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-f.png" class="" title="忘记控制，把已经不重要的信息过滤掉">
+
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-i.png" class="" title="输入控制，把有价值的信息放到主干中">
+
+<img src="/2018/03/26/pytorch-first-lstm/LSTM3-focus-o.png" class="" title="输出控制，把本节点和主干中的重要信息输出"></li>
+<li><p>更详细的内容请参见：<a target="_blank" rel="noopener" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">LSTM始祖级博客</a></p>
+</li>
+<li><p>LSTM有两种 Input-&gt;Output 模式，一种是一对一，一种是多对一，如下图:</p>
+<img src="/2018/03/26/pytorch-first-lstm/LSTM_many_to_one_many_to_many.jpg" class="" title="LSTM Paterns">
+
+<p>其中，这里的“多”和“一”指的是输入和输出节点。输入节点在我们这个例子中意味着一句话的几个单词，每个单词都会输出一个hidden层的TensorFlow，而如果我们把每个Tensor都考虑再后续的层中，比如在给句子中的每个单词标注词性的时候，那么就是“多”个单词 -&gt; “多”个输出（打上的标签）；而像是句子分类情况下，就是“多”个单词 -&gt; “一”个输出（句子的具体分类）。</p>
+</li>
+</ul>
+<h2 id="采坑笔记（实践）"><a href="#采坑笔记（实践）" class="headerlink" title="采坑笔记（实践）"></a>采坑笔记（实践）</h2><ul>
+<li><p>送入DataLoader中的数据一定要是numpy数组，不能是list</p>
+</li>
+<li><p>进入DataLoader中的数据如果有好几层，必须保证每一层都是list不能是numpy。如一个三层数组，最内层inner是np.array，则要做的操作是：np.array(list[list[list(inner), …],…])，否则会报各种奇怪的错误</p>
+</li>
+<li><p>计算loss的criterion中的各个output、label等必须是autograd.Variable变量而不是torch.tensor类型</p>
+</li>
+<li><p>nn.CrossEntropyLoss(output, labels)中的labels的类型必须是torch.LongTensor而不是torch.FloatTensor</p>
+</li>
+<li><p>读取数据最好还是老老实实用Dataloader，否则还是同样的，数据格式可能会出意想不到的错误</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Beibei</span>(<span class="params">Dataset</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, trainData, train_num, test_num, train=<span class="literal">True</span></span>):</span></span><br><span class="line">        self.train = train</span><br><span class="line">        self.train_num = train_num</span><br><span class="line">        self.test_num = test_num</span><br><span class="line">        <span class="keyword">if</span> self.train:</span><br><span class="line">            self.train_data = trainData[:train_num]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.test_data = trainData[train_num:train_num+test_num]</span><br><span class="line">            </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, index</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.train:</span><br><span class="line">            sentence, label = self.train_data[index]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            sentence, label = self.test_data[index]</span><br><span class="line">        send2word = get_wordvecs(sentence=sentence)</span><br><span class="line">        <span class="keyword">return</span> send2word, label</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.train:</span><br><span class="line">            <span class="keyword">return</span> self.train_num</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self.test_num</span><br></pre></td></tr></table></figure></li>
+<li><p>注意在一个cell里面定义了函数，有时候会顺便再同一个cell里面定义了一把随意的输入数据测试一把，但是千万记住不要把函数的输入形参搞成了你定义的那个测试量，否则会在暗地里炸的体无完肤</p>
+</li>
+<li><p>数据需要处理的部分最好放在Dataset的类里面返回值处处理，这样会节省空间和内存。如果把这些预处理提前一次性做了，尤其是Word2Vec这种操作，会吃掉大量内存</p>
+</li>
+<li><p>loss.backward(retain_variables=True)#retain_graph=True)的作用：</p>
+</li>
+</ul>
+<blockquote>
+<p>After <code>loss.backward</code> you cannot do another <code>loss.backward</code> unless <code>retain_variables</code> is true.</p>
+<p>In plain words, the backward proc will consume the intermediate saved Tensors (Variables) used for backpropagation unless you explicitly tell PyTorch to retain them.</p>
+</blockquote>
+<ul>
+<li>由上述解答可知，retain_variables=True语句确保了用于计算后向传播的中间变量不会在计算中被销毁。</li>
+<li>又由下可知，目前最好使用的方式是retain_graph=True</li>
+</ul>
+<blockquote>
+<p>It is essentially the same, <code>retain_variables</code> argument has been deprecated in favor of <code>retain_graph</code>.</p>
+</blockquote>
+<ul>
+<li><p>当batch参数放在第一个时，欲得到一个batch中每个句子的预测中最相近的一个值和其对应的序号：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values, indices = torch.<span class="built_in">max</span>(tensor, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>LSTM在pytorch中的输入输出信息的顺序是：(sentence,batch,word2vec)这样不太自然，用下列写法可以更正至(batch,sentence,word2vec)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+<h2 id="我的代码实现："><a href="#我的代码实现：" class="headerlink" title="我的代码实现："></a>我的代码实现：</h2><h3 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many to One"></a>Many to One</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.autograd</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line">torch.manual_seed(<span class="number">233</span>)</span><br><span class="line">random.seed(<span class="number">233</span>)</span><br><span class="line">np.random.seed(<span class="number">233</span>)</span><br><span class="line">EMBEDDING_DIM = <span class="number">200</span></span><br><span class="line">HIDDEN_DIM    = <span class="number">640</span></span><br><span class="line">BATCH_SIZE    = <span class="number">256</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Neural Networks model : LSTM</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, embedding_dim, hidden_dim, tagset_size</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(LSTM, self).__init__()</span><br><span class="line">        self.hidden_dim = hidden_dim</span><br><span class="line">        self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br><span class="line">        self.hidden2tag = nn.Linear(hidden_dim, tagset_size)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_hidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)),</span><br><span class="line">                Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, wordvecs</span>):</span></span><br><span class="line">        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)</span><br><span class="line">        tag_space = self.hidden2tag(lstm_out[:,-<span class="number">1</span>,:])</span><br><span class="line">        tag_scores = F.softmax(tag_space)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line">        <span class="keyword">return</span> tag_scores</span><br></pre></td></tr></table></figure>
+
+<h3 id="Many-to-many"><a href="#Many-to-many" class="headerlink" title="Many to many"></a>Many to many</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.autograd</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> torch.nn.init <span class="keyword">as</span> init</span><br><span class="line">torch.manual_seed(<span class="number">233</span>)</span><br><span class="line">random.seed(<span class="number">233</span>)</span><br><span class="line">np.random.seed(<span class="number">233</span>)</span><br><span class="line">EMBEDDING_DIM = <span class="number">200</span></span><br><span class="line">HIDDEN_DIM    = <span class="number">640</span></span><br><span class="line">BATCH_SIZE    = <span class="number">256</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Neural Networks model : LSTM</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LSTM</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, embedding_dim, hidden_dim, tagset_size</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(LSTM, self).__init__()</span><br><span class="line">        self.hidden_dim = hidden_dim</span><br><span class="line">        self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=<span class="literal">False</span>)</span><br><span class="line">        self.hidden2tag = nn.Linear(hidden_dim*<span class="number">20</span>, tagset_size)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_hidden</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> (Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)),</span><br><span class="line">                Variable(torch.zeros(<span class="number">1</span>, <span class="number">20</span>, self.hidden_dim)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, wordvecs</span>):</span></span><br><span class="line">        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)</span><br><span class="line">        tag_space = self.hidden2tag(lstm_out.view(-<span class="number">1</span>, self.hidden_dim*<span class="number">20</span>))</span><br><span class="line">        tag_scores = F.softmax(tag_space)</span><br><span class="line">        self.hidden = self.init_hidden()</span><br><span class="line">        <span class="keyword">return</span> tag_scores</span><br></pre></td></tr></table></figure>
+
+<p>两者最大的差别在于在lstm的输出之后是取output[:,-1,:]，即截取一句话的最后一个节点的Hidden层的输出（Many to One），还是要所有的输出，即output.view(-1, self.hidden_dim*20)，把batch的维度和sentence的维度打平，把两维降到一维。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/04/11/backwardAndStep/" rel="bookmark">How are optimizer.step() and loss.backward() related?</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/05/14/certain-GPU/" rel="bookmark">PyTorch中使用指定的GPU</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2018/08/22/data-parallelism/" rel="bookmark">Pytorch 的 Data Parallelism 多GPU训练</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>来点儿赏钱支持创作了解下？(◍•ᴗ•`◍)*＊</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Miracle Yoo WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Miracle Yoo Alipay">
+        <span>Alipay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+              <a href="/tags/lstm/" rel="tag"># lstm</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/24/dianshi-01-theory/" rel="prev" title="点石创校第一课理论部分笔记">
+                  <i class="fa fa-chevron-left"></i> 点石创校第一课理论部分笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/03/28/cs231n-01/" rel="next" title="CS231N 第一课">
+                  CS231N 第一课 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">347k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">5:16</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "miracleyoo/utterances-repo");
+  script.setAttribute('issue-term', "pathname");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+</body>
+</html>

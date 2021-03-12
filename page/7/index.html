@@ -160,12 +160,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-count">116</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-count">98</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -208,6 +208,321 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/22/python-parallel-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/08/22/python-parallel-programming/" class="post-title-link" itemprop="url">Python并行编程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-22 21:23:20" itemprop="dateCreated datePublished" datetime="2018-08-22T21:23:20-04:00">2018-08-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:06:21" itemprop="dateModified" datetime="2019-10-03T22:06:21-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Python 的多线程可以优化许多高耗时的阻塞性步骤。比如机器学习中的储存模型等步骤，如果串行储存，会消耗掉大量时间在存模型上，GPU好的时候甚至比训练时间还长。。。</p>
+<h2 id="先祭上自己的代码实现"><a href="#先祭上自己的代码实现" class="headerlink" title="先祭上自己的代码实现"></a>先祭上自己的代码实现</h2><h4 id="定义部分"><a href="#定义部分" class="headerlink" title="定义部分"></a>定义部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_models</span>(<span class="params">opt, net, epoch, train_loss, best_loss, test_loss</span>):</span></span><br><span class="line">    <span class="comment"># Save a temp model</span></span><br><span class="line">    train_loss = <span class="built_in">float</span>(train_loss)</span><br><span class="line">    best_loss = <span class="built_in">float</span>(best_loss)</span><br><span class="line">    test_loss = <span class="built_in">float</span>(test_loss)</span><br><span class="line">    <span class="keyword">if</span> opt.SAVE_TEMP_MODEL:</span><br><span class="line">        net.save(epoch, train_loss / opt.NUM_TRAIN, <span class="string">&quot;temp_model.dat&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Save the best model</span></span><br><span class="line">    <span class="keyword">if</span> test_loss / opt.NUM_TEST &lt; best_loss:</span><br><span class="line">        best_loss = test_loss / opt.NUM_TEST</span><br><span class="line">        net.save(epoch, train_loss / opt.NUM_TRAIN, <span class="string">&quot;best_model.dat&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> best_loss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>(<span class="params">threading.Thread</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, opt, net, epoch, train_loss, best_loss, test_loss</span>):</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.opt = opt</span><br><span class="line">        self.net = net</span><br><span class="line">        self.epoch = epoch</span><br><span class="line">        self.train_loss = train_loss</span><br><span class="line">        self.best_loss = best_loss</span><br><span class="line">        self.test_loss = test_loss</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.best_loss = save_models(self.opt, self.net, self.epoch, self.train_loss, self.best_loss, self.test_loss)</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            lock.release()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="调用部分"><a href="#调用部分" class="headerlink" title="调用部分"></a>调用部分</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">threads = []</span><br><span class="line"><span class="keyword">if</span> epoch &gt; <span class="number">0</span>:</span><br><span class="line">    threads[epoch-<span class="number">1</span>].join()</span><br><span class="line">    best_loss_temp = threads[epoch-<span class="number">1</span>].best_loss</span><br><span class="line">    <span class="keyword">if</span> best_loss_temp != best_loss:</span><br><span class="line">        print(<span class="string">&quot;==&gt; Best Model Renewed.&quot;</span>)</span><br><span class="line">        best_loss = best_loss_temp</span><br><span class="line">        threads.append(MyThread(opt, net, epoch, train_loss, best_loss, test_loss))</span><br><span class="line">        threads[epoch].start()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="再引用一下廖雪峰的部分教程："><a href="#再引用一下廖雪峰的部分教程：" class="headerlink" title="再引用一下廖雪峰的部分教程："></a>再引用一下<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">廖雪峰</a>的部分<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/00143192823818768cd506abbc94eb5916192364506fa5d000">教程</a>：</h2><p>多任务可以由多进程完成，也可以由一个进程内的多线程完成。</p>
+<p>我们前面提到了进程是由若干线程组成的，一个进程至少有一个线程。</p>
+<p>由于线程是操作系统直接支持的执行单元，因此，高级语言通常都内置多线程的支持，Python也不例外，并且，Python的线程是真正的Posix Thread，而不是模拟出来的线程。</p>
+<p>Python的标准库提供了两个模块：<code>_thread</code>和<code>threading</code>，<code>_thread</code>是低级模块，<code>threading</code>是高级模块，对<code>_thread</code>进行了封装。绝大多数情况下，我们只需要使用<code>threading</code>这个高级模块。</p>
+<p>启动一个线程就是把一个函数传入并创建<code>Thread</code>实例，然后调用<code>start()</code>开始执行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time, threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新线程执行的代码:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span>():</span></span><br><span class="line">    print(<span class="string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name)</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; <span class="number">5</span>:</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">        print(<span class="string">&#x27;thread %s &gt;&gt;&gt; %s&#x27;</span> % (threading.current_thread().name, n))</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name)</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;thread %s is running...&#x27;</span> % threading.current_thread().name)</span><br><span class="line">t = threading.Thread(target=loop, name=<span class="string">&#x27;LoopThread&#x27;</span>)</span><br><span class="line">t.start()</span><br><span class="line">t.join()</span><br><span class="line">print(<span class="string">&#x27;thread %s ended.&#x27;</span> % threading.current_thread().name)</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">thread MainThread <span class="keyword">is</span> running...</span><br><span class="line">thread LoopThread <span class="keyword">is</span> running...</span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">1</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">2</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">3</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">4</span></span><br><span class="line">thread LoopThread &gt;&gt;&gt; <span class="number">5</span></span><br><span class="line">thread LoopThread ended.</span><br><span class="line">thread MainThread ended.</span><br></pre></td></tr></table></figure>
+
+<p>由于任何进程默认就会启动一个线程，我们把该线程称为主线程，主线程又可以启动新的线程，Python的<code>threading</code>模块有个<code>current_thread()</code>函数，它永远返回当前线程的实例。主线程实例的名字叫<code>MainThread</code>，子线程的名字在创建时指定，我们用<code>LoopThread</code>命名子线程。名字仅仅在打印时用来显示，完全没有其他意义，如果不起名字Python就自动给线程命名为<code>Thread-1</code>，<code>Thread-2</code>……</p>
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><p>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，所以，任何一个变量都可以被任何一个线程修改，因此，线程之间共享数据最大的危险在于多个线程同时改一个变量，把内容给改乱了。</p>
+<p>如果我们要确保<code>balance</code>计算正确，就要给<code>change_it()</code>上一把锁，当某个线程开始执行<code>change_it()</code>时，我们说，该线程因为获得了锁，因此其他线程不能同时执行<code>change_it()</code>，只能等待，直到锁被释放后，获得该锁以后才能改。由于锁只有一个，无论多少线程，同一时刻最多只有一个线程持有该锁，所以，不会造成修改的冲突。创建一个锁就是通过<code>threading.Lock()</code>来实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">balance = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_thread</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100000</span>):</span><br><span class="line">        <span class="comment"># 先要获取锁:</span></span><br><span class="line">        lock.acquire()</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 放心地改吧:</span></span><br><span class="line">            change_it(n)</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            <span class="comment"># 改完了一定要释放锁:</span></span><br><span class="line">            lock.release()</span><br></pre></td></tr></table></figure>
+
+<p>当多个线程同时执行<code>lock.acquire()</code>时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。</p>
+<p>获得锁的线程用完后一定要释放锁，否则那些苦苦等待锁的线程将永远等待下去，成为死线程。所以我们用<code>try...finally</code>来确保锁一定会被释放。</p>
+<p>锁的好处就是确保了某段关键代码只能由一个线程从头到尾完整地执行，坏处当然也很多，首先是阻止了多线程并发执行，包含锁的某段代码实际上只能以单线程模式执行，效率就大大地下降了。其次，由于可以存在多个锁，不同的线程持有不同的锁，并试图获取对方持有的锁时，可能会造成死锁，导致多个线程全部挂起，既不能执行，也无法结束，只能靠操作系统强制终止。</p>
+<h3 id="多核CPU"><a href="#多核CPU" class="headerlink" title="多核CPU"></a>多核CPU</h3><p>如果你不幸拥有一个多核CPU，你肯定在想，多核应该可以同时执行多个线程。</p>
+<p>如果写一个死循环的话，会出现什么情况呢？</p>
+<p>打开Mac OS X的Activity Monitor，或者Windows的Task Manager，都可以监控某个进程的CPU使用率。</p>
+<p>我们可以监控到一个死循环线程会100%占用一个CPU。</p>
+<p>如果有两个死循环线程，在多核CPU中，可以监控到会占用200%的CPU，也就是占用两个CPU核心。</p>
+<p>要想把N核CPU的核心全部跑满，就必须启动N个死循环线程。</p>
+<p>试试用Python写个死循环：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading, multiprocessing</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span>():</span></span><br><span class="line">    x = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        x = x ^ <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(multiprocessing.cpu_count()):</span><br><span class="line">    t = threading.Thread(target=loop)</span><br><span class="line">    t.start()</span><br></pre></td></tr></table></figure>
+
+<p>启动与CPU核心数量相同的N个线程，在4核CPU上可以监控到CPU占用率仅有102%，也就是仅使用了一核。</p>
+<p>但是用C、C++或Java来改写相同的死循环，直接可以把全部核心跑满，4核就跑到400%，8核就跑到800%，为什么Python不行呢？</p>
+<p>因为Python的线程虽然是真正的线程，但解释器执行代码时，有一个GIL锁：Global Interpreter Lock，任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让别的线程有机会执行。这个GIL全局锁实际上把所有线程的执行代码都给上了锁，所以，多线程在Python中只能交替执行，即使100个线程跑在100核CPU上，也只能用到1个核。</p>
+<p>GIL是Python解释器设计的历史遗留问题，通常我们用的解释器是官方实现的CPython，要真正利用多核，除非重写一个不带GIL的解释器。</p>
+<p>所以，在Python中，可以使用多线程，但不要指望能有效利用多核。如果一定要通过多线程利用多核，那只能通过C扩展来实现，不过这样就失去了Python简单易用的特点。</p>
+<p>不过，也不用过于担心，Python虽然不能利用多线程实现多核任务，但可以通过多进程实现多核任务。多个Python进程有各自独立的GIL锁，互不影响。</p>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>在多线程环境下，每个线程都有自己的数据。一个线程使用自己的局部变量比使用全局变量好，因为局部变量只有线程自己能看见，不会影响其他线程，而全局变量的修改必须加锁。</p>
+<p>但是局部变量也有问题，就是在函数调用的时候，传递起来很麻烦：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_student</span>(<span class="params">name</span>):</span></span><br><span class="line">    std = Student(name)</span><br><span class="line">    <span class="comment"># std是局部变量，但是每个函数都要用它，因此必须传进去：</span></span><br><span class="line">    do_task_1(std)</span><br><span class="line">    do_task_2(std)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_1</span>(<span class="params">std</span>):</span></span><br><span class="line">    do_subtask_1(std)</span><br><span class="line">    do_subtask_2(std)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_2</span>(<span class="params">std</span>):</span></span><br><span class="line">    do_subtask_2(std)</span><br><span class="line">    do_subtask_2(std)</span><br></pre></td></tr></table></figure>
+
+<p>每个函数一层一层调用都这么传参数那还得了？用全局变量？也不行，因为每个线程处理不同的<code>Student</code>对象，不能共享。</p>
+<p>如果用一个全局<code>dict</code>存放所有的<code>Student</code>对象，然后以<code>thread</code>自身作为<code>key</code>获得线程对应的<code>Student</code>对象如何？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">global_dict = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">std_thread</span>(<span class="params">name</span>):</span></span><br><span class="line">    std = Student(name)</span><br><span class="line">    <span class="comment"># 把std放到全局变量global_dict中：</span></span><br><span class="line">    global_dict[threading.current_thread()] = std</span><br><span class="line">    do_task_1()</span><br><span class="line">    do_task_2()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_1</span>():</span></span><br><span class="line">    <span class="comment"># 不传入std，而是根据当前线程查找：</span></span><br><span class="line">    std = global_dict[threading.current_thread()]</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_task_2</span>():</span></span><br><span class="line">    <span class="comment"># 任何函数都可以查找出当前线程的std变量：</span></span><br><span class="line">    std = global_dict[threading.current_thread()]</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>这种方式理论上是可行的，它最大的优点是消除了<code>std</code>对象在每层函数中的传递问题，但是，每个函数获取<code>std</code>的代码有点丑。</p>
+<p>有没有更简单的方式？</p>
+<p><code>ThreadLocal</code>应运而生，不用查找<code>dict</code>，<code>ThreadLocal</code>帮你自动做这件事：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建全局ThreadLocal对象:</span></span><br><span class="line">local_school = threading.local()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_student</span>():</span></span><br><span class="line">    <span class="comment"># 获取当前线程关联的student:</span></span><br><span class="line">    std = local_school.student</span><br><span class="line">    print(<span class="string">&#x27;Hello, %s (in %s)&#x27;</span> % (std, threading.current_thread().name))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_thread</span>(<span class="params">name</span>):</span></span><br><span class="line">    <span class="comment"># 绑定ThreadLocal的student:</span></span><br><span class="line">    local_school.student = name</span><br><span class="line">    process_student()</span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target= process_thread, args=(<span class="string">&#x27;Alice&#x27;</span>,), name=<span class="string">&#x27;Thread-A&#x27;</span>)</span><br><span class="line">t2 = threading.Thread(target= process_thread, args=(<span class="string">&#x27;Bob&#x27;</span>,), name=<span class="string">&#x27;Thread-B&#x27;</span>)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.join()</span><br><span class="line">t2.join()</span><br></pre></td></tr></table></figure>
+
+<p>执行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello, Alice (<span class="keyword">in</span> Thread-A)</span><br><span class="line">Hello, Bob (<span class="keyword">in</span> Thread-B)</span><br></pre></td></tr></table></figure>
+
+<p>全局变量<code>local_school</code>就是一个<code>ThreadLocal</code>对象，每个<code>Thread</code>对它都可以读写<code>student</code>属性，但互不影响。你可以把<code>local_school</code>看成全局变量，但每个属性如<code>local_school.student</code>都是线程的局部变量，可以任意读写而互不干扰，也不用管理锁的问题，<code>ThreadLocal</code>内部会处理。</p>
+<p>可以理解为全局变量<code>local_school</code>是一个<code>dict</code>，不但可以用<code>local_school.student</code>，还可以绑定其他变量，如<code>local_school.teacher</code>等等。</p>
+<p><code>ThreadLocal</code>最常用的地方就是为每个线程绑定一个数据库连接，HTTP请求，用户身份信息等，这样一个线程的所有调用到的处理函数都可以非常方便地访问这些资源。</p>
+<h2 id="Python如何从线程中返回值"><a href="#Python如何从线程中返回值" class="headerlink" title="Python如何从线程中返回值"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21458868">Python如何从线程中返回值</a></h2><p>Python 从多线程中返回值，有多种方法：</p>
+<p>1、常见的有写一个自己的多线程类，写一个方法返回。</p>
+<p>2、可以设置一个全局的队列返回值。</p>
+<p>3、也可以用multiprocessing.pool.ThreadPool 。</p>
+<p>下面黄哥写一个类从线程中返回值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>(<span class="params">number</span>):</span></span><br><span class="line">    time.sleep(<span class="number">20</span>)</span><br><span class="line">    <span class="keyword">return</span> number</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>(<span class="params">Thread</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, number</span>):</span></span><br><span class="line">        Thread.__init__(self)</span><br><span class="line">        self.number = number</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.result = foo(self.number)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_result</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">thd1 = MyThread(<span class="number">3</span>)</span><br><span class="line">thd2 = MyThread(<span class="number">5</span>)</span><br><span class="line">thd1.start()</span><br><span class="line">thd2.start()</span><br><span class="line">thd1.join()</span><br><span class="line">thd2.join()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> thd1.get_result()</span><br><span class="line"><span class="built_in">print</span> thd2.get_result()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/22/data-parallelism/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/08/22/data-parallelism/" class="post-title-link" itemprop="url">Pytorch 的 Data Parallelism 多GPU训练</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-22 21:23:05" itemprop="dateCreated datePublished" datetime="2018-08-22T21:23:05-04:00">2018-08-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:07:25" itemprop="dateModified" datetime="2019-10-03T22:07:25-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="简单步骤"><a href="#简单步骤" class="headerlink" title="简单步骤"></a>简单步骤</h2><ol>
+<li><p>确定Device，看是否有可利用的GPU：<code>device = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)</code></p>
+</li>
+<li><p>正常定义并实例化模型和Dataloader</p>
+</li>
+<li><p>如果检测到的GPU多于一块，将模型并行化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> torch.cuda.device_count() &gt; <span class="number">1</span>:</span><br><span class="line">  print(<span class="string">&quot;Let&#x27;s use&quot;</span>, torch.cuda.device_count(), <span class="string">&quot;GPUs!&quot;</span>)</span><br><span class="line">  model = nn.DataParallel(model)</span><br></pre></td></tr></table></figure></li>
+<li><p>将模型部署到相应的设备上：<code>model.to(device)</code></p>
+</li>
+<li><p>运行模型（循环中将Input数据也加载到相应设备上）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> rand_loader:</span><br><span class="line">    <span class="built_in">input</span> = data.to(device)</span><br><span class="line">    output = model(<span class="built_in">input</span>)</span><br><span class="line">    print(<span class="string">&quot;Outside: input size&quot;</span>, <span class="built_in">input</span>.size(),</span><br><span class="line">          <span class="string">&quot;output_size&quot;</span>, output.size())</span><br></pre></td></tr></table></figure></li>
+<li><p>得到结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">15</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">15</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">30</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">30</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">	In Model: <span class="built_in">input</span> size torch.Size([<span class="number">5</span>, <span class="number">5</span>]) output size torch.Size([<span class="number">5</span>, <span class="number">2</span>])</span><br><span class="line">Outside: <span class="built_in">input</span> size torch.Size([<span class="number">10</span>, <span class="number">5</span>]) output_size torch.Size([<span class="number">10</span>, <span class="number">2</span>])</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/21/layer-order/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/08/21/layer-order/" class="post-title-link" itemprop="url">主要神经网络layer的合理排布顺序</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-21 11:47:23" itemprop="dateCreated datePublished" datetime="2018-08-21T11:47:23-04:00">2018-08-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="开篇名义，先把普遍的神经网络层的排布顺序展示出来："><a href="#开篇名义，先把普遍的神经网络层的排布顺序展示出来：" class="headerlink" title="开篇名义，先把普遍的神经网络层的排布顺序展示出来："></a>开篇名义，先把普遍的神经网络层的排布顺序展示出来：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Enter: Convlution -&gt; Batch Normalization -&gt; Relu -&gt; Max Pool</span><br><span class="line">Middle: Convlution -&gt; Batch Normalization -&gt; Relu</span><br><span class="line">Middle Complicated: -&gt; CONV&#x2F;FC -&gt; BatchNorm -&gt; ReLu(or other activation) -&gt; Dropout -&gt; CONV&#x2F;FC -&gt;</span><br><span class="line">Tail: Max Pool -&gt; View -&gt; (Dropout) -&gt; Fc</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="关于-Max-Pool-和-Relu-的相对位置"><a href="#关于-Max-Pool-和-Relu-的相对位置" class="headerlink" title="关于 Max Pool 和 Relu 的相对位置"></a>关于 Max Pool 和 Relu 的相对位置</h3><blockquote>
+<p>If you consider the final result, both orders [conv -&gt; relu -&gt; max pooling] and [conv -&gt; max pooling -&gt; relu] will have the same outputs. But if you compare the running time of 2 ways there will be a difference.</p>
+<p>To simplify the problem, just ignore layer convolution layer because it is the same in both cases.</p>
+<p>Relu layer don’t change the size of the input. Let assume we use max pooling 2x2, so the size of input will be reduce by 2 in height and width when apply max poling layer ( [w, h, d] -&gt; max_pooling_2x2 -&gt; [w/2, h/2, d]).</p>
+<p><strong>In case 1</strong> we using relu -&gt; max pooling the size of data will be:</p>
+<p><strong>image[w, h, d] -&gt; [[relu]]</strong> -&gt;<em>image[w, h, d]-&gt;[[max pooling]]</em> -&gt; image[w/2, h/2, d]</p>
+<p><strong>In case 2</strong> we using max pooling -&gt; relu the size of data will be:</p>
+<p><em>image[w, h, d] -&gt;[[max pooling]]</em> -&gt; <strong>image[w/2, h/2, d]-&gt; [[relu]]</strong> -&gt; image[w/2, h/2, d]</p>
+<p><strong>image[w, h, d] -&gt; [[relu]]</strong> vs <strong>image[w/2, h/2, d]-&gt; [[relu]] :</strong> case 2 save 4 time computational cost than case 1 in layer [[relu]] by using max pooling before relu.</p>
+<p>In conclusion, you can save a lot of running time if you put max pooling before the non-linear layers like relu or sigmoid.</p>
+</blockquote>
+<h3 id="关于-Max-Pool-和-Dropout-的相对位置"><a href="#关于-Max-Pool-和-Dropout-的相对位置" class="headerlink" title="关于 Max Pool 和 Dropout 的相对位置"></a>关于 Max Pool 和 Dropout 的相对位置</h3><blockquote>
+<p><strong>Edit:</strong> As @Toke Faurby correctly pointed out, the default implementation in tensorflow actually uses an element-wise dropout. What I described earlier applies to a specific variant of dropout in CNNs, called <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1411.4280.pdf">spatial dropout</a>:</p>
+<p>In a CNN, each neuron produces one feature map. Since <del>dropout</del> <strong>spatial dropout</strong> works per-neuron, dropping a neuron means that the corresponding feature map is dropped - e.g. each position has the same value (usually 0). So each feature map is either fully dropped or not dropped at all. </p>
+<p>Pooling usually operates separately on each feature map, so it should not make any difference if you apply dropout before or after pooling. At least this is the case for pooling operations like maxpooling or averaging.</p>
+<p><strong>Edit:</strong> However, if you actually use <strong>element-wise</strong> dropout (which seems to be set as default for tensorflow), it actually makes a difference if you apply dropout before or after pooling. However, there is not necessarily a <em>wrong</em> way of doing it. Consider the average pooling operation: if you apply dropout before pooling, you effectively scale the resulting neuron activations by <code>1.0 - dropout_probability</code>, but most neurons will be non-zero (in general). If you apply dropout after average pooling, you generally end up with a fraction of <code>(1.0 - dropout_probability)</code> non-zero “unscaled” neuron activations and a fraction of <code>dropout_probability</code> zero neurons. Both seems viable to me, neither is outright wrong.</p>
+</blockquote>
+<h3 id="关于-BN-和-Dropout-的相对位置"><a href="#关于-BN-和-Dropout-的相对位置" class="headerlink" title="关于 BN 和 Dropout 的相对位置"></a>关于 BN 和 Dropout 的相对位置</h3><blockquote>
+<p>In the <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1502.03167.pdf">Ioffe and Szegedy 2015</a>, the authors state that “we would like to ensure that for any parameter values, the network always produces activations with the desired distribution”. So the Batch Normalization Layer is actually inserted right after a Conv Layer/Fully Connected Layer, but before feeding into ReLu (or any other kinds of) activation. See <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jhUZ800C650&index=5&list=PLLvH2FwAQhnpj1WEB-jHmPuUeQ8mX-XXG">this video</a> at around time 53 min for more details.</p>
+<p>As far as dropout goes, I believe dropout is applied after activation layer. In the <a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">dropout paper</a> figure 3b, the dropout factor/probability matrix r(l) for hidden layer l is applied to it on y(l), where y(l) is the result after applying activation function f. </p>
+<p>So in summary, the order of using batch normalization and dropout is:</p>
+<p>-&gt; CONV/FC -&gt; BatchNorm -&gt; ReLu(or other activation) -&gt; Dropout -&gt; CONV/FC -&gt;</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -853,330 +1168,6 @@
 <h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p><code>apt-get</code>命令太久未更新，或是服务器自带版本过低，需要手动更新并升级相应的库。</p>
 <h2 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
 
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/13/anaconda-2et3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Miracle Yoo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Miracleyoo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/13/anaconda-2et3/" class="post-title-link" itemprop="url">Anaconda2和3的并存一键安装</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-13 19:55:48" itemprop="dateCreated datePublished" datetime="2018-08-13T19:55:48-04:00">2018-08-13</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:10" itemprop="dateModified" datetime="2019-10-03T22:06:10-04:00">2019-10-03</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>首先贴上Conda官网教程的<a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html">网址</a></p>
-<p>确实还是官网教程最简单实用，许多百度甚至谷歌搜索出来的csdn博客等并不是最优解法，而且废话太多…</p>
-<p>有效解决办法就是下面一句（已经装了Anaconda3想装一个2）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n py27 python=2.7 anaconda</span><br></pre></td></tr></table></figure>
-
-<p>或是这一句（已经装了Anaconda2想装一个3）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n py36 python=3.6 anaconda</span><br></pre></td></tr></table></figure>
-
-<h1 id="Managing-Python"><a href="#Managing-Python" class="headerlink" title="Managing Python"></a>Managing Python</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#viewing-a-list-of-available-python-versions">Viewing a list of available Python versions</a></li>
-<li><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#installing-a-different-version-of-python">Installing a different version of Python</a></li>
-<li><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#using-a-different-version-of-python">Using a different version of Python</a></li>
-<li><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#updating-or-upgrading-python">Updating or upgrading Python</a></li>
-</ul>
-<p>Conda treats Python the same as any other package, so it is easy to manage and update multiple installations.</p>
-<p>Anaconda supports Python 2.7, 3.4, 3.5 and 3.6. The default is Python 2.7 or 3.6, depending on which installer you used:</p>
-<ul>
-<li>For the installers “Anaconda” and “Miniconda,” the default is 2.7.</li>
-<li>For the installers “Anaconda3” or “Miniconda3,” the default is 3.6.</li>
-</ul>
-<h2 id="Viewing-a-list-of-available-Python-versions"><a href="#Viewing-a-list-of-available-Python-versions" class="headerlink" title="Viewing a list of available Python versions"></a><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#id1">Viewing a list of available Python versions</a></h2><p>To list the versions of Python that are available to install, in your Terminal window or an Anaconda Prompt, run:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda search python</span><br></pre></td></tr></table></figure>
-
-<p>This lists all packages whose names contain the text <code>python</code>.</p>
-<p>To list only the packages whose full name is exactly <code>python</code>, add the <code>--full-name</code> option. In your Terminal window or an Anaconda Prompt, run:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda search --full-name python</span><br></pre></td></tr></table></figure>
-
-<h2 id="Installing-a-different-version-of-Python"><a href="#Installing-a-different-version-of-Python" class="headerlink" title="Installing a different version of Python"></a><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#id2">Installing a different version of Python</a></h2><p>To install a different version of Python without overwriting the current version, create a new environment and install the second Python version into it:</p>
-<ol>
-<li><p>Create the new environment:</p>
-<ul>
-<li><p>To create the new environment for Python 3.6, in your Terminal window or an Anaconda Prompt, run:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n py36 python&#x3D;3.6 anaconda</span><br></pre></td></tr></table></figure>
-
-<p>NOTE: Replace <code>py36</code> with the name of the environment you want to create. <code>anaconda</code> is the metapackage that includes all of the Python packages comprising the Anaconda distribution. <code>python=3.6</code> is the package and version you want to install in this new environment. This could be any package, such as <code>numpy=1.7</code>, or <a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-pkgs.html#installing-multiple-packages">multiple packages</a>.</p>
-</li>
-<li><p>To create the new environment for Python 2.7, in your Terminal window or an Anaconda Prompt, run:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n py27 python&#x3D;2.7 anaconda</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-environments.html#activate-env">Activate the new environment</a>.</p>
-</li>
-<li><p>Verify that the new environment is your <a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-environments.html#determine-current-env">current environment</a>.</p>
-</li>
-<li><p>To verify that the current environment uses the new Python version, in your Terminal window or an Anaconda Prompt, run:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python --version</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="Using-a-different-version-of-Python"><a href="#Using-a-different-version-of-Python" class="headerlink" title="Using a different version of Python"></a><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#id3">Using a different version of Python</a></h2><p>To switch to an environment that has different version of Python, <a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-environments.html#activate-env">activate the environment</a>.</p>
-<h2 id="Updating-or-upgrading-Python"><a href="#Updating-or-upgrading-Python" class="headerlink" title="Updating or upgrading Python"></a><a target="_blank" rel="noopener" href="https://conda.io/docs/user-guide/tasks/manage-python.html#id4">Updating or upgrading Python</a></h2><p>Use the Terminal or an Anaconda Prompt for the following steps.</p>
-<p>If you are in an environment with Python version 3.4.2, the following command updates Python to the latest version in the 3.4 branch:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update python</span><br></pre></td></tr></table></figure>
-
-<p>The following command upgrades Python to another branch—3.6—by installing that version of Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install python&#x3D;3.6</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/11/python-data-visualization/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Miracle Yoo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Miracleyoo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/11/python-data-visualization/" class="post-title-link" itemprop="url">Python Data Visualization Libs Comparing</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-11 23:29:14" itemprop="dateCreated datePublished" datetime="2018-08-11T23:29:14-04:00">2018-08-11</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:06:10" itemprop="dateModified" datetime="2019-10-03T22:06:10-04:00">2019-10-03</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Python-Data-Visualization-—-Comparing-5-Tools"><a href="#Python-Data-Visualization-—-Comparing-5-Tools" class="headerlink" title="Python Data Visualization — Comparing 5 Tools"></a>Python Data Visualization — Comparing 5 Tools</h1><h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><p>本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。</p>
-<h4 id="简单说下对比结果："><a href="#简单说下对比结果：" class="headerlink" title="简单说下对比结果："></a>简单说下对比结果：</h4><ol>
-<li><p>最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察来说至关重要。效果如下图：你不但可以得到漂亮的绘图，还可以通过鼠标左右键、滚轮轻松调整尺度、方向等关键参数，更可以通过右上角的各种工具进行进一步调整。当然，其也支持3D图的Subplot。</p>
-<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg" alt="image-20180811231857431"></p>
-<ol start="2">
-<li>Plotly 库的缺点：这个库并不是完全免费的。尽管这样，基本不会影响你的正常使用，除非你用for循环高速下载成百上千张图片。其每天画图数目是无限的，不过保存只有100张限额。其有在线和离线两种模式，在线支持直接保存，离线很麻烦。另外，实际上离线会比在线更快。</li>
-<li>Bokeh：这个库在二位统计绘图上是有很大吸引力的。图像质量很高，提供的配色很精美，并且也支持鼠标交互，支持多幅图共享一份数据并且交互时同步变化，特色明显。但对3D画图支持较差。</li>
-</ol>
-</li>
-</ol>
-<h4 id="下面是引文："><a href="#下面是引文：" class="headerlink" title="下面是引文："></a>下面是<a target="_blank" rel="noopener" href="https://codeburst.io/overview-of-python-data-visualization-tools-e32e1f716d10">引文</a>：</h4><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>Big data and analytics can be beautifully presented by using visualization tools in Python. Python is a great programming language with variety of options. It is object oriented, semantically structured and great for scripting programs as well as connecting other programmable components. Python is a favorite tool for programmers and data scientists because it’s easy to learn, and the extensive list of built-in features and importable libraries contribute to increased productivity. The Python language has been around for nearly 30 years and the numerous user contributed libraries (e.g. Pandas) have many use cases, such as image modification, data analysis, and server automation. This means that sometimes it can be really difficult to pick the right tool for data analysis or visualization and figure out which one to use. For this purpose, different visualization methods in Python have been summarized, rendered and explained. The techniques were done within the same amount of time and same data sets to demonstrate the difference between each output. The point of the comparison is to understand which visualization tool is the simplest and visually presentable at the same time.</p>
-<h3 id="Essential-Visualization-Tools"><a href="#Essential-Visualization-Tools" class="headerlink" title="Essential Visualization Tools"></a>Essential Visualization Tools</h3><p>The most common type of visualization is a simple bar chart. It is popular and commonly used type of visualization to make comparison between values and variety of categories. It can be vertically or horizontally oriented by adjusting x and y axes, depending on what kind of information or categories the chart requires to present. Parameters need to be identified, such as axes, similarities, title and decided on what exactly the visualization supposed to show. To make a simple bar chart, a number some of the most popular tools and libraries that have been invented for plotting the data could be utilized. These include the most used and common tools such as: Pandas, Seaborn, Bokeh, Pygal and Ploty.</p>
-<p>Python libraries overview with analyzed examples below contain illustrative samples of the tools with data-set taken from <a target="_blank" rel="noopener" href="https://mchb.hrsa.gov/whusa10/hstat/mh/pages/237mm.html">Women’s Health USA</a>. The data includes maternal mortality rates evaluated by age in five rows and titles in two columns to keep it simple. Same data set is being used for all examples that are demonstrated below. Additionally, just like any other programming language issues, errors or questions with the libraries can be found on stack overflow page by Google search.</p>
-<h4 id="Pandas"><a href="#Pandas" class="headerlink" title="Pandas"></a>Pandas</h4><p>First tool is Pandas. The Pandas name is derived from panel data, a term for multidimensional structured data-set. It is a free software that was developed by Wes McKinney in 2008 while working at Applied Quantitative Research Capital Management global firm based in Greenwich, Connecticut, United States. It all started when the company needed a productive, easy to use tool to analyze quantitative data on financial data-sets. By the end of 2009, Wes McKinney convinced management to permit him to open source the library and it is being supported by other contributors ever since, to make it even better.</p>
-<p>The Pandas library became highly optimized for usage, with useful written code that provides high function and rich data structured design. It is fast and easy to implement and contains a software library that is used within Python for powerful data analysis and manipulating data visualization.</p>
-<p>The main feature of Pandas is data-frame that supplies built in options for plotting visualization in two dimension tabular style. It is column oriented with row and columns structured style. Pandas works great with other libraries to create a wide variety of plots. Pandas data structure can have different written values as well as labels and their axes.</p>
-<p>To start the data visualization, first step is to load the library and import the data. Usually, the data stored in .csv (comma separated values) file, where each column is separated by comma, and each row by a new line. To create a bar plot with Pandas the following Python input code can be used.</p>
-<p>import numpy as np<br>import pandas as pd<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’, ascending = False)[:5]<br>mortality_age.plot(kind = “bar”)</p>
-<p>That code executes the plot with detailed columns and title with default colors and background. Figure 1 shows the following plot output.</p>
-<p><img src="/1*grNVtaqUzJi76I-X_dXuPA.png" alt="img"></p>
-<p>Pandas Simple Bar Chart Input Example</p>
-<p>The simple form of this plot looks acceptable and easy to read. The bar chart looks nice and clean. However, it is impossible to customize the graph into more detailed visualization just by using Pandas.</p>
-<h4 id="Seaborn"><a href="#Seaborn" class="headerlink" title="Seaborn"></a>Seaborn</h4><p>Second tool is Seaborn. This tool integrates great with Pandas. It was invented and developed by Michael Waskom in 2014. It is another open-source software library for data analysis and visualization. Seaborn is a popular library for making appealing statistical data graphs in Python. It provides high level of graphic interface for drawing platform and helps to easily identify patterns and draw attention to key elements. It includes built in themes for styling of informative data plots. It uses grid object method that connects the structure of the figure to the visual structure of the given data set. The main goal of this method is to simplify complicated plots. Additional, Seaborn offers variety of styles that allow to modify colors and make it look even more appealing.</p>
-<p>To run the example, the following code below is needed:</p>
-<p>import pandas as pd<br>import seaborn as sns<br>import matplotlib.pyplot as plt<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’,<br>ascending = False)[:5]<br>sns.set(style=”darkgrid”)<br>mortality_age_plot = sns.barplot(x=mortality_age<br>[“Age Range”], y=mortality_age[“Deaths per 100,000 Live Births:”],<br>palette = “muted”, order=mortality_age[“Age Range”].tolist())<br>plt.xticks(rotation=90)<br>plt.show()</p>
-<p>That code executes the plot with detailed titles, nicely colored bars and grid. Figure 2 shows what the bar chart looks like.</p>
-<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg" alt="img"></p>
-<p>Seaborn Simple Bar Chart Input Example</p>
-<p>This method made it possible to rotate x and y axis to make the categories and titles readable. The visual graphic looks appealing and more exciting than the previous one.</p>
-<h4 id="Bokeh"><a href="#Bokeh" class="headerlink" title="Bokeh"></a>Bokeh</h4><p>Third tool is Bokeh. It is different from the previous two methods. It was developed by Anaconda’s development team in 2012 with funding from Defence Advanced Research Projects Agency. Bokeh is an open source and free to use for any type of project. It is versatile, integrates great with javascript and novel graphics style. It is an interactive library that was created for modern web browsers to visualize highly interactive plots and data applications. Bokeh’s method can create any kind of graphical plot including dash boards and variety of charts.</p>
-<p>The simple visualization of a bar chart is in the example below. It shows the standard method to plot the data.</p>
-<p>from bokeh.charts import Bar, output_file, show<br>mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>data = {<br>‘Age Range’: mortality_age[‘Age Range’],<br>‘Deaths per 100,000 Live Births’: mortality_age[‘Deaths per 100,000 Live Births:’]<br>}</p>
-<p># x-axis labels pulled from the interpreter column, stacking labels from sample column<br>bar = Bar(data, values=’Deaths per 100,000 Live Births’,<br>label=’Deaths per 100,000 Live Births’,<br>stack=’Age Range’, agg=’mean’,<br>title=”Maternal Deaths per 100,000 Live Births”,<br>legend=’top_right’, width=400)</p>
-<p>output_file(“barchart.html”)<br>show(bar)</p>
-<p>The code opens up a browser’s window and displays an HTML page with the plot. Figure 3 below displays the plotted output.</p>
-<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg" alt="img"></p>
-<p>Bokeh Simple Bar Chart Output Example</p>
-<p>The graph looks much nicer and cleaner. Bokeh method has a lot of customization option and functionality. Even thought it looks nice, it does not make sense to use for a simple bar visualization.</p>
-<h4 id="Pygal"><a href="#Pygal" class="headerlink" title="Pygal"></a>Pygal</h4><p>Forth tool is Pygal. It is a part of Python’s library that exports vector charts in different shapes and styles. It was created by a developer named Florian Mounier in 2012. It is also an open source free library and has been widely used because of its high customization options and simplicity at the same time. Options for creating visualizations are wide open and include pie charts, bar graphs, histograms, maps and so on. It all depends on the required look and feel of the graphic.</p>
-<p>To create a simple bar chart the following input code can be used:</p>
-<p>import pygal<br>horizontalbar_chart = pygal.HorizontalBar()<br>horizontalbar_chart.title = ‘Maternal Mortality By Age (in %)’<br>horizontalbar_chart.add(‘Under 20 Years:’, 7.1)<br>horizontalbar_chart.add(‘20–24 Years:’, 8.1)<br>horizontalbar_chart.add(‘25–29 Years:’, 9.4)<br>horizontalbar_chart.add(‘30–34 Years: ‘, 12.1)<br>horizontalbar_chart.add(’35 Years and Older:’, 32.2)<br>horizontalbar_chart.render()</p>
-<p>The output of the vector file looks really nice and visually appealing in style. It does not provide a zooming effect same as in the previous method, however it includes tool-tip hover state. It can be embedded into a web-page by using tag or code. Figure 4 displays the plotted output.</p>
-<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg" alt="img"></p>
-<p>Pygal Simple Bar Chart Input Example</p>
-<p>The interactive and vector nature of the image could be utilized widely in websites and data applications.</p>
-<h4 id="Plotly"><a href="#Plotly" class="headerlink" title="Plotly"></a>Plotly</h4><p>Fifth tool is Plotly, also named as Plot.ly because of its main platform online. It is an interactive online visualization tool that is being used for data analytics, scientific graphs and other visualization. It contains a great API including one for Python. There are lot of interactive, professional quality visualizations online that were created with this module.<br>Plotly was developed by multiple developers, including Alex Johnson, Chris Parmer, Jack Parmer and Matthew Sundquist. The tool was named one of the ‘’Top 20 Hottest Innovative Companies in Canada’’ by the Canadian Innovation Exchange.<br>It is different from other Python’s libraries by being an interactive online tool for creating the renderings. Therefore, everything that is being created with this tool is posted on the web. The great thing about Plotly is that it integrates well with pandas.<br>The simplest way to use it is through Plotly’s online tools and import the data by uploading the data set file. It has many convenient features to interact with, extract and visualize the data. Additionally, the tool accepts many formats, such as .xls, .xlsx, or .csv files.</p>
-<p>Figure 5 shows the user interface and settings within the dashboard of the online tool.</p>
-<p><img src="/2018/08/11/python-data-visualization/0069RVTdly1fu6rjr8fztj30o70dngm0.jpg" alt="img"></p>
-<p>Plotly User Interface Tool Online</p>
-<p>Figure 5 above shows the resulted bar chart after executing provided parameters setup and imported data sets file.</p>
-<p>The process generated an amazing and beautiful highly interactive bar chart with tool-tips and varieties of other tool options such as zooming effect, panning, selecting, auto-scale, moving, resetting and so on. It is easily modified by clicking on different parts and parameters of the graph without code knowledge.</p>
-<h3 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h3><p>All the Big Data without proper visualization extremly difficult to analyze. Python is one of the most innovative and popular tool for data visualization. The good news that it does not take much to create visualization in Python since this language has been around for over twenty years and accumulated exclusive libraries. There are multiple tools and options to visualize the data. However, having variety of options complicates the matter and create confusion for users. Identifying proper method that should be used depends on a project requirements and expectations. The proper way is to test different techniques and understand which one is appropriate.</p>
-<p>Various visualization methods have been demonstrated by using same data-set to plot a simple bar chart. By using most common techniques demonstrated here, Pandas is the simplest method for basic plots. While Seaborn is great for creating visually appealing statistical charts that include color. Bokeh works great for more complicated visualizations and ideal for web based interactive presentations. Pygal works well for generating vector and interactive files. However, it does not have flexibility as other methods. Plotly is the most useful and easiest option for creating web based highly interactive visualizations.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Miracle Yoo">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Miracleyoo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/11/emc-lab-note-4w/" class="post-title-link" itemprop="url">密苏里科技大学EMC Lab暑研 第四周</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-11 20:00:17" itemprop="dateCreated datePublished" datetime="2018-08-11T20:00:17-04:00">2018-08-11</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本周是效率拔群的一周。从洛杉矶回来后，马上着手了走之前和张岭学长讨论的机器学习项目，并已经取得了很好的效果，这令我们十分振奋。这个项目是波音公司主导的一个研究型项目，我负责的是将之前使用传统方法由瞬时二极管中的电荷和空穴分布求解出器件中各店电压分布的过程用深度学习予以优化。</p>
-<p>真正令人着迷的也许不是后面的实现过程，尽管这个过程也同样有趣，而是与学长们讨论的这个过程。如何定义问题，如何将一个复杂的问题拆分成一个个容易着手的点，又怎样将一个抽象的问题合理地转化为一组组“Input”“Output”“Loss Function”，这个激烈讨论的过程着实酣畅淋漓，也给予了后续的过程一个很扎实的开端。同时感觉自己真的非常非常幸运，能够遇到一个可以理解自己的优秀mentor，做着自己享受的工作并持续学习着令人激动的新知，并得到效果相当不错的结果。从讨论问题的着力点到着手搭建深度学习代码框架，思考模型结构并实现，不断的尝试与摸索更好的解决方案，直到最后学习了优质而简洁的模型及结果可视化工具，整个过程都如此的流畅而舒展。</p>
-<p>仔细想来，不吹不黑，这种面对新问题时能够沉着冷静分析并自信于高质量实现的态度绝对是在Dian团队这一年来的真实项目锻炼中不知不觉中学到的。在团队里学到的不仅仅是实实在在、能够拿来用的机器学习知识和编程技能，更重要的是敢于系统分析问题的能力。每当想起这里，无不庆幸于当初能够加入种子班、感恩于团队导师和学长们的指导。</p>
-<p>真正令人意外的事情在训练出来的结果不但很好的对上了各个时间点的趋势，还完美的消除了数据自身存在的噪音，这想必也是来源于大量数据的训练造成的泛化性提高以及网络出色的拟合能力。<img src="/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fan9edsj31520nwtfo.jpg" alt="2091533836248_.pic_hd"></p>
-<p>除了项目，上周末的娱乐活动也是极其精彩刺激的。学长们带我们去了邻市的专业射击店，在这里，我们体验了从2.2mm的手枪和猎枪到5.56mm的步枪、甚至是7.62mm的AKM步枪。尽管之前已经在游戏中无数次体验射击，但是真正的射击带给人的那种源于危险的一丝丝紧张、源自渴望正中靶心的注意力高度集中、手指扣动扳机的瞬间扑面而来的巨大爆破声响和随之而来反作用力造成的切切实实的冲击，以及命中时迸发出的激动与兴奋等等对我而言都是无比新鲜的。<img src="/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fsd78s6j31kw23v1ky.jpg" alt="IMG_2990"></p>
-<p><img src="/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6frhczdbj31kw23vkjl.jpg" alt="IMG_2965"></p>
-<p>另外值得一提的是我们四位住在一起的小伙伴们从下厨的门外汉也开始一点一滴地学会了许多好吃的菜的做法，这无疑令我们的生活满意度更上了一层楼。</p>
-<p><img src="/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fvbr7irj31kw23vnpe.jpg" alt="IMG_3016"></p>
 
       
     </div>

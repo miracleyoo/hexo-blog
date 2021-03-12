@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="本周是效率拔群的一周。从洛杉矶回来后，马上着手了走之前和张岭学长讨论的机器学习项目，并已经取得了很好的效果，这令我们十分振奋。这个项目是波音公司主导的一个研究型项目，我负责的是将之前使用传统方法由瞬时二极管中的电荷和空穴分布求解出器件中各店电压分布的过程用深度学习予以优化。 真正令人着迷的也许不是后面的实现过程，尽管这个过程也同样有趣，而是与学长们讨论的这个过程。如何定义问题，如何将一个复杂的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密苏里科技大学EMC Lab暑研 第四周">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="本周是效率拔群的一周。从洛杉矶回来后，马上着手了走之前和张岭学长讨论的机器学习项目，并已经取得了很好的效果，这令我们十分振奋。这个项目是波音公司主导的一个研究型项目，我负责的是将之前使用传统方法由瞬时二极管中的电荷和空穴分布求解出器件中各店电压分布的过程用深度学习予以优化。 真正令人着迷的也许不是后面的实现过程，尽管这个过程也同样有趣，而是与学长们讨论的这个过程。如何定义问题，如何将一个复杂的问题">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fan9edsj31520nwtfo.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fsd78s6j31kw23v1ky.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6frhczdbj31kw23vkjl.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fvbr7irj31kw23vnpe.jpg">
+<meta property="article:published_time" content="2018-08-12T00:00:17.000Z">
+<meta property="article:modified_time" content="2019-10-04T02:04:49.230Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="essay">
+<meta property="article:tag" content="EMC">
+<meta property="article:tag" content="abroad">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/0069RVTdly1fu6fan9edsj31520nwtfo.jpg">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>密苏里科技大学EMC Lab暑研 第四周 | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/11/emc-lab-note-4w/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          密苏里科技大学EMC Lab暑研 第四周
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-11 20:00:17" itemprop="dateCreated datePublished" datetime="2018-08-11T20:00:17-04:00">2018-08-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:04:49" itemprop="dateModified" datetime="2019-10-03T22:04:49-04:00">2019-10-03</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本周是效率拔群的一周。从洛杉矶回来后，马上着手了走之前和张岭学长讨论的机器学习项目，并已经取得了很好的效果，这令我们十分振奋。这个项目是波音公司主导的一个研究型项目，我负责的是将之前使用传统方法由瞬时二极管中的电荷和空穴分布求解出器件中各店电压分布的过程用深度学习予以优化。</p>
+<p>真正令人着迷的也许不是后面的实现过程，尽管这个过程也同样有趣，而是与学长们讨论的这个过程。如何定义问题，如何将一个复杂的问题拆分成一个个容易着手的点，又怎样将一个抽象的问题合理地转化为一组组“Input”“Output”“Loss Function”，这个激烈讨论的过程着实酣畅淋漓，也给予了后续的过程一个很扎实的开端。同时感觉自己真的非常非常幸运，能够遇到一个可以理解自己的优秀mentor，做着自己享受的工作并持续学习着令人激动的新知，并得到效果相当不错的结果。从讨论问题的着力点到着手搭建深度学习代码框架，思考模型结构并实现，不断的尝试与摸索更好的解决方案，直到最后学习了优质而简洁的模型及结果可视化工具，整个过程都如此的流畅而舒展。</p>
+<p>仔细想来，不吹不黑，这种面对新问题时能够沉着冷静分析并自信于高质量实现的态度绝对是在Dian团队这一年来的真实项目锻炼中不知不觉中学到的。在团队里学到的不仅仅是实实在在、能够拿来用的机器学习知识和编程技能，更重要的是敢于系统分析问题的能力。每当想起这里，无不庆幸于当初能够加入种子班、感恩于团队导师和学长们的指导。</p>
+<p>真正令人意外的事情在训练出来的结果不但很好的对上了各个时间点的趋势，还完美的消除了数据自身存在的噪音，这想必也是来源于大量数据的训练造成的泛化性提高以及网络出色的拟合能力。<img src="0069RVTdly1fu6fan9edsj31520nwtfo.jpg" alt="2091533836248_.pic_hd"></p>
+<p>除了项目，上周末的娱乐活动也是极其精彩刺激的。学长们带我们去了邻市的专业射击店，在这里，我们体验了从2.2mm的手枪和猎枪到5.56mm的步枪、甚至是7.62mm的AKM步枪。尽管之前已经在游戏中无数次体验射击，但是真正的射击带给人的那种源于危险的一丝丝紧张、源自渴望正中靶心的注意力高度集中、手指扣动扳机的瞬间扑面而来的巨大爆破声响和随之而来反作用力造成的切切实实的冲击，以及命中时迸发出的激动与兴奋等等对我而言都是无比新鲜的。<img src="0069RVTdly1fu6fsd78s6j31kw23v1ky.jpg" alt="IMG_2990"></p>
+<p><img src="0069RVTdly1fu6frhczdbj31kw23vkjl.jpg" alt="IMG_2965"></p>
+<p>另外值得一提的是我们四位住在一起的小伙伴们从下厨的门外汉也开始一点一滴地学会了许多好吃的菜的做法，这无疑令我们的生活满意度更上了一层楼。</p>
+<p><img src="0069RVTdly1fu6fvbr7irj31kw23vnpe.jpg" alt="IMG_3016"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/essay/" rel="tag"># essay</a>
+              <a href="/tags/EMC/" rel="tag"># EMC</a>
+              <a href="/tags/abroad/" rel="tag"># abroad</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/11/numpy-high-dim-slicing/" rel="prev" title="Numpy高维数组连续切片">
+                  <i class="fa fa-chevron-left"></i> Numpy高维数组连续切片
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/11/python-data-visualization/" rel="next" title="Python Data Visualization Libs Comparing">
+                  Python Data Visualization Libs Comparing <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

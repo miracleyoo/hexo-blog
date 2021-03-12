@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="permute重新排列 N 维数组的维度 语法B &#x3D; permute(A,order) 说明B &#x3D; permute(A,order) 重新排列 A 的维度使其按向量 order 所指定的顺序排列。B 含有与 A 相同的值，但访问任意特定元素所需的下标的顺序已按 order 所指定的顺序重新排列。order 的所有元素都必须是唯一的正整数实数值。 示例全部折叠 置换数组维度创建一个 3×4×5 数组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MATLAB实用Tricks">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/09/15/matlab-tricks/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="permute重新排列 N 维数组的维度 语法B &#x3D; permute(A,order) 说明B &#x3D; permute(A,order) 重新排列 A 的维度使其按向量 order 所指定的顺序排列。B 含有与 A 相同的值，但访问任意特定元素所需的下标的顺序已按 order 所指定的顺序重新排列。order 的所有元素都必须是唯一的正整数实数值。 示例全部折叠 置换数组维度创建一个 3×4×5 数组">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-15T20:02:35.000Z">
+<meta property="article:modified_time" content="2019-10-04T02:07:20.160Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="matlab">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2018/09/15/matlab-tricks/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>MATLAB实用Tricks | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#permute"><span class="nav-number">1.</span> <span class="nav-text">permute</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">1.2.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%AE%E6%8D%A2%E6%95%B0%E7%BB%84%E7%BB%B4%E5%BA%A6"><span class="nav-number">1.3.1.</span> <span class="nav-text">置换数组维度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-Python-%E8%B0%83%E7%94%A8%E7%94%A8%E6%88%B7%E8%84%9A%E6%9C%AC%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">通过 Python 调用用户脚本和函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">调用其他文件夹中的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E6%9F%90%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E5%AE%B9%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">列出某文件夹内容的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%8C%87%E5%AE%9A%E5%90%8D%E7%A7%B0%E5%8C%B9%E9%85%8D%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">查找与指定名称匹配的文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8%E5%AD%90%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%AD%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">在子文件夹中查找文件</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/09/15/matlab-tricks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MATLAB实用Tricks
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-09-15 16:02:35" itemprop="dateCreated datePublished" datetime="2018-09-15T16:02:35-04:00">2018-09-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="permute"><a href="#permute" class="headerlink" title="permute"></a>permute</h1><p>重新排列 N 维数组的维度</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>B = permute(A,order)</code></p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><code>B = permute(A,order)</code> 重新排列 <code>A</code> 的维度使其按向量 <code>order</code> 所指定的顺序排列。<code>B</code> 含有与 <code>A</code> 相同的值，但访问任意特定元素所需的下标的顺序已按 <code>order</code> 所指定的顺序重新排列。<code>order</code> 的所有元素都必须是唯一的正整数实数值。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>全部折叠</p>
+<h3 id="置换数组维度"><a href="#置换数组维度" class="headerlink" title="置换数组维度"></a>置换数组维度</h3><p>创建一个 3×4×5 数组，并置换它，以便将第一个和第三个维度交换。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A = <span class="built_in">rand</span>(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">B = <span class="built_in">permute</span>(A,[<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>]);</span><br><span class="line"><span class="built_in">size</span>(B)</span><br><span class="line"><span class="built_in">ans</span> = </span><br><span class="line"></span><br><span class="line">     <span class="number">5</span>     <span class="number">4</span>     <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="通过-Python-调用用户脚本和函数"><a href="#通过-Python-调用用户脚本和函数" class="headerlink" title="通过 Python 调用用户脚本和函数"></a>通过 Python 调用用户脚本和函数</h2><p>此示例显示如何通过 Python® 来调用 MATLAB® 脚本，以计算三角形的面积。</p>
+<p>在您的当前文件夹中名为 <code>triarea.m</code> 的文件中创建一个 MATLAB 脚本。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="number">5</span>;</span><br><span class="line">h = <span class="number">3</span>;</span><br><span class="line">a = <span class="number">0.5</span>*(b.* h)</span><br></pre></td></tr></table></figure>
+
+<p>保存该文件后，启动 Python 并调用该脚本。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import matlab.engine</span><br><span class="line">eng = matlab.engine.start_matlab()</span><br><span class="line">eng.triarea(nargout=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">a =</span><br><span class="line"></span><br><span class="line">    <span class="number">7.5000</span></span><br></pre></td></tr></table></figure>
+
+<p>指定 <code>nargout=0</code>。尽管脚本会打印输出，但它不会向 Python 返回任何输出参数。</p>
+<p>将脚本转换为函数并通过引擎调用该函数。要编辑文件，请打开 MATLAB 编辑器。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eng.edit(<span class="string">&#x27;triarea&#x27;</span>,nargout=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>删除三个语句。然后添加一条函数声明并保存文件。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> = <span class="title">triarea</span><span class="params">(b,h)</span></span></span><br><span class="line">a = <span class="number">0.5</span>*(b.* h);</span><br></pre></td></tr></table></figure>
+
+<p>通过引擎调用新的 <code>triarea</code> 函数。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ret = eng.triarea(<span class="number">1.0</span>,<span class="number">5.0</span>)</span><br><span class="line">print(ret)</span><br><span class="line"><span class="number">2.5</span></span><br></pre></td></tr></table></figure>
+
+<p><code>triarea</code> 函数仅返回一个输出参数，因此无需指定 <code>nargout</code>。</p>
+<h1 id="调用其他文件夹中的方法"><a href="#调用其他文件夹中的方法" class="headerlink" title="调用其他文件夹中的方法"></a>调用其他文件夹中的方法</h1><p>有时我们希望把matlab的函数文件单独放到一个文件夹，或是其他涉及将.m文件分散放置的情况，这时候要添加路径。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">addpath Datasets</span><br><span class="line">addpath /Users/miracle/Desktop/MST Project/project code/auto-scan-point</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以调用添加的路径下的m文件了。</p>
+<h1 id="列出某文件夹内容的方法"><a href="#列出某文件夹内容的方法" class="headerlink" title="列出某文件夹内容的方法"></a>列出某文件夹内容的方法</h1><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir</span><br><span class="line">dir name</span><br><span class="line">listing = dir(name)</span><br></pre></td></tr></table></figure>
+
+<h1 id="查找与指定名称匹配的文件"><a href="#查找与指定名称匹配的文件" class="headerlink" title="查找与指定名称匹配的文件"></a>查找与指定名称匹配的文件</h1><p>列出包含词语 <code>my</code> 且扩展名为 <code>.m</code> 的所有文件。</p>
+<p>创建文件夹 <code>myfolder</code>，其包含文件 <code>myfile1.m</code>、<code>myfile2.m</code> 和 <code>myfile3.txt</code>。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir myfolder </span><br><span class="line">movefile myfile1.m myfolder</span><br><span class="line">movefile myfile2.m myfolder</span><br><span class="line">movefile myfile3.txt myfolder </span><br></pre></td></tr></table></figure>
+
+<p>列出 <code>myfolder</code> 中符合条件的文件。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd myfolder </span><br><span class="line">dir *my*.m </span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; myfile1.m myfile2.m </span><br></pre></td></tr></table></figure>
+<h1 id="在子文件夹中查找文件"><a href="#在子文件夹中查找文件" class="headerlink" title="在子文件夹中查找文件"></a>在子文件夹中查找文件</h1><p>列出当前文件夹中和当前文件夹的所有子文件夹中的所有文件。</p>
+<p>创建文件夹 <code>myfolder1</code>，其中包含以下文件和文件夹：</p>
+<pre><code>文件结构
+myfile1.m 
+myfolder2 
+    myfile2.m 
+    myfolder3.m 
+        myfile3.m
+
+mkdir myfolder1 mkdir myfolder1/myfolder2 mkdir myfolder1/myfolder2/myfolder3 movefile myfile1.m myfolder1 movefile myfile2.m myfolder1/myfolder2 movefile myfile3.m myfolder1/myfolder2/myfolder3 
+</code></pre>
+<p>列出 <code>myfolder1</code> 中和 <code>myfolder1</code> 的子文件夹中扩展名为 <code>.m</code> 的所有文件。</p>
+<pre><code>cd myfolder1 dir **/*.m 
+
+Files Found in Current Folder: myfile1.m Files Found in: myfolder2 myfile2.m Files Found in: myfolder2/myfolder3 myfile3.m 
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/matlab/" rel="tag"># matlab</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/09/15/windows-norestart-set-env/" rel="prev" title="Windows不重启电脑将路径加入系统PATH">
+                  <i class="fa fa-chevron-left"></i> Windows不重启电脑将路径加入系统PATH
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/09/22/emc-lab-note-10w/" rel="next" title="密苏里科技大学EMC Lab暑研 第十周">
+                  密苏里科技大学EMC Lab暑研 第十周 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

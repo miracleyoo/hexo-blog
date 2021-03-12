@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="pytorch torchvision transform 对PIL.Image进行变换 对Tensor进行变换 Conversion Transforms 通用变换   变换是常用的图像变换。它们可以用Compose连接在一起。 1class torchvision.transforms.Compose(transforms)  将多个transform组合起来使用。 transforms： 由">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch中常用图像变换">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/04/13/img-pre-process/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="pytorch torchvision transform 对PIL.Image进行变换 对Tensor进行变换 Conversion Transforms 通用变换   变换是常用的图像变换。它们可以用Compose连接在一起。 1class torchvision.transforms.Compose(transforms)  将多个transform组合起来使用。 transforms： 由">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-13T05:40:39.000Z">
+<meta property="article:modified_time" content="2019-10-04T02:07:20.160Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="pytorch">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2018/04/13/img-pre-process/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>Pytorch中常用图像变换 | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pytorch-torchvision-transform"><span class="nav-number">1.</span> <span class="nav-text">pytorch torchvision transform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9PIL-Image%E8%BF%9B%E8%A1%8C%E5%8F%98%E6%8D%A2"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">对PIL.Image进行变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9Tensor%E8%BF%9B%E8%A1%8C%E5%8F%98%E6%8D%A2"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">对Tensor进行变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9Conversion%E8%BF%9B%E8%A1%8C%E5%8F%98%E6%8D%A2"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">对Conversion进行变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%8F%98%E6%8D%A2"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">通用变换</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/04/13/img-pre-process/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pytorch中常用图像变换
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-13 01:40:39" itemprop="dateCreated datePublished" datetime="2018-04-13T01:40:39-04:00">2018-04-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:07:20" itemprop="dateModified" datetime="2019-10-03T22:07:20-04:00">2019-10-03</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="pytorch-torchvision-transform"><a href="#pytorch-torchvision-transform" class="headerlink" title="pytorch torchvision transform"></a>pytorch torchvision transform</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://ptorch.com/docs/1/transforms#transforms-on-pil-image">对PIL.Image进行变换</a></li>
+<li><a target="_blank" rel="noopener" href="https://ptorch.com/docs/1/transforms#transforms-on-torch-tensor">对Tensor进行变换</a></li>
+<li><a target="_blank" rel="noopener" href="https://ptorch.com/docs/1/transforms#conversion-transforms">Conversion Transforms</a></li>
+<li><a target="_blank" rel="noopener" href="https://ptorch.com/docs/1/transforms#generic-transforms">通用变换</a></li>
+</ol>
+<hr>
+<p>变换是常用的图像变换。它们可以用<code>Compose</code>连接在一起。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Compose</span>(<span class="params">transforms</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>将多个transform组合起来使用。</p>
+<p>transforms： 由transform构成的列表. 例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">transforms.Compose([</span><br><span class="line">     transforms.CenterCrop(<span class="number">10</span>),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<h4 id="对PIL-Image进行变换"><a href="#对PIL-Image进行变换" class="headerlink" title="对PIL.Image进行变换"></a>对PIL.Image进行变换</h4><hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Scale</span>(<span class="params">size, interpolation=<span class="number">2</span></span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>按照规定的尺寸重新调节<code>PIL.Image</code>。</p>
+<p><strong>参数说明</strong>：</p>
+<ol>
+<li>size (sequence or int) - 期望输出尺寸。如果size是一个像(w, h)的序列，输出大小将按照w,h匹配到。如果大小是int，则图像将匹配到这个数字。例如，如果原图的<code>height&gt;width</code>,那么改变大小后的图片大小是<code>(size*height/width, size)</code>。</li>
+<li>interpolation (int, optional) -需要添加值。默认的是<code>PIL.Image.BILINEAR</code></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">CenterCrop</span>(<span class="params">size</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>将给定的PIL.Image进行中心切割，得到给定的size，size可以是tuple，(target_height, target_width)。size也可以是一个Integer，在这种情况下，切出来的图片的形状是正方形。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">RandomCrop</span>(<span class="params">size, padding=<span class="number">0</span></span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>切割中心点的位置随机选取。size可以是tuple也可以是Integer。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">RandomHorizontalFlip</span></span></span><br></pre></td></tr></table></figure>
+
+<p>随机水平翻转给定的PIL.Image,概率为0.5。即：一半的概率翻转，一半的概率不翻转。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">RandomSizedCrop</span>(<span class="params">size, interpolation=<span class="number">2</span></span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>先将给定的PIL.Image随机切，然后再resize成给定的size大小。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Pad</span>(<span class="params">padding, fill=<span class="number">0</span></span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>将给定的PIL.Image的所有边用给定的pad value填充。 padding：要填充多少像素 fill：用什么值填充</p>
+<h4 id="对Tensor进行变换"><a href="#对Tensor进行变换" class="headerlink" title="对Tensor进行变换"></a>对Tensor进行变换</h4><hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Normalize</span>(<span class="params">mean, std</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>给定均值：(R,G,B) 方差：（R，G，B），将会把Tensor正则化。即：Normalized_image=(image-mean)/std。</p>
+<p><strong>参数说明：</strong></p>
+<ol>
+<li>mean (sequence) – 序列R, G, B的均值。</li>
+<li>std (sequence) – 序列 R, G, B 的平均标准偏差.</li>
+</ol>
+<p><strong>call(tensor)</strong> 参数: tensor (Tensor) – 规范化的大小（c，h，w）的张量图像. 返回结果: 规范化的图片. 返回样式: Tensor张量</p>
+<h4 id="对Conversion进行变换"><a href="#对Conversion进行变换" class="headerlink" title="对Conversion进行变换"></a>对Conversion进行变换</h4><hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">ToTensor</span></span></span><br></pre></td></tr></table></figure>
+
+<p>把一个取值范围是[0,255]的PIL.Image或者shape为(H,W,C)的numpy.ndarray，转换成形状为[C,H,W]，取值范围是[0,1.0]的torch.FloadTensor</p>
+<p><strong>call(pic)</strong></p>
+<ol>
+<li>参数: pic (PIL.Image or numpy.ndarray) – 图片转换为张量.</li>
+<li>返回结果: 转换后的图像。</li>
+<li>返回样式: Tensor张量</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">ToPILImage</span></span></span><br></pre></td></tr></table></figure>
+
+<p>将shape为(C,H,W)的Tensor或shape为(H,W,C)的numpy.ndarray转换成PIL.Image，值不变。</p>
+<p><strong>call(pic)</strong></p>
+<ol>
+<li>参数: pic (Tensor or numpy.ndarray) – 图像转换为pil.image。</li>
+<li>返回结果: 图像转换为PIL.Image.</li>
+<li>返回样式: PIL.Image</li>
+</ol>
+<h4 id="通用变换"><a href="#通用变换" class="headerlink" title="通用变换"></a>通用变换</h4><hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">transforms</span>.<span class="title">Lambda</span>(<span class="params">lambd</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>使用lambd作为转换器。</p>
+<p>参数说明: lambd (function) – Lambda/function 用于转换.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/11/backwardAndStep/" rel="prev" title="How are optimizer.step() and loss.backward() related?">
+                  <i class="fa fa-chevron-left"></i> How are optimizer.step() and loss.backward() related?
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/05/06/nohup/" rel="next" title="Nohup 命令总结">
+                  Nohup 命令总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

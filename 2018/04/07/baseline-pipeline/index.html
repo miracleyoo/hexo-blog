@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="This article is from Quora, and the original link is here. 先简单概括一下原文： Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。 而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is a pipeline and baseline in machine learning algorithms?">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/04/07/baseline-pipeline/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="This article is from Quora, and the original link is here. 先简单概括一下原文： Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。 而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-07T04:52:19.000Z">
+<meta property="article:modified_time" content="2019-10-04T02:06:23.770Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2018/04/07/baseline-pipeline/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>What is a pipeline and baseline in machine learning algorithms? | Miracleyoo</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Miracleyoo</h1>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/miracle_logo.JPG" alt="Miracleyoo">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E7%AE%80%E5%8D%95%E6%A6%82%E6%8B%AC%E4%B8%80%E4%B8%8B%E5%8E%9F%E6%96%87%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">先简单概括一下原文：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AFPrasoon-Goyal%E5%A4%A7%E4%BD%AC%E7%9A%84%E5%8E%9F%E7%AD%94%E6%A1%88%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">下面是Prasoon Goyal大佬的原答案：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyangzha@umass.edu" title="E-Mail → mailto:zhongyangzha@umass.edu" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener" target="_blank"><i class="fab fa-facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/04/07/baseline-pipeline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          What is a pipeline and baseline in machine learning algorithms?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-07 00:52:19" itemprop="dateCreated datePublished" datetime="2018-04-07T00:52:19-04:00">2018-04-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2019-10-03 22:06:23" itemprop="dateModified" datetime="2019-10-03T22:06:23-04:00">2019-10-03</time>
+      </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>This article is from Quora, and the original link is <a target="_blank" rel="noopener" href="https://www.quora.com/What-is-a-pipeline-and-baseline-in-machine-learning-algorithms">here</a>.</strong></p>
+<h2 id="先简单概括一下原文："><a href="#先简单概括一下原文：" class="headerlink" title="先简单概括一下原文："></a>先简单概括一下原文：</h2><ul>
+<li>Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。</li>
+<li>而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照，看看自己到底做到了<strong>多好</strong></li>
+</ul>
+<h2 id="下面是Prasoon-Goyal大佬的原答案："><a href="#下面是Prasoon-Goyal大佬的原答案：" class="headerlink" title="下面是Prasoon Goyal大佬的原答案："></a>下面是<a target="_blank" rel="noopener" href="https://www.quora.com/profile/Prasoon-Goyal">Prasoon Goyal</a>大佬的原答案：</h2><p>A machine learning algorithm usually takes clean (and often tabular) data, and learns some pattern in the data, to make predictions on new data. However, when ML is used in real-world applications, the raw information that you get from the real-world is often not ready to be fed into the ML algorithm. So you need to preprocess that information to create input data for the ML algorithm. Similarly, the output of the ML algorithm by itself is just some number in software, which will need to be processed to perform some action in the real-world.</p>
+<p>Let’s take the example of self-driving cars. Say you have cameras mounted on a car, and you want to predict the optimal steering angle given the images from the camera and the speed of the car. Now once you have collected the data, you will have a set of images from the camera, and you will have the speed of the car at various time points. You will need to align the images with the speed of the car based on the timestamp. Secondly, if you are learning in the supervised setting, you would also have recorded the steering angles of the human drivers while collecting the above data. Again, these need to be aligned with the images and the speed data according to timestamp. What you have done so far is preprocessing — there is no machine learning yet. Now comes the machine learning part — say you train a neural network that is fed these images and corresponding speeds and is trained to predict the optimal steering angle. This is you ML algorithm. Once you’ve trained it, for new data, you perform the preprocessing by aligning camera images and speeds, and feed to the neural network. The neural network outputs a steering angle on a computer screen. Now you need to take this output and actually rewire your car in a way such that the steering wheel rotates based on this output. This part is again not ML.</p>
+<p>So this entire framework from converting raw data to data usable by ML algorithm, training an ML algorithm, and finally using the output of the ML algorithm to perform actions in the real-world is the <strong>pipeline</strong>. It is called a pipeline because it is analogous to physical pipelines — just as a liquid passes through one pipe, entering the next, sequentially, our data goes through one stage, entering into the next, sequentially.</p>
+<hr>
+<p>Baseline, on the other hand, is a totally unrelated concept. Let’s say you want to do part-of-speech tagging — given an English text, tag each word as noun, pronoun, verb, etc. Note that this is non-trivial because a lot of words could belong to several parts-of-speech, based on the context, e.g. <em>building</em>.</p>
+<p>Now, you train an ML model, and you get an accuracy of 80%. Is that good? You can’t answer that question unless you compare your accuracy to something else. That “something else” is the <strong>baseline</strong>. Sometimes, you pick a simple baseline. So for the example above, a simple baseline could be to just tag each word with its most common part-of-speech. Or you can use existing popular algorithms for that task as the baseline. The choice of the baseline depends on your objective. The goal is to either beat the baseline, if the goal of your work is to improve accuracy, or get results comparable to the baseline while improving some other aspect of the algorithm (like training time, prediction time, memory usage, etc.)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/04/cs231n-assignment1/" rel="prev" title="cs231n-assignment1">
+                  <i class="fa fa-chevron-left"></i> cs231n-assignment1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/07/dianshi-02/" rel="next" title="点石创校第二课——唐顾问分享">
+                  点石创校第二课——唐顾问分享 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

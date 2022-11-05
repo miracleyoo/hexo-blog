@@ -14,6 +14,8 @@ Pytorch没有TensorFlow类似的原生支持，尽管也可以用TensorBoardX进
 
 首先，可以利用一个开源库，[functional-zoo](https://github.com/szagoruyko/functional-zoo)
 
+<!-- more -->
+
 ## 所需准备：
 
 1. `brew/apt-get/yum install graphviz`

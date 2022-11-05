@@ -20,35 +20,37 @@ date: 2018-03-19 10:32:23
      import torchvision.transforms as transforms
      ```
 
-  2. Load需要的数据。数据分为trainset和testset，著名的一些数据集如Imagenet, CIFAR10, MNIST等可以直接在torchvision.dataset中Load。trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,                                          shuffl =True, num_workers=2) 语句的作用是把读进来的数据分好batch，做好shuffle。num_workers表示使用的进程数。
+     <!-- more -->
 
+  2. Load需要的数据。数据分为trainset和testset，著名的一些数据集如Imagenet, CIFAR10, MNIST等可以直接在torchvision.dataset中Load。trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,                                          shuffl =True, num_workers=2) 语句的作用是把读进来的数据分好batch，做好shuffle。num_workers表示使用的进程数。
+  
      ```python
      transform = transforms.Compose(
-         [transforms.ToTensor(),
+       [transforms.ToTensor(),
           transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
+     
      trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                              download=True, transform=transform)
-     trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
+   trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
                                                shuffle=True, num_workers=2)
-
+     
      testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                             download=True, transform=transform)
-     testloader = torch.utils.data.DataLoader(testset, batch_size=4,
+   testloader = torch.utils.data.DataLoader(testset, batch_size=4,
                                               shuffle=False, num_workers=2)
-
+     
      classes = ('plane', 'car', 'bird', 'cat',
-                'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+              'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
      ```
 
   3. 定义一个卷积神经网络
-
+  
      ```python
      # autograd.Variable的作用是在于对于一个给定的变量，当定义了forward函数后自动生成backward函数，便于后面计算backward函数的梯度。同理，F的作用是对于一个给定的函数，...
      from torch.autograd import Variable
-     import torch.nn as nn # 引用神经网络的各个层时要导入的模块
+   import torch.nn as nn # 引用神经网络的各个层时要导入的模块
      import torch.nn.functional as F 
-
+     
      class Net(nn.Module):
          '''
          这个类当实例化并给喂进来数据后会自动执行从input到output的过程
@@ -60,9 +62,9 @@ date: 2018-03-19 10:32:23
              self.pool = nn.MaxPool2d(2, 2)
              self.conv2 = nn.Conv2d(6, 16, 5)
              self.fc1 = nn.Linear(16 * 5 * 5, 120)
-             self.fc2 = nn.Linear(120, 84)
+           self.fc2 = nn.Linear(120, 84)
              self.fc3 = nn.Linear(84, 10)
-
+     
          def forward(self, x):
              # 这里是前向函数，要顺序从raw数据一层一层写下来，后向函数会自动定义
              x = self.pool(F.relu(self.conv1(x)))
@@ -188,4 +190,4 @@ date: 2018-03-19 10:32:23
             "output_size", output.size())
   ```
 
-  ​
+  

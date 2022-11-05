@@ -24,6 +24,8 @@ print("浅拷贝：id(c)->>>", id(c))
 print("深拷贝：id(d)->>>", id(d))
 ```
 
+<!-- more -->
+
 输出如下:
 
 ```bash

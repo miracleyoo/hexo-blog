@@ -23,6 +23,8 @@ def gen_input(Vn, Vp, nx1, ny1, net_charge):
 
 上面的net_charge和border_cond即为需要进行拼接操作的两个matrix，分别使用了[np.newaxis,:]和初始化的时候就多生成一维的方法，最后使用np.concatenate进行拼接。
 
+<!-- more -->
+
 ### 数组拼接方法一
 
 思路：首先将数组转成列表，然后利用列表的拼接函数append()、extend()等进行拼接处理，最后将列表转成数组。

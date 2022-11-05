@@ -12,6 +12,8 @@ date: 2019-10-24 19:40:02
 
 NOSE: A device which utilize order sensing component and machine learning to detect which kind of cooking method and which kind of foods, oils are used when you are cooking. It can be used to periodically reports to users about their cooking habits.
 
+<!-- more -->
+
 # Terms
 
 1.  MOS Gas Sensor: A sensor which is sensitive to specific target analytes and attempts to replicate the human olfactory system by detecting various types of odors.

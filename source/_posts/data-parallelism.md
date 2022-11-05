@@ -15,6 +15,8 @@ date: 2018-08-22 21:23:05
 
 3. 如果检测到的GPU多于一块，将模型并行化：
 
+   <!-- more -->
+
    ```python
    if torch.cuda.device_count() > 1:
      print("Let's use", torch.cuda.device_count(), "GPUs!")

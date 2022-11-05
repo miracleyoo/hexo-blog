@@ -13,6 +13,8 @@ date: 2019-09-20 10:02:32
 
 [GitHub链接](https://github.com/miracleyoo/initialize-server-script)
 
+<!-- more -->
+
 **下面是英文的使用说明：**
 
 ## Overview

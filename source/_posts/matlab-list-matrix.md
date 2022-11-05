@@ -18,19 +18,25 @@ MATLAB的数组、元胞、字符串数组分别有什么特点？其与Python�
 
 3. 如果是普通数组拿来存储字符串，则必须要保证每个字符串长度相同。但是MATLAB提供了字符串数组这种数据格式。
 
+   <!-- more -->
+
    ## 创建对象
 
    您可以通过用双引号括起一段文本来创建字符串。从 R2017a 开始引入双引号。
        
-       str = "Hello, world" 
-       
-       str = "Hello, world" 
+   ```
+   str = "Hello, world" 
+   
+   str = "Hello, world" 
+   ```
 
    创建字符串数组的一种方法是使用方括号将字符串串联成数组，就像将数字串联成数值数组一样。
        
-       str = ["Mercury","Gemini","Apollo"; "Skylab","Skylab B","ISS"] 
-       
-       str = 2x3 string array "Mercury" "Gemini" "Apollo" "Skylab" "Skylab B" "ISS" 
+   ```
+   str = ["Mercury","Gemini","Apollo"; "Skylab","Skylab B","ISS"] 
+   
+   str = 2x3 string array "Mercury" "Gemini" "Apollo" "Skylab" "Skylab B" "ISS" 
+   ```
 
    也可以按如下所述，使用 `string` 函数将不同数据类型的变量转换成字符串数组。
 

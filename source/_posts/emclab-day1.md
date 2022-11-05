@@ -21,6 +21,8 @@ date: 2018-07-29 17:25:29
 
 * GAN的优点：
 
+<!-- more -->
+
 > 1. 从实际结果来看,GAN看起来能产生更好的生成样本
 > 2. GAN框架可以训练任何生成网络(理论上，然而在实践中,很难使用增强学习去训练有离散输出的生成器),大多数其他架构需要生成器有一些特定的函数形式,就像输出层必须是高斯化的. 另外所有其他框架需要生成器整个都是非零权值(put non-zero mass everywhere),然而,GANs可以学习到一个只在靠近真实数据的地方(神经网络层)产生样本点的模型( GANs can learn models that generate points only on a thin manifold that goes near the data.)
 > 3. 没有必要遵循任何种类的因子分解去设计模型,所有的生成器和鉴别器都可以正常工作

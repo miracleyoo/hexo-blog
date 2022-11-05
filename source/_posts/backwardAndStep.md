@@ -14,6 +14,8 @@ date: 2018-04-11 00:45:42
 * loss.backward()根据这一轮的loss计算出了网络中所有需要计算的导数
 * optimizer.step()根据你选择的优化器，使用上面👆loss.backward()计算出的各个导数更新了网络中的各个权值
 
+<!-- more -->
+
 ## 以下为论坛原文：
 
 `loss.backward()` computes `dloss/dx` for every parameter `x` which has `requires_grad=True`. These are accumulated into `x.grad` for every parameter `x`. In pseudo-code:

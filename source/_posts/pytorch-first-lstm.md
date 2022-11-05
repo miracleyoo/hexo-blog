@@ -17,6 +17,8 @@ date: 2018-03-26 20:23:36
 
   {% asset_img LSTM2-notation.png Notion used above%}
 
+  <!-- more -->
+
   ### 具体意义：
 
 - 贯穿 $$C_{t-1}$$ 和 $C_t$ 的一条线中包含的信息是连贯的全文/句中蕴含的信息，可以理解为主干内容。
@@ -107,7 +109,7 @@ date: 2018-03-26 20:23:36
   self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=False)
   ```
 
-  ​
+  
 
 ## 我的代码实现：
 

@@ -11,6 +11,8 @@ date: 2018-05-14 23:57:03
 
 废话不多说，上脚本：
 
+<!-- more -->
+
 ```
 def write_summary(net, opt, summary_info):
     current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")

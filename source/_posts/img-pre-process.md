@@ -14,6 +14,8 @@ date: 2018-04-13 01:40:39
 3. [Conversion Transforms](https://ptorch.com/docs/1/transforms#conversion-transforms)
 4. [通用变换](https://ptorch.com/docs/1/transforms#generic-transforms)
 
+<!-- more -->
+
 ------
 
 变换是常用的图像变换。它们可以用`Compose`连接在一起。

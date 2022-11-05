@@ -1,5 +1,5 @@
 ---
-title: pytorch-lightning
+title: Pytorch Lighting 完全攻略
 tags:
   - pytorch
   - pytorch-lightning
@@ -7,12 +7,11 @@ tags:
 date: 2021-03-11 20:09:57
 ---
 
-
-# Pytorch-Lighting
-
 ## 写在前面
 
 Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉它很重很难学，而且似乎自己也用不上。但是后面随着做的项目开始出现了一些稍微高阶的要求，我发现我总是不断地在相似工程代码上花费大量时间，Debug也是这些代码花的时间最多，而且渐渐产生了一个矛盾之处：如果想要更多更好的功能，如TensorBoard支持，Early Stop，LR Scheduler，分布式训练，快速测试等，代码就无可避免地变得越来越长，看起来也越来越乱，同时核心的训练逻辑也渐渐被这些工程代码盖过。那么有没有更好的解决方案，甚至能一键解决所有这些问题呢？
+
+<!-- more -->
 
 于是我第二次发现了Pytorch-Lightning。
 
@@ -28,7 +27,7 @@ Pytorch-Lightning这个库我“发现”过两次。第一次发现时，感觉
 
 - Pytorch-Lighting 的核心设计思想是“自给自足”。每个网络也同时包含了如何训练、如何测试、优化器定义等内容。
 
-![img](pytorch-lightning/plres.png)
+![img](plres.png)
 
 ## 推荐使用方法
 

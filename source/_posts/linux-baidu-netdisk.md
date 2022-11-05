@@ -16,6 +16,8 @@ date: 2018-08-28 12:19:04
 
 **发布页面：[BaiduPCS-Go](https://github.com/iikira/BaiduPCS-Go/releases)**
 
+<!-- more -->
+
 ## 优点如下：
 
 1. 速度快，如果你恰好有百度网盘的会员且服务器端网速可以，甚至可以轻松跑到10M/s以上。

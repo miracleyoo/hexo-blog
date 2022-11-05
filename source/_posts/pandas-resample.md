@@ -11,6 +11,8 @@ Pandas原生支持`resample`功能，前提是目标DataFrame需要有一个inde
 
 首先我们要建立一个`timestamp`的列，这个名字随意，然后它是以秒为单位的该帧的时间，如3.25，14.33。然后我们将其转换为datatime格式，单位为s。
 
+<!-- more -->
+
 之后便是直接resample，resample中的`rule`，即第一个参数，指明了resample后两帧之间的时间间隔，即周期。如果我们是16Hz，那这个周期为62.5ms。
 
 `resample`方法的格式是：

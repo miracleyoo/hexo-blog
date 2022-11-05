@@ -11,6 +11,8 @@ date: 2019-01-05 16:22:16
 
 ![Overview of the Experiment, Estimator and DataSet framework and how they interact. (These components will be explained in the following sections)](1*zoNZvvuJb06yAghetc6BfQ.png)
 
+<!-- more -->
+
 ## Estimator定义
 
 The [**Estimator**](https://www.tensorflow.org/api_docs/python/tf/estimator/Estimator) class represents a model, as well as how this model should be trained and evaluated. We can create an estimator as follows:

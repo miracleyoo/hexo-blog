@@ -11,6 +11,8 @@ On-Policy 与 Off-Policy的本质区别在于：更新Q值时所使用的方法�
 
 ![](006tKfTcgy1g0f8y7lartj30ib0kf768.jpg)
 
+<!-- more -->
+
 ![](006tKfTcgy1g0f8yhlj6cj30ja0cv75a.jpg)
 
 Sarsa更新Q值的时候对下一步的估计采用的是Q本身的$Q(S’,A’)$，而Q-Learning更新的时候对下一步的估计部分则采用的是直接取采取动作a后环境中各个a’对应的Q的最大值，即其在选择Action的时候使用的是e-greedy算法，而更新Q值的时候则采用了直接取最大值的greedy算法。

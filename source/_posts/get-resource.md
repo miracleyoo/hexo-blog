@@ -12,6 +12,8 @@ date: 2018-12-12 23:48:45
 * If you don’t have a chrome, [install](https://www.google.com/chrome/) it!
 * This tutorial is based on chrome, you can do almost the same on safari.
 
+<!-- more -->
+
 ## 2. Add TamperMonkey on Chrome WebApp
 
 * Click [This Link](https://chrome.google.com/webstore/category/extensions) to access chrome web app page, or simply click here:

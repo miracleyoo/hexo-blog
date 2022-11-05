@@ -15,6 +15,8 @@ date: 2019-02-16 16:12:10
 
 ![](006y8mN6ly1g7lwlolk5gj30qy0gumyd.jpg)
 
+<!-- more -->
+
 那么这9个anchors是做什么的呢？借用Faster RCNN论文中的原图，遍历Conv layers计算获得的feature maps，为每一个点都配备这9种anchors作为初始的检测框。这样做获得检测框很不准确，不用担心，后面还有2次bounding box regression可以修正检测框位置。
 
 ![](006y8mN6ly1g7lwlpxr9gj30qy0gumyd.jpg)

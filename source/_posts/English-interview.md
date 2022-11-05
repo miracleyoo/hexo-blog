@@ -16,6 +16,8 @@ date: 2018-03-29 15:17:19
 
 * 种子班：Undergraduate Program for Advanced Project-based Information Science Education (Seeds Class)
 
+  <!-- more -->
+
 * 串联：series connection
 
 * 并联：parallel connection

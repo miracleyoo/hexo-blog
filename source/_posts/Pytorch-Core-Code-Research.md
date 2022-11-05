@@ -18,6 +18,8 @@ Here, let's discuss the release version, or the installed package at first. The 
 
 ![image-20191128191350467](image-20191128191350467.png)
 
+<!-- more -->
+
 #### nn
 
 All deep learning layers’ python entrance are located here. They mainly collect parameters from init input and do some modification to the input data. After that it will send core computation operation together with parameters into `torch._C` based functions. 

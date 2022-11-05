@@ -18,6 +18,8 @@ date: 2018-08-28 12:18:47
 
 ![image-20180828121424616](006tNbRwgy1fupx4d1fxdj31b215ub29.jpg)
 
+<!-- more -->
+
 2. 进入`Details`选项卡，找到CPU消耗剧烈的目标程序，右键选择`Set affinity`
 
 ![image-20180828121552884](006tNbRwgy1fupx4rpj4jj31b215u7wh.jpg)

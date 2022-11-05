@@ -20,7 +20,9 @@ date: 2020-03-06 20:42:43
 2. Most of the landmark detectors need to take in an square bounding box for the detection. 
 3. Although the bounding box shape is different, they roughly have the same shape center. For the square and rectangle, they have the same bounding box center, and the edge length of the square box is roughly the same as the mean value of the two edge lengths of the rectangle. Here is a sample.
 
-![img](face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png)
+<!-- more -->
+
+![img](A48432AC-5A9B-48D6-A502-0777810A592A.png)
 
 > White: Dlib Result
 >
@@ -63,7 +65,7 @@ Since the game streamers' face videos can be relatively large, I think this may 
 1. Scale the input image to make sure the largest face short edge is smaller than 700, recommend around 500.
 2. Wait for the author to change or change the pyramid weights parameters. This is delicate and success is not guaranteed.
 
-<img src="face-features/image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;" />
+<img src="image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;" />
 
 ##### Other Models
 
@@ -103,7 +105,7 @@ MTCNN is just really small and easy to use. It is wrapped finely into a pip pack
 
 1. The bounding box of 300-W dataset is not human labeled. It is the smallest rectangle which can accurately include every 68 points.
 
-<img src="face-features/figure_4_n_2.png" alt="img" style="zoom:15%;" />
+<img src="figure_4_n_2.png" alt="img" style="zoom:15%;" />
 
 #### Researches
 
@@ -165,17 +167,17 @@ The accuracy on 300-W is based on **FULLSET (PUBLIC)**.
 
 3D Facial Landmark -> [Rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix) -> [Euler angles](https://en.wikipedia.org/wiki/Euler_angles) -> [(yaw, pitch, roll)](https://carsexplained.wordpress.com/2017/02/21/fundamentals-of-car-science-pitch-and-roll/)
 
-<img src="face-features/1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;" />
+<img src="1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;" />
 
 Visualization of yaw, pitch and roll: [Link](http://www.ctralie.com/Teaching/COMPSCI290/Materials/EulerAnglesViz/)
 
 **Euler angles:**
 
-![img](face-features/300px-Eulerangles.svg.png)
+![img](300px-Eulerangles.svg.png)
 
 ##### Implementation
 
-<img src="face-features/image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;" />
+<img src="image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;" />
 
 Use the 3D landmark computed, and set the vector from 1 to 17 as the x axis, and 9 to 28 as the y axis, then the z axis is computed by set it perpendicular to both x and y, pointing out of front face.
 

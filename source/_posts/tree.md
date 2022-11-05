@@ -16,6 +16,8 @@ MacOS：`brew install tree`
 
 Ubuntu：`sudo apt-get inatall tree`
 
+<!-- more -->
+
 ## 简介
 
 > tree命令可以以目录树的形式显示指定(默认显示这个文件系统)目录的所有文件夹和文件，在Debian或者Ubuntu系统中可以用apt安装：

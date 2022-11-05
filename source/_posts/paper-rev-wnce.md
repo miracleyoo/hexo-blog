@@ -14,6 +14,8 @@ date: 2019-10-20 19:07:48
 
 W!NCW developes a two-stage processing pipeline which can do continuously and unobtrusively sensing of upper facial action units with high fidelity. Because it doesn't use camera so it also eliminate the privacy concerns.
 
+<!-- more -->
+
 ## Terms
 
 1. Electrooculography(EOG, 眼球电图检查): A technique for measuring the corneo-retinal standing potential that exists between the front and the back of the human eye. The resulting signal is called the electrooculogram. Primary applications are in ophthalmological diagnosis and in recording eye movements.

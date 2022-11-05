@@ -14,6 +14,8 @@ requirements.txt可以通过pip命令自动生成和安装
 
 `pip freeze > requirements.txt`
 
+<!-- more -->
+
 ### 安装REQUIREMENTS.TXT依赖
 
 `pip install -r requirements.txt`

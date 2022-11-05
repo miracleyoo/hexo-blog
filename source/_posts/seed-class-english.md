@@ -15,6 +15,8 @@ date: 2018-03-08 00:42:26
 
 以真实科研项目为牵引，通过“干中学”的方式，将专业理论知识的学习与科研项目实训紧密结合，弱化教师课堂讲授，增强学生自主和快速学习能力、创新思维能力和实践动手能力，促进学生的综合素质发展，培养一批兼具技术力和领导力的精英之才。
 
+<!-- more -->
+
 This program is designed in a unique “learning-via-doing” approach in that the course study is closely integrated to the research and development practices from real engineering projects. Lecturing time is considerably reduced; however, more credits are contributed to hands-on practical training and interns in order to enhance the students with high self-motivation and quick learning capability, strong innovation initiatives and problem-solving capability. The students are comprehensively trained to produce top-tier elites with solid technical background and outstanding leadership.
 
 ## 二 基本规格要求

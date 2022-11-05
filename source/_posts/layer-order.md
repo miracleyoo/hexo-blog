@@ -18,7 +18,7 @@ Middle Complicated: -> CONV/FC -> BatchNorm -> ReLu(or other activation) -> Drop
 Tail: Max Pool -> View -> (Dropout) -> Fc
 ```
 
-
+<!-- more -->
 
 ### 关于 Max Pool 和 Relu 的相对位置
 

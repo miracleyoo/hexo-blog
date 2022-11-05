@@ -13,6 +13,8 @@ date: 2019-11-07 13:00:06
 
 Video classification, or in our case, more specifically, action recognition, are studied for a long time. There are many traditional as well as deep learning based method developed to address this problem, and the latest action recognition result trained on a large dataset Kinetics can even reach 98% accuracy. Considering the fact that the action we need to classify is not too much, giving enough data and using the pre-trained model on Kinetics, the result can be quite promising. 
 
+<!-- more -->
+
 # Tough Points in Video Classification
 
 1. The huge computational cost

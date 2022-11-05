@@ -6,8 +6,9 @@ tags:
 date: 2020-04-26 18:09:00
 ---
 
-
 管理好自己手中的论文，不让他们被吞噬与“Download”文件夹的茫茫文件海洋中已非易事，而能在需要时迅速定位，能在Windows的Desktop与便携的MacBook上无缝对接论文库则需要相对精细化的管理。然而，很多时候并不适合展开自己的笔记本电脑来“郑重”地阅读一篇论文，在一些相对零碎的时间里随手抽出包中的iPad，读读前面顺手存下的论文，则可大大增加自己的学术幸福感。
+
+<!-- more -->
 
 ## 需求分析
 
@@ -79,35 +80,35 @@ date: 2020-04-26 18:09:00
 1. 在所有需要同步的电脑上登录Zotero的账号，如没有，请注册。
 2. 打开设置，更改`Files and Folders` 中的`Base Directory`选项为你的同步盘地址，如Dropbox，OneDrive，坚果云等。请不要动下面的`Data Directory Location`，这个是Zotero的总体数据库的地址，不建议放到云文件夹下，因为只要有两个端同时使用Zotero这个同步就崩掉了。
 
-![image-20191110225913571](paper-zotero-dropbox/image-20191110225913571.png)
+![image-20191110225913571](image-20191110225913571.png)
 
 3. 安装[zotfile](http://zotfile.com/)。更改有关文件的设置。
 
 从Tools栏进入ZotFile Preference
 
-![image-20191110230601630](paper-zotero-dropbox/image-20191110230601630.png)
+![image-20191110230601630](image-20191110230601630.png)
 
 更改PDF文件存储位置。这里是把文件储存到云盘的关键步骤。上面那个更改文件存储地址的作用是指定未来加入的PDF文件的存储地址，而这里是把已经在库的文件移动到这个地址。两个地址相同。
 
-![image-20191110230944192](paper-zotero-dropbox/image-20191110230944192.png)
+![image-20191110230944192](image-20191110230944192.png)
 
 
 
 更改重命名相关的设置。这里的%y就是论文发表年份，%j是期刊名，%t是论文标题。而中间的下划线则只是单纯的会在重命名后的文件名中的两个元素之间加一个下滑线罢了，这里可以替换做任意。
 
-![image-20191110230654373](paper-zotero-dropbox/image-20191110230654373.png)
+![image-20191110230654373](image-20191110230654373.png)
 
 在你的所有需要同步的电脑上做完上述步骤后，如果你之前没有Zotero或它是全新的没有条目，那你的设定已经结束。如果库中已有很多论文，想要直接移动到Dropbox相应目录下，那么请执行下一步：
 
 4. 移动与重命名已有文件
 
-![image-20191110231928468](paper-zotero-dropbox/image-20191110231928468.png)
+![image-20191110231928468](image-20191110231928468.png)
 
 点击 My Library，全选所有条目，右键选择`Manage Attachments`->`Rename Attachments`开始移动和重命名。
 
-![image-20191110232045736](paper-zotero-dropbox/image-20191110232045736.png)
+![image-20191110232045736](image-20191110232045736.png)
 
-![image-20191110232150562](paper-zotero-dropbox/image-20191110232150562.png)
+![image-20191110232150562](image-20191110232150562.png)
 
 ### iPad设置部分
 
@@ -116,5 +117,5 @@ date: 2020-04-26 18:09:00
 3. 右下角找到一个光标键，点击，会提示用Adobe Acrobat Reader打开。
 4. All set.
 
-![IMG_2601](paper-zotero-dropbox/IMG_2601.jpg)
+![IMG_2601](IMG_2601.jpg)
 

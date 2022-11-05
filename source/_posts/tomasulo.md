@@ -11,6 +11,8 @@ date: 2019-10-22 18:36:58
 2. The project should contain at least these parts: Cycle graph, Register info, Pipeline, Data info, Code info and statistics.
 3. We can add some additional components.
 
+<!-- more -->
+
 # Points
 
 1. Language: Java

@@ -16,11 +16,13 @@ GAN的一大应用场景就是逼真图片的生成，而这一点则与动漫�
 3. [Chainer-CycleGAN 动漫人物头发转银色](https://github.com/Aixile/chainer-cyclegan)
 4. [Turn your 2-D wife(anime image) to 3-D wife(cosplay image) or opposite using DCGAN!  ](https://github.com/miracleyoo/anime-2-cosplay)
 
+<!-- more -->
+
 ## 工具
 
 1. [自动化动漫人物打标签](https://github.com/rezoo/illustration2vec)
 2. [自动化动漫人物脸部切割保存](https://github.com/nagadomi/lbpcascade_animeface)
-  ![](006y8mN6ly1g7lw843oeij30qe0ak3zz.jpg)
+    ![](006y8mN6ly1g7lw843oeij30qe0ak3zz.jpg)
 3. [animeGAN A simple PyTorch Implementation of GAN, focusing on anime face drawing.](https://github.com/jayleicn/animeGAN)
 4. [GANotebooks 各种GAN的Jupyter Notebook教程](https://github.com/tjwei/GANotebooks)
 5. [AdversarialNetsPapers 各种GAN的Papers](https://github.com/zhangqianhui/AdversarialNetsPapers)

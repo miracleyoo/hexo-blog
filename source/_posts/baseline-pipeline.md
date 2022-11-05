@@ -13,6 +13,8 @@ date: 2018-04-07 00:52:19
 * Pipeline指的是一整套流程，从得到数据，加工成能用的数据，通过一套算法进行训练直至最终输出的这个完整过程。
 * 而与此相对，baseline指的是一个用作对比的非常simple的方案，通常是以一些市面上流行的基础算法为核心的方案，其作用就是为了让你有一个参照，看看自己到底做到了**多好**
 
+<!-- more -->
+
 ## 下面是[Prasoon Goyal](https://www.quora.com/profile/Prasoon-Goyal)大佬的原答案：
 
 A machine learning algorithm usually takes clean (and often tabular) data, and learns some pattern in the data, to make predictions on new data. However, when ML is used in real-world applications, the raw information that you get from the real-world is often not ready to be fed into the ML algorithm. So you need to preprocess that information to create input data for the ML algorithm. Similarly, the output of the ML algorithm by itself is just some number in software, which will need to be processed to perform some action in the real-world.

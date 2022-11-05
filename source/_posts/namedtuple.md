@@ -14,6 +14,8 @@ namedtuple是继承自tuple的子类。namedtuple创建一个和tuple类似的�
 
 下面看个例子：
 
+<!-- more -->
+
 ```python
 from collections import namedtuple
 

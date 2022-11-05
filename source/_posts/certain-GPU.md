@@ -12,6 +12,8 @@ date: 2018-05-14 23:41:40
 
 PyTorch默认使用从0开始的GPU，如果GPU0正在运行程序，需要指定其他GPU。
 
+<!-- more -->
+
 有如下两种方法来指定需要使用的GPU。
 
 1. 类似tensorflow指定GPU的方式，使用CUDA_VISIBLE_DEVICES。

@@ -11,6 +11,8 @@ date: 2020-01-10 19:01:11
 
 然而，当涉及到函数极值、求导、方程求解、连续图像绘制等问题时，这种方法就不够用了。
 
+<!-- more -->
+
 想要创建一个**符号函数**，我们首先要创建一个或多个**符号变量**，用以表示符号函数本身。其定义方式即为`syms x x1 x2`。其中`x,x1,x2` 都是符号变量，一个符号函数可以由多个符号变量组成。
 
 符号变量可以有定义域，这里或称**限制条件**。
@@ -81,7 +83,7 @@ hold off
 grid on
 ```
 
-<img src="./matlab-func/specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
+<img src="./specifyplottingintervalandplotpiecewisefunctionsexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
 
 当然，使用`fplot`方法绘制的图像也是可以进行样式自定义的：
 
@@ -93,7 +95,7 @@ fplot(@(x) sin(x),'-.*c')
 hold off
 ```
 
-<img src="./matlab-func/specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
+<img src="./specifylinepropertiesanddisplaymarkersexample_01_zh_CN.png" alt="img" style="zoom:50%;" />
 
 ## 解方程
 
@@ -113,7 +115,7 @@ fplot([eqnLeft eqnRight])
 title([texlabel(eqnLeft) ' = ' texlabel(eqnRight)])
 ```
 
-<img src="./matlab-func/FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png" alt="img" style="zoom:50%;" />
+<img src="./FindMultipleSolutionsBySpecifyingInitialGuessesExample_01.png" alt="img" style="zoom:50%;" />
 
 观察后发现，这个方程有三个解，分别在-3, 0, 4的附近，于是我们可以用以下语句找到其所有的三个解
 
@@ -151,7 +153,7 @@ fminsearch(matlabFunction(-y),1.5);
 
 ```
 
-<img src="./matlab-func/image-20200216152601687.png" alt="image-20200216152601687" style="zoom:35%;" />
+<img src="./image-20200216152601687.png" alt="image-20200216152601687" style="zoom:35%;" />
 
 请注意，这里在search的时候我将y改为了-y，因为我要找的是极大值而非极小值。
 
@@ -174,7 +176,7 @@ x0 = [-1.2,1];
 x = fminsearch(fun,x0,options)
 ```
 
-<img src="matlab-func/image-20200216153158018.png" alt="image-20200216153158018" style="zoom:33%;" />
+<img src="./image-20200216153158018.png" alt="image-20200216153158018" style="zoom:33%;" />
 
 ## 对函数求导
 

@@ -6,8 +6,9 @@ tags:
 date: 2019-02-08 09:12:36
 ---
 
-
 tensorflow 使用一种叫 tensor 的数据结构去展示所有的数据，我们可以把 tensor 看成是 n 维的 array 或者 list。在 tensorflow 的各部分图形间流动传递的只能是tensor。
+
+<!-- more -->
 
 ### rank
 

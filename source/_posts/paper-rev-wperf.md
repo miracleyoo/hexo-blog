@@ -11,6 +11,8 @@ date: 2019-10-19 21:40:57
 
 Some waiting events can cast impact to multiple threads. A method which can computes not only the local impact of a waiting event, but also whether such impact can indirectly reach other threads is developed.
 
+<!-- more -->
+
 ## Important terms
 
 1. On-CPU analysis: Used to identify bottlenecks created by execution.

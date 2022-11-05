@@ -17,6 +17,8 @@ date: 2018-08-13 19:55:48
 conda create -n py27 python=2.7 anaconda
 ```
 
+<!-- more -->
+
 或是这一句（已经装了Anaconda2想装一个3）：
 
 ```bash

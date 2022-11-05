@@ -15,6 +15,8 @@ date: 2020-04-26 17:56:52
 
 - 如果你需要实例化一个只用一次的container，那么使用`docker run --rm`参数，结束后会自动删除。
 
+  <!-- more -->
+
 - `docker ps <-a>` 可以列出正在运行的/全部的container。其效果和`docker container ls <-a>`相同。而若想列出全部images，则要使用`docker images`。
 
 - docker images中的环境变量有四个来源：
@@ -80,7 +82,7 @@ date: 2020-04-26 17:56:52
 
 - 再说作用。若想在Docker中运行GPU程序，则普通的Docker是做不到的，程序无法默认在Docker中使用GPU计算资源；另一方面，如果本地已经安装了某个版本的CUDA，但目标程序需要依赖另一个版本，这也是非常麻烦的。而Nvidia Docker的出现则很好解决了这个问题。它相当于在Docker的下面塞进了一层CUDA层，介于Container和OS之间。
 
-  ![Nvidia Docker 原理图](docker-et-nvidia/5b208976-b632-11e5-8406-38d379ec46aa.png)
+  ![Nvidia Docker 原理图](inner.png)
 
 - 然后是安装。
 

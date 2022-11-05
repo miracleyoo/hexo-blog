@@ -19,6 +19,8 @@ date: 2018-08-27 16:54:12
 
 1. 安装软件。Mac端：`brew install zssh`
 
+<!-- more -->
+
 ### 上传本地文件到服务器
 
 1. 用zssh登录到远端服务器：`zssh user1@domain1 -p port`

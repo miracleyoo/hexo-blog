@@ -8,6 +8,8 @@ date: 2019-08-21 22:07:03
 
 　　高调、爱折腾、不走寻常路、犀利、“毒舌”、超级大忙人，她是被贴满标签的华中大教授——刘玉老师。而其中最响亮，最广为人知的标签，一定非“双创老太”莫属。今天，让我们走近这神秘的刘玉教授，说一说，她的那些事儿。
 
+<!-- more -->
+
 <iframe src="//player.bilibili.com/player.html?aid=64840863&cid=112556496&page=1" width="740" height="500" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
 ## <span style="font-size: 20px;color: white;background-color: red;font-weight: bold;">她是谁？</span>

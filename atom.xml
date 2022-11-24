@@ -36,11 +36,11 @@
     
     <category term="python" scheme="https://www.miracleyoo.com/tags/python/"/>
     
-    <category term="CV" scheme="https://www.miracleyoo.com/tags/CV/"/>
-    
     <category term="camera calibration" scheme="https://www.miracleyoo.com/tags/camera-calibration/"/>
     
     <category term="camera matrix" scheme="https://www.miracleyoo.com/tags/camera-matrix/"/>
+    
+    <category term="CV" scheme="https://www.miracleyoo.com/tags/CV/"/>
     
   </entry>
   
@@ -112,11 +112,11 @@
     
     
     
-    <category term="system" scheme="https://www.miracleyoo.com/tags/system/"/>
+    <category term="acg" scheme="https://www.miracleyoo.com/tags/acg/"/>
     
     <category term="anime" scheme="https://www.miracleyoo.com/tags/anime/"/>
     
-    <category term="acg" scheme="https://www.miracleyoo.com/tags/acg/"/>
+    <category term="system" scheme="https://www.miracleyoo.com/tags/system/"/>
     
     <category term="torrent" scheme="https://www.miracleyoo.com/tags/torrent/"/>
     
@@ -362,11 +362,11 @@
     
     <category term="deep-learning" scheme="https://www.miracleyoo.com/tags/deep-learning/"/>
     
-    <category term="paper" scheme="https://www.miracleyoo.com/tags/paper/"/>
+    <category term="acg" scheme="https://www.miracleyoo.com/tags/acg/"/>
     
     <category term="anime" scheme="https://www.miracleyoo.com/tags/anime/"/>
     
-    <category term="acg" scheme="https://www.miracleyoo.com/tags/acg/"/>
+    <category term="paper" scheme="https://www.miracleyoo.com/tags/paper/"/>
     
   </entry>
   
@@ -438,9 +438,9 @@
     
     
     
-    <category term="tool" scheme="https://www.miracleyoo.com/tags/tool/"/>
-    
     <category term="paper" scheme="https://www.miracleyoo.com/tags/paper/"/>
+    
+    <category term="tool" scheme="https://www.miracleyoo.com/tags/tool/"/>
     
   </entry>
   
@@ -516,9 +516,9 @@
     
     
     
-    <category term="python" scheme="https://www.miracleyoo.com/tags/python/"/>
-    
     <category term="machine-learning" scheme="https://www.miracleyoo.com/tags/machine-learning/"/>
+    
+    <category term="python" scheme="https://www.miracleyoo.com/tags/python/"/>
     
     <category term="deep-learning" scheme="https://www.miracleyoo.com/tags/deep-learning/"/>
     
@@ -548,9 +548,9 @@
     
     
     
-    <category term="python" scheme="https://www.miracleyoo.com/tags/python/"/>
-    
     <category term="machine-learning" scheme="https://www.miracleyoo.com/tags/machine-learning/"/>
+    
+    <category term="python" scheme="https://www.miracleyoo.com/tags/python/"/>
     
   </entry>
   

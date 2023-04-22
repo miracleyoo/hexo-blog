@@ -956,6 +956,27 @@
 
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/python/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/machine-learning/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/deep-learning/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/machine-learning/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -991,6 +1012,41 @@
   </url>
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/Pytorch/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/C/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/C/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/university/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/America/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/acg/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1012,13 +1068,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/python/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/tags/anaconda/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1027,6 +1076,13 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/GAN/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/attention/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1075,7 +1131,35 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/server/</loc>
+    <loc>https://www.miracleyoo.com/tags/c/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/linux/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/multi-thread/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/multi-process/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/xcode/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1096,6 +1180,13 @@
   </url>
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/server/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/cs231n/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1103,14 +1194,7 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/bussiness/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/bussiness-plan/</loc>
+    <loc>https://www.miracleyoo.com/tags/anime-review/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1125,6 +1209,20 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/essay/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/bussiness/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/bussiness-plan/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1201,7 +1299,49 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/film-review/</loc>
+    <loc>https://www.miracleyoo.com/tags/machine-earning/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/face-detection/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/face-alignment/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/face-features/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/face-expression/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/eye-blink/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/head-pose/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1215,13 +1355,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/c/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/tags/time/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1229,14 +1362,7 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/tech/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/tool/</loc>
+    <loc>https://www.miracleyoo.com/tags/film-review/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1264,6 +1390,13 @@
   </url>
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/tool/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/game/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1278,7 +1411,28 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/learn-English/</loc>
+    <loc>https://www.miracleyoo.com/tags/hsi/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/data/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/camera/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/optics/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1299,6 +1453,13 @@
   </url>
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/learn-English/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/art/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1307,6 +1468,13 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/painting/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/human-body/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1334,21 +1502,14 @@
   </url>
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/tech/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/windows/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/neural-network/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/university/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1362,7 +1523,7 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/linux/</loc>
+    <loc>https://www.miracleyoo.com/tags/neural-network/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1502,6 +1663,13 @@
   </url>
   
   <url>
+    <loc>https://www.miracleyoo.com/tags/ps/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/tags/pycharm/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
@@ -1509,14 +1677,14 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/multi-thread/</loc>
+    <loc>https://www.miracleyoo.com/tags/lstm/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/lstm/</loc>
+    <loc>https://www.miracleyoo.com/tags/pytorch-lightning/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1531,6 +1699,13 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/satellite/</loc>
+    <lastmod>2023-04-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/torrent/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1573,181 +1748,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/zelda/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/xcode/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/machine-learning/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/deep-learning/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/Pytorch/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/C/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/C/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/anime-review/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/America/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/attention/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/machine-earning/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/face-detection/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/face-alignment/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/face-features/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/face-expression/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/eye-blink/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/head-pose/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/hsi/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/data/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/camera/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/optics/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/human-body/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/ps/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/torrent/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/pytorch-lightning/</loc>
-    <lastmod>2023-04-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/multi-process/</loc>
     <lastmod>2023-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

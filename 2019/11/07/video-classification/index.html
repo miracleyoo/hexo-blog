@@ -1,37 +1,559 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview Video classification, or in our case, more specifically, action recognition, are studied for a long time. There are many traditional as well as deep learning based method developed to addres">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Video Classification Investigation Report">
+<meta property="og:url" content="https://www.miracleyoo.com/2019/11/07/video-classification/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Overview Video classification, or in our case, more specifically, action recognition, are studied for a long time. There are many traditional as well as deep learning based method developed to addres">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028125241454.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028125608889.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028130233266.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/GenericLRCN_high.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/c3d_high-1572285955778.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/Larochelle_paper_high.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/fusion_strategies_high.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/tsn_high.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/actionvlad-1572285243641.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028134438690.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/ttl_layer_high.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028133828231.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028133226300.png">
+<meta property="article:published_time" content="2019-11-07T21:00:06.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:13:03.153Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="cv">
+<meta property="article:tag" content="video-classification">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2019/11/07/video-classification/image-20191028125241454.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2019/11/07/video-classification/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2019/11/07/video-classification/","path":"2019/11/07/video-classification/","title":"Video Classification Investigation Report"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Video Classification Investigation Report | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#overview"><span class="nav-number">1.</span> <span class="nav-text"> Overview</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tough-points-in-video-classification"><span class="nav-number">2.</span> <span class="nav-text"> Tough Points in Video Classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#approaches-overview"><span class="nav-number">3.</span> <span class="nav-text"> Approaches overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#the-core-idea"><span class="nav-number">3.1.</span> <span class="nav-text"> The core idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#two-basic-methods"><span class="nav-number">3.2.</span> <span class="nav-text"> Two basic methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#single-stream-network"><span class="nav-number">3.2.1.</span> <span class="nav-text"> Single Stream Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#two-stream-networks"><span class="nav-number">3.2.2.</span> <span class="nav-text"> Two Stream Networks</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#improvement-of-methods"><span class="nav-number">4.</span> <span class="nav-text"> Improvement of methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#result-comparation"><span class="nav-number">5.</span> <span class="nav-text"> Result comparation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#current-thought"><span class="nav-number">6.</span> <span class="nav-text"> Current Thought</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#datasets"><span class="nav-number">7.</span> <span class="nav-text"> Datasets</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#codes"><span class="nav-number">8.</span> <span class="nav-text"> Codes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">9.</span> <span class="nav-text"> Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/11/07/video-classification/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Video Classification Investigation Report | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Video Classification Investigation Report<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/video-classification.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-11-07 13:00:06" itemprop="dateCreated datePublished" datetime="2019-11-07T13:00:06-08:00">2019-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:13:03" itemprop="dateModified" datetime="2021-03-12T01:13:03-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>803</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="overview"><a class="markdownIt-Anchor" href="#overview"></a> Overview</h1>
+<p>Video classification, or in our case, more specifically, action recognition, are studied for a long time. There are many traditional as well as deep learning based method developed to address this problem, and the latest action recognition result trained on a large dataset Kinetics can even reach 98% accuracy. Considering the fact that the action we need to classify is not too much, giving enough data and using the pre-trained model on Kinetics, the result can be quite promising.</p>
+<span id="more"></span>
+<h1 id="tough-points-in-video-classification"><a class="markdownIt-Anchor" href="#tough-points-in-video-classification"></a> Tough Points in Video Classification</h1>
+<ol>
+<li>The huge computational cost</li>
+<li>How to capture long context and make decision comprehensively</li>
+<li>How to design the classification structure which contain spatiotemporal information</li>
+<li>How to deal with a smaller dataset</li>
+</ol>
+<h1 id="approaches-overview"><a class="markdownIt-Anchor" href="#approaches-overview"></a> Approaches overview</h1>
+<h2 id="the-core-idea"><a class="markdownIt-Anchor" href="#the-core-idea"></a> The core idea</h2>
+<ol>
+<li>Try to build a workflow which can combine both spatial information and temporal information.</li>
+<li>Try to focus on both frame itself and the motion near each frame.</li>
+<li>Try to make decision based on the whole video rather than only parts of it.</li>
+<li>Try to decrease the computational cost and remove the long pre-process.</li>
+</ol>
+<h2 id="two-basic-methods"><a class="markdownIt-Anchor" href="#two-basic-methods"></a> Two basic methods</h2>
+<h3 id="single-stream-network"><a class="markdownIt-Anchor" href="#single-stream-network"></a> <a target="_blank" rel="noopener" href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/42455.pdf">Single Stream Network</a></h3>
+<p><img data-src="image-20191028125241454.png" alt="image-20191028125241454"></p>
+<p>There are four ways of fusion, which means combine the information from each frame together to derive the final answer. They are:</p>
+<ol>
+<li>Single frame uses single architecture that fuses information from all frames at the last stage.</li>
+<li>Late fusion uses two nets with shared parameters, spaced 15 frames apart, and also combines predictions at the end.</li>
+<li>Early fusion combines in the first layer by convolving over 10 frames.</li>
+<li>Slow fusion involves fusing at multiple stages, a balance between early and late fusion.</li>
+</ol>
+<h3 id="two-stream-networks"><a class="markdownIt-Anchor" href="#two-stream-networks"></a> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1406.2199.pdf">Two Stream Networks</a></h3>
+<p><img data-src="image-20191028125608889.png" alt="image-20191028125608889"></p>
+<p>Video can naturally be decomposed into spatial and temporal components.</p>
+<ol>
+<li>The spatial part, in the form of individual frame appearance, carries information about scenes and objects depicted in the video.</li>
+<li>The temporal part, in the form of motion across the frames, conveys the movement of the observer (the camera) and the objects. In fact, the essence of “motion” is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Optical_flow">optical flow</a>.</li>
+</ol>
+<h1 id="improvement-of-methods"><a class="markdownIt-Anchor" href="#improvement-of-methods"></a> Improvement of methods</h1>
+<p>Firstly I’d like to show a graph which shows an overview of all previous action classification architectures drawn in the paper <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset</a>.</p>
+<p><img data-src="image-20191028130233266.png" alt="image-20191028130233266"></p>
+<p>To summarize, there are these kinds of improved methods:</p>
+<ol>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1411.4389">LRCN</a>: Long-term Recurrent Convolutional Networks for Visual Recognition and Description</p>
+<p><img data-src="GenericLRCN_high.png" alt="2 stream architecture"></p>
+<p>Send each frame to a CNN at first and then uses the features extracted as the input of LSTM.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1412.0767">C3D</a>: Learning Spatiotemporal Features with 3D Convolutional Networks</p>
+<p><img data-src="c3d_high-1572285955778.png" alt="SegNet Architecture"></p>
+<p>The first time using 3D Conv to process frames.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1502.08029">Conv3D &amp; Attention</a>: Describing Videos by Exploiting Temporal Structure</p>
+<p><img data-src="Larochelle_paper_high.png" alt="Attention Mechanism"></p>
+<p>Add a attention mask before send the CNN-extracted feature into LSTM.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.06573">TwoStreamFusion</a>: Convolutional Two-Stream Network Fusion for Video Action Recognition</p>
+<p><img data-src="fusion_strategies_high.png" alt="SegNet Architecture"></p>
+<p>Fuse two stream in a smarter way and get a better result.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.00859">TSN</a> :Temporal Segment Networks: Towards Good Practices for Deep Action Recognition</p>
+<p><img data-src="tsn_high.png" alt="SegNet Architecture"></p>
+<p>Select video snippets not completely randomly, but divide the video into k equal-length parts and choose a snippets randomly from each division.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1704.02895.pdf">ActionVlad</a>:ActionVLAD: Learning spatio-temporal aggregation for action classification</p>
+<p><img data-src="actionvlad-1572285243641.png" alt="SegNet Architecture"></p>
+<p>In this work, the most notable contribution by the authors is the usage of learnable feature aggregation (VLAD) as compared to normal aggregation using maxpool or avgpool.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1704.00389">HiddenTwoStream</a>:Hidden Two-Stream Convolutional Networks for Action Recognition</p>
+<p><img data-src="image-20191028134438690.png" alt="image-20191028134438690"></p>
+<p>It uses a “MotionNet” to take the place of optical flow.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">I3D</a>: Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset</p>
+<p>Mainly used pretrained network by ImageNet and Kinetics dataset. Also, it use different 3D network for images and optical flows.</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1711.08200">T3D</a>: Temporal 3D ConvNets: New Architecture and Transfer Learning for Video Classification</p>
+<p><img data-src="ttl_layer_high.png" alt="SegNet Architecture"></p>
+<p>Transfer a 2-D DenseNet to a 3D one.</p>
+</li>
+</ol>
+<h1 id="result-comparation"><a class="markdownIt-Anchor" href="#result-comparation"></a> Result comparation</h1>
+<p><img data-src="image-20191028133828231.png" alt="image-20191028133828231"></p>
+<p><img data-src="image-20191028133226300.png" alt="image-20191028133226300"></p>
+<h1 id="current-thought"><a class="markdownIt-Anchor" href="#current-thought"></a> Current Thought</h1>
+<p>As we can see from the analysis above, the I3D is the most computational efficient and accurate method. Also, the pre-trained model of I3D is provided by the author, so we can also take advantage of it. Now I think we should collect enough data of the corresponding action. Moreover, I noticed that there are many new method on Temporal Action Proposals, Temporal Action Localization and Dense-Captioning Events in Videos appearing this year in the competition ActivityNet, I may research into it to get better result later.</p>
+<h1 id="datasets"><a class="markdownIt-Anchor" href="#datasets"></a> Datasets</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.crcv.ucf.edu/data/UCF101.php">UCF101</a></li>
+<li><a target="_blank" rel="noopener" href="https://cs.stanford.edu/people/karpathy/deepvideo/">Sports-1M</a></li>
+<li><a target="_blank" rel="noopener" href="https://deepmind.com/research/open-source/kinetics">Kinetics</a></li>
+<li><a target="_blank" rel="noopener" href="http://activity-net.org/download.html">ActivityNet Version 1.3 dataset</a></li>
+</ul>
+<h1 id="codes"><a class="markdownIt-Anchor" href="#codes"></a> Codes</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hassony2/kinetics_i3d_pytorch">I3D models transfered from Tensorflow to PyTorch</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/deepmind/kinetics-i3d">I3D models trained on Kinetics</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kenshohara/video-classification-3d-cnn-pytorch">Video Classification Using 3D ResNet</a></li>
+</ul>
+<h1 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://blog.qure.ai/notes/deep-learning-for-videos-action-recognition-review">Deep Learning for Videos: A 2018 Guide to Action Recognition</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.07750">Quo Vadis, Action Recognition? A New Model and the Kinetics Dataset</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jinwchoi/awesome-action-recognition">Awesome Action Recognition</a></li>
+<li><a target="_blank" rel="noopener" href="http://activity-net.org/index.html">ActivityNet</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/abs/pii/0004370281900242">Determining optical flow</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/cv/" rel="tag"># cv</a>
+              <a href="/tags/video-classification/" rel="tag"># video-classification</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/10/24/paper-rev-nose/" rel="prev" title="Paper Reading ： "NOSE： A Novel Odor Sensing Engine for Ambient Monitoring of the Frying Cooking Method in Kitchen Environments"">
+                  <i class="fa fa-chevron-left"></i> Paper Reading ： "NOSE： A Novel Odor Sensing Engine for Ambient Monitoring of the Frying Cooking Method in Kitchen Environments"
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/12/11/Pytorch-Core-Code-Research/" rel="next" title="Pytorch Core Code Research">
+                  Pytorch Core Code Research <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

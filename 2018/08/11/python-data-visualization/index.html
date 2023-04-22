@@ -1,37 +1,541 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Python Data Visualization — Comparing 5 Tools  背景介绍 本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Data Visualization Libs Comparing">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Python Data Visualization — Comparing 5 Tools  背景介绍 本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/1*grNVtaqUzJi76I-X_dXuPA.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjoiov8j30b0089q32.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6rjr8fztj30o70dngm0.jpg">
+<meta property="article:published_time" content="2018-08-12T06:29:14.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:11:30.198Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="visualization">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/08/11/python-data-visualization/0069RVTdly1fu6sramtv3j317u0nsjyv.jpg">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2018/08/11/python-data-visualization/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2018/08/11/python-data-visualization/","path":"2018/08/11/python-data-visualization/","title":"Python Data Visualization Libs Comparing"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python Data Visualization Libs Comparing | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python-data-visualization-comparing-5-tools"><span class="nav-number">1.</span> <span class="nav-text"> Python Data Visualization — Comparing 5 Tools</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.0.1.</span> <span class="nav-text"> 背景介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%8B%E5%AF%B9%E6%AF%94%E7%BB%93%E6%9E%9C"><span class="nav-number">1.0.1.1.</span> <span class="nav-text"> 简单说下对比结果：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AF%E5%BC%95%E6%96%87"><span class="nav-number">1.0.1.2.</span> <span class="nav-text"> 下面是引文：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-number">1.0.2.</span> <span class="nav-text"> Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#essential-visualization-tools"><span class="nav-number">1.0.3.</span> <span class="nav-text"> Essential Visualization Tools</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pandas"><span class="nav-number">1.0.3.1.</span> <span class="nav-text"> Pandas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#seaborn"><span class="nav-number">1.0.3.2.</span> <span class="nav-text"> Seaborn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bokeh"><span class="nav-number">1.0.3.3.</span> <span class="nav-text"> Bokeh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pygal"><span class="nav-number">1.0.3.4.</span> <span class="nav-text"> Pygal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#plotly"><span class="nav-number">1.0.3.5.</span> <span class="nav-text"> Plotly</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conclusions"><span class="nav-number">1.0.4.</span> <span class="nav-text"> Conclusions</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/11/python-data-visualization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python Data Visualization Libs Comparing | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python Data Visualization Libs Comparing<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/python-data-visualization.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-11 23:29:14" itemprop="dateCreated datePublished" datetime="2018-08-11T23:29:14-07:00">2018-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:11:30" itemprop="dateModified" datetime="2021-03-12T01:11:30-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="python-data-visualization-comparing-5-tools"><a class="markdownIt-Anchor" href="#python-data-visualization-comparing-5-tools"></a> Python Data Visualization — Comparing 5 Tools</h1>
+<h3 id="背景介绍"><a class="markdownIt-Anchor" href="#背景介绍"></a> 背景介绍</h3>
+<p>本次由于项目需要，要将深度学习预测出来的数据（41x9的矩阵）和Label矩阵进行对比，所以需要进行3D可视化，因而对比了几个常见的python数据可视化库。</p>
+<span id="more"></span>
+<h4 id="简单说下对比结果"><a class="markdownIt-Anchor" href="#简单说下对比结果"></a> 简单说下对比结果：</h4>
+<ol>
+<li>
+<p>最终采用Plotly库，因为其完美支持3D绘图，并且提供可交互的HTML5格式输出，这对于需要不断调整角度和大小的数据观察来说至关重要。效果如下图：你不但可以得到漂亮的绘图，还可以通过鼠标左右键、滚轮轻松调整尺度、方向等关键参数，更可以通过右上角的各种工具进行进一步调整。当然，其也支持3D图的Subplot。</p>
+<p><img data-src="0069RVTdly1fu6sramtv3j317u0nsjyv.jpg" alt="image-20180811231857431"></p>
+<ol start="2">
+<li>Plotly 库的缺点：这个库并不是完全免费的。尽管这样，基本不会影响你的正常使用，除非你用for循环高速下载成百上千张图片。其每天画图数目是无限的，不过保存只有100张限额。其有在线和离线两种模式，在线支持直接保存，离线很麻烦。另外，实际上离线会比在线更快。</li>
+<li>Bokeh：这个库在二位统计绘图上是有很大吸引力的。图像质量很高，提供的配色很精美，并且也支持鼠标交互，支持多幅图共享一份数据并且交互时同步变化，特色明显。但对3D画图支持较差。</li>
+</ol>
+</li>
+</ol>
+<h4 id="下面是引文"><a class="markdownIt-Anchor" href="#下面是引文"></a> 下面是<a target="_blank" rel="noopener" href="https://codeburst.io/overview-of-python-data-visualization-tools-e32e1f716d10">引文</a>：</h4>
+<h3 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h3>
+<p>Big data and analytics can be beautifully presented by using visualization tools in Python. Python is a great programming language with variety of options. It is object oriented, semantically structured and great for scripting programs as well as connecting other programmable components. Python is a favorite tool for programmers and data scientists because it’s easy to learn, and the extensive list of built-in features and importable libraries contribute to increased productivity. The Python language has been around for nearly 30 years and the numerous user contributed libraries (e.g. Pandas) have many use cases, such as image modification, data analysis, and server automation. This means that sometimes it can be really difficult to pick the right tool for data analysis or visualization and figure out which one to use. For this purpose, different visualization methods in Python have been summarized, rendered and explained. The techniques were done within the same amount of time and same data sets to demonstrate the difference between each output. The point of the comparison is to understand which visualization tool is the simplest and visually presentable at the same time.</p>
+<h3 id="essential-visualization-tools"><a class="markdownIt-Anchor" href="#essential-visualization-tools"></a> Essential Visualization Tools</h3>
+<p>The most common type of visualization is a simple bar chart. It is popular and commonly used type of visualization to make comparison between values and variety of categories. It can be vertically or horizontally oriented by adjusting x and y axes, depending on what kind of information or categories the chart requires to present. Parameters need to be identified, such as axes, similarities, title and decided on what exactly the visualization supposed to show. To make a simple bar chart, a number some of the most popular tools and libraries that have been invented for plotting the data could be utilized. These include the most used and common tools such as: Pandas, Seaborn, Bokeh, Pygal and Ploty.</p>
+<p>Python libraries overview with analyzed examples below contain illustrative samples of the tools with data-set taken from <a target="_blank" rel="noopener" href="https://mchb.hrsa.gov/whusa10/hstat/mh/pages/237mm.html">Women’s Health USA</a>. The data includes maternal mortality rates evaluated by age in five rows and titles in two columns to keep it simple. Same data set is being used for all examples that are demonstrated below. Additionally, just like any other programming language issues, errors or questions with the libraries can be found on stack overflow page by Google search.</p>
+<h4 id="pandas"><a class="markdownIt-Anchor" href="#pandas"></a> Pandas</h4>
+<p>First tool is Pandas. The Pandas name is derived from panel data, a term for multidimensional structured data-set. It is a free software that was developed by Wes McKinney in 2008 while working at Applied Quantitative Research Capital Management global firm based in Greenwich, Connecticut, United States. It all started when the company needed a productive, easy to use tool to analyze quantitative data on financial data-sets. By the end of 2009, Wes McKinney convinced management to permit him to open source the library and it is being supported by other contributors ever since, to make it even better.</p>
+<p>The Pandas library became highly optimized for usage, with useful written code that provides high function and rich data structured design. It is fast and easy to implement and contains a software library that is used within Python for powerful data analysis and manipulating data visualization.</p>
+<p>The main feature of Pandas is data-frame that supplies built in options for plotting visualization in two dimension tabular style. It is column oriented with row and columns structured style. Pandas works great with other libraries to create a wide variety of plots. Pandas data structure can have different written values as well as labels and their axes.</p>
+<p>To start the data visualization, first step is to load the library and import the data. Usually, the data stored in .csv (comma separated values) file, where each column is separated by comma, and each row by a new line. To create a bar plot with Pandas the following Python input code can be used.</p>
+<p>import numpy as np<br>
+import pandas as pd<br>
+mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>
+mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’, ascending = False)[:5]<br>
+mortality_age.plot(kind = “bar”)</p>
+<p>That code executes the plot with detailed columns and title with default colors and background. Figure 1 shows the following plot output.</p>
+<p><img data-src="1*grNVtaqUzJi76I-X_dXuPA.png" alt="img"></p>
+<p>Pandas Simple Bar Chart Input Example</p>
+<p>The simple form of this plot looks acceptable and easy to read. The bar chart looks nice and clean. However, it is impossible to customize the graph into more detailed visualization just by using Pandas.</p>
+<h4 id="seaborn"><a class="markdownIt-Anchor" href="#seaborn"></a> Seaborn</h4>
+<p>Second tool is Seaborn. This tool integrates great with Pandas. It was invented and developed by Michael Waskom in 2014. It is another open-source software library for data analysis and visualization. Seaborn is a popular library for making appealing statistical data graphs in Python. It provides high level of graphic interface for drawing platform and helps to easily identify patterns and draw attention to key elements. It includes built in themes for styling of informative data plots. It uses grid object method that connects the structure of the figure to the visual structure of the given data set. The main goal of this method is to simplify complicated plots. Additional, Seaborn offers variety of styles that allow to modify colors and make it look even more appealing.</p>
+<p>To run the example, the following code below is needed:</p>
+<p>import pandas as pd<br>
+import seaborn as sns<br>
+import matplotlib.pyplot as plt<br>
+mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>
+mortality_age = mortality_age.sort_values(‘Deaths per 100,000 Live Births:’,<br>
+ascending = False)[:5]<br>
+sns.set(style=”darkgrid”)<br>
+mortality_age_plot = sns.barplot(x=mortality_age<br>
+[“Age Range”], y=mortality_age[“Deaths per 100,000 Live Births:”],<br>
+palette = “muted”, order=mortality_age[“Age Range”].tolist())<br>
+plt.xticks(rotation=90)<br>
+plt.show()</p>
+<p>That code executes the plot with detailed titles, nicely colored bars and grid. Figure 2 shows what the bar chart looks like.</p>
+<p><img data-src="0069RVTdly1fu6rjp7se5j30dp0bsmx7.jpg" alt="img"></p>
+<p>Seaborn Simple Bar Chart Input Example</p>
+<p>This method made it possible to rotate x and y axis to make the categories and titles readable. The visual graphic looks appealing and more exciting than the previous one.</p>
+<h4 id="bokeh"><a class="markdownIt-Anchor" href="#bokeh"></a> Bokeh</h4>
+<p>Third tool is Bokeh. It is different from the previous two methods. It was developed by Anaconda’s development team in 2012 with funding from Defence Advanced Research Projects Agency. Bokeh is an open source and free to use for any type of project. It is versatile, integrates great with javascript and novel graphics style. It is an interactive library that was created for modern web browsers to visualize highly interactive plots and data applications. Bokeh’s method can create any kind of graphical plot including dash boards and variety of charts.</p>
+<p>The simple visualization of a bar chart is in the example below. It shows the standard method to plot the data.</p>
+<p>from bokeh.charts import Bar, output_file, show<br>
+mortality_age = pd.read_csv(“mortality_by_age.csv”)<br>
+data = {<br>
+‘Age Range’: mortality_age[‘Age Range’],<br>
+‘Deaths per 100,000 Live Births’: mortality_age[‘Deaths per 100,000 Live Births:’]<br>
+}</p>
+<p># x-axis labels pulled from the interpreter column, stacking labels from sample column<br>
+bar = Bar(data, values=’Deaths per 100,000 Live Births’,<br>
+label=’Deaths per 100,000 Live Births’,<br>
+stack=’Age Range’, agg=’mean’,<br>
+title=”Maternal Deaths per 100,000 Live Births”,<br>
+legend=’top_right’, width=400)</p>
+<p>output_file(“barchart.html”)<br>
+show(bar)</p>
+<p>The code opens up a browser’s window and displays an HTML page with the plot. Figure 3 below displays the plotted output.</p>
+<p><img data-src="0069RVTdly1fu6rjqg2yoj309w0ecaap.jpg" alt="img"></p>
+<p>Bokeh Simple Bar Chart Output Example</p>
+<p>The graph looks much nicer and cleaner. Bokeh method has a lot of customization option and functionality. Even thought it looks nice, it does not make sense to use for a simple bar visualization.</p>
+<h4 id="pygal"><a class="markdownIt-Anchor" href="#pygal"></a> Pygal</h4>
+<p>Forth tool is Pygal. It is a part of Python’s library that exports vector charts in different shapes and styles. It was created by a developer named Florian Mounier in 2012. It is also an open source free library and has been widely used because of its high customization options and simplicity at the same time. Options for creating visualizations are wide open and include pie charts, bar graphs, histograms, maps and so on. It all depends on the required look and feel of the graphic.</p>
+<p>To create a simple bar chart the following input code can be used:</p>
+<p>import pygal<br>
+horizontalbar_chart = pygal.HorizontalBar()<br>
+horizontalbar_chart.title = ‘Maternal Mortality By Age (in %)’<br>
+horizontalbar_chart.add(‘Under 20 Years:’, 7.1)<br>
+horizontalbar_chart.add(‘20–24 Years:’, 8.1)<br>
+horizontalbar_chart.add(‘25–29 Years:’, 9.4)<br>
+horizontalbar_chart.add(‘30–34 Years: ‘, 12.1)<br>
+horizontalbar_chart.add(’35 Years and Older:’, 32.2)<br>
+horizontalbar_chart.render()</p>
+<p>The output of the vector file looks really nice and visually appealing in style. It does not provide a zooming effect same as in the previous method, however it includes tool-tip hover state. It can be embedded into a web-page by using tag or code. Figure 4 displays the plotted output.</p>
+<p><img data-src="0069RVTdly1fu6rjoiov8j30b0089q32.jpg" alt="img"></p>
+<p>Pygal Simple Bar Chart Input Example</p>
+<p>The interactive and vector nature of the image could be utilized widely in websites and data applications.</p>
+<h4 id="plotly"><a class="markdownIt-Anchor" href="#plotly"></a> Plotly</h4>
+<p>Fifth tool is Plotly, also named as <a target="_blank" rel="noopener" href="http://Plot.ly">Plot.ly</a> because of its main platform online. It is an interactive online visualization tool that is being used for data analytics, scientific graphs and other visualization. It contains a great API including one for Python. There are lot of interactive, professional quality visualizations online that were created with this module.<br>
+Plotly was developed by multiple developers, including Alex Johnson, Chris Parmer, Jack Parmer and Matthew Sundquist. The tool was named one of the ‘’Top 20 Hottest Innovative Companies in Canada’’ by the Canadian Innovation Exchange.<br>
+It is different from other Python’s libraries by being an interactive online tool for creating the renderings. Therefore, everything that is being created with this tool is posted on the web. The great thing about Plotly is that it integrates well with pandas.<br>
+The simplest way to use it is through Plotly’s online tools and import the data by uploading the data set file. It has many convenient features to interact with, extract and visualize the data. Additionally, the tool accepts many formats, such as .xls, .xlsx, or .csv files.</p>
+<p>Figure 5 shows the user interface and settings within the dashboard of the online tool.</p>
+<p><img data-src="0069RVTdly1fu6rjr8fztj30o70dngm0.jpg" alt="img"></p>
+<p>Plotly User Interface Tool Online</p>
+<p>Figure 5 above shows the resulted bar chart after executing provided parameters setup and imported data sets file.</p>
+<p>The process generated an amazing and beautiful highly interactive bar chart with tool-tips and varieties of other tool options such as zooming effect, panning, selecting, auto-scale, moving, resetting and so on. It is easily modified by clicking on different parts and parameters of the graph without code knowledge.</p>
+<h3 id="conclusions"><a class="markdownIt-Anchor" href="#conclusions"></a> Conclusions</h3>
+<p>All the Big Data without proper visualization extremly difficult to analyze. Python is one of the most innovative and popular tool for data visualization. The good news that it does not take much to create visualization in Python since this language has been around for over twenty years and accumulated exclusive libraries. There are multiple tools and options to visualize the data. However, having variety of options complicates the matter and create confusion for users. Identifying proper method that should be used depends on a project requirements and expectations. The proper way is to test different techniques and understand which one is appropriate.</p>
+<p>Various visualization methods have been demonstrated by using same data-set to plot a simple bar chart. By using most common techniques demonstrated here, Pandas is the simplest method for basic plots. While Seaborn is great for creating visually appealing statistical charts that include color. Bokeh works great for more complicated visualizations and ideal for web based interactive presentations. Pygal works well for generating vector and interactive files. However, it does not have flexibility as other methods. Plotly is the most useful and easiest option for creating web based highly interactive visualizations.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/visualization/" rel="tag"># visualization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/11/emc-lab-note-4w/" rel="prev" title="密苏里科技大学EMC Lab暑研 第四周">
+                  <i class="fa fa-chevron-left"></i> 密苏里科技大学EMC Lab暑研 第四周
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/13/anaconda-2et3/" rel="next" title="Anaconda2和3的并存一键安装">
+                  Anaconda2和3的并存一键安装 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

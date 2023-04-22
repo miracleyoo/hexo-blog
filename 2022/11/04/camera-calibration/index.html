@@ -1,37 +1,662 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="先提一下本文的发表理由。因为实验需要用到一个DAVIS 346的Event Camera，且项目需要通过Motion Capture（Mocap）得到人体的3D准确标定，所以就研究了一下相机的Intrinsic和绝对Extrinsic标定。令人吃惊的是，网上其实并没有太多关于如何通过实验方法标定得到相对于坐标原点（O点，Origin）的Extrinsic Matrix的讲解，尤其是缺少中文教程。于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="相机校准 相机标定 Intrinsic&#x2F;Extrinsic Calibration详解 绝对Extrinsic矩阵测得实操 Event Camera&#x2F;DVS">
+<meta property="og:url" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="先提一下本文的发表理由。因为实验需要用到一个DAVIS 346的Event Camera，且项目需要通过Motion Capture（Mocap）得到人体的3D准确标定，所以就研究了一下相机的Intrinsic和绝对Extrinsic标定。令人吃惊的是，网上其实并没有太多关于如何通过实验方法标定得到相对于坐标原点（O点，Origin）的Extrinsic Matrix的讲解，尤其是缺少中文教程。于">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221021152707045-1667622796441-1.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221021165722788-1667622796442-2.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221021144051423-1667622796442-3.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221026155238653-1667622796442-4.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221026162455644-1667622796442-5.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221026154924465-1667622796442-6.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221026163826434-1667622796442-7.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221021155115039-1667622796442-8.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221026175034098-1667622796442-9.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221026175051047-1667622796442-10.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221027230723755-1667622796442-11.png">
+<meta property="article:published_time" content="2022-11-05T05:07:36.000Z">
+<meta property="article:modified_time" content="2023-04-22T18:35:11.525Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="camera calibration">
+<meta property="article:tag" content="camera matrix">
+<meta property="article:tag" content="CV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2022/11/04/camera-calibration/image-20221021152707045-1667622796441-1.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2022/11/04/camera-calibration/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2022/11/04/camera-calibration/","path":"2022/11/04/camera-calibration/","title":"相机校准 相机标定 Intrinsic/Extrinsic Calibration详解 绝对Extrinsic矩阵测得实操 Event Camera/DVS"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>相机校准 相机标定 Intrinsic/Extrinsic Calibration详解 绝对Extrinsic矩阵测得实操 Event Camera/DVS | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#coordinates"><span class="nav-number">1.</span> <span class="nav-text"> Coordinates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#intrinsic"><span class="nav-number">2.</span> <span class="nav-text"> Intrinsic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extrinsic"><span class="nav-number">3.</span> <span class="nav-text"> Extrinsic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#skewness-and-distortion"><span class="nav-number">4.</span> <span class="nav-text"> Skewness and Distortion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#homogeneous-coordinates"><span class="nav-number">5.</span> <span class="nav-text"> Homogeneous Coordinates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#imu"><span class="nav-number">6.</span> <span class="nav-text"> IMU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dvs"><span class="nav-number">7.</span> <span class="nav-text"> DVS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#methods"><span class="nav-number">8.</span> <span class="nav-text"> Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%96%B9%E7%A8%8B%E7%9B%B4%E6%8E%A5%E6%A0%A1%E5%87%86p%E7%9F%A9%E9%98%B5"><span class="nav-number">8.1.</span> <span class="nav-text"> 解方程直接校准P矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kalibr"><span class="nav-number">8.2.</span> <span class="nav-text"> kalibr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dv-calibration"><span class="nav-number">8.3.</span> <span class="nav-text"> DV Calibration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#opencv-camera-calibration"><span class="nav-number">8.4.</span> <span class="nav-text"> OpenCV Camera Calibration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">9.</span> <span class="nav-text"> Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#blogswebsites"><span class="nav-number">9.1.</span> <span class="nav-text"> Blogs&#x2F;Websites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slides"><span class="nav-number">9.2.</span> <span class="nav-text"> Slides</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#papers"><span class="nav-number">9.3.</span> <span class="nav-text"> Papers</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2022/11/04/camera-calibration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="相机校准 相机标定 Intrinsic/Extrinsic Calibration详解 绝对Extrinsic矩阵测得实操 Event Camera/DVS | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          相机校准 相机标定 Intrinsic/Extrinsic Calibration详解 绝对Extrinsic矩阵测得实操 Event Camera/DVS<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/camera-calibration.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-11-04 22:07:36" itemprop="dateCreated datePublished" datetime="2022-11-04T22:07:36-07:00">2022-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-04-22 11:35:11" itemprop="dateModified" datetime="2023-04-22T11:35:11-07:00">2023-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.8k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>先提一下本文的发表理由。因为实验需要用到一个DAVIS 346的Event Camera，且项目需要通过Motion Capture（Mocap）得到人体的3D准确标定，所以就研究了一下相机的Intrinsic和绝对Extrinsic标定。令人吃惊的是，网上其实并没有太多关于如何通过实验方法标定得到相对于坐标原点（O点，Origin）的Extrinsic Matrix的讲解，尤其是缺少中文教程。于是我就把参考各种英文资料（主要是一些大学的slides和有关采集Mocap数据集的文献）总结的一些理论推导和实验方法，以及实际能用的代码整理得到了本文。</p>
+<span id="more"></span>
+<p>首先是几张非常重要的Slides，后面都会refer到，可以先自行熟悉下。另外，本篇不是100%从零开始的教程，篇幅限制并无法展开所有的细节，若想深度理解，请自行结合几个大学（CMU，Stanford）相应的Slides一起学习。</p>
+<img data-src="image-20221021152707045-1667622796441-1.png" alt="image-20221021152707045" style="zoom:33%;">
+<p><img data-src="image-20221021165722788-1667622796442-2.png" alt="image-20221021165722788"></p>
+<h2 id="coordinates"><a class="markdownIt-Anchor" href="#coordinates"></a> Coordinates</h2>
+<ul>
+<li>在整个相机的投影与校准过程中，一共涉及3个坐标系。它们分别是：
+<ol>
+<li>世界坐标系：以空间中某点为原点建立欧拉坐标系，设定xyz方向后形成的坐标系。</li>
+<li>相机坐标系。该坐标系的原点是相机的焦点。焦点一般在相机内部，也可能落在的相机外部，这取决于focal length。坐标系的指向：x和y就是相平面的横纵坐标方向（相机视角方向），z是与xy平面垂直的方向，亦即镜头指向的前方。</li>
+<li>图像坐标系（也可以分成两个：图像坐标系(m)和像素坐标系(pixel)）。值得注意的一点是每个像素并不是真正的一个点，pixel坐标系所代表的整数值是每个像素点的中心。</li>
+</ol>
+</li>
+<li>考虑功能性，还有一个同质坐标系，用于实际运算。</li>
+</ul>
+<img data-src="image-20221021144051423-1667622796442-3.png" alt="image-20221021144051423" style="zoom: 25%;">
+<h2 id="intrinsic"><a class="markdownIt-Anchor" href="#intrinsic"></a> Intrinsic</h2>
+<ul>
+<li>
+<p>理想状况下（无Skewness和Distortion），Intrinsic 矩阵Encode的信息有：Focal Length、Image Sensor的长宽（in pixel），每像素代表的米数(pixel/m)，也即相机的分辨率。</p>
+</li>
+<li>
+<p>非理想情况下，Skewness和Distortion也会被放到Intrinsic中。</p>
+</li>
+<li>
+<p>关于当提高/降低分辨率时候的Intrinsic变化：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo separator="true">,</mo><mi>l</mi><mo separator="true">,</mo><msub><mi>c</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>c</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">k,l,c_x,c_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>都要乘以分辨率提高的系数。</p>
+<p><img data-src="image-20221026155238653-1667622796442-4.png" alt="image-20221026155238653"></p>
+</li>
+<li>
+<p>参见Intrinsic的计算过程，由于计算时已经考虑了目标物体深度对成像位置的影响，所以Intrinsic其实是包含了透视(perspective)信息的。</p>
+</li>
+<li>
+<p>Intrinsic可使相机坐标系转化为图片坐标系。</p>
+</li>
+</ul>
+<h2 id="extrinsic"><a class="markdownIt-Anchor" href="#extrinsic"></a> Extrinsic</h2>
+<ul>
+<li>
+<p>Extrinsic 可以看作是两个矩阵写在了一起：旋转矩阵R和平移矩阵T。前三列是R，最后一列是T。 其实，虽然经常写作<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>R</mi><mi mathvariant="normal">∣</mi><mi>T</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[R|T]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">]</span></span></span></span>，但事实上还有一个相似变换S，这个S是个对角线矩阵，对角线上的值为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msub><mi>S</mi><mi>x</mi></msub><mo separator="true">,</mo><msub><mi>S</mi><mi>y</mi></msub><mo separator="true">,</mo><msub><mi>S</mi><mi>z</mi></msub><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[S_x, S_y, S_z, 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>。S直接和R乘在一起，与T无关。</p>
+<img data-src="image-20221026162455644-1667622796442-5.png" alt="image-20221026162455644" style="zoom:50%;">
+</li>
+<li>
+<p>Extrinsic可使世界坐标系转化为相机坐标系。</p>
+</li>
+</ul>
+<h2 id="skewness-and-distortion"><a class="markdownIt-Anchor" href="#skewness-and-distortion"></a> Skewness and Distortion</h2>
+<ul>
+<li>
+<p>Skewness指的是相机Sensor的两个轴不垂直，即xy之间有一个小夹角。通常这不会发生，但如果有制造方面的问题，这也是可能的。</p>
+</li>
+<li>
+<p>相机的Skewness</p>
+</li>
+<li>
+<p>Skewness的解决方法是把这个夹角找到，并在Intrinsic中反映出来。</p>
+<p><img data-src="image-20221026154924465-1667622796442-6.png" alt="image-20221026154924465"></p>
+</li>
+<li>
+<p>Distortion包含：</p>
+<ul>
+<li><em>Radial Distortion</em> (径向畸变)：</li>
+<li><em>Tangential distortion</em> (切向畸变)：本质上是相平面和相机坐标系存在一个夹角，即“图像Sensor和镜头截面不平行”。</li>
+</ul>
+</li>
+<li>
+<p>关于Distortion的计算：</p>
+<p><img data-src="image-20221026163826434-1667622796442-7.png" alt="image-20221026163826434"></p>
+</li>
+</ul>
+<h2 id="homogeneous-coordinates"><a class="markdownIt-Anchor" href="#homogeneous-coordinates"></a> Homogeneous Coordinates</h2>
+<ul>
+<li>同质坐标的主要用意是把本来在分母上的z（深度）给挪走，以便让投影这个Transformation从non-linear变成Linear。</li>
+<li>注意同质坐标虽然在视觉效果上是在原本的坐标(u,v)或(x,y,z)下面加了一个1，但是实际上这个1在欧式坐标系中并不存在。当我们后面列出方程校准时，应该回到原本的欧式坐标系解。</li>
+</ul>
+<h2 id="imu"><a class="markdownIt-Anchor" href="#imu"></a> IMU</h2>
+<ul>
+<li>IMU输出三个方向角速度和三个轴向加速度的值，使用时也需要校准。</li>
+<li>具体校准方法参见Kalibr和DV，因为我没用上，所以不多展开。</li>
+</ul>
+<h2 id="dvs"><a class="markdownIt-Anchor" href="#dvs"></a> DVS</h2>
+<ul>
+<li>DVS的校准主要分为两种方法：
+<ul>
+<li>一种是直接用paired的RGB进行校准，毕竟这里的RGB和DVS share同一组透镜。</li>
+<li>如果没有这个RGB，就直接用accumulate的frame做校准。</li>
+</ul>
+</li>
+</ul>
+<h2 id="methods"><a class="markdownIt-Anchor" href="#methods"></a> Methods</h2>
+<h3 id="解方程直接校准p矩阵"><a class="markdownIt-Anchor" href="#解方程直接校准p矩阵"></a> 解方程直接校准P矩阵</h3>
+<ul>
+<li>
+<p>在Paper <em>DHP19: Dynamic Vision Sensor 3D Human Pose Dataset</em>里， 他们采用的方法是：直接在经过Mocap校准的空间中放置一系列Markers，然后在DVS的RGB（APS）输出frame中直接进行手动标注，得到其在image plane中的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>坐标， 然后解方程。</p>
+<img data-src="image-20221021155115039-1667622796442-8.png" alt="image-20221021155115039" style="zoom:40%;">
+</li>
+<li>
+<p>上图中提到了一个点：从投影矩阵计算相机坐标系的原点，即相机的焦点位置的方法：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><msup><mi>Q</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mi>c</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">C=Q^{-1}c_4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。具体的推理其实很简单，主要就靠一个条件公式：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>C</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">PC=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>，即原点的投影是0。</p>
+</li>
+<li>
+<p>细节上，他们用了38个Marker，并8次改变它们的位置，通过最小平方法解得最接近的11个P中参数值。这里的最小平方法的意义在于通过增加数据点取平均P值来减小误差。其实11组式子就够了，但这里还是用了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>×</mo><mn>38</mn><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">8\times38\times2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>个公式，就在于此。</p>
+</li>
+<li>
+<p>具体的最小平方法介绍及代码：<a target="_blank" rel="noopener" href="https://pythonnumericalmethods.berkeley.edu/notebooks/chapter16.04-Least-Squares-Regression-in-Python.html">Link</a></p>
+</li>
+<li>
+<p>这个全矩阵P其实包含了Camera Intrinsic <em>K</em>， Camera Extrinsic <em>RT</em>, 以及Camera Skewness。</p>
+</li>
+<li>
+<p>理论：</p>
+<p><img data-src="image-20221026175034098-1667622796442-9.png" alt="image-20221026175034098"></p>
+<img data-src="image-20221026175051047-1667622796442-10.png" alt="image-20221026175051047" style="zoom:50%;">
+</li>
+<li>
+<p>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Least Square Calibration for Camera Projection Matrix using Numpy</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">svd_calibration</span>(<span class="params">points_3d, points_2d</span>):</span><br><span class="line">    <span class="comment"># points_3d: 3D points in world coordinate</span></span><br><span class="line">    <span class="comment"># points_2d: 2D points in image coordinate</span></span><br><span class="line">    <span class="comment"># return: projection matrix</span></span><br><span class="line">    <span class="keyword">assert</span> points_3d.shape[<span class="number">0</span>] == points_2d.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">assert</span> points_3d.shape[<span class="number">1</span>] == <span class="number">3</span></span><br><span class="line">    <span class="keyword">assert</span> points_2d.shape[<span class="number">1</span>] == <span class="number">2</span></span><br><span class="line">    num_points = points_3d.shape[<span class="number">0</span>]</span><br><span class="line">    A = np.zeros((<span class="number">2</span> * num_points, <span class="number">12</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_points):</span><br><span class="line">        A[<span class="number">2</span> * i, <span class="number">0</span>:<span class="number">4</span>] = *(points_3d[i, :]), <span class="number">1</span></span><br><span class="line">        A[<span class="number">2</span> * i, <span class="number">8</span>:<span class="number">12</span>] = *(-points_2d[i, <span class="number">0</span>] * points_3d[i, :]), -points_2d[i, <span class="number">0</span>]</span><br><span class="line">        A[<span class="number">2</span> * i + <span class="number">1</span>, <span class="number">4</span>:<span class="number">8</span>] = *(points_3d[i, :]), <span class="number">1</span></span><br><span class="line">        A[<span class="number">2</span> * i + <span class="number">1</span>, <span class="number">8</span>:<span class="number">12</span>] = *(-points_2d[i, <span class="number">1</span>] * points_3d[i, :]), -points_2d[i, <span class="number">0</span>]</span><br><span class="line">    U, S, V = np.linalg.svd(A)</span><br><span class="line">    P = V[:，-<span class="number">1</span>].reshape((<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line">    <span class="keyword">return</span> P</span><br><span class="line"></span><br><span class="line"><span class="comment"># OR</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># Least Square Calibration for Camera Projection Matrix</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">least_square_calibrate_camera_projection_matrix_np</span>(<span class="params">x,y,z,u,v</span>):</span><br><span class="line">    <span class="comment"># x,y,z: 3D points in world coordinate</span></span><br><span class="line">    <span class="comment"># u,v: 2D points in image coordinate</span></span><br><span class="line">    <span class="comment"># return: projection matrix</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(x) == <span class="built_in">len</span>(y) == <span class="built_in">len</span>(z) == <span class="built_in">len</span>(u) == <span class="built_in">len</span>(v)</span><br><span class="line">    num_points = <span class="built_in">len</span>(x)</span><br><span class="line">    A = np.zeros((<span class="number">2</span> * num_points, <span class="number">12</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_points):</span><br><span class="line">        A[<span class="number">2</span> * i, <span class="number">0</span>:<span class="number">4</span>] = x[i], y[i], z[i], <span class="number">1</span></span><br><span class="line">        A[<span class="number">2</span> * i, <span class="number">8</span>:<span class="number">12</span>] = -u[i] * x[i], -u[i] * y[i], -u[i] * z[i], -u[i]</span><br><span class="line">        A[<span class="number">2</span> * i + <span class="number">1</span>, <span class="number">4</span>:<span class="number">8</span>] = x[i], y[i], z[i], <span class="number">1</span></span><br><span class="line">        A[<span class="number">2</span> * i + <span class="number">1</span>, <span class="number">8</span>:<span class="number">12</span>] = -v[i] * x[i], -v[i] * y[i], -v[i] * z[i], -v[i]</span><br><span class="line">    U, S, V = np.linalg.svd(A)</span><br><span class="line">    P = V[:，-<span class="number">1</span>].reshape((<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line">    <span class="keyword">return</span> P</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>注意：SVD这里是用于解决Least Squares Problem的，如果直接用<code>np.linalg.lstsq</code>函数的话（b取全0），会解得一个全0矩阵（因为0永远是一个解）。</p>
+</li>
+<li>
+<p>SVD的解法细节：</p>
+<p><img data-src="image-20221027230723755-1667622796442-11.png" alt="image-20221027230723755"></p>
+</li>
+<li>
+<p>解SVD的时候可以选择把P矩阵右下角<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mo stretchy="false">(</mo><mn>3</mn><mo separator="true">,</mo><mn>4</mn><mo stretchy="false">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">P_{(3,4)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.03853em;vertical-align:-0.3551999999999999em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">3</span><span class="mpunct mtight">,</span><span class="mord mtight">4</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span></span>设为1。不设是homogeneous解法，设了之后是inhomogeneous。</p>
+</li>
+</ul>
+<h3 id="kalibr"><a class="markdownIt-Anchor" href="#kalibr"></a> kalibr</h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethz-asl/kalibr">Link</a></p>
+</li>
+<li>
+<p>Used for:</p>
+<ol>
+<li><strong>Multi-Camera Calibration</strong>: Intrinsic and extrinsic calibration of a camera-systems with non-globally shared overlapping fields of view</li>
+<li><strong>Visual-Inertial Calibration (CAM-IMU)</strong>: Spatial and temporal calibration of an IMU w.r.t a camera-system along with IMU intrinsic parameters</li>
+<li><strong>Multi-Inertial Calibration (IMU-IMU)</strong>: Spatial and temporal calibration of an IMU w.r.t a base inertial sensor along with IMU intrinsic parameters (requires 1-aiding camera sensor).</li>
+<li><strong>Rolling Shutter Camera Calibration</strong>: Full intrinsic calibration (projection, distortion and shutter parameters) of rolling shutter cameras.</li>
+</ol>
+</li>
+<li>
+<p>简单说就是主攻多相机/IMU系统。<a target="_blank" rel="noopener" href="https://github.com/ethz-asl/kalibr/wiki/multiple-camera-calibration">多个相机</a>，<a target="_blank" rel="noopener" href="https://github.com/ethz-asl/kalibr/wiki/Multi-IMU-and-IMU-intrinsic-calibration">多个IMU</a>，<a target="_blank" rel="noopener" href="https://github.com/ethz-asl/kalibr/wiki/camera-imu-calibration">相机+IMU</a>等。</p>
+</li>
+<li>
+<p>校准出来的Extrinsic结果并不是相对原点绝对的，而是多个设备间相对的。比如IMU+Cam校准出来的Extrinsic就是IMU相对于Cam坐标的变换。</p>
+<p>引用一段<a target="_blank" rel="noopener" href="https://github.com/ethz-asl/kalibr/wiki/yaml-formats">原话</a>：</p>
+<blockquote>
+<ul>
+<li><strong>T_cn_cnm1</strong><br>
+camera extrinsic transformation, always with respect to the last camera in the chain<br>
+(e.g. cam1: T_cn_cnm1 = T_c1_c0, takes cam0 to cam1 coordinates)</li>
+<li><strong>T_cam_imu</strong><br>
+IMU extrinsics: transformation from IMU to camera coordinates (T_c_i)</li>
+<li><strong>timeshift_cam_imu</strong><br>
+timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>综上所述，Kalibr并不是满足我们需求的校准方案。</p>
+</li>
+</ul>
+<h3 id="dv-calibration"><a class="markdownIt-Anchor" href="#dv-calibration"></a> DV Calibration</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://inivation.gitlab.io/dv/dv-docs/docs/tutorial-calibration/">Tutorial Link</a>, <a target="_blank" rel="noopener" href="https://gitlab.com/inivation/dv/dv-imu-cam-calibration">Code Link</a></li>
+<li>单个多个DVS都可以。</li>
+<li>基于Kalibr的方案。</li>
+<li>对于单个DVS，校准主要进行的是undistortion，且可以在校准后直接应用于相机后续的图像，让后面的record都不再有失真。</li>
+<li>这里的校准可以有效应对之前Upal教授提出的扭曲问题，应在后续操作中应用。</li>
+</ul>
+<h3 id="opencv-camera-calibration"><a class="markdownIt-Anchor" href="#opencv-camera-calibration"></a> OpenCV Camera Calibration</h3>
+<ul>
+<li>
+<p>这个校准会使用chessboard，而关于3d坐标，他们用了棋盘上两个相邻的点的实际距离是已知的这个特性（因为打印的标准棋盘，间距是固定的，如30mm），来提供相应的3D坐标信息。</p>
+</li>
+<li>
+<p>这个校准会分别输出Intrinsic matrix (mtx), rotation matrix (R, rvecs), translation matrix (T, tvecs), Distortion coefficients (dist)。这些输出可以直接被用来纠偏。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># generate camera matrixes</span></span><br><span class="line">ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, gray.shape[::-<span class="number">1</span>], <span class="literal">None</span>, <span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">img = cv.imread(<span class="string">&#x27;left12.jpg&#x27;</span>)</span><br><span class="line">h,  w = img.shape[:<span class="number">2</span>]</span><br><span class="line">newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (w,h), <span class="number">1</span>, (w,h))</span><br><span class="line"></span><br><span class="line"><span class="comment"># undistort</span></span><br><span class="line">dst = cv.undistort(img, mtx, dist, <span class="literal">None</span>, newcameramtx)</span><br><span class="line"><span class="comment"># crop the image</span></span><br><span class="line">x, y, w, h = roi</span><br><span class="line">dst = dst[y:y+h, x:x+w]</span><br><span class="line">cv.imwrite(<span class="string">&#x27;calibresult.png&#x27;</span>, dst)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>关于OpenCV校准出来的Extrinsic Matrix，由于世界坐标系必定有一个原点，所以它们也是毫无疑问有一个原点的。但这个世界坐标系原点实际上只有参考意义（第一张校准图的左上角棋盘点），并无法直接使用。同时，相机坐标系的原点是相机的焦点，而这个焦点也是几乎不可预知和测量位置的（它可能在相机内部或外部，但校准并不会告诉你这个点位置，所以你也无法通过直接测量相机O点和实际世界O点之间的相对位置来纠正Extrinsic。）</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.appsloveworld.com/opencv/100/91/opencv-camera-calibration-world-coordinate-system-origin">Link</a>: I believe it used to be the position of the top-left corner of the checkerboard in the first calibration image, but it may have changed. You can visualized it by writing a few lines of code that project point (0,0,0) (in calibrated scene coordinates) in all the calibration images, then plotting its projected image coordinates on top of the image themselves.</p>
+<p>You should really not depend on it being anything meaningful, and instead locate a separate feature in 3D and roto-translate the reference frame to it after calibration.</p>
+</blockquote>
+</li>
+<li>
+<p>实际上，不要想通过OpenCV的校准来直接得到有实际意义的Extrinsic，若想得到，请自行用前面提到的Method 1来实际label一些已知3D坐标的Markers对应的2D点，用Least Squares解得。</p>
+</li>
+<li>
+<p>但是，OpenCV的校准可以提供有效的Distortion Coefficient和Intrinsic，并可直接被用于畸变补偿。</p>
+</li>
+</ul>
+<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<h3 id="blogswebsites"><a class="markdownIt-Anchor" href="#blogswebsites"></a> Blogs/Websites</h3>
+<ul>
+<li><a href="****https://pythonnumericalmethods.berkeley.edu/notebooks/chapter16.04-Least-Squares-Regression-in-Python.html****">Least Squares Regression in Python</a></li>
+<li><a target="_blank" rel="noopener" href="https://math.stackexchange.com/questions/974193/why-does-svd-provide-the-least-squares-and-least-norm-solution-to-a-x-b">Why does SVD provide the least squares and least norm solution to 𝐴𝑥=𝑏?</a></li>
+<li><a target="_blank" rel="noopener" href="https://math.stackexchange.com/questions/772039/how-does-the-svd-solve-the-least-squares-problem">How does the SVD solve the least squares problem?</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.quora.com/What-is-the-real-world-coordinate-system-camera-calibration-refer-to-in-computer-vision">What is the “real world coordinate system” camera calibration refer to in computer vision?</a></li>
+<li><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html">numpy linalg svd</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html">OpenCV Camera Calibration</a></li>
+</ul>
+<h3 id="slides"><a class="markdownIt-Anchor" href="#slides"></a> Slides</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://s3.amazonaws.com/content.udacity-data.com/courses/ud810/slides/Unit-3/3C-L3.pdf#fromHistory">Udacity CS4495/6495 Introduction to Computer Vision 3C-L3 Calibrating cameras</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/~16385/s17/Slides/11.1_Camera_matrix.pdf">CMU - Camera Matrix</a></li>
+<li><a target="_blank" rel="noopener" href="https://cvgl.stanford.edu/teaching/cs231a_winter1314/lectures/lecture2_camera_models.pdf">Stanford - Lecture 2</a></li>
+<li><a target="_blank" rel="noopener" href="https://cvgl.stanford.edu/teaching/cs231a_winter1314/lectures/lecture3_camera_calibration.pdf">Stanford - Lecture 3</a></li>
+</ul>
+<h3 id="papers"><a class="markdownIt-Anchor" href="#papers"></a> Papers</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr98-71.pdf">A Flexible New Technique for Camera Calibration</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/camera-calibration/" rel="tag"># camera calibration</a>
+              <a href="/tags/camera-matrix/" rel="tag"># camera matrix</a>
+              <a href="/tags/CV/" rel="tag"># CV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/11/pytorch-lightning/" rel="prev" title="Pytorch Lighting 完全攻略">
+                  <i class="fa fa-chevron-left"></i> Pytorch Lighting 完全攻略
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2099/10/03/resume/" rel="next" title="Curriculum Vitae -- Zhongyang Zhang">
+                  Curriculum Vitae -- Zhongyang Zhang <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

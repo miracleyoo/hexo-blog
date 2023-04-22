@@ -1,37 +1,612 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="数据来源  卫星类型   Sentinel-2：提供混合分辨率的13 Bands MSI。分辨率有10m×10m10m \times 10m10m×10m，20m×20m20m \times 20m20m×20m，60m×60m60m \times 60m60m×60m，bands中心波长从442.3nm到2185.7nm。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Analyzing Geography Data (Beginners&#39; Tutorial)">
+<meta property="og:url" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="数据来源  卫星类型   Sentinel-2：提供混合分辨率的13 Bands MSI。分辨率有10m×10m10m \times 10m10m×10m，20m×20m20m \times 20m20m×20m，60m×60m60m \times 60m60m×60m，bands中心波长从442.3nm到2185.7nm。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201213154533413.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201213150111581.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227143234319.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227145324164.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227155911702.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227155421761.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227155558109.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227155342029.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227155051608.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227155259214.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201227160344273.png">
+<meta property="article:published_time" content="2021-02-04T02:18:19.000Z">
+<meta property="article:modified_time" content="2021-03-12T23:19:59.936Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="satellite">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2021/02/03/satellite-basic/image-20201213154533413.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2021/02/03/satellite-basic/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2021/02/03/satellite-basic/","path":"2021/02/03/satellite-basic/","title":"Analyzing Geography Data (Beginners' Tutorial)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Analyzing Geography Data (Beginners' Tutorial) | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text"> 数据来源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%AB%E6%98%9F%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text"> 卫星类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sentinel-2-data-source"><span class="nav-number">1.2.</span> <span class="nav-text"> Sentinel-2 Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#planet-data-source"><span class="nav-number">1.3.</span> <span class="nav-text"> Planet Data Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#specification"><span class="nav-number">1.4.</span> <span class="nav-text"> Specification</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E4%B8%8Epython%E5%8C%85%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text"> 软件与Python包简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sentinel-2-%E5%A4%A7%E6%B0%94%E6%A0%A1%E6%AD%A3"><span class="nav-number">3.</span> <span class="nav-text"> Sentinel-2 大气校正</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%9D%90%E6%A0%87%E6%98%A0%E5%B0%84"><span class="nav-number">3.1.</span> <span class="nav-text"> 查询坐标映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#snap"><span class="nav-number">4.</span> <span class="nav-text"> SNAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arcgis-pro"><span class="nav-number">5.</span> <span class="nav-text"> ArcGIS Pro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qgis"><span class="nav-number">6.</span> <span class="nav-text"> QGIS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pythonic-method"><span class="nav-number">7.</span> <span class="nav-text"> Pythonic Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">8.</span> <span class="nav-text"> Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2021/02/03/satellite-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Analyzing Geography Data (Beginners' Tutorial) | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Analyzing Geography Data (Beginners' Tutorial)<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/satellite-basic.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-03 18:18:19" itemprop="dateCreated datePublished" datetime="2021-02-03T18:18:19-08:00">2021-02-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 15:19:59" itemprop="dateModified" datetime="2021-03-12T15:19:59-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="数据来源"><a class="markdownIt-Anchor" href="#数据来源"></a> 数据来源</h2>
+<h3 id="卫星类型"><a class="markdownIt-Anchor" href="#卫星类型"></a> 卫星类型</h3>
+<ol>
+<li>
+<p>Sentinel-2：提供混合分辨率的13 Bands MSI。分辨率有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>m</mi><mo>×</mo><mn>10</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">10m \times 10m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord mathnormal">m</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mi>m</mi><mo>×</mo><mn>20</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">20m \times 20m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord mathnormal">m</span></span></span></span>，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mi>m</mi><mo>×</mo><mn>60</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">60m \times 60m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord">0</span><span class="mord mathnormal">m</span></span></span></span>，bands中心波长从442.3nm到2185.7nm。</p>
+<img data-src="image-20201213154533413.png" alt="image-20201213154533413" style="zoom:33%;">
+<span id="more"></span>
+</li>
+<li>
+<p>Planet：这个数据源提供<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>m</mi><mo>×</mo><mn>3</mn><mi>m</mi></mrow><annotation encoding="application/x-tex">3m \times 3m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord mathnormal">m</span></span></span></span>的4 bands MSI image。分别是R、G、B、NIR。</p>
+<ul>
+<li>这个数据源似乎只对美国国内的院校机构开放，不过不是很确定，需要的可以试试。</li>
+</ul>
+<p><img data-src="image-20201213150111581.png" alt="Planet Specification"></p>
+</li>
+<li>
+<p>RapidEyes</p>
+</li>
+</ol>
+<h3 id="sentinel-2-data-source"><a class="markdownIt-Anchor" href="#sentinel-2-data-source"></a> Sentinel-2 Data Source</h3>
+<ol>
+<li>
+<p>USGS Earth Explorer: <a target="_blank" rel="noopener" href="https://earthexplorer.usgs.gov/">Link</a>. It support downloading data within five years. And it not only support sentinel-2 data, but also contains many other satellite datasource.</p>
+<p><img data-src="image-20201227143234319.png" alt="image-20201227143234319"></p>
+</li>
+<li>
+<p>Copernicus Open Access Hub: <a target="_blank" rel="noopener" href="https://scihub.copernicus.eu/dhus/#/home">Link</a>. It supports only one year’s old data. You can request the older data, but not guarante the fetch time.</p>
+<p><img data-src="image-20201227145324164.png" alt="image-20201227145324164"></p>
+</li>
+<li>
+<p>Amazon AWS Sentinel-2 Service: <a target="_blank" rel="noopener" href="https://registry.opendata.aws/sentinel-2/">Link</a></p>
+</li>
+</ol>
+<h3 id="planet-data-source"><a class="markdownIt-Anchor" href="#planet-data-source"></a> Planet Data Source</h3>
+<ul>
+<li>官网：<a target="_blank" rel="noopener" href="https://www.planet.com/">Link</a></li>
+</ul>
+<h3 id="specification"><a class="markdownIt-Anchor" href="#specification"></a> Specification</h3>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://sentinel.esa.int/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument">Sentinel-2 MultiSpectral Instrument (MSI) Overview</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.planet.com/products/satellite-imagery/files/Planet_Combined_Imagery_Product_Specs_December2017.pdf">Sentinel-2 Specification Doc</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.planet.com/products/planet-imagery/">Planet Specification</a></li>
+</ol>
+<h2 id="软件与python包简介"><a class="markdownIt-Anchor" href="#软件与python包简介"></a> 软件与Python包简介</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.gdal.org/">GDAL</a> –&gt; Fundamental package for processing vector and raster data formats (many modules below depend on this). Used for raster processing.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mapbox/rasterio">Rasterio</a> –&gt; Clean and fast and geospatial raster I/O for Python. <a target="_blank" rel="noopener" href="https://rasterio.readthedocs.io/en/latest/quickstart.html">Guidebook</a>.</li>
+<li><a target="_blank" rel="noopener" href="http://geopandas.org/#description">Geopandas</a> –&gt; Working with geospatial data in Python made easier, combines the capabilities of pandas and shapely.</li>
+<li><a target="_blank" rel="noopener" href="http://toblerity.org/shapely/manual.html">Shapely</a> –&gt; Python package for manipulation and analysis of planar geometric objects (based on widely deployed <a target="_blank" rel="noopener" href="https://trac.osgeo.org/geos/">GEOS</a>).</li>
+<li><a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/Fiona">Fiona</a> –&gt; Reading and writing spatial data (alternative for geopandas).</li>
+<li><a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/pyproj?">Pyproj</a> –&gt; Performs cartographic transformations and geodetic computations (based on <a target="_blank" rel="noopener" href="http://trac.osgeo.org/proj">PROJ.4</a>).</li>
+<li><a target="_blank" rel="noopener" href="https://pysal.readthedocs.org/en/latest/">Pysal</a> –&gt; Library of spatial analysis functions written in Python.</li>
+<li><a target="_blank" rel="noopener" href="http://geopy.readthedocs.io/en/latest/">Geopy</a> –&gt; Geocoding library: coordinates to address &lt;-&gt; address to coordinates.</li>
+<li><a target="_blank" rel="noopener" href="http://geo.holoviews.org/index.html">GeoViews</a> –&gt; Interactive Maps for the web.</li>
+<li><a target="_blank" rel="noopener" href="https://networkx.github.io/documentation/networkx-1.10/overview.html">Networkx</a> –&gt; Network analysis and routing in Python (e.g. Dijkstra and A* -algorithms), see <a target="_blank" rel="noopener" href="http://gis.stackexchange.com/questions/65056/is-it-possible-to-route-shapefiles-using-python-and-without-arcgis-qgis-or-pgr">this post</a>.</li>
+<li><a target="_blank" rel="noopener" href="http://scitools.org.uk/cartopy/docs/latest/index.html">Cartopy</a> –&gt; Make drawing maps for data analysis and visualisation as easy as possible.</li>
+<li><a target="_blank" rel="noopener" href="http://docs.scipy.org/doc/scipy/reference/spatial.html">Scipy.spatial</a> –&gt; Spatial algorithms and data structures.</li>
+<li><a target="_blank" rel="noopener" href="http://toblerity.org/rtree/">Rtree</a> –&gt; Spatial indexing for Python for quick spatial lookups.</li>
+<li><a target="_blank" rel="noopener" href="http://www.rsgislib.org/index.html#python-documentation">RSGISLib</a> –&gt; Remote Sensing and GIS Software Library for Python.</li>
+<li><a target="_blank" rel="noopener" href="https://python-geojson.readthedocs.io/en/latest/">python-geojson</a>-&gt; Deal with geojson format files.</li>
+</ul>
+<h2 id="sentinel-2-大气校正"><a class="markdownIt-Anchor" href="#sentinel-2-大气校正"></a> Sentinel-2 大气校正</h2>
+<p>Sentinel-2一般有两种standard，一个是A级别，一个是C级别。C级别的数据是你可以从任意网站上下载到的数据，它没有经过大气校正，是粗数据，每个区块的反射率可能有不同，不适合直接用作深度学习数据。</p>
+<p>经过Sen2Cor软件校正后可以得到A级别的数据。</p>
+<p>Sen2Cor是欧空局发布的一个软件，它即可以作为SNAP的插件安装，也可以作为独立命令行软件使用。推荐后者，更为快速、稳定，尤其适用于大量数据时，可以用脚本批处理。<a target="_blank" rel="noopener" href="http://step.esa.int/main/snap-supported-plugins/sen2cor/sen2cor_v2-8/">官网链接</a></p>
+<h3 id="查询坐标映射"><a class="markdownIt-Anchor" href="#查询坐标映射"></a> 查询坐标映射</h3>
+<ul>
+<li>地球是圆的。</li>
+<li>卫星上拍的一张矩形照片所对应的区域并非是矩形的。</li>
+<li>使用卫星图片时要先将其映射到二维展开的坐标系中。</li>
+<li>整个地球被分为了许多预先订好的区域。</li>
+<li>每个区域有一个编号。</li>
+<li>编号可以在<a target="_blank" rel="noopener" href="http://epsg.io/">EPSG</a>网站查询。</li>
+</ul>
+<h2 id="snap"><a class="markdownIt-Anchor" href="#snap"></a> SNAP</h2>
+<ul>
+<li>
+<p>欧空局自己用作处理Sentinel-2的软件。<a target="_blank" rel="noopener" href="https://step.esa.int/main/download/snap-download/">Link</a></p>
+</li>
+<li>
+<p>只用来处理Sentinel-2，尤其是预处理，包括校正，reprojection，粗crop，统一各个bands分辨率等等，非常好用。因为是亲儿子，所以甚至可以直接读取Sentinel-2每个文件的压缩包，总之十分便利。</p>
+</li>
+<li>
+<p>比较古老，interface有年代感，功能也相较于其他软件比较局限。</p>
+</li>
+<li>
+<p>推荐用作第一步预处理。</p>
+</li>
+<li>
+<p>使用流程：<code>读取-&gt;剪裁-&gt;correction-&gt;resize-&gt;reprojection-&gt;导出</code>。</p>
+</li>
+<li>
+<p>大部分需要用到的功能都在<code>Raster-&gt;Geometric</code>中</p>
+</li>
+<li>
+<p>经过尝试、搜索、确认，SNAP并不提供便利的选定区域截图，或是依据shapefile剪裁，所以目前最佳的方法是，先通过zoom地图和改变窗口大小确保需要的部分大致在view的可视范围内，然后右键，选择<code>Spatial Subset from View</code>，然后可视区域即可被剪裁。注意，这只是粗剪裁，所以尽量多包括一点，也不要少任何一部分。剪裁后的内容可以后续在ArcGIS Pro中进一步处理。</p>
+<img data-src="image-20201227155911702.png" alt="image-20201227155911702" style="zoom:40%;">
+</li>
+<li>
+<p>展示图：</p>
+<img data-src="image-20201227155421761.png" alt="image-20201227155421761" style="zoom:33%;">
+<p><img data-src="image-20201227155558109.png" alt="image-20201227155558109"></p>
+</li>
+</ul>
+<h2 id="arcgis-pro"><a class="markdownIt-Anchor" href="#arcgis-pro"></a> ArcGIS Pro</h2>
+<ul>
+<li>
+<p>我能找到的最强大的可用于卫星图像处理的软件。</p>
+</li>
+<li>
+<p>专业，美观，支持format多，有着强大的raster functions。</p>
+</li>
+<li>
+<p>版权软件，下载之前先确认自己学校或公司是否提供License。</p>
+</li>
+<li>
+<p>有时导出raster会出现随机bug，导致：导出可能是纯黑的图片，导出部分没有按照期望剪裁等。很恶心，但似乎也没有更好的选择。</p>
+</li>
+<li>
+<p>解决导出问题：</p>
+<ol>
+<li>关闭导出窗口，重新操作，多试几次。可以解决绝大部分问题。</li>
+<li>和剪裁、mask等有关的问题可以先使用raster function进行这些操作，再直接导出前面操作的结果layer。</li>
+</ol>
+</li>
+<li>
+<p>关于剪裁后的卫星图片和原始图片有着明显亮度对比度区别的问题：</p>
+<ol>
+<li>
+<p>首先，这不是一个bug，而是一个feature。。。实际上的卫星图都很暗沉的，所以软件原生提供一个“显示方法”的函数，调整图片曲线，使得显示的图片比较亮，容易看清楚细节。然而，剪裁后的图片有着不一样的统计值，所以在有些显示函数下，显示的结果和剪裁前结果不同。</p>
+<img data-src="image-20201227155342029.png" alt="image-20201227155342029" style="zoom:33%;">
+</li>
+<li>
+<p>但是不用担心，因为导出时候并不会考虑这个显示函数。即：剪裁前后的导出图像数值是相同的。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>下面是两张展示图：</p>
+</li>
+</ul>
+<p><img data-src="image-20201227155051608.png" alt="image-20201227155051608"></p>
+<p><img data-src="image-20201227155259214.png" alt="image-20201227155259214"></p>
+<h2 id="qgis"><a class="markdownIt-Anchor" href="#qgis"></a> QGIS</h2>
+<ul>
+<li>
+<p>开源软件，支持很多插件，比如直接下载Sentinel-2数据，Sen2Cor等。<a target="_blank" rel="noopener" href="https://qgis.org/en/site/">Link</a></p>
+</li>
+<li>
+<p>支持很多format的数据。</p>
+</li>
+<li>
+<p>问题是，不稳定，效率低，容易崩溃（软件&amp;心态），甚至左侧Explorer遇到大文件夹都要经常转很久才能进去，或是干脆就直接转崩了。我怀疑他们要分析每个文件夹所有文件之后再显示列表。。。总之，慎重。</p>
+<p><img data-src="image-20201227160344273.png" alt="image-20201227160344273"></p>
+</li>
+</ul>
+<h2 id="pythonic-method"><a class="markdownIt-Anchor" href="#pythonic-method"></a> Pythonic Method</h2>
+<p>虽然前面介绍了几个软件，但是说实话，处理一两个可以，批量处理几十几百甚至几十万就有点力不从心了。所以最后还是狠下心研究了一遍Python处理这些数据的方法，写出了一批适合我项目用的函数。不一定适合所有人，但可以作为参考：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> geopandas <span class="keyword">as</span> gpd</span><br><span class="line"><span class="keyword">from</span> shapely.geometry <span class="keyword">import</span> Point, LineString, Polygon</span><br><span class="line"><span class="keyword">import</span> rasterio <span class="keyword">as</span> rio</span><br><span class="line"><span class="keyword">from</span> rasterio.mask <span class="keyword">import</span> mask</span><br><span class="line"><span class="keyword">from</span> rasterio.warp <span class="keyword">import</span> calculate_default_transform, reproject, Resampling</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bbox</span>(<span class="params">shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Compute the bounding box of a certain shapefile.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    piece = np.array([i.bounds <span class="keyword">for</span> i <span class="keyword">in</span> shp[<span class="string">&#x27;geometry&#x27;</span>]])</span><br><span class="line">    minx = piece[:,<span class="number">0</span>].<span class="built_in">min</span>()</span><br><span class="line">    miny = piece[:,<span class="number">1</span>].<span class="built_in">min</span>()</span><br><span class="line">    maxx = piece[:,<span class="number">2</span>].<span class="built_in">max</span>()</span><br><span class="line">    maxy = piece[:,<span class="number">3</span>].<span class="built_in">max</span>()</span><br><span class="line">    <span class="keyword">return</span> minx, miny, maxx, maxy</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">edge_length</span>(<span class="params">shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Compute the x and y edge length for a ceratin shapefile.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    minx, miny, maxx, maxy = bbox(shp)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">round</span>(maxx-minx,<span class="number">3</span>), <span class="built_in">round</span>(maxy-miny,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">shape2latlong</span>(<span class="params">shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Turn the shapefile unit from meters/other units to lat/long.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> shp.to_crs(epsg=<span class="number">4326</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bbox_latlong</span>(<span class="params">shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Compute the latitude-longitude bounding box of a certain shapefile.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    shp = shape2latlong(shp)</span><br><span class="line">    <span class="keyword">return</span> bbox(shp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bbox_polygon</span>(<span class="params">shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Return the rectangular Polygon bounding box of a certain shapefile.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    minx, miny, maxx, maxy = bbox(shp)</span><br><span class="line">    <span class="keyword">return</span> Polygon([(minx, miny), (minx, maxy), (maxx,maxy), (maxx, miny)])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">merge_polygon</span>(<span class="params">shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Merge a shapefile to one single polygon.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> shp.dissolve(by=<span class="string">&#x27;Id&#x27;</span>).iloc[<span class="number">0</span>].geometry</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">polygon2geojson</span>(<span class="params">polygon</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Turn a polygon to a geojson format string.</span></span><br><span class="line"><span class="string">        This is used for rasterio mask operation.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(polygon) == Polygon:</span><br><span class="line">        polygon = gpd.GeoSeries(polygon)</span><br><span class="line">    <span class="keyword">return</span> [json.loads(polygon.to_json())[<span class="string">&#x27;features&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;geometry&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sen2rgb</span>(<span class="params">img, scale=<span class="number">30</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Turn the 12 channel float32 format sentinel-2 images to a RGB uint8 image. </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> (img[(<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>),]/<span class="number">256</span>*scale).astype(np.uint8)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cropbyshp</span>(<span class="params">raster, shp</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Crop a raster using a shapefile.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># Reproject the shapefile to the same crs of raster.</span></span><br><span class="line">    shp = shp.to_crs(&#123;<span class="string">&quot;init&quot;</span>: <span class="built_in">str</span>(raster.crs)&#125;)</span><br><span class="line">    <span class="comment"># Compute the rectangular Polygon bounding box of a certain shapefile.</span></span><br><span class="line">    bbpoly = bbox_polygon(shp)</span><br><span class="line">    <span class="comment"># Execute the mask operation.</span></span><br><span class="line">    out_img, out_transform = mask(dataset=raster, shapes=polygon2geojson(bbpoly), crop=<span class="literal">True</span>, all_touched=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> out_img</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">write_raster</span>(<span class="params">raster, path</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Write a created raster object to file.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> rio.<span class="built_in">open</span>(</span><br><span class="line">        path,</span><br><span class="line">        <span class="string">&#x27;w&#x27;</span>,</span><br><span class="line">        **raster.meta</span><br><span class="line">    ) <span class="keyword">as</span> dst:</span><br><span class="line">        dst.write(raster.read())</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sen_reproject</span>(<span class="params">src, dst_crs, out_path</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Reproject a raster to a new CRS coordinate, and save it in out_path.</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        src: Input raster.</span></span><br><span class="line"><span class="string">        dst_crs: Target CRS. String.</span></span><br><span class="line"><span class="string">        out_path: The path of the output file.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    transform, width, height = calculate_default_transform(</span><br><span class="line">        src.crs, dst_crs, src.width, src.height, *src.bounds)</span><br><span class="line">    kwargs = src.meta.copy()</span><br><span class="line">    kwargs.update(&#123;</span><br><span class="line">        <span class="string">&#x27;crs&#x27;</span>: dst_crs,</span><br><span class="line">        <span class="string">&#x27;transform&#x27;</span>: transform,</span><br><span class="line">        <span class="string">&#x27;width&#x27;</span>: width,</span><br><span class="line">        <span class="string">&#x27;height&#x27;</span>: height</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> rio.<span class="built_in">open</span>(out_path, <span class="string">&#x27;w&#x27;</span>, **kwargs) <span class="keyword">as</span> dst:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, src.count + <span class="number">1</span>):</span><br><span class="line">            reproject(</span><br><span class="line">                source=rio.band(src, i),</span><br><span class="line">                destination=rio.band(dst, i),</span><br><span class="line">                src_transform=src.transform,</span><br><span class="line">                src_crs=src.crs,</span><br><span class="line">                dst_transform=transform,</span><br><span class="line">                dst_crs=dst_crs,</span><br><span class="line">                resampling=Resampling.cubic)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mask_A_by_B</span>(<span class="params">A, B</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Generate a mask from B, and applied it to A.</span></span><br><span class="line"><span class="string">        All 0 values are excluded.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    mask = B.<span class="built_in">sum</span>(axis=<span class="number">0</span>)&gt;<span class="number">1e-3</span></span><br><span class="line">    masked_A = mask*A</span><br><span class="line">    <span class="keyword">return</span> masked_A</span><br></pre></td></tr></table></figure>
+<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://automating-gis-processes.github.io/2016/course-info.html">Python GIS 超完整教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://zia207.github.io/geospatial-python.io/">Professor Zia’s Personal Website</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_28853941/article/details/78511167">sentinel-2数据下载 大气校正 转ENVI格式</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lidahuilidahui/article/details/102765420">03-SNAP处理Sentinel-2 L2A级数据（一）</a></li>
+<li><a target="_blank" rel="noopener" href="https://clouds.eos.ubc.ca/~phil/courses/atsc301/html/rasterio_demo.html">UBC Course Notebook</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31010043">利用Sen2cor对哨兵2号（Sentinel-2）L1C多光谱数据进行辐射定标和大气校正</a></li>
+<li><a target="_blank" rel="noopener" href="https://sentinelhub-py.readthedocs.io/en/latest/">Documentation of Sentinel Hub Python package</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sentinel-hub/sentinelhub-py">sentinelhub-py</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/satellite/" rel="tag"># satellite</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/01/seed-anime-system/" rel="prev" title="全自动种子追番系统">
+                  <i class="fa fa-chevron-left"></i> 全自动种子追番系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/11/pytorch-lightning/" rel="next" title="Pytorch Lighting 完全攻略">
+                  Pytorch Lighting 完全攻略 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

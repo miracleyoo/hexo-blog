@@ -1,37 +1,1044 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="日系画风与现实的区别  真实的“三庭五眼”：  三庭：d(发际线, 眉骨) &#x3D; d(眉骨, 鼻底) &#x3D; d(鼻底, 下巴) 五眼：眼宽&#x3D;眼间距&#x3D;眼睛到面部轮廓的距离   眼睛的长度相对真实比例更长的，并不符合三庭五眼中的五眼比例。而是眼睛宽度和眼间距大体相同且较长，而眼睛两边到脸部轮廓的距离更短。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日系人体绘画总结">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="日系画风与现实的区别  真实的“三庭五眼”：  三庭：d(发际线, 眉骨) &#x3D; d(眉骨, 鼻底) &#x3D; d(鼻底, 下巴) 五眼：眼宽&#x3D;眼间距&#x3D;眼睛到面部轮廓的距离   眼睛的长度相对真实比例更长的，并不符合三庭五眼中的五眼比例。而是眼睛宽度和眼间距大体相同且较长，而眼睛两边到脸部轮廓的距离更短。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/Screenshot%2520-%25202020-06-12%252022.46.34.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200613182651960.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200613184807549.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200613185226577.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200614093652461.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200614094501368.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200614150816122.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200614150929840.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200614204900408.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200615124628061.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/Screenshot%2520-%25202020-07-08%252023.03.30.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709105324243.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709095740444.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709102107872.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709102245876.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709104609283.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709105414092.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709121121242.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200709113650623.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719014529861.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719014444973.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719014416132.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719014348797.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719014322885.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719103005141.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719104600298.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719110203120.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719110140108.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719110242408.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200719110419553.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724113228668.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724113253860.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724113443615.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724113521388.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724113548199.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724113639102.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724111805983.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724112336854.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724110336117.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724112224823.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724110015171.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200724120144027.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726104737094.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/Screenshot%2520-%25202020-07-26%252010.48.59.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726110314572.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726111529235.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726112319409.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726112701126.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726112803185.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726120758174.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726120727471.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200726141313049.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200730133455227.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200730134510170.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200730135011004.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200811011515263.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200811011529584.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200811011403507.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200811013940137.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/image-20200811112029242.png">
+<meta property="article:published_time" content="2020-08-22T00:50:24.000Z">
+<meta property="article:modified_time" content="2021-03-12T22:51:22.670Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="art">
+<meta property="article:tag" content="painting">
+<meta property="article:tag" content="human-body">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/08/21/illustration-human-body/Screenshot%2520-%25202020-06-12%252022.46.34.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2020/08/21/illustration-human-body/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2020/08/21/illustration-human-body/","path":"2020/08/21/illustration-human-body/","title":"日系人体绘画总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>日系人体绘画总结 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E7%B3%BB%E7%94%BB%E9%A3%8E%E4%B8%8E%E7%8E%B0%E5%AE%9E%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text"> 日系画风与现实的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E7%B3%BB%E7%94%B7%E7%94%9F%E4%B8%8E%E5%A5%B3%E7%94%9F%E5%88%BB%E7%94%BB%E7%9A%84%E7%89%B9%E7%82%B9%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text"> 日系男生与女生刻画的特点与区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%B3%E7%94%9F"><span class="nav-number">2.1.</span> <span class="nav-text"> 女生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B7%E7%94%9F"><span class="nav-number">2.2.</span> <span class="nav-text"> 男生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E7%B3%BB%E5%B9%B4%E9%BE%84%E5%AF%B9%E9%9D%A2%E9%83%A8%E7%94%BB%E6%B3%95%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">3.</span> <span class="nav-text"> 日系年龄对面部画法的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B7%E7%94%9F-2"><span class="nav-number">3.1.</span> <span class="nav-text"> 男生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%B3%E7%94%9F-2"><span class="nav-number">3.2.</span> <span class="nav-text"> 女生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.3.</span> <span class="nav-text"> 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%89%E7%9C%BC%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text"> 眉眼结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A3%E9%BC%BB%E7%9A%84%E7%94%BB%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text"> 口鼻的画法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B7%E6%80%A7%E5%8F%A3%E9%BC%BB%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.1.</span> <span class="nav-text"> 男性口鼻示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%B3%E6%80%A7%E5%8F%A3%E9%BC%BB%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.2.</span> <span class="nav-text"> 女性口鼻示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E9%83%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">6.</span> <span class="nav-text"> 面部示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%B3%E7%94%9F-3"><span class="nav-number">6.1.</span> <span class="nav-text"> 女生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B7%E7%94%9F-3"><span class="nav-number">6.2.</span> <span class="nav-text"> 男生</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">7.</span> <span class="nav-text"> 整体注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B4%E5%8F%91%E7%9A%84%E7%BB%98%E5%88%B6"><span class="nav-number">8.</span> <span class="nav-text"> 头发的绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%AB%E5%AD%90"><span class="nav-number">8.1.</span> <span class="nav-text"> 辫子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B7%E6%80%A7%E5%A4%B4%E5%8F%91"><span class="nav-number">8.2.</span> <span class="nav-text"> 男性头发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%9E%8B%E8%AE%BE%E8%AE%A1"><span class="nav-number">8.3.</span> <span class="nav-text"> 发型设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%A5%B0%E4%B8%8E%E5%85%B6%E4%BB%96%E8%A3%85%E9%A5%B0%E9%81%93%E5%85%B7%E7%9A%84%E7%BB%98%E5%88%B6"><span class="nav-number">9.</span> <span class="nav-text"> 发饰与其他装饰道具的绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%9D%B4%E8%9D%B6%E7%BB%93%E5%92%8C%E8%9D%B4%E8%9D%B6%E7%BB%93%E7%B1%BB%E4%BC%BC%E7%89%A9%E5%88%86%E7%B1%BB"><span class="nav-number">9.1.</span> <span class="nav-text"> 蝴蝶结和蝴蝶结类似物分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%BA%93"><span class="nav-number">9.2.</span> <span class="nav-text"> 发库：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%BD%E5%AD%90"><span class="nav-number">9.3.</span> <span class="nav-text"> 帽子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%BC%E9%95%9C"><span class="nav-number">9.4.</span> <span class="nav-text"> 眼镜</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E6%83%85"><span class="nav-number">10.</span> <span class="nav-text"> 表情</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">10.1.</span> <span class="nav-text"> 分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E8%A1%A8%E6%83%85%E6%9E%84%E6%88%90"><span class="nav-number">10.2.</span> <span class="nav-text"> 复杂表情构成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%AB%E7%94%BB%E4%B8%8E%E6%8F%92%E7%94%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">10.3.</span> <span class="nav-text"> 漫画与插画的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A3%E7%89%A9%E7%9A%84%E7%94%BB%E6%B3%95"><span class="nav-number">11.</span> <span class="nav-text"> 衣物的画法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A3%E6%9C%8D%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">11.1.</span> <span class="nav-text"> 衣服的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%BB%E6%B3%95%E8%A6%81%E7%82%B9"><span class="nav-number">11.2.</span> <span class="nav-text"> 画法要点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A3%E8%A4%B6"><span class="nav-number">11.3.</span> <span class="nav-text"> 衣褶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A3%E8%A4%B6%E7%9A%84%E6%88%90%E5%9B%A0"><span class="nav-number">11.3.1.</span> <span class="nav-text"> 衣褶的成因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A3%E8%A4%B6%E5%A4%9A%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="nav-number">11.3.2.</span> <span class="nav-text"> 衣褶多的地方</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A4%B6%E7%9A%B1%E7%90%86%E8%AE%BA"><span class="nav-number">11.4.</span> <span class="nav-text"> 褶皱理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E7%82%B9%E6%94%AF%E6%92%91"><span class="nav-number">11.4.1.</span> <span class="nav-text"> 一点支撑</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E4%BD%8D%E7%BD%AE"><span class="nav-number">11.4.1.1.</span> <span class="nav-text"> 常见位置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%82%B9%E6%94%AF%E6%92%91"><span class="nav-number">11.4.2.</span> <span class="nav-text"> 两点支撑</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E4%BD%8D%E7%BD%AE-2"><span class="nav-number">11.4.2.1.</span> <span class="nav-text"> 常见位置：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A4%B6%E7%9A%B1%E7%94%BB%E6%B3%95"><span class="nav-number">11.5.</span> <span class="nav-text"> 褶皱画法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BF%E6%8F%92"><span class="nav-number">11.5.1.</span> <span class="nav-text"> 穿插</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%8F%A0"><span class="nav-number">11.5.2.</span> <span class="nav-text"> 堆叠</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A3%81%E7%BC%9D%E7%BA%BF"><span class="nav-number">11.5.3.</span> <span class="nav-text"> 裁缝线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%B7%E5%8C%BA"><span class="nav-number">11.5.4.</span> <span class="nav-text"> 雷区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E8%A3%85%E7%9A%84%E8%B4%A8%E6%84%9F%E8%BD%AF%E4%B8%8E%E7%A1%AC"><span class="nav-number">11.5.5.</span> <span class="nav-text"> 服装的质感：软与硬</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A3%E7%89%A9%E7%BB%98%E5%88%B6%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">11.6.</span> <span class="nav-text"> 衣物绘制注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9A%E5%BA%A6"><span class="nav-number">11.6.1.</span> <span class="nav-text"> 厚度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E5%AE%9E"><span class="nav-number">11.6.2.</span> <span class="nav-text"> 虚实</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E5%AF%B9%E6%AF%94"><span class="nav-number">11.6.3.</span> <span class="nav-text"> 大小对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jk%E5%88%B6%E6%9C%8D%E7%9A%84%E7%94%BB%E6%B3%95"><span class="nav-number">11.7.</span> <span class="nav-text"> JK制服的画法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB-2"><span class="nav-number">11.7.1.</span> <span class="nav-text"> 分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E5%8C%96"><span class="nav-number">11.7.2.</span> <span class="nav-text"> 变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">11.7.3.</span> <span class="nav-text"> 特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">11.7.4.</span> <span class="nav-text"> 示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%B1%E8%BE%B9%E7%9A%84%E7%94%BB%E6%B3%95"><span class="nav-number">11.8.</span> <span class="nav-text"> 花边的画法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E8%A3%85%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">11.9.</span> <span class="nav-text"> 服装的设计</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/08/21/illustration-human-body/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="日系人体绘画总结 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          日系人体绘画总结<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/illustration-human-body.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-08-21 17:50:24" itemprop="dateCreated datePublished" datetime="2020-08-21T17:50:24-07:00">2020-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 14:51:22" itemprop="dateModified" datetime="2021-03-12T14:51:22-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>17 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="日系画风与现实的区别"><a class="markdownIt-Anchor" href="#日系画风与现实的区别"></a> 日系画风与现实的区别</h2>
+<ul>
+<li>真实的“<strong>三庭五眼</strong>”：
+<ul>
+<li>三庭：<strong>d(发际线, 眉骨) = d(眉骨, 鼻底) = d(鼻底, 下巴)</strong></li>
+<li>五眼：<strong>眼宽=眼间距=眼睛到面部轮廓的距离</strong></li>
+</ul>
+</li>
+<li>眼睛的长度相对真实比例更长的，并不符合三庭五眼中的五眼比例。而是眼睛宽度和眼间距大体相同且较长，而眼睛两边到脸部轮廓的距离更短。</li>
+</ul>
+<img data-src="Screenshot%2520-%25202020-06-12%252022.46.34.png" alt="Screenshot - 2020-06-12 22.46.34" style="zoom:50%;">
+<span id="more"></span>
+<h2 id="日系男生与女生刻画的特点与区别"><a class="markdownIt-Anchor" href="#日系男生与女生刻画的特点与区别"></a> 日系男生与女生刻画的特点与区别</h2>
+<h3 id="女生"><a class="markdownIt-Anchor" href="#女生"></a> 女生</h3>
+<ul>
+<li>头部的高宽比偏小，脸部偏短。</li>
+<li>面部相对较圆，使用更多的曲线。</li>
+<li>五官相对下移，留出更高的额头放刘海。</li>
+<li>眼睛是刻画的重点，它很大。</li>
+<li>眼型偏圆的居多。</li>
+<li>弱化鼻子、嘴巴、<strong>眉毛</strong>等的刻画。</li>
+<li>眉毛和眼睛间距较大。</li>
+<li>表情方面更多的表现出萌、可爱、甜美，总体偏美型。</li>
+</ul>
+<h3 id="男生"><a class="markdownIt-Anchor" href="#男生"></a> 男生</h3>
+<ul>
+<li>头部的高宽比更大，脸部较长，或是更偏向真实比例。</li>
+<li>面部外轮廓使用更多的直线、锐利的线条。</li>
+<li>脸型更方正/直。</li>
+<li>眼睛相对女生来说较小，或说较细，高度较低，但长度还是相对真实比例更长的，并不符合三庭五眼中的五眼比例，而是眼睛宽度和眼间距大体相同且较长，而眼睛两边到脸部轮廓的距离更短。</li>
+<li>眼型偏平行四边形的居多。</li>
+<li>同样眉毛也被着重刻画，意在表现男生的英气、帅气等。</li>
+<li>眉毛和眼睛间距小。</li>
+<li>弱化鼻子和嘴巴的刻画，但又比女生强一点，女生往往可以归结为一个点，而男生还是要刻画的。中老年男人鼻子甚至非常明显。</li>
+<li>表情方面更偏向于酷、帅、冷、不耐烦的感觉。</li>
+</ul>
+<h2 id="日系年龄对面部画法的影响"><a class="markdownIt-Anchor" href="#日系年龄对面部画法的影响"></a> 日系年龄对面部画法的影响</h2>
+<h3 id="男生-2"><a class="markdownIt-Anchor" href="#男生-2"></a> 男生</h3>
+<ul>
+<li>年轻人的用线会相对圆润，越年长线条越锋利。</li>
+<li>年长者的面部转折点会更向上部靠拢，五官也相对向上。</li>
+<li>年长者的眼睛更窄，同样是更加锐利的感觉；而年轻人可以稍微眼睛大一点，高一点，圆一点。</li>
+<li>年长者的眉毛会更尖锐有力。</li>
+<li>年长者的下巴会更宽一些。</li>
+</ul>
+<img data-src="image-20200613182651960.png" alt="image-20200613182651960" style="zoom:50%;">
+<h3 id="女生-2"><a class="markdownIt-Anchor" href="#女生-2"></a> 女生</h3>
+<ul>
+<li>同样，年长者最重要的是脸部转折点上移。</li>
+<li>年长者五官上移。</li>
+<li>年长者眼睛变窄。</li>
+<li>曲线更加有力。</li>
+</ul>
+<img data-src="image-20200613184807549.png" alt="image-20200613184807549" style="zoom:50%;">
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<ul>
+<li>在年龄变化的刻画上，更加着重地去刻画性别的特点，卡点和转折更重。</li>
+</ul>
+<img data-src="image-20200613185226577.png" alt="image-20200613185226577" style="zoom:50%;">
+<ul>
+<li>角色设定是一个把文字设定转为标签化的预设人体特征的过程。比如不同的眼型、不同的睫毛表现、不同的眉毛表现、不同的面部外轮廓等。</li>
+</ul>
+<h2 id="眉眼结构"><a class="markdownIt-Anchor" href="#眉眼结构"></a> 眉眼结构</h2>
+ <img data-src="image-20200614093652461.png" alt="image-20200614093652461" style="zoom:50%;">
+<ul>
+<li>男生眉毛粗，离眼睛近。画的时候要压低、往下放。</li>
+<li>女生眉毛细，离眼睛远。画的时候要提高、往上走。女生眉毛很多时候更像是一条线。</li>
+<li>眉眼的侧视图大致是正视图宽度的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>。</li>
+</ul>
+<img data-src="image-20200614094501368.png" alt="image-20200614094501368" style="zoom:50%;">
+<h2 id="口鼻的画法"><a class="markdownIt-Anchor" href="#口鼻的画法"></a> 口鼻的画法</h2>
+<ul>
+<li>嘴角处要卡点（加重），无论嘴多么小，改卡点的都要卡。嘴的中间要相对画的较虚，若隐若现感觉。</li>
+<li>与真实的人不同，日系画法中往往不刻画上嘴唇，但有时还是会把下嘴唇用一根线带过。</li>
+<li>张开的嘴最好画出牙齿和舌头。</li>
+<li>微笑最好画出左右斜向下箭头的形状。同理，微微噘嘴要画出左右斜向上箭头的形状。</li>
+<li>侧面张开的嘴是梯形的。</li>
+<li>鼻尖也需要卡点。</li>
+<li>男性的鼻子长，嘴巴宽；女性的鼻子小、短，嘴巴窄。</li>
+<li>虽然女生鼻子很多都是一个点，但这个点是有方向和轻重的。方向是面部朝向，而轻重则是点的起笔重（上方），落笔轻（下方）。</li>
+</ul>
+<h3 id="男性口鼻示例"><a class="markdownIt-Anchor" href="#男性口鼻示例"></a> 男性口鼻示例</h3>
+<img data-src="image-20200614150816122.png" alt="image-20200614150816122" style="zoom:50%;">
+<h3 id="女性口鼻示例"><a class="markdownIt-Anchor" href="#女性口鼻示例"></a> 女性口鼻示例</h3>
+<img data-src="image-20200614150929840.png" alt="image-20200614150929840" style="zoom:50%;">
+<h2 id="面部示例"><a class="markdownIt-Anchor" href="#面部示例"></a> 面部示例</h2>
+<h3 id="女生-3"><a class="markdownIt-Anchor" href="#女生-3"></a> 女生</h3>
+<img data-src="image-20200614204900408.png" alt="image-20200614204900408" style="zoom:50%;">
+<h3 id="男生-3"><a class="markdownIt-Anchor" href="#男生-3"></a> 男生</h3>
+<img data-src="image-20200615124628061.png" alt="image-20200615124628061" style="zoom:50%;">
+<h2 id="整体注意事项"><a class="markdownIt-Anchor" href="#整体注意事项"></a> 整体注意事项</h2>
+<ol>
+<li>绘制步骤：找参考-&gt;打型-&gt;细化-&gt;调整</li>
+<li>画的过程中要不断重复一下几个检查：
+<ul>
+<li>头部的角度</li>
+<li>角色性格相对应的五官形状</li>
+<li>不断放大缩小去看位置和透视</li>
+</ul>
+</li>
+</ol>
+<h2 id="头发的绘制"><a class="markdownIt-Anchor" href="#头发的绘制"></a> 头发的绘制</h2>
+<ol>
+<li>
+<p>绘制的顺序：</p>
+<ol>
+<li>观察参考</li>
+<li>确定发心（刘海中心点）或发中线位置</li>
+<li>分块画草图</li>
+<li>细化</li>
+</ol>
+</li>
+<li>
+<p>头发多样性的体现：</p>
+<ol>
+<li>粗细变换</li>
+<li>不能过于对称（粗细、位置高低、头发的根数）</li>
+<li>头发的方向（发旋、贴头弯曲、呆毛和不规则发）</li>
+<li>动态变化</li>
+</ol>
+<img data-src="Screenshot%2520-%25202020-07-08%252023.03.30.png" alt="Screenshot - 2020-07-08 23.03.30" style="zoom:50%;">
+</li>
+<li>
+<p>头发的最大分块可分为：前发（刘海）、中发（一般到脸或肩的侧面头发）和后发。前中都可以没有，但后发一定有。</p>
+</li>
+<li>
+<p>各种发型可以看做各种前中后发的组合。</p>
+</li>
+<li>
+<p>后发不能紧贴头皮，要预留一定距离、体现蓬松感。</p>
+</li>
+<li>
+<p>好的发型的绘制其剪影也是很好看的。</p>
+</li>
+<li>
+<p>注意发梢在脖子周围行程一个圆，而不是直线。这点在短发情况下尤其明显。</p>
+</li>
+<li>
+<p>颈部后面会有短小的头发。</p>
+<img data-src="image-20200709105324243.png" alt="image-20200709105324243" style="zoom:33%;">
+</li>
+<li>
+<p>发梢是头发的灵魂。不同种类的头发其发梢差距由其之大，比如直线型、尖锐型、折叠型等。</p>
+</li>
+<li>
+<p>发梢部分，尤其是后发，尽量往里收，除非发型就是翘的。</p>
+<img data-src="image-20200709095740444.png" alt="image-20200709095740444" style="zoom:50%;">
+</li>
+<li>
+<p>长卷发会偏向成熟魅力的气质、长直发偏向冷酷高贵、短直发更多偏向清纯感和学生感、短卷发偏可爱活力。</p>
+</li>
+<li>
+<p>卷发的基础是一撮头发，每一撮头发的基础是S型线，分清楚里外。先画大的S，最后画装饰线。</p>
+<img data-src="image-20200709102107872.png" alt="image-20200709102107872" style="zoom:50%;">
+</li>
+<li>
+<p>画长发，尤其是长卷发，最重要的是即使线条乱，也不能被线条带节奏，要搞清楚每一片头发的从属关系。</p>
+<img data-src="image-20200709102245876.png" alt="image-20200709102245876" style="zoom:33%;">
+</li>
+</ol>
+<h3 id="辫子"><a class="markdownIt-Anchor" href="#辫子"></a> 辫子</h3>
+<ol>
+<li>
+<p>绘制辫子的时候要尤其注意线条的虚实，营造穿插感。加细节的时候一定要注意碎发也要顺着辫子的大体走势绘制。</p>
+<img data-src="image-20200709104609283.png" alt="image-20200709104609283" style="zoom:50%;">
+</li>
+<li>
+<p>马尾辫：年龄越大、马尾越低。马尾朝向斜向上的辫子要先上升后下降。</p>
+</li>
+<li>
+<p>相较于披散发，辫子的翻转更多。</p>
+</li>
+<li>
+<p>辫子中，总会有一些短的、碎的头发丝无法被扎到辫子主流中，他们构成了有效的细节。</p>
+<p><img data-src="image-20200709105414092.png" alt="image-20200709105414092"></p>
+</li>
+</ol>
+<h3 id="男性头发"><a class="markdownIt-Anchor" href="#男性头发"></a> 男性头发</h3>
+<ol>
+<li>
+<p>男性头发如果是向外翘，显得有攻气；向内卷，显得温柔和受气。</p>
+<img data-src="image-20200709121121242.png" alt="image-20200709121121242" style="zoom:50%;">
+</li>
+<li>
+<p>长发的男性角色，可以直接参照女性头发画法。</p>
+</li>
+</ol>
+<h3 id="发型设计"><a class="markdownIt-Anchor" href="#发型设计"></a> 发型设计</h3>
+<ol>
+<li>
+<p>设计流程：</p>
+<ol>
+<li>分块</li>
+<li>分组（使用不同的元素）</li>
+<li>组合设计</li>
+<li>不同的发型出来上がり～</li>
+</ol>
+<img data-src="image-20200709113650623.png" alt="image-20200709113650623" style="zoom:50%;">
+</li>
+</ol>
+<h2 id="发饰与其他装饰道具的绘制"><a class="markdownIt-Anchor" href="#发饰与其他装饰道具的绘制"></a> 发饰与其他装饰道具的绘制</h2>
+<h3 id="蝴蝶结和蝴蝶结类似物分类"><a class="markdownIt-Anchor" href="#蝴蝶结和蝴蝶结类似物分类"></a> 蝴蝶结和蝴蝶结类似物分类</h3>
+<ol>
+<li>固定形状的，即卖的时候就是打好的那种蝴蝶结。实心、较大，常用作头饰和领结。</li>
+<li>手打的空心蝴蝶结。同样较大，除了头饰和领结，还可以用作围裙后面等。</li>
+<li>飘带。由一根细长扁平的带子打出来的蝴蝶结。易随风飘动，且由于体积较小，需仔细控制。</li>
+<li>小型点缀式的蝴蝶结。用作小型装饰物，出现在头上（发卡）、衣服上、口袋上等等。</li>
+<li>以上的组合和变形。</li>
+</ol>
+<img data-src="image-20200719014529861.png" alt="image-20200719014529861" style="zoom: 60%;">
+<img data-src="image-20200719014444973.png" alt="image-20200719014444973" style="zoom:50%;">
+<img data-src="image-20200719014416132.png" alt="image-20200719014416132" style="zoom:50%;">
+<img data-src="image-20200719014348797.png" alt="image-20200719014348797" style="zoom:50%;">
+<img data-src="image-20200719014322885.png" alt="image-20200719014322885" style="zoom:68%;">
+<h3 id="发库"><a class="markdownIt-Anchor" href="#发库"></a> 发库：</h3>
+<ol>
+<li>注意不能沿着头部轮廓画。</li>
+<li>应该先找出来面部竖直轮廓线，然后保证发库与它垂直。</li>
+<li>尤其注意透视现象，发库的末端结束于耳朵后面。</li>
+</ol>
+<p><img data-src="image-20200719103005141.png" alt="image-20200719103005141"></p>
+<h3 id="帽子"><a class="markdownIt-Anchor" href="#帽子"></a> 帽子</h3>
+<ol>
+<li>
+<p>偏头顶（正）：棒球帽、礼帽、田园风</p>
+</li>
+<li>
+<p>后脑勺：贝雷帽、太阳帽</p>
+</li>
+<li>
+<p>棒球帽的画法：</p>
+<ul>
+<li>帽子的中线与头部中线平齐</li>
+<li>注意帽子的外形</li>
+<li>适当的给帽檐增加厚度</li>
+</ul>
+<img data-src="image-20200719104600298.png" alt="image-20200719104600298" style="zoom:33%;">
+</li>
+<li>
+<p>太阳帽的画法：</p>
+<ul>
+<li>位置偏脑后</li>
+<li>*帽檐的形状</li>
+<li>适当的装饰：缎带、蝴蝶结、鲜花等</li>
+<li>画的时候即使后面的帽檐部分被脑袋遮挡，还是要先画出来、确保左右是连着的线。</li>
+</ul>
+</li>
+</ol>
+<h3 id="眼镜"><a class="markdownIt-Anchor" href="#眼镜"></a> 眼镜</h3>
+<ol>
+<li>
+<p>可爱风：镜框偏大、偏圆、可以抹除上眼镜框。这样的好处是可以避免眼镜挡住眼睛。</p>
+<p><img data-src="image-20200719110203120.png" alt="image-20200719110203120"></p>
+</li>
+<li>
+<p>成熟风：眼型本来就偏小，眼镜也就偏窄。</p>
+<p><img data-src="image-20200719110140108.png" alt="image-20200719110140108"></p>
+</li>
+<li>
+<p>性感风：无镜框、偏窄。</p>
+<p><img data-src="image-20200719110242408.png" alt="image-20200719110242408"></p>
+</li>
+<li>
+<p>搞事派：镜片反光。。。如柯南开始推理、坂本大佬等。</p>
+<p><img data-src="image-20200719110419553.png" alt="image-20200719110419553"></p>
+</li>
+<li>
+<p>画法要点：</p>
+<ul>
+<li>两个关键支点：鼻梁、耳朵</li>
+<li>眼镜中线呈直线型：镜片透视保持一致</li>
+<li>在画眼睛之前先画出来一个能包裹住两个镜片的矩形外框</li>
+</ul>
+</li>
+</ol>
+<h2 id="表情"><a class="markdownIt-Anchor" href="#表情"></a> 表情</h2>
+<h3 id="分类"><a class="markdownIt-Anchor" href="#分类"></a> 分类</h3>
+<ol>
+<li>
+<p>微笑（尴尬而不失礼貌的）</p>
+<img data-src="image-20200724113228668.png" alt="image-20200724113228668" style="zoom:50%;">
+<ol>
+<li>口型就外八字点两点就好，注意卡点</li>
+</ol>
+</li>
+<li>
+<p>开口笑</p>
+<img data-src="image-20200724113253860.png" alt="image-20200724113253860" style="zoom:50%;">
+<ol>
+<li>开口是梯形类似物</li>
+<li>开口的大小要多尝试，因为不同人物适合的大小并不相同</li>
+</ol>
+</li>
+<li>
+<p>狂笑</p>
+<img data-src="image-20200724113443615.png" alt="image-20200724113443615" style="zoom:50%;">
+</li>
+<li>
+<p>闭眼笑</p>
+<ol>
+<li>眼睛即使闭上了也不是一条单调的线，而是有形状有细节的</li>
+<li>那条线在之前上下眼睑中间</li>
+</ol>
+</li>
+<li>
+<p>怒（攻气、傲慢、盛气凌人）</p>
+<img data-src="image-20200724113521388.png" alt="image-20200724113521388" style="zoom:50%;">
+<ol>
+<li>眼角上扬</li>
+<li>眉毛外八字，也是上扬</li>
+<li>嘴中间向上弯曲（即曲线向上凸）</li>
+</ol>
+</li>
+<li>
+<p>哀（受气、可怜）</p>
+<img data-src="image-20200724113548199.png" alt="image-20200724113548199" style="zoom:50%;">
+<ol>
+<li>眼角向下撇</li>
+<li>眉毛正八字</li>
+<li>嘴会很小</li>
+</ol>
+</li>
+<li>
+<p>三无少女</p>
+<img data-src="image-20200724113639102.png" alt="image-20200724113639102" style="zoom:50%;">
+<ol>
+<li>无口无心无表情</li>
+<li>嘴部很小很小，一般就是一个点</li>
+<li>由于本来角色就不怎么有表情，所以眼睛和眉毛移一直都是放松状态</li>
+</ol>
+</li>
+<li>
+<p>邪魅一笑（色气）</p>
+<img data-src="image-20200724111805983.png" alt="image-20200724111805983" style="zoom:42%;">
+<ol>
+<li>面部红晕</li>
+<li>特制笑容</li>
+</ol>
+</li>
+<li>
+<p>微微哭泣</p>
+<img data-src="image-20200724112336854.png" alt="image-20200724112336854" style="zoom:33%;">
+<ol>
+<li>委屈+抿嘴</li>
+<li>少量眼角泪花</li>
+<li>面颊红晕</li>
+</ol>
+</li>
+<li>
+<p>大哭</p>
+<img data-src="image-20200724110336117.png" alt="image-20200724110336117" style="zoom:33%;">
+<ol>
+<li>委屈加强版，眉毛继续八字</li>
+<li>眼睛高度减小，下眼睑向上挤压</li>
+<li>有眼泪元素</li>
+<li>嘴张开，露牙齿</li>
+<li>面颊红晕</li>
+</ol>
+</li>
+<li>
+<p>害羞</p>
+<ol>
+<li>大片的面部红晕，可以覆盖眼睛下面一长条包括鼻子位置</li>
+</ol>
+</li>
+<li>
+<p>傲娇</p>
+<img data-src="image-20200724112224823.png" alt="image-20200724112224823" style="zoom:33%;">
+<ol>
+<li>害羞+怒</li>
+<li>可以用微汗点缀</li>
+<li>小虎牙</li>
+</ol>
+</li>
+<li>
+<p>病娇（诡异）</p>
+<img data-src="image-20200724110015171.png" alt="image-20200724110015171" style="zoom:33%;">
+<ol>
+<li>眼球和上眼睑不是连着的，之间隔着一点眼白</li>
+<li>嘴部有不对称元素</li>
+<li>视角可偏仰视</li>
+</ol>
+</li>
+</ol>
+<h3 id="复杂表情构成"><a class="markdownIt-Anchor" href="#复杂表情构成"></a> 复杂表情构成</h3>
+<ol>
+<li>基础表情（不同程度的笑、哭、哀）</li>
+<li>不同角度、身体转向（比如表现委屈、惹人怜爱、哭泣可以采用俯视，而表现惊悚和恶役则可使用仰视，元气可爱灵动可用各种侧视图等）</li>
+<li>肢体动作（如手部动作）</li>
+</ol>
+<h3 id="漫画与插画的区别"><a class="markdownIt-Anchor" href="#漫画与插画的区别"></a> 漫画与插画的区别</h3>
+<ul>
+<li>相较于漫画，插画更偏向于整体人物的唯美性，表情一般不会很夸张，笑脸会占据大半。</li>
+<li>漫画则相对束缚较小，可以画各种各样奇奇怪怪的夸张表情来凸显人物心情和推动剧情。</li>
+</ul>
+<img data-src="image-20200724120144027.png" alt="image-20200724120144027" style="zoom:50%;">
+<h2 id="衣物的画法"><a class="markdownIt-Anchor" href="#衣物的画法"></a> 衣物的画法</h2>
+<h3 id="衣服的分类"><a class="markdownIt-Anchor" href="#衣服的分类"></a> 衣服的分类</h3>
+<p><strong>女生：</strong> 制服（JK）、女仆装、泳装、和风服饰（和服、浴衣）、LOLITA、idol（舞台装）</p>
+<p><strong>男生：</strong> 衬衫、西服、卫衣、T恤</p>
+<h3 id="画法要点"><a class="markdownIt-Anchor" href="#画法要点"></a> 画法要点</h3>
+<ol>
+<li>注意与人物形体的关系，不要直接画衣服</li>
+<li>受力情况</li>
+<li>搭配、元素组合</li>
+<li>设计（饰品）</li>
+<li>参与构图</li>
+</ol>
+<h3 id="衣褶"><a class="markdownIt-Anchor" href="#衣褶"></a> 衣褶</h3>
+<h4 id="衣褶的成因"><a class="markdownIt-Anchor" href="#衣褶的成因"></a> 衣褶的成因</h4>
+<ul>
+<li>衣褶是受支撑点和地心引力的拉力影响而形成的褶皱。</li>
+<li>如果没有内部结构就没有布纹衣褶的存在。</li>
+<li>拉伸的力抹平衣褶，收缩的力形成衣褶。</li>
+</ul>
+<img data-src="image-20200726104737094.png" alt="image-20200726104737094" style="zoom:33%;">
+<h4 id="衣褶多的地方"><a class="markdownIt-Anchor" href="#衣褶多的地方"></a> 衣褶多的地方</h4>
+<ul>
+<li>和内部支撑物之间空间较大的地方（宽松领口、古人衣服、宽松袖子、卫衣腰部）（相反：紧身衣、内衣、丝袜）</li>
+<li>受到收缩外力明显的地方（腰带处、袖口、撸起来的袖子、关节内缩侧）（相反：关节绷紧侧）</li>
+</ul>
+<img data-src="Screenshot%2520-%25202020-07-26%252010.48.59.png" alt="Screenshot - 2020-07-26 10.48.59" style="zoom:50%;">
+<ul>
+<li>
+<p>人体中衣褶多的位置列举：</p>
+<ul>
+<li>领口</li>
+<li>腋下</li>
+<li>弯曲的胳膊腿的内侧</li>
+<li>腰部</li>
+<li>裆部（裤褶、裙褶）</li>
+<li>裤脚</li>
+<li>其他所有的有转折的地方</li>
+<li>妹子胸部下部</li>
+<li>腰带、绳带处</li>
+<li>扣子处</li>
+</ul>
+<img data-src="image-20200726110314572.png" alt="image-20200726110314572" style="zoom:33%;">
+</li>
+</ul>
+<h3 id="褶皱理论"><a class="markdownIt-Anchor" href="#褶皱理论"></a> 褶皱理论</h3>
+<h4 id="一点支撑"><a class="markdownIt-Anchor" href="#一点支撑"></a> 一点支撑</h4>
+<p>褶皱形状：放射状</p>
+<p><img data-src="image-20200726111529235.png" alt="image-20200726111529235"></p>
+<h5 id="常见位置"><a class="markdownIt-Anchor" href="#常见位置"></a> 常见位置</h5>
+<ul>
+<li>肩部</li>
+<li>胸部中下侧</li>
+<li>绳带</li>
+<li>膝盖</li>
+<li>手肘</li>
+</ul>
+<h4 id="两点支撑"><a class="markdownIt-Anchor" href="#两点支撑"></a> 两点支撑</h4>
+<p>两点支撑可以看做两个一点支撑去掉内侧的线然后连起来。</p>
+<img data-src="image-20200726112319409.png" alt="image-20200726112319409" style="zoom:40%;">
+<h5 id="常见位置-2"><a class="markdownIt-Anchor" href="#常见位置-2"></a> 常见位置：</h5>
+<ul>
+<li>领口</li>
+<li>腰部（胯）</li>
+<li>宽松的XX（袖子、裤子、腰）</li>
+</ul>
+<img data-src="image-20200726112701126.png" alt="image-20200726112701126" style="zoom:33%;">
+<img data-src="image-20200726112803185.png" alt="image-20200726112803185" style="zoom:33%;">
+<h3 id="褶皱画法"><a class="markdownIt-Anchor" href="#褶皱画法"></a> 褶皱画法</h3>
+<h4 id="穿插"><a class="markdownIt-Anchor" href="#穿插"></a> 穿插</h4>
+<p>简单的说，穿插就是A插到了B里面。由于褶皱弯曲，有时候会鼓起来突出一块，其效果就是下游的布料插进了上游的布料所形成的褶子里面。</p>
+<img data-src="image-20200726120758174.png" alt="image-20200726120758174" style="zoom:50%;">
+<img data-src="image-20200726120727471.png" alt="image-20200726120727471" style="zoom:50%;">
+<p>由于视角的不同，让穿插呈现出2中绘制结构。</p>
+<p>运用范围：衣袖、腰部、手肘（弯曲）、腿部（弯曲）。。。</p>
+<h4 id="堆叠"><a class="markdownIt-Anchor" href="#堆叠"></a> 堆叠</h4>
+<p>堆叠，即把过长的部分堆起来。其形如阶梯，但各阶形异。论其走线，莫有完全平行者，目之所及，皆为交错向下；间有内陷，若小水洼。</p>
+<img data-src="image-20200726141313049.png" alt="image-20200726141313049" style="zoom:50%;">
+<h4 id="裁缝线"><a class="markdownIt-Anchor" href="#裁缝线"></a> 裁缝线</h4>
+<ul>
+<li>
+<p>作用：分摊拉力。假设如果没有裁缝线时只有几个大的衣褶纹路，此时加上一根裁缝线，则在原来的褶皱纹路基础上会出现许多细小的褶子，此即为所谓“分摊拉力”。</p>
+<img data-src="image-20200730133455227.png" alt="image-20200730133455227" style="zoom:33%;">
+</li>
+</ul>
+<h4 id="雷区"><a class="markdownIt-Anchor" href="#雷区"></a> 雷区</h4>
+<ol>
+<li>褶皱太少，状似铁皮（布的质感）</li>
+<li>衣褶过多，如着破布（不美观）</li>
+<li>衣褶位置不对</li>
+<li>线条太实或太虚</li>
+</ol>
+<h4 id="服装的质感软与硬"><a class="markdownIt-Anchor" href="#服装的质感软与硬"></a> 服装的质感：软与硬</h4>
+<ul>
+<li>软的衣服（如水手服、T恤）：
+<ul>
+<li>褶皱相对偏多</li>
+<li>褶皱规律性弱</li>
+<li>褶皱线条柔软</li>
+<li>布纹偏多</li>
+</ul>
+</li>
+<li>硬的衣服（如西服、制服）：
+<ul>
+<li>褶皱相对较少</li>
+<li>褶皱规律相对较强</li>
+<li>褶皱线条偏硬</li>
+<li>布纹偏少</li>
+</ul>
+</li>
+<li>实际区分方法：线条</li>
+</ul>
+<h3 id="衣物绘制注意事项"><a class="markdownIt-Anchor" href="#衣物绘制注意事项"></a> 衣物绘制注意事项</h3>
+<h4 id="厚度"><a class="markdownIt-Anchor" href="#厚度"></a> 厚度</h4>
+<p>布是有厚度的，我们画布的时候要注意在垂下的边角处线与线的交汇处不要接死，留出一定的空隙以体现布料的厚度。</p>
+<img data-src="image-20200730134510170.png" alt="image-20200730134510170" style="zoom:33%;">
+<h4 id="虚实"><a class="markdownIt-Anchor" href="#虚实"></a> 虚实</h4>
+<p>我们在画衣褶的时候要注意线的虚实变化。交代清楚线的虚实，衣纹会更有活力，更生动。</p>
+<p>外粗里细，主要褶皱粗、次要衣纹细。</p>
+<h4 id="大小对比"><a class="markdownIt-Anchor" href="#大小对比"></a> 大小对比</h4>
+<p>我们画衣纹的时候也要注意有大小对比，不要把每一个纹路画的一样大，这样会显得呆板无趣。</p>
+<img data-src="image-20200730135011004.png" alt="image-20200730135011004" style="zoom:33%;">
+<h3 id="jk制服的画法"><a class="markdownIt-Anchor" href="#jk制服的画法"></a> JK制服的画法</h3>
+<h4 id="分类-2"><a class="markdownIt-Anchor" href="#分类-2"></a> 分类</h4>
+<p><strong>上衣</strong>：水手服、衬衫+（∅、针织衫、西服、马甲、背心）</p>
+<p><strong>裙子</strong>：格子裙、净色裙、净色+条纹</p>
+<p><strong>领饰</strong>：领绳、领带、领结、领巾</p>
+<h4 id="变化"><a class="markdownIt-Anchor" href="#变化"></a> 变化</h4>
+<p><strong>领口</strong>：圆领、尖领；长领口、短领口（向下延伸长度）；领子上带条纹、不带条纹</p>
+<img data-src="image-20200811011515263.png" alt="image-20200811011515263" style="zoom:50%;">
+<img data-src="image-20200811011529584.png" alt="image-20200811011529584" style="zoom: 33%;">
+<p><strong>百褶裙堆叠方式</strong>：上下上下式、阶梯式</p>
+<img data-src="image-20200811011403507.png" alt="image-20200811011403507" style="zoom: 33%;">
+<h4 id="特点"><a class="markdownIt-Anchor" href="#特点"></a> 特点</h4>
+<ol>
+<li>水手服并不是收腰紧身的，而是使用了相对较硬的材质、在胸部以下更偏向线性延伸的。</li>
+</ol>
+<h4 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h4>
+<img data-src="image-20200811013940137.png" alt="image-20200811013940137" style="zoom:33%;">
+<h3 id="花边的画法"><a class="markdownIt-Anchor" href="#花边的画法"></a> 花边的画法</h3>
+<img data-src="image-20200811112029242.png" alt="image-20200811112029242" style="zoom:33%;">
+<h3 id="服装的设计"><a class="markdownIt-Anchor" href="#服装的设计"></a> 服装的设计</h3>
+<ol>
+<li>元素的组合——主元素、辅元素。如以和风为主，但辅以花边和宽松裙摆等Lolita的设计。</li>
+<li>变形：打破传统，求异。如传统的和服袖子都很长，领结都在领子下面，而求异的设计就可以把和服的袖子缩短、领结直接绑在颈部。</li>
+<li>切割：衣服的虚与实。这里的实指的是有布料覆盖的地方，而虚则是指切开露出、没有布料覆盖的位置。虚的位置往往可以出现在肩部、腰部、腿部、胳膊等。</li>
+<li>对比：
+<ol>
+<li>体积的对比（大、小）</li>
+<li>长度的对比（长、短）</li>
+<li>娇小的角色穿宽松较大的服装（如埃罗芒阿老师、点兔、小埋）。宽大的衣服更显得角色本身的娇小。</li>
+<li>性感的角色产布料较少的衣服，突出其身材</li>
+</ol>
+</li>
+<li>剪影：整体上突出主元素</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/art/" rel="tag"># art</a>
+              <a href="/tags/painting/" rel="tag"># painting</a>
+              <a href="/tags/human-body/" rel="tag"># human-body</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/05/cascade-recursive/" rel="prev" title="Cascade, Recursive, Residual and Dense 辨析">
+                  <i class="fa fa-chevron-left"></i> Cascade, Recursive, Residual and Dense 辨析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/12/illustration-composition/" rel="next" title="日系绘画构图">
+                  日系绘画构图 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

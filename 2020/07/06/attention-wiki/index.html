@@ -1,37 +1,549 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Attention的本质可以看做加权求和。  Attention 的 N 种类型  Attention 有很多种不同的类型：Soft Attention、Hard Attention、静态 Attention、动态 Attention、Self Attention 等等。上图为各种Attention的分类，下面是这些不同的 Attention 的解释。 由于这篇文章《Attention 用于 NL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attention 从分类到实现细节">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Attention的本质可以看做加权求和。  Attention 的 N 种类型  Attention 有很多种不同的类型：Soft Attention、Hard Attention、静态 Attention、动态 Attention、Self Attention 等等。上图为各种Attention的分类，下面是这些不同的 Attention 的解释。 由于这篇文章《Attention 用于 NL">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/image-20200705230846450.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/v2-1e08348b226f4e2f08c89ae6e5d7fcda_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/v2-2c7e48868e98202b6c3af3a7aa4ea987_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/v2-3cd76d3e0d8a20d87dfa586b56cc1ad3_1440w.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/transformer_resideual_layer_norm_3.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/self-attention-output.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/self-attention-matrix-calculation.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/self-attention-matrix-calculation-2.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/seq2seq.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/image-20200705230609732.png">
+<meta property="article:published_time" content="2020-07-07T00:13:30.000Z">
+<meta property="article:modified_time" content="2021-03-12T22:16:17.487Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="attention">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/07/06/attention-wiki/image-20200705230846450.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2020/07/06/attention-wiki/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2020/07/06/attention-wiki/","path":"2020/07/06/attention-wiki/","title":"Attention 从分类到实现细节"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Attention 从分类到实现细节 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#attention-%E7%9A%84-n-%E7%A7%8D%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text"> Attention 的 N 种类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.1.</span> <span class="nav-text"> 1. 计算区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%80%E7%94%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text"> 2. 所用信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BB%93%E6%9E%84%E5%B1%82%E6%AC%A1"><span class="nav-number">1.3.</span> <span class="nav-text"> 3. 结构层次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A8%A1%E5%9E%8B%E6%96%B9%E9%9D%A2"><span class="nav-number">1.4.</span> <span class="nav-text"> 4. 模型方面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1cnnattention"><span class="nav-number">1.4.1.</span> <span class="nav-text"> 1）CNN+Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2lstmattention"><span class="nav-number">1.4.2.</span> <span class="nav-text"> 2）LSTM+Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E7%BA%AF-attention"><span class="nav-number">1.4.3.</span> <span class="nav-text"> 3）纯 Attention</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text"> 5. 相似度计算方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-decoder%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text"> Encoder-Decoder模型结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text"> 网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#embedding"><span class="nav-number">3.1.</span> <span class="nav-text"> Embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bmm"><span class="nav-number">3.2.</span> <span class="nav-text"> BMM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-attention-%E4%B8%8E-general-attention%E5%9C%A8%E5%AE%9E%E7%8E%B0%E4%B8%8A%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text"> Self-Attention 与 General Attention在实现上的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text"> Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/07/06/attention-wiki/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Attention 从分类到实现细节 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Attention 从分类到实现细节<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/attention-wiki.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-07-06 17:13:30" itemprop="dateCreated datePublished" datetime="2020-07-06T17:13:30-07:00">2020-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 14:16:17" itemprop="dateModified" datetime="2021-03-12T14:16:17-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>13 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Attention的本质可以看做加权求和。</p>
+<h2 id="attention-的-n-种类型"><a class="markdownIt-Anchor" href="#attention-的-n-种类型"></a> Attention 的 N 种类型</h2>
+<p><img data-src="image-20200705230846450.png" alt="image-20200705230846450"></p>
+<p>Attention 有很多种不同的类型：Soft Attention、Hard Attention、静态 Attention、动态 Attention、Self Attention 等等。上图为各种Attention的分类，下面是这些不同的 Attention 的解释。</p>
+<p>由于这篇文章《<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35739040">Attention 用于 NLP 的一些小结</a>》已经总结的很好的，下面就直接引用了：</p>
+<p>本节从计算区域、所用信息、结构层次和模型等方面对 Attention 的形式进行归类。</p>
+<span id="more"></span>
+<h3 id="1-计算区域"><a class="markdownIt-Anchor" href="#1-计算区域"></a> <strong>1. 计算区域</strong></h3>
+<p>根据 Attention 的计算区域，可以分成以下几种：</p>
+<p>1）<strong>Soft</strong> Attention，这是比较常见的 Attention 方式，对所有 key 求权重概率，每个 key 都有一个对应的权重，是一种全局的计算方式（也可以叫 Global Attention）。这种方式比较理性，参考了所有 key 的内容，再进行加权。但是计算量可能会比较大一些。</p>
+<p>2）<strong>Hard</strong> Attention，这种方式是直接精准定位到某个 key，其余 key 就都不管了，相当于这个 key 的概率是 1，其余 key 的概率全部是 0。因此这种对齐方式要求很高，要求一步到位，如果没有正确对齐，会带来很大的影响。另一方面，因为不可导，一般需要用强化学习的方法进行训练。（或者使用 gumbel softmax 之类的）</p>
+<p>3）<strong>Local</strong> Attention，这种方式其实是以上两种方式的一个折中，对一个窗口区域进行计算。先用 Hard 方式定位到某个地方，以这个点为中心可以得到一个窗口区域，在这个小区域内用 Soft 方式来算 Attention。</p>
+<h3 id="2-所用信息"><a class="markdownIt-Anchor" href="#2-所用信息"></a> <strong>2. 所用信息</strong></h3>
+<p>假设我们要对一段原文计算 Attention，这里原文指的是我们要做 attention 的文本，那么所用信息包括内部信息和外部信息，内部信息指的是原文本身的信息，而外部信息指的是除原文以外的额外信息。</p>
+<p>1）<strong>General</strong> Attention，这种方式利用到了外部信息，常用于需要构建两段文本关系的任务，query 一般包含了额外信息，根据外部 query 对原文进行对齐。</p>
+<p>简单判定依据：<strong>计算Attention时，有没有用到除了被Attention向量以外的向量。</strong></p>
+<p>比如在阅读理解任务中，需要构建问题和文章的关联，假设现在 baseline 是，对问题计算出一个问题向量 q，把这个 q 和所有的文章词向量拼接起来，输入到 LSTM中进行建模。那么在这个模型中，文章所有词向量共享同一个问题向量，现在我们想让文章每一步的词向量都有一个不同的问题向量，也就是，在每一步使用文章在该步下的词向量对问题来算 attention，这里问题属于原文，文章词向量就属于外部信息。</p>
+<p><img data-src="v2-1e08348b226f4e2f08c89ae6e5d7fcda_1440w.jpg" alt="img"></p>
+<p>2）<strong>Self</strong> Attention，这种方式只使用内部信息，key 和 value 以及 query 只和输入原文有关，在 self attention 中，key=value=query。既然没有外部信息，那么在原文中的每个词可以跟该句子中的所有词进行 Attention 计算，相当于寻找原文内部的关系。</p>
+<p>还是举阅读理解任务的例子，上面的 baseline 中提到，对问题计算出一个向量 q，那么这里也可以用上 attention，只用问题自身的信息去做 attention，而不引入文章信息。</p>
+<p>同样是在Encoder-Decoder模型中，它的实现方法是Encoder部分堆叠了两层。</p>
+<img data-src="v2-2c7e48868e98202b6c3af3a7aa4ea987_1440w.jpg" alt="img" style="zoom:50%;">
+<h3 id="3-结构层次"><a class="markdownIt-Anchor" href="#3-结构层次"></a> <strong>3. 结构层次</strong></h3>
+<p>结构方面根据是否划分层次关系，分为单层 attention，多层 attention 和多头 attention：</p>
+<p>1）单层 Attention，这是比较普遍的做法，用一个 query 对一段原文进行一次 attention。</p>
+<p>2）多层 Attention，一般用于文本具有层次关系的模型，假设我们把一个 document 划分成多个句子，在第一层，我们分别对每个句子使用 attention 计算出一个句向量（也就是单层 attention）；在第二层，我们对所有句向量再做 attention 计算出一个文档向量（也是一个单层 attention），最后再用这个文档向量去做任务。</p>
+<p>3）多头 Attention，这是 Attention is All You Need 中提到的 multi-head attention，用到了多个 query 对一段原文进行了多次 attention，每个 query 都关注到原文的不同部分，相当于重复做多次单层 attention：$$head_i=Attention(q_i,K,V)$$</p>
+<p>最后再把这些结果拼接起来：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>H</mi><mi>e</mi><mi>a</mi><mi>d</mi><mo stretchy="false">(</mo><mi>Q</mi><mo separator="true">,</mo><mi>K</mi><mo separator="true">,</mo><mi>V</mi><mo stretchy="false">)</mo><mo>=</mo><mi>C</mi><mi>o</mi><mi>n</mi><mi>c</mi><mi>a</mi><mi>t</mi><mo stretchy="false">(</mo><mi>h</mi><mi>e</mi><mi>a</mi><msub><mi>d</mi><mn>1</mn></msub><mo separator="true">,</mo><mi>h</mi><mi>e</mi><mi>a</mi><msub><mi>d</mi><mn>2</mn></msub><mo separator="true">,</mo><mi>h</mi><mi>e</mi><mi>a</mi><msub><mi>d</mi><mn>3</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><mi>h</mi><mi>e</mi><mi>a</mi><msub><mi>d</mi><mi>n</mi></msub><mo stretchy="false">)</mo><msup><mi>W</mi><mi>O</mi></msup></mrow><annotation encoding="application/x-tex">MultiHead(Q, K, V)=Concat(head_1,head_2,head_3,...,head_n)W^O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">Q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.0913309999999998em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">O</span></span></span></span></span></span></span></span></span></span></span></p>
+<p><img data-src="v2-3cd76d3e0d8a20d87dfa586b56cc1ad3_1440w.jpg" alt="img"></p>
+<h3 id="4-模型方面"><a class="markdownIt-Anchor" href="#4-模型方面"></a> <strong>4. 模型方面</strong></h3>
+<p>从模型上看，Attention 一般用在 CNN 和 LSTM 上，也可以直接进行纯 Attention 计算。</p>
+<h4 id="1cnnattention"><a class="markdownIt-Anchor" href="#1cnnattention"></a> <strong>1）CNN+Attention</strong></h4>
+<p>CNN 的卷积操作可以提取重要特征，我觉得这也算是 Attention 的思想，但是 CNN 的卷积感受视野是局部的，需要通过叠加多层卷积区去扩大视野。另外，Max Pooling 直接提取数值最大的特征，也像是 hard attention 的思想，直接选中某个特征。</p>
+<p>CNN 上加 Attention 可以加在这几方面：</p>
+<p>a. 在卷积操作前做 attention，比如 Attention-Based BCNN-1，这个任务是文本蕴含任务需要处理两段文本，同时对两段输入的序列向量进行 attention，计算出特征向量，再拼接到原始向量中，作为卷积层的输入。</p>
+<p>b. 在卷积操作后做 attention，比如 Attention-Based BCNN-2，对两段文本的卷积层的输出做 attention，作为 pooling 层的输入。</p>
+<p>c. 在 pooling 层做 attention，代替 max pooling。比如 Attention pooling，首先我们用 LSTM 学到一个比较好的句向量，作为 query，然后用 CNN 先学习到一个特征矩阵作为 key，再用 query 对 key 产生权重，进行 attention，得到最后的句向量。</p>
+<h4 id="2lstmattention"><a class="markdownIt-Anchor" href="#2lstmattention"></a> <strong>2）LSTM+Attention</strong></h4>
+<p>LSTM 内部有 Gate 机制，其中 input gate 选择哪些当前信息进行输入，forget gate 选择遗忘哪些过去信息，我觉得这算是一定程度的 Attention 了，而且号称可以解决长期依赖问题，实际上 LSTM 需要一步一步去捕捉序列信息，在长文本上的表现是会随着 step 增加而慢慢衰减，难以保留全部的有用信息。</p>
+<p>LSTM 通常需要得到一个向量，再去做任务，常用方式有：</p>
+<p>a. 直接使用最后的 hidden state（可能会损失一定的前文信息，难以表达全文）</p>
+<p>b. 对所有 step 下的 hidden state 进行等权平均（对所有 step 一视同仁）。</p>
+<p>c. Attention 机制，对所有 step 的 hidden state 进行加权，把注意力集中到整段文本中比较重要的 hidden state 信息。性能比前面两种要好一点，而方便可视化观察哪些 step 是重要的，但是要小心过拟合，而且也增加了计算量。</p>
+<h4 id="3纯-attention"><a class="markdownIt-Anchor" href="#3纯-attention"></a> <strong>3）纯 Attention</strong></h4>
+<p>Attention is all you need，没有用到 CNN/RNN，乍一听也是一股清流了，但是仔细一看，本质上还是一堆向量去计算 attention。本文提出了Transformer。Transformer 也可以视为一种自带Attention机制的RNN。它使用了问题、键、值三个向量，让权重的计算变得更加细致。</p>
+<p>Transformer可以说是集近些年的研究之于大成。里面涉及到很多很多技术点，包括：</p>
+<ul>
+<li>Feed Forward Network</li>
+<li>ResNet的思想</li>
+<li>Positional Embedding 解决输入时序问题</li>
+<li>Layer Normalization</li>
+<li>Decoder中的Masked Self-Attention</li>
+</ul>
+<p><img data-src="transformer_resideual_layer_norm_3.png" alt="img"></p>
+<img data-src="self-attention-output.png" alt="img" style="zoom:50%;">
+<img data-src="self-attention-matrix-calculation.png" alt="img" style="zoom:50%;">
+<img data-src="self-attention-matrix-calculation-2.png" alt="img" style="zoom:50%;">
+<h3 id="5-相似度计算方式"><a class="markdownIt-Anchor" href="#5-相似度计算方式"></a> <strong>5. 相似度计算方式</strong></h3>
+<p>在做 attention 的时候，我们需要计算 query 和某个 key 的分数（相似度），常用方法有：</p>
+<p>1）点乘：最简单的方法， <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>q</mi><mi>T</mi></msup><mi>k</mi></mrow><annotation encoding="application/x-tex">s(q,k)=q^Tk</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.035771em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></p>
+<p>2）矩阵相乘： <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>q</mi><mi>T</mi></msup><mi>W</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">s(q,k)=q^TWk</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.035771em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></p>
+<p>3）cos 相似度： $$s(q,k)=\frac{q^T}{||q||·||k||}$$</p>
+<p>4）串联方式：把 q 和 k 拼接起来， $$s(q,k)=W[q;k]$$</p>
+<p>5）用多层感知机也可以： $$s(q,k)=v^T_atanh(Wq+Uk)$$</p>
+<h2 id="encoder-decoder模型结构"><a class="markdownIt-Anchor" href="#encoder-decoder模型结构"></a> Encoder-Decoder模型结构</h2>
+<p>以机器翻译模型为例：<a target="_blank" rel="noopener" href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html">原文</a></p>
+<p><img data-src="seq2seq.png" alt="img"></p>
+<p><img data-src="image-20200705230609732.png" alt="image-20200705230609732"></p>
+<ul>
+<li>Encoder的输入是句子中每个词对应的数字编号的序列，输出的是RNN每一个Cell的相应Output Vector（或是一次只输入一个词的编号，然后每次得到一个Output，最后拼成一个List）。其RNN的初始Hidden Layer是随机初始化（Random、全0）的。</li>
+<li>Decoder的第一个输入是句子起始符<SOS>，数字编码可以为0，然后Hidden Layer使用Encoder的最后一个Hidden Layer Value初始化。每次只输入一个Input数字编号，然后下一次的Input或使用上次的预测结果，或是使用Output Label的相应值。前者被称作<em>Teacher Forcing</em>，后者是<em>Without Teacher Forcing</em>。</SOS></li>
+<li>Attention是加在Decoder上的。Decoder 的input会先做embedding，之后么embedding和Hidden Layer参数Concate到一起，再过一个FC（<strong>过FC就相当于乘上了一个变换矩阵了</strong>）就得到了Attention。这个算出来的Attention再和Encoder的output做一个<code>torch.bmm</code>矩阵乘法（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>B</mi><mi>a</mi><mi>t</mi><mi>c</mi><mi>h</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo>∗</mo><mn>1</mn><mo>∗</mo><mi>L</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi><mo stretchy="false">]</mo><mo>∗</mo><mo stretchy="false">[</mo><mi>B</mi><mi>a</mi><mi>t</mi><mi>c</mi><mi>h</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo>∗</mo><mi>L</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi><mo>∗</mo><mi>H</mi><mi>i</mi><mi>d</mi><mi>d</mi><mi>e</mi><mi>n</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[Batch\_Size*1*Length]*[Batch\_Size*Length*Hidden\_Size]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">c</span><span class="mord mathnormal">h</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">c</span><span class="mord mathnormal">h</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">t</span><span class="mord mathnormal">h</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span><span class="mclose">]</span></span></span></span>），得到一个向量([<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>a</mi><mi>t</mi><mi>c</mi><mi>h</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo>∗</mo><mn>1</mn><mo>∗</mo><mi>H</mi><mi>i</mi><mi>d</mi><mi>d</mi><mi>e</mi><mi>n</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Batch\_Size*1*Hidden\_Size</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">c</span><span class="mord mathnormal">h</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span></span></span></span>])，这个数值即为该input过了Attention后的值。该值再和embedding后的值([<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>a</mi><mi>t</mi><mi>c</mi><mi>h</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo>∗</mo><mn>1</mn><mo>∗</mo><mi>H</mi><mi>i</mi><mi>d</mi><mi>d</mi><mi>e</mi><mi>n</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Batch\_Size*1*Hidden\_Size</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">c</span><span class="mord mathnormal">h</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span></span></span></span>]) 使用Concate拼到一起，过一个FC，输出一个([<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>a</mi><mi>t</mi><mi>c</mi><mi>h</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi><mo>∗</mo><mn>1</mn><mo>∗</mo><mi>H</mi><mi>i</mi><mi>d</mi><mi>d</mi><mi>e</mi><mi>n</mi><mi mathvariant="normal">_</mi><mi>S</mi><mi>i</mi><mi>z</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Batch\_Size*1*Hidden\_Size</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">c</span><span class="mord mathnormal">h</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord mathnormal">e</span></span></span></span>])的向量，它便是施加了Attention后的Input。这里本质上使用了前面提到的权值计算方法中的 <strong>串联方式</strong>。</li>
+<li>简单说，decoder的input和hidden layer只是用来计算encoder各个cell的output的权重的。每个output有着hidden_size维度，他们最终按照attention作为加权求和。或是说：<strong>Decoder中每一个Cell，去Encoder中寻找最相关的记忆。</strong></li>
+</ul>
+<h2 id="网络结构"><a class="markdownIt-Anchor" href="#网络结构"></a> 网络结构</h2>
+<h3 id="embedding"><a class="markdownIt-Anchor" href="#embedding"></a> <code>Embedding</code></h3>
+<p><code>torch.nn.Embedding(*num_embeddings: int*, *embedding_dim: int*)</code></p>
+<blockquote>
+<p>To summarize <code>num_embeddings</code> is total number of unique elements in the vocabulary, and <code>embedding_dim</code> is the size of each embedded vector once passed through the embedding layer. Therefore, you can have a tensor of 10+ elements, as long as each element in the tensor is in the range <code>[0, 9]</code>, because you defined a vocabulary size of 10 elements.</p>
+</blockquote>
+<p>即第一个数<code>num_embedding</code>指的是你的输入中有多少可能的值，或者说语料库的大小；第二个数<code>embedding_dim</code>指的是给定一个input（一个digit），输出几个digit。</p>
+<h3 id="bmm"><a class="markdownIt-Anchor" href="#bmm"></a> <code>BMM</code></h3>
+<p><code>torch.bmm(*input*, *mat2*, *deterministic=False*, *out=None*) → Tensor</code></p>
+<blockquote>
+<p>Performs a batch matrix-matrix product of matrices stored in <code>input</code> and <code>mat2</code>.</p>
+<p><code>input</code> and <code>mat2</code> must be 3-D tensors each containing the same number of matrices.</p>
+<p>If <code>input</code> is a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>b</mi><mo>×</mo><mi>n</mi><mo>×</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(b \times n \times m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span> tensor, <code>mat2</code> is a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>b</mi><mo>×</mo><mi>m</mi><mo>×</mo><mi>p</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(b \times m \times p)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mclose">)</span></span></span></span> tensor, <code>out</code> will be a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>b</mi><mo>×</mo><mi>n</mi><mo>×</mo><mi>p</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(b \times n \times p)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mclose">)</span></span></span></span>tensor.</p>
+</blockquote>
+<p>简单说，这个函数的作用是在不动batch维度的情况下对其他维度执行矩阵乘法。</p>
+<h2 id="self-attention-与-general-attention在实现上的区别"><a class="markdownIt-Anchor" href="#self-attention-与-general-attention在实现上的区别"></a> Self-Attention 与 General Attention在实现上的区别</h2>
+<p>Self Attention 本质上是乘上一个和输入向量需要加Attention的维度等长的向量（<code>nn.Parameter(torch.Tensor(1, D), requires_grad=True)</code>），并做矩阵相乘。如输入是一个长为L的句子，句子中每个词的Embedding长度是D， batch为B，即(B, L, D)， 那么若是要对句子的长度维度做Attention，则需要乘一个shape为(B, D, 1)的向量，得到的Output shape为(B, L, 1)。之后还需做softmax，句子长度mask，结果除以单词个数保证所有weight加起来等于一，然后再使用这个output点乘input，即可得到和input shape相同，但被加了Attention后的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Attention</span>(nn.Module):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Pytorch self-attention layer code inspired from:</span></span><br><span class="line"><span class="string">    Link:</span></span><br><span class="line"><span class="string">        https://discuss.pytorch.org/t/self-attention-on-words-and-masking/5671/4</span></span><br><span class="line"><span class="string">    Original Web Page:</span></span><br><span class="line"><span class="string">        https://www.kaggle.com/dannykliu/lstm-with-attention-clr-in-pytorch</span></span><br><span class="line"><span class="string">    Usage:</span></span><br><span class="line"><span class="string">        In __init__():</span></span><br><span class="line"><span class="string">            self.atten1 = Attention(hidden_dim*2, batch_first=True) # 2 is bidrectional</span></span><br><span class="line"><span class="string">        In forward():</span></span><br><span class="line"><span class="string">            x, _ = self.atten1(x, lengths)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, hidden_size, batch_first=<span class="literal">True</span>, device=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(Attention, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line">        self.batch_first = batch_first</span><br><span class="line">        <span class="keyword">if</span> device <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            self.device = <span class="string">&quot;cuda&quot;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.device = device</span><br><span class="line"></span><br><span class="line">        self.att_weights = nn.Parameter(</span><br><span class="line">            torch.Tensor(<span class="number">1</span>, hidden_size), requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        stdv = <span class="number">1.0</span> / np.sqrt(self.hidden_size)</span><br><span class="line">        <span class="keyword">for</span> weight <span class="keyword">in</span> self.att_weights:</span><br><span class="line">            nn.init.uniform_(weight, -stdv, stdv)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_mask</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, inputs, lengths</span>):</span><br><span class="line">        <span class="keyword">if</span> self.batch_first:</span><br><span class="line">            batch_size, max_len = inputs.size()[:<span class="number">2</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            max_len, batch_size = inputs.size()[:<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># apply attention layer</span></span><br><span class="line">        weights = torch.bmm(inputs,</span><br><span class="line">                            self.att_weights  <span class="comment"># (1, hidden_size)</span></span><br><span class="line">                            .permute(<span class="number">1</span>, <span class="number">0</span>)  <span class="comment"># (hidden_size, 1)</span></span><br><span class="line">                            .unsqueeze(<span class="number">0</span>)  <span class="comment"># (1, hidden_size, 1)</span></span><br><span class="line">                            <span class="comment"># (batch_size, hidden_size, 1)</span></span><br><span class="line">                            .repeat(batch_size, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">                            )</span><br><span class="line"></span><br><span class="line">        attentions = torch.softmax(F.relu(weights.squeeze()), dim=-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># create mask based on the sentence lengths</span></span><br><span class="line">        mask = torch.ones(attentions.size(), requires_grad=<span class="literal">True</span>).to(self.device)</span><br><span class="line">        <span class="keyword">for</span> i, l <span class="keyword">in</span> <span class="built_in">enumerate</span>(lengths):  <span class="comment"># skip the first sentence</span></span><br><span class="line">            <span class="keyword">if</span> l &lt; max_len:</span><br><span class="line">                mask[i, l:] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># apply mask and renormalize attention scores (weights)</span></span><br><span class="line">        masked = attentions * mask</span><br><span class="line">        _sums = masked.<span class="built_in">sum</span>(-<span class="number">1</span>).unsqueeze(-<span class="number">1</span>)  <span class="comment"># sums per row</span></span><br><span class="line"></span><br><span class="line">        attentions = masked.div(_sums)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># apply attention weights</span></span><br><span class="line">        weighted = torch.mul(</span><br><span class="line">            inputs, attentions.unsqueeze(-<span class="number">1</span>).expand_as(inputs))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># get the final fixed vector representations of the sentences</span></span><br><span class="line">        representations = weighted.<span class="built_in">sum</span>(<span class="number">1</span>).squeeze()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> representations, attentions</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>而General Attention的本质则是一个FC（即一个映射矩阵）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">EncoderRNN</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, input_size, hidden_size</span>):</span><br><span class="line">        <span class="built_in">super</span>(EncoderRNN, self).__init__()</span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line"></span><br><span class="line">        self.embedding = nn.Embedding(input_size, hidden_size)</span><br><span class="line">        self.gru = nn.GRU(hidden_size, hidden_size)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, <span class="built_in">input</span>, hidden</span>):</span><br><span class="line">        embedded = self.embedding(<span class="built_in">input</span>).view(<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>)</span><br><span class="line">        output = embedded</span><br><span class="line">        output, hidden = self.gru(output, hidden)</span><br><span class="line">        <span class="keyword">return</span> output, hidden</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">initHidden</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> torch.zeros(<span class="number">1</span>, <span class="number">1</span>, self.hidden_size, device=device)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AttnDecoderRNN</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, hidden_size, output_size, dropout_p=<span class="number">0.1</span>, max_length=MAX_LENGTH</span>):</span><br><span class="line">        <span class="built_in">super</span>(AttnDecoderRNN, self).__init__()</span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line">        self.output_size = output_size</span><br><span class="line">        self.dropout_p = dropout_p</span><br><span class="line">        self.max_length = max_length</span><br><span class="line"></span><br><span class="line">        self.embedding = nn.Embedding(self.output_size, self.hidden_size)</span><br><span class="line">        self.attn = nn.Linear(self.hidden_size * <span class="number">2</span>, self.max_length)</span><br><span class="line">        self.attn_combine = nn.Linear(self.hidden_size * <span class="number">2</span>, self.hidden_size)</span><br><span class="line">        self.dropout = nn.Dropout(self.dropout_p)</span><br><span class="line">        self.gru = nn.GRU(self.hidden_size, self.hidden_size)</span><br><span class="line">        self.out = nn.Linear(self.hidden_size, self.output_size)</span><br><span class="line">	</span><br><span class="line">    <span class="comment"># input: (1)</span></span><br><span class="line">    <span class="comment"># hidden: (1, D)</span></span><br><span class="line">    <span class="comment"># encoder_outputs: (L, D)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, <span class="built_in">input</span>, hidden, encoder_outputs</span>):</span><br><span class="line">        embedded = self.embedding(<span class="built_in">input</span>).view(<span class="number">1</span>, <span class="number">1</span>, -<span class="number">1</span>) <span class="comment"># (1, 1, D)</span></span><br><span class="line">        embedded = self.dropout(embedded) <span class="comment"># (1, 1, D)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># (1, 2D) -&gt; (1, L)</span></span><br><span class="line">        attn_weights = F.softmax(</span><br><span class="line">            self.attn(torch.cat((embedded[<span class="number">0</span>], hidden[<span class="number">0</span>]), <span class="number">1</span>)), dim=<span class="number">1</span>) </span><br><span class="line">        </span><br><span class="line">        <span class="comment"># (1, 1, L) x (1, L, D) -&gt; (1, 1, D)</span></span><br><span class="line">        attn_applied = torch.bmm(attn_weights.unsqueeze(<span class="number">0</span>),</span><br><span class="line">                                 encoder_outputs.unsqueeze(<span class="number">0</span>)) </span><br><span class="line"></span><br><span class="line">        output = torch.cat((embedded[<span class="number">0</span>], attn_applied[<span class="number">0</span>]), <span class="number">1</span>) <span class="comment"># (1, 2D)</span></span><br><span class="line">        output = self.attn_combine(output).unsqueeze(<span class="number">0</span>) <span class="comment"># (1, 1, D)</span></span><br><span class="line"></span><br><span class="line">        output = F.relu(output) <span class="comment"># (1, 1, D)</span></span><br><span class="line">        output, hidden = self.gru(output, hidden) <span class="comment"># (1, D)</span></span><br><span class="line"></span><br><span class="line">        output = F.log_softmax(self.out(output[<span class="number">0</span>]), dim=<span class="number">1</span>) <span class="comment"># (1, output_size)</span></span><br><span class="line">        <span class="keyword">return</span> output, hidden, attn_weights</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">initHidden</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> torch.zeros(<span class="number">1</span>, <span class="number">1</span>, self.hidden_size, device=device)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">teacher_forcing_ratio = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length=MAX_LENGTH</span>):</span><br><span class="line">    encoder_hidden = encoder.initHidden()</span><br><span class="line"></span><br><span class="line">    encoder_optimizer.zero_grad()</span><br><span class="line">    decoder_optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">    input_length = input_tensor.size(<span class="number">0</span>)</span><br><span class="line">    target_length = target_tensor.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    encoder_outputs = torch.zeros(max_length, encoder.hidden_size, device=device)</span><br><span class="line"></span><br><span class="line">    loss = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ei <span class="keyword">in</span> <span class="built_in">range</span>(input_length):</span><br><span class="line">        encoder_output, encoder_hidden = encoder(</span><br><span class="line">            input_tensor[ei], encoder_hidden)</span><br><span class="line">        encoder_outputs[ei] = encoder_output[<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    decoder_input = torch.tensor([[SOS_token]], device=device)</span><br><span class="line"></span><br><span class="line">    decoder_hidden = encoder_hidden</span><br><span class="line"></span><br><span class="line">    use_teacher_forcing = <span class="literal">True</span> <span class="keyword">if</span> random.random() &lt; teacher_forcing_ratio <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> use_teacher_forcing:</span><br><span class="line">        <span class="comment"># Teacher forcing: Feed the target as the next input</span></span><br><span class="line">        <span class="keyword">for</span> di <span class="keyword">in</span> <span class="built_in">range</span>(target_length):</span><br><span class="line">            decoder_output, decoder_hidden, decoder_attention = decoder(</span><br><span class="line">                decoder_input, decoder_hidden, encoder_outputs)</span><br><span class="line">            loss += criterion(decoder_output, target_tensor[di])</span><br><span class="line">            decoder_input = target_tensor[di]  <span class="comment"># Teacher forcing</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># Without teacher forcing: use its own predictions as the next input</span></span><br><span class="line">        <span class="keyword">for</span> di <span class="keyword">in</span> <span class="built_in">range</span>(target_length):</span><br><span class="line">            decoder_output, decoder_hidden, decoder_attention = decoder(</span><br><span class="line">                decoder_input, decoder_hidden, encoder_outputs)</span><br><span class="line">            topv, topi = decoder_output.topk(<span class="number">1</span>)</span><br><span class="line">            decoder_input = topi.squeeze().detach()  <span class="comment"># detach from history as input</span></span><br><span class="line"></span><br><span class="line">            loss += criterion(decoder_output, target_tensor[di])</span><br><span class="line">            <span class="keyword">if</span> decoder_input.item() == EOS_token:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    loss.backward()</span><br><span class="line"></span><br><span class="line">    encoder_optimizer.step()</span><br><span class="line">    decoder_optimizer.step()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> loss.item() / target_length</span><br></pre></td></tr></table></figure>
+<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html">NLP FROM SCRATCH: TRANSLATION WITH A SEQUENCE TO SEQUENCE NETWORK AND ATTENTION</a></li>
+<li><a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/attention/">Attention 机制 – EasyAI</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35739040">Attention用于NLP的一些小结</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/EvilPsyCHo/Attention-PyTorch">Attention-PyTorch</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/AuCson/PyTorch-Batch-Attention-Seq2seq/blob/master/attentionRNN.py">Pytorch Batch Attention Seq-2-Seq</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47282410">Attention机制详解（二）——Self-Attention与Transformer</a></li>
+<li><a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a></li>
+<li><a target="_blank" rel="noopener" href="https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/">Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/68482809">知乎：目前主流的attention方法都有哪些？</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/attention/" rel="tag"># attention</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/06/acg-dl/" rel="prev" title="ACG相关AI项目-论文-代码-数据-资源">
+                  <i class="fa fa-chevron-left"></i> ACG相关AI项目-论文-代码-数据-资源
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/11/pytorch-official-network-analysis/" rel="next" title="Pytorch官方模型实现分析">
+                  Pytorch官方模型实现分析 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

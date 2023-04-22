@@ -1,37 +1,938 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="模式官方介绍 正片叠底 查看每个通道中的颜色信息，并将基色与混合色进行正片叠底。结果色总是较暗的颜色。任何颜色与黑色正片叠底产生黑色。任何颜色与白色正片叠底保持不变。当您用黑色或白色以外的颜色绘画时，绘画工具绘制的连续描边产生逐渐变暗的颜色。这与使用多个标记笔在图像上绘图的效果相似。  如图，重点是分通道，所有的模式混合都是基于通道的。即红色的底色，往上加蓝色和绿色结果都是黑色。因为RGB通道相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PS混合模式原理与示例">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/05/24/ps-blend/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="模式官方介绍 正片叠底 查看每个通道中的颜色信息，并将基色与混合色进行正片叠底。结果色总是较暗的颜色。任何颜色与黑色正片叠底产生黑色。任何颜色与白色正片叠底保持不变。当您用黑色或白色以外的颜色绘画时，绘画工具绘制的连续描边产生逐渐变暗的颜色。这与使用多个标记笔在图像上绘图的效果相似。  如图，重点是分通道，所有的模式混合都是基于通道的。即红色的底色，往上加蓝色和绿色结果都是黑色。因为RGB通道相">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/image-20200519225738854.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/P_VectorShapeFilled_Md_N.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/P_Fill_Lg_N.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/P_Brush_Lg_N.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/P_Draw_Lg_N.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/365c8ef854384f00b13c69e81eb2d41b.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-49a088eef8b2851abc6bb5809dff666c_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/equation.svg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/equation">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-49a088eef8b2851abc6bb5809dff666c_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-6cd964357c823d7704b86e4aa486b02b_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-c520d5c07364cbed9ce6b58faf3475c7_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-c520d5c07364cbed9ce6b58faf3475c7_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-0734309c8a2c9ef18543c4a3e89b765a_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-ef14152ab9c1ed17b69901e2b2f8fcaa_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-8f278da13cf831f924d4638abaf8f4b3_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-3aa136ef959a58faeb862b5b51bdeae3_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9e577680c0ad20d6d63b1864bfe391ec_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a9617aa81abdba4047fea16108777627_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-3ef666006d4285e56f9c3545cda3c15d_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-14a6ce57b48355c20df849b97d1e20f7_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-1f74cf80b6e5cd9087bc3b6c944a904d_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-24fbd55f5e94ed2b164d839d9d8ee8ab_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-f0b8f5ffd678a80c6712583b6598db8e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/equation">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/equation.svg">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-78b198e1c2fe8f6c060753318fb849ee_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-177f7f9a060ef7ccf2938c6ef9120350_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-3e6f6616a8249f8e78a8553edc728d63_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-fa86d21780209cf5b58e727fd33ef18f_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-ec227746d961f540cc8f70547614bffa_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-abd81b87e3014ae47f3deaea3958a5a1_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-097f5e2b9c9646d69f6a07ce66783459_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-897968ab0abc87cf22279786051c46ab_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-fc94414ecd4e5b95cb0ea5912858589c_720w.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/v2-9777e7ee9933926f8cd3a50d905a592f_r.jpg">
+<meta property="article:published_time" content="2020-05-24T22:39:00.000Z">
+<meta property="article:modified_time" content="2021-03-12T22:39:53.306Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="art">
+<meta property="article:tag" content="painting">
+<meta property="article:tag" content="ps">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/05/24/ps-blend/image-20200519225738854.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2020/05/24/ps-blend/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2020/05/24/ps-blend/","path":"2020/05/24/ps-blend/","title":"PS混合模式原理与示例"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PS混合模式原理与示例 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E5%AE%98%E6%96%B9%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text"> 模式官方介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text"> 公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%B8%BE%E4%BE%8B%E6%8E%A8%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text"> 详细举例推理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text"> 混合模式的基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.</span> <span class="nav-text"> 混合模式的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F%E5%BD%BC%E6%AD%A4%E4%B9%8B%E9%97%B4%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">6.</span> <span class="nav-text"> 混合模式彼此之间的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E4%B8%80%E7%A7%8D%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F%E7%9A%84%E8%BF%90%E7%AE%97%E6%96%B9%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text"> 每一种混合模式的运算方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#i-%E6%AD%A3%E5%B8%B8%E7%B3%BB"><span class="nav-number">8.</span> <span class="nav-text"> I 正常系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii-%E5%8F%98%E6%9A%97%E5%92%8C%E5%8F%98%E4%BA%AE%E7%B3%BB"><span class="nav-number">9.</span> <span class="nav-text"> II 变暗和变亮系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii-%E5%AF%B9%E6%AF%94%E7%B3%BB"><span class="nav-number">10.</span> <span class="nav-text"> III 对比系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv-%E8%B4%9F%E7%89%87%E7%B3%BB"><span class="nav-number">11.</span> <span class="nav-text"> IV 负片系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v-%E7%9B%B8%E6%B6%88%E7%B3%BB"><span class="nav-number">12.</span> <span class="nav-text"> V 相消系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%87%E6%80%BB%E5%9C%A8%E4%B8%80%E5%BC%A0a4%E7%BA%B8%E4%B8%8A"><span class="nav-number">13.</span> <span class="nav-text"> 汇总在一张A4纸上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">14.</span> <span class="nav-text"> 参考文献</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/05/24/ps-blend/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PS混合模式原理与示例 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PS混合模式原理与示例<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/ps-blend.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-05-24 15:39:00" itemprop="dateCreated datePublished" datetime="2020-05-24T15:39:00-07:00">2020-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 14:39:53" itemprop="dateModified" datetime="2021-03-12T14:39:53-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>18 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="模式官方介绍"><a class="markdownIt-Anchor" href="#模式官方介绍"></a> 模式官方介绍</h2>
+<p><strong>正片叠底</strong></p>
+<p>查看<strong>每个通道</strong>中的颜色信息，并将基色与混合色进行正片叠底。结果色总是较暗的颜色。任何颜色与黑色正片叠底产生黑色。任何颜色与白色正片叠底保持不变。当您用黑色或白色以外的颜色绘画时，绘画工具绘制的连续描边产生逐渐变暗的颜色。这与使用多个标记笔在图像上绘图的效果相似。</p>
+<img data-src="image-20200519225738854.png" alt="image-20200519225738854" style="zoom:33%;">
+<p>如图，重点是<strong>分通道</strong>，所有的模式混合都是基于通道的。即红色的底色，往上加蓝色和绿色结果都是黑色。因为RGB通道相互间的暗色都是黑色。当然，它们与黑色叠加也是黑色的。</p>
+<span id="more"></span>
+<p><strong>滤色</strong></p>
+<p>查看每个通道的颜色信息，并将混合色的互补色与基色进行正片叠底。结果色总是较亮的颜色。用黑色过滤时颜色保持不变。用白色过滤将产生白色。此效果类似于多个摄影幻灯片在彼此之上投影。</p>
+<p><strong>正常</strong></p>
+<p>编辑或绘制每个像素，使其成为结果色。这是默认模式。（在处理位图图像或索引颜色图像时，“正常”模式也称为<em>阈值</em>。）</p>
+<p><strong>溶解</strong></p>
+<p>编辑或绘制每个像素，使其成为结果色。但是，根据任何像素位置的不透明度，结果色由基色或混合色的像素随机替换。</p>
+<p><strong>背后</strong></p>
+<p>仅在图层的透明部分编辑或绘画。此模式仅在取消选择了“锁定透明区域”的图层中使用，类似于在透明纸的透明区域背面绘画。</p>
+<p><strong>清除</strong></p>
+<p>编辑或绘制每个像素，使其透明。此模式可用于形状工具（当选定填充区域 <img data-src="P_VectorShapeFilled_Md_N.png" alt="img"> 时）、油漆桶工具 <img data-src="P_Fill_Lg_N.png" alt="img">、画笔工具 <img data-src="P_Brush_Lg_N.png" alt="img">、铅笔工具 <img data-src="P_Draw_Lg_N.png" alt="img">、“填充”命令和“描边”命令。您必须位于取消选择了“锁定透明区域”的图层中才能使用此模式。</p>
+<p><strong>变暗</strong></p>
+<p>查看每个通道中的颜色信息，并选择基色或混合色中较暗的颜色作为结果色。将替换比混合色亮的像素，而比混合色暗的像素保持不变。</p>
+<p><strong>颜色加深</strong></p>
+<p>查看每个通道中的颜色信息，并通过增加二者之间的对比度使基色变暗以反映出混合色。与白色混合后不产生变化。</p>
+<p><strong>线性加深</strong></p>
+<p>查看每个通道中的颜色信息，并通过减小亮度使基色变暗以反映混合色。与白色混合后不产生变化。</p>
+<p><strong>变亮</strong></p>
+<p>查看每个通道中的颜色信息，并选择基色或混合色中较亮的颜色作为结果色。比混合色暗的像素被替换，比混合色亮的像素保持不变。</p>
+<p><strong>颜色减淡</strong></p>
+<p>查看每个通道中的颜色信息，并通过减小二者之间的对比度使基色变亮以反映出混合色。与黑色混合则不发生变化。</p>
+<p><strong>线性减淡（添加）</strong></p>
+<p>查看每个通道中的颜色信息，并通过增加亮度使基色变亮以反映混合色。与黑色混合则不发生变化。</p>
+<p><strong>叠加</strong></p>
+<p>对颜色进行正片叠底或过滤，具体取决于基色。图案或颜色在现有像素上叠加，同时保留基色的明暗对比。不替换基色，但基色与混合色相混以反映原色的亮度或暗度。</p>
+<p><strong>柔光</strong></p>
+<p>使颜色变暗或变亮，具体取决于混合色。此效果与发散的聚光灯照在图像上相似。如果混合色（光源）比 50% 灰色亮，则图像变亮，就像被减淡了一样。如果混合色（光源）比 50% 灰色暗，则图像变暗，就像被加深了一样。使用纯黑色或纯白色上色，可以产生明显变暗或变亮的区域，但不能生成纯黑色或纯白色。</p>
+<p><strong>强光</strong></p>
+<p>对颜色进行正片叠底或过滤，具体取决于混合色。此效果与耀眼的聚光灯照在图像上相似。如果混合色（光源）比 50% 灰色亮，则图像变亮，就像过滤后的效果。这对于向图像添加高光非常有用。如果混合色（光源）比 50% 灰色暗，则图像变暗，就像正片叠底后的效果。这对于向图像添加阴影非常有用。用纯黑色或纯白色上色会产生纯黑色或纯白色。</p>
+<p><strong>亮光</strong></p>
+<p>通过增加或减小对比度来加深或减淡颜色，具体取决于混合色。如果混合色（光源）比 50% 灰色亮，则通过减小对比度使图像变亮。如果混合色比 50% 灰色暗，则通过增加对比度使图像变暗。</p>
+<p><strong>线性光</strong></p>
+<p>通过减小或增加亮度来加深或减淡颜色，具体取决于混合色。如果混合色（光源）比 50% 灰色亮，则通过增加亮度使图像变亮。如果混合色比 50% 灰色暗，则通过减小亮度使图像变暗。</p>
+<p><strong>点光</strong></p>
+<p>根据混合色替换颜色。如果混合色（光源）比 50% 灰色亮，则替换比混合色暗的像素，而不改变比混合色亮的像素。如果混合色比 50% 灰色暗，则替换比混合色亮的像素，而比混合色暗的像素保持不变。这对于向图像添加特殊效果非常有用。</p>
+<p><strong>实色混合</strong></p>
+<p>将混合颜色的红色、绿色和蓝色通道值添加到基色的 RGB 值。如果通道的结果总和大于或等于 255，则值为 255；如果小于 255，则值为 0。因此，所有混合像素的红色、绿色和蓝色通道值要么是 0，要么是 255。此模式会将所有像素更改为主要的加色（红色、绿色或蓝色）、白色或黑色。</p>
+<p><strong>差值</strong></p>
+<p>查看每个通道中的颜色信息，并从基色中减去混合色，或从混合色中减去基色，具体取决于哪一个颜色的亮度值更大。与白色混合将反转基色值；与黑色混合则不产生变化。</p>
+<p><strong>排除</strong></p>
+<p>创建一种与“差值”模式相似但对比度更低的效果。与白色混合将反转基色值。与黑色混合则不发生变化。</p>
+<p><strong>减去</strong></p>
+<p>查看每个通道中的颜色信息，并从基色中减去混合色。在 8 位和 16 位图像中，任何生成的负片值都会剪切为零。</p>
+<p><strong>划分</strong></p>
+<p>查看每个通道中的颜色信息，并从基色中划分混合色。</p>
+<p><strong>色相</strong></p>
+<p>用基色的明亮度和饱和度以及混合色的色相创建结果色。</p>
+<p><strong>饱和度</strong></p>
+<p>用基色的明亮度和色相以及混合色的饱和度创建结果色。在无 (0) 饱和度（灰度）区域上用此模式绘画不会产生任何变化。</p>
+<p><strong>颜色</strong></p>
+<p>用基色的明亮度以及混合色的色相和饱和度创建结果色。这样可以保留图像中的灰阶，并且对于给单色图像上色和给彩色图像着色都会非常有用。</p>
+<p><strong>明度</strong></p>
+<p>用基色的色相和饱和度以及混合色的明亮度创建结果色。此模式创建与“颜色”模式相反的效果。</p>
+<p><strong>浅色</strong></p>
+<p>比较混合色和基色的所有通道值的总和并显示值较大的颜色。“浅色”不会生成第三种颜色（可以通过“变亮”混合获得），因为它将从基色和混合色中选取最大的通道值来创建结果色。</p>
+<p><strong>深色</strong></p>
+<p>比较混合色和基色的所有通道值的总和并显示值较小的颜色。“深色”不会生成第三种颜色（可以通过“变暗”混合获得），因为它将从基色和混合色中选取最小的通道值来创建结果色。</p>
+<h2 id="公式"><a class="markdownIt-Anchor" href="#公式"></a> 公式</h2>
+<p><img data-src="365c8ef854384f00b13c69e81eb2d41b.jpg" alt="img"></p>
+<p>注释：</p>
+<p>1.混合模式的数学计算公式，另外还介绍了不透明度。</p>
+<p>2.这些公式仅适用于RGB图像，对于Lab颜色图像而言，这些公式将不再适用。</p>
+<p>3.在公式中——</p>
+<p>A 代表下面图层的颜色值，也称为基色；</p>
+<p>B 代表上面图层的颜色值，也成为混合色；</p>
+<p>C 代表混合图层的颜色值，也称为结果色；</p>
+<p>D 表示该层的透明度。</p>
+<h2 id="详细举例推理"><a class="markdownIt-Anchor" href="#详细举例推理"></a> 详细举例推理</h2>
+<p>我们先建立两个图层：</p>
+<p>当前选中层（Active Layer）为<strong>A层</strong>，或称“<strong>混合色</strong> blend color”</p>
+<p>下层（Background Layer）为<strong>B层</strong>，或称“<strong>基色</strong> base color”，两者混合得到“<strong>结果色</strong> Result color”</p>
+<p><img data-src="v2-49a088eef8b2851abc6bb5809dff666c_720w.png" alt="img"></p>
+<h2 id="混合模式的基本原理"><a class="markdownIt-Anchor" href="#混合模式的基本原理"></a> <strong>混合模式的基本原理</strong></h2>
+<p>取A层任意一个像素a [R1, G1, B1]，与B层对应位置的像素b [R2, G2, B2] 进行数学运算，得到c [R3, G3, B3]</p>
+<ul>
+<li>R1 某种运算 R2 = R3</li>
+<li>G1 某种运算 G2 = G3</li>
+<li>B1 某种运算 B2 = B3</li>
+</ul>
+<p>A、B两层<strong>所有像素</strong>都独立进行同样的运算，即得到混合后的结果C，即新的A层（注意虽然A层缩略图没有变，但直方图已经变了），而B保持不变</p>
+<p>举一个简单例子，PS默认的图层混合模式是“正常”，在不透明度为100%时，</p>
+<ul>
+<li>R1 正常 R2 = R1</li>
+<li>G1 正常 G2 = G1</li>
+<li>B1 正常 B2 = B1</li>
+</ul>
+<p>也就是说，“正常”模式下，A层在B层之上，看到的只有A层，看不到B层</p>
+<h2 id="混合模式的分类"><a class="markdownIt-Anchor" href="#混合模式的分类"></a> <strong>混合模式的分类</strong></h2>
+<p>一般系：正常、溶解</p>
+<p>变暗系：变暗、深色、正片叠底、颜色加深、线性加深</p>
+<p>变亮系：变亮、浅色、滤色、颜色减淡、线性减淡</p>
+<p>对比系：叠加、强光、柔光、亮光、线性光、点光、实色混合</p>
+<ul>
+<li>
+<ul>
+<li>该组特点是让亮的更亮，暗的更暗，每一个“对比系”的混合模式都可看作“变暗系”和“变亮系”的结合，如“叠加”是对较暗的像素进行“正片叠底”，对较亮的像素进行“滤色”</li>
+</ul>
+</li>
+</ul>
+<p>负片系：差值、排除</p>
+<p>相消系：减去、划分</p>
+<p>HSL系：色相、饱和度、颜色、明度</p>
+<h2 id="混合模式彼此之间的联系"><a class="markdownIt-Anchor" href="#混合模式彼此之间的联系"></a> <strong>混合模式彼此之间的联系</strong></h2>
+<ol>
+<li>
+<p>对于大多数混合模式，图层“不透明度”和“填充度”对混合效果影响是一样的，也就是说，60%的不透明度，与60%的填充度，得到的效果一样；但以下8种混合模式是例外</p>
+<ul>
+<li>颜色加深、颜色减淡</li>
+<li>线性加深、线性减淡</li>
+<li>亮光、线性光、实色混合</li>
+<li>差值</li>
+</ul>
+</li>
+<li>
+<p>以下5组混合模式是相反对应关系（从后面的公式就可以看出）</p>
+<ul>
+<li>变暗 - 变亮</li>
+<li>深色 - 浅色</li>
+<li>正片叠底 - 滤色</li>
+<li>颜色加深 - 颜色减淡</li>
+<li>线性加深 - 线性减淡</li>
+</ul>
+</li>
+<li>
+<p>具有“互逆”关系的混合模式有两组，举例，A层在上，对A“叠加”；B层在上，对B“强光”：两种情况得到的效果是一样的</p>
+<ul>
+<li>叠加 <img data-src="equation.svg" alt="[公式]"> 强光</li>
+<li>颜色 <img data-src="equation" alt="[公式]"> 明度</li>
+</ul>
+</li>
+</ol>
+<h2 id="每一种混合模式的运算方法"><a class="markdownIt-Anchor" href="#每一种混合模式的运算方法"></a> <strong>每一种混合模式的运算方法</strong></h2>
+<p>当通道位深度为8位时，R、G、B三通道数值范围在0到255，我们除以255，得到0~1范围内的数值</p>
+<p>我们用下图所示的两个100像素的图层做实验</p>
+<p>A层有一个颜色， [R, G, B]值分别是 [102, 153, 204]，即[0.4, 0.6, 0.8]</p>
+<p>B层有两个颜色，[0, 51, 102] 和 [255, 204, 153]，即 [0, 0.2, 0.4] 和 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-49a088eef8b2851abc6bb5809dff666c_720w.png" alt="img"></p>
+<p>选中A层，调节混合模式</p>
+<h2 id="i-正常系"><a class="markdownIt-Anchor" href="#i-正常系"></a> I 正常系</h2>
+<blockquote>
+<p><strong>正常 Normal</strong></p>
+</blockquote>
+<p>设不透明度为n</p>
+<p><em><em><em>c = n*</em>*</em>*a + (1-n)*</em>***b***</p>
+<p>当不透明度为100%</p>
+<p><em><strong>c = a</strong></em></p>
+<blockquote>
+<p><strong>溶解 Dissolve</strong></p>
+</blockquote>
+<p>对每个像素而言，其结果色是基色或混合色的随机值，取决于其“不透明度”：“不透明度”高时，更多像素取自当前层；低时，更多像素取自背景层</p>
+<h2 id="ii-变暗和变亮系"><a class="markdownIt-Anchor" href="#ii-变暗和变亮系"></a> II 变暗和变亮系</h2>
+<blockquote>
+<p><strong>变暗 Darken</strong></p>
+</blockquote>
+<p><em><strong>c = min(a,b)</strong> 逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.2, 0.4] 颜色2 [0.4, 0.6, 0.6]</p>
+<p><img data-src="v2-6cd964357c823d7704b86e4aa486b02b_720w.png" alt="img"></p>
+<p>得到变暗的效果</p>
+<blockquote>
+<p><strong>变亮</strong> <strong>Lighten</strong></p>
+</blockquote>
+<p>*<strong>c = max(a,b)*</strong> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0.4, 0.6, 0.8] 颜色2 [1, 0.8, 0.8]</p>
+<p><img data-src="v2-c520d5c07364cbed9ce6b58faf3475c7_720w.png" alt="img"></p>
+<p>得到变亮的效果</p>
+<blockquote>
+<p><strong>深色 Darker Color</strong></p>
+</blockquote>
+<p><em><strong>c = min(a, b)</strong> 三通道整体进行运算，不会产生新的颜色</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.2, 0.4] 颜色2 [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-c520d5c07364cbed9ce6b58faf3475c7_720w.png" alt="img"></p>
+<p>该混合模式不会产生新的颜色，注意与“变暗”的区别</p>
+<blockquote>
+<p><strong>浅色 Lighter Color</strong></p>
+</blockquote>
+<p><em><strong>c = max(a, b)</strong></em> <em>三通道整体进行运算</em>*，不会产生新的颜色*</p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0.4, 0.6, 0.8] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-0734309c8a2c9ef18543c4a3e89b765a_720w.png" alt="img"></p>
+<p>该混合模式不会产生新的颜色，注意与“变亮”的区别</p>
+<blockquote>
+<p><strong>正片叠底 Multiply</strong></p>
+</blockquote>
+<p><em><strong>c = a*b</strong> 逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.12, 0.32] 颜色2 [0.4, 0.48, 0.48]</p>
+<p><img data-src="v2-ef14152ab9c1ed17b69901e2b2f8fcaa_720w.png" alt="img"></p>
+<p>常用的加深模式，用于产生阴影、去除白色和其他浅色。如同将所有的图层都叠在一起，上方一束光投下来到屏幕上；“颜色加深”和“线性加深”比“正片叠底”效果更为强烈</p>
+<p>任何颜色和黑色混合结果都是黑的，任何颜色跟白色混合结果都是原来的颜色</p>
+<p>“正片叠底”即所谓“减色”或“CMYK”模式，现实中相当于用染料、水彩笔绘画效果，如图所示</p>
+<p><img data-src="v2-8f278da13cf831f924d4638abaf8f4b3_720w.png" alt="img"></p>
+<blockquote>
+<p><strong>滤色 Screen</strong></p>
+</blockquote>
+<p>***c = 1 − (1−a)*(1−b)***<em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0.4, 0.68, 0.88] 颜色2 [1, 0.92, 0.92]</p>
+<p><img data-src="v2-3aa136ef959a58faeb862b5b51bdeae3_720w.png" alt="img"></p>
+<p>常用的减淡方法，产生发光效果。如同将所有图层分开摆放，各有一束光通过各图层，汇聚在一块屏幕上</p>
+<p>基色或混合色为白色时，结果会是白色；任何颜色和黑色混合，结果仍原来的颜色</p>
+<p>“滤色”即所谓“加色”模式，现实中相当于发光体发光的叠加效果，如图所示</p>
+<p><img data-src="v2-9e577680c0ad20d6d63b1864bfe391ec_720w.png" alt="img"></p>
+<blockquote>
+<p><strong>颜色加深 Color Burn</strong></p>
+</blockquote>
+<p><em><strong>c = 1 − (1−b)/a</strong></em> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0, 0.25] 颜色2 [1, 0.67, 0.5]</p>
+<p><img data-src="v2-a9617aa81abdba4047fea16108777627_720w.png" alt="img"></p>
+<p>得到的效果比“正片叠底”更深，中调更高饱和，高光减弱</p>
+<p>任何颜色跟白色（B=1）混合结果都是白色</p>
+<blockquote>
+<p><strong>颜色减淡 Color Dodge</strong></p>
+</blockquote>
+<p>***c = b / (1−a)***<em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.5, 1] 颜色2 [1, 1, 1]</p>
+<p><img data-src="v2-3ef666006d4285e56f9c3545cda3c15d_720w.png" alt="img"></p>
+<p>得到的效果比“滤色”更亮，色彩对比更加强烈，中调更高饱和，高光增强</p>
+<p>任何颜色跟黑色（B=0）混合结果都是黑色</p>
+<blockquote>
+<p><strong>线性加深 Linear Burn</strong></p>
+</blockquote>
+<p><em><strong>c = a + b − 1</strong></em> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0, 0.2] 颜色2 [0.4, 0.4, 0.4]</p>
+<p><img data-src="v2-14a6ce57b48355c20df849b97d1e20f7_720w.png" alt="img"></p>
+<p>得到的效果比“颜色加深”更深，比颜色加深饱和度低</p>
+<p>任何颜色跟白色（B=1）混合结果都是原来的颜色</p>
+<blockquote>
+<p><strong>线性减淡 Linear Dodge</strong></p>
+</blockquote>
+<p><em><strong>c = a+b</strong></em> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0.4, 0.8, 1] 颜色2 [1, 1, 1]</p>
+<p><img data-src="v2-1f74cf80b6e5cd9087bc3b6c944a904d_720w.png" alt="img"></p>
+<p>得到的效果比“颜色减淡”更亮，但对比稍弱</p>
+<p>任何颜色跟黑色（B=0）混合结果都是原来的颜色</p>
+<h2 id="iii-对比系"><a class="markdownIt-Anchor" href="#iii-对比系"></a> III 对比系</h2>
+<p>该组特点是让亮的更亮，暗的更暗，每一个“对比系”的混合模式都可看作“变暗系”和“变亮系”的结合，如“叠加”是对较暗的像素进行“正片叠底”，对较亮的像素进行“滤色”</p>
+<blockquote>
+<p><strong>叠加</strong> <strong>Overlay</strong></p>
+</blockquote>
+<p><em>逐通道进行运算</em></p>
+<p>*<strong>若 b &lt;= 0.5: c = 2ab*</strong></p>
+<p>*<strong>若 b &gt; 0.5: c = 1 - 2(1-a)(1-b)*</strong></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.24, 0.64] 颜色2[1, 0.84, 0.84]</p>
+<p><img data-src="v2-24fbd55f5e94ed2b164d839d9d8ee8ab_720w.png" alt="img"></p>
+<p>类似于 “正片叠底”+“滤色”的结合，但效果更柔和</p>
+<p>A层在上，对A“叠加”；B层在上，对B“强光”：两种情况得到的效果是一样的</p>
+<blockquote>
+<p><strong>强光</strong> <strong>Hard Light</strong></p>
+</blockquote>
+<p><em>逐通道进行运算</em></p>
+<p>*<strong>若 a &lt;= 0.5: c = 2ab*</strong></p>
+<p>*<strong>若 a &gt; 0.5: c = 1 - 2(1-a)(1-b)*</strong></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.36, 0.76] 颜色2 [0.8, 0.84, 0.84]</p>
+<p><img data-src="v2-f0b8f5ffd678a80c6712583b6598db8e_720w.png" alt="img"></p>
+<p>类似于 “正片叠底”+“滤色”的结合，但效果更柔和</p>
+<p>A层在上，对A“叠加”；B层在上，对B“强光”：两种情况得到的效果是一样的</p>
+<blockquote>
+<p><strong>柔光</strong> <strong>Soft Light</strong></p>
+</blockquote>
+<p><em>逐通道进行运算</em></p>
+<p>*<strong>若 a &lt;= 0.5, c = 2ab + <img data-src="equation" alt="[公式]">(1-2a)*</strong></p>
+<p>*<strong>若 a &gt; 0.5, c = 2b(1-a) + <img data-src="equation.svg" alt="[公式]">(2a-1)*</strong></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.25, 0.54] 颜色2 [1, 0.82, 0.71]</p>
+<p><img data-src="v2-78b198e1c2fe8f6c060753318fb849ee_720w.png" alt="img"></p>
+<p>效果类似于“叠加”，但效果更柔和，有透明的光线和阴影</p>
+<p>类似于 “浅色”+“深色”的结合</p>
+<blockquote>
+<p><strong>亮光</strong> <strong>Vivid Light</strong></p>
+</blockquote>
+<p><em>逐通道进行运算，近似公式</em></p>
+<p>*<strong>若 a &lt;= 0.5, c = 1 + (b-1)/2a*</strong></p>
+<p>*<strong>若 a &gt; 0.5, c = b / 2(1-a)*</strong></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.25, 1] 颜色2 [1, 0.996, 1]</p>
+<p><img data-src="v2-177f7f9a060ef7ccf2938c6ef9120350_720w.png" alt="img"></p>
+<p>类似于“实色混合”，但效果通常更加剧烈</p>
+<p>类似于 “颜色减淡”+“颜色加深”的结合</p>
+<blockquote>
+<p><strong>线性光</strong> <strong>Linear Light</strong></p>
+</blockquote>
+<p>*<strong>c = b + 2a -1*</strong> <em>逐通道进行运算，近似公式</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.4, 0.996] 颜色2 [0.8, 0.996, 1]</p>
+<p><img data-src="v2-3e6f6616a8249f8e78a8553edc728d63_720w.png" alt="img"></p>
+<p>类似于“亮光”，但效果通常更加剧烈</p>
+<p>类似于 “线性加深”+“线性减淡”的结果</p>
+<blockquote>
+<p><strong>点光</strong> <strong>Pin Light</strong></p>
+</blockquote>
+<p><em>逐通道进行运算</em></p>
+<p>*<strong>若 a &gt; 0.5, c = max ( 2(a-0.5) , b )*</strong></p>
+<p>*<strong>若 a &lt;= 0.5, c = min ( 2a , b )*</strong></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.2, 0.6] 颜色2 [0.796, 0.8, 0.6]</p>
+<p><img data-src="v2-fa86d21780209cf5b58e727fd33ef18f_720w.png" alt="img"></p>
+<p>该混合模式较为强烈，容易形成色块色斑和噪点</p>
+<p>类似于 “变亮”+“变暗”的结合</p>
+<blockquote>
+<p><strong>实色混合</strong> <strong>Hard Mix</strong></p>
+</blockquote>
+<p>*<strong>若 a+b &gt;= 1, c = 1; 否则 c=0*</strong> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0, 1] 颜色2 [1, 1, 1]</p>
+<p><img data-src="v2-ec227746d961f540cc8f70547614bffa_720w.png" alt="img"></p>
+<p>结果只有8个颜色：R、G、B、C、M、Y 、K、White</p>
+<p>如果“填充度”不为100，结果色会多于8</p>
+<h2 id="iv-负片系"><a class="markdownIt-Anchor" href="#iv-负片系"></a> IV 负片系</h2>
+<blockquote>
+<p><strong>差值 Difference</strong></p>
+</blockquote>
+<p><em><strong>c = |b - a|</strong> 逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0.4, 0.4, 0.4] 颜色2 [0.6, 0.2, 0.2]</p>
+<p><img data-src="v2-abd81b87e3014ae47f3deaea3958a5a1_720w.png" alt="img"></p>
+<p>会有一定负片效果</p>
+<blockquote>
+<p><strong>排除 Exclusion</strong></p>
+</blockquote>
+<p><em><strong>c = a + b - 2ab</strong></em> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0.4, 0.56, 0.56] 颜色2 [0.6, 0.44, 0.44]</p>
+<p><img data-src="v2-097f5e2b9c9646d69f6a07ce66783459_720w.png" alt="img"></p>
+<p>会有一定负片效果</p>
+<h2 id="v-相消系"><a class="markdownIt-Anchor" href="#v-相消系"></a> V 相消系</h2>
+<blockquote>
+<p><strong>减去Subtract</strong></p>
+</blockquote>
+<p><em><strong>c = b−a</strong></em><em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0, 0] 颜色2 [0.6, 0.2, 0]</p>
+<p><img data-src="v2-897968ab0abc87cf22279786051c46ab_720w.png" alt="img"></p>
+<p>变深效果</p>
+<p>常结合“应用图像”，用于高低频法调色</p>
+<blockquote>
+<p><strong>划分Divide</strong></p>
+</blockquote>
+<p>*<strong>c = b/a*</strong> <em>逐通道进行运算</em></p>
+<p>B: 颜色1 [0, 0.2, 0.4] 颜色2 [1, 0.8, 0.6]</p>
+<p><img data-src="v2-9d6d881e09d25ea68d31b4aeb0a42584_720w.png" alt="img"></p>
+<p>A: [0.4, 0.6, 0.8]</p>
+<p><img data-src="v2-a97a64c70b7213f2179afa2c4969eb7e_720w.png" alt="img"></p>
+<p>C: 颜色1 [0, 0.33, 0.5] 颜色2 [1, 1, 0.75]</p>
+<p><img data-src="v2-fc94414ecd4e5b95cb0ea5912858589c_720w.png" alt="img"></p>
+<p>变亮效果</p>
+<h2 id="汇总在一张a4纸上"><a class="markdownIt-Anchor" href="#汇总在一张a4纸上"></a> 汇总在一张A4纸上</h2>
+<p><img data-src="v2-9777e7ee9933926f8cd3a50d905a592f_r.jpg" alt="preview"></p>
+<h2 id="参考文献"><a class="markdownIt-Anchor" href="#参考文献"></a> 参考文献</h2>
+<ul>
+<li>Adobe中文官网</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/94081709">Photoshop图层混合模式详解</a></li>
+<li>另外一篇知乎文章，由于写的时候忘了，现在实在找不到了。。要是引用部分原作者来了请找我claim。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/art/" rel="tag"># art</a>
+              <a href="/tags/painting/" rel="tag"># painting</a>
+              <a href="/tags/ps/" rel="tag"># ps</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/05/20/ps-brush/" rel="prev" title="PS笔刷探究">
+                  <i class="fa fa-chevron-left"></i> PS笔刷探究
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/06/acg-dl/" rel="next" title="ACG相关AI项目-论文-代码-数据-资源">
+                  ACG相关AI项目-论文-代码-数据-资源 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

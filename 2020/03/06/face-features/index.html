@@ -1,37 +1,910 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Some Facts  The output of face detector is not always the same, it can be a square, a rectangle, or an oval bounding box. Most of the landmark detectors need to take in an square bounding box for the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Face Recognition, Landmark and Relevant Other Feature Extraction">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/03/06/face-features/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Some Facts  The output of face detector is not always the same, it can be a square, a rectangle, or an oval bounding box. Most of the landmark detectors need to take in an square bounding box for the">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/image-20200306140736438.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/figure_4_n_2.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/1*U4ZQ8UjzouVMRo2Fgsz7UA.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/300px-Eulerangles.svg.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2020/03/06/face-features/image-20200306134751864.png">
+<meta property="article:published_time" content="2020-03-07T04:42:43.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:06:55.044Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="machine-earning">
+<meta property="article:tag" content="face-detection">
+<meta property="article:tag" content="face-alignment">
+<meta property="article:tag" content="face-features">
+<meta property="article:tag" content="face-expression">
+<meta property="article:tag" content="eye-blink">
+<meta property="article:tag" content="head-pose">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2020/03/06/face-features/A48432AC-5A9B-48D6-A502-0777810A592A.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2020/03/06/face-features/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2020/03/06/face-features/","path":"2020/03/06/face-features/","title":"Face Recognition, Landmark and Relevant Other Feature Extraction"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Face Recognition, Landmark and Relevant Other Feature Extraction | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#some-facts"><span class="nav-number">1.</span> <span class="nav-text"> Some Facts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#libraries-and-papers"><span class="nav-number">2.</span> <span class="nav-text"> Libraries and Papers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#face-detection"><span class="nav-number">2.1.</span> <span class="nav-text"> Face Detection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#datasets"><span class="nav-number">2.1.1.</span> <span class="nav-text"> Datasets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#researches"><span class="nav-number">2.1.2.</span> <span class="nav-text"> Researches</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#retinaface-pros-cons"><span class="nav-number">2.1.2.1.</span> <span class="nav-text"> RetinaFace Pros &amp; Cons:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#other-models"><span class="nav-number">2.1.2.2.</span> <span class="nav-text"> Other Models</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wrapped-libraries"><span class="nav-number">2.1.3.</span> <span class="nav-text"> Wrapped Libraries</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#comment"><span class="nav-number">2.1.3.1.</span> <span class="nav-text"> Comment</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#face-landmark"><span class="nav-number">2.2.</span> <span class="nav-text"> Face Landmark</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#datasets-2"><span class="nav-number">2.2.1.</span> <span class="nav-text"> Datasets</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#attention"><span class="nav-number">2.2.1.1.</span> <span class="nav-text"> Attention</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#researches-2"><span class="nav-number">2.2.2.</span> <span class="nav-text"> Researches</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#overview-on-researches"><span class="nav-number">2.2.3.</span> <span class="nav-text"> Overview on researches</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wrapped-libraries-2"><span class="nav-number">2.2.4.</span> <span class="nav-text"> Wrapped Libraries</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eye-blinking"><span class="nav-number">2.3.</span> <span class="nav-text"> Eye Blinking</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#datasets-3"><span class="nav-number">2.3.1.</span> <span class="nav-text"> Datasets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#researches-3"><span class="nav-number">2.3.2.</span> <span class="nav-text"> Researches</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#my-update"><span class="nav-number">2.3.3.</span> <span class="nav-text"> My Update</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#head-pose"><span class="nav-number">2.4.</span> <span class="nav-text"> Head Pose</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#calculation"><span class="nav-number">2.4.1.</span> <span class="nav-text"> Calculation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#implementation"><span class="nav-number">2.4.1.1.</span> <span class="nav-text"> Implementation</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#code-reference"><span class="nav-number">2.4.2.</span> <span class="nav-text"> Code Reference</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#emotion"><span class="nav-number">2.5.</span> <span class="nav-text"> Emotion</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#can-facial-expression-really-tell-emotion"><span class="nav-number">2.5.1.</span> <span class="nav-text"> Can facial expression really tell emotion</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cons"><span class="nav-number">2.5.1.1.</span> <span class="nav-text"> Cons</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pros"><span class="nav-number">2.5.1.2.</span> <span class="nav-text"> Pros</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#datasets-4"><span class="nav-number">2.5.2.</span> <span class="nav-text"> Datasets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wrapped-libraries-3"><span class="nav-number">2.5.3.</span> <span class="nav-text"> Wrapped Libraries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reference"><span class="nav-number">2.5.4.</span> <span class="nav-text"> Reference</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/03/06/face-features/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Face Recognition, Landmark and Relevant Other Feature Extraction | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Face Recognition, Landmark and Relevant Other Feature Extraction<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/face-features.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-06 20:42:43" itemprop="dateCreated datePublished" datetime="2020-03-06T20:42:43-08:00">2020-03-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:06:55" itemprop="dateModified" datetime="2021-03-12T01:06:55-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>8 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="some-facts"><a class="markdownIt-Anchor" href="#some-facts"></a> Some Facts</h2>
+<ol>
+<li>The output of face detector is not always the same, it can be a square, a rectangle, or an oval bounding box.</li>
+<li>Most of the landmark detectors need to take in an square bounding box for the detection.</li>
+<li>Although the bounding box shape is different, they roughly have the same shape center. For the square and rectangle, they have the same bounding box center, and the edge length of the square box is roughly the same as the mean value of the two edge lengths of the rectangle. Here is a sample.</li>
+</ol>
+<span id="more"></span>
+<p><img data-src="A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
+<blockquote>
+<p>White: Dlib Result</p>
+<p>Green: RetinaFace Result</p>
+<p>Red: RetinaFace Transferred Result (Same center, length=(width+height)/2)</p>
+</blockquote>
+<ol start="4">
+<li>Many face detection and alignment models has an absolute detectable face size range in pixel. If the input image contains a face too big, some network cannot generate correct face bounding box or landmark, like RetinaFace, SFD, Hrnet. On the other hand, if the input image contains faces too small(also in absolute pixel), other network like MTCNN and other traditional method will fail.</li>
+</ol>
+<h2 id="libraries-and-papers"><a class="markdownIt-Anchor" href="#libraries-and-papers"></a> Libraries and Papers</h2>
+<h3 id="face-detection"><a class="markdownIt-Anchor" href="#face-detection"></a> Face Detection</h3>
+<h4 id="datasets"><a class="markdownIt-Anchor" href="#datasets"></a> Datasets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wider Face</td>
+<td><a target="_blank" rel="noopener" href="http://shuoyang1213.me/WIDERFACE/">Link</a></td>
+<td><strong>32,203</strong> images, <strong>393,703</strong> faces labeled with a high degree of variability in scale, pose and occlusion</td>
+</tr>
+<tr>
+<td>FFDB</td>
+<td><a target="_blank" rel="noopener" href="http://vis-www.cs.umass.edu/fddb/">Link</a></td>
+<td><strong>5171</strong> faces, in which <strong>2845</strong> images from the <a target="_blank" rel="noopener" href="http://tamaraberg.com/faceDataset/index.html">Faces in the Wild</a> data set</td>
+</tr>
+<tr>
+<td>AFLW</td>
+<td><a target="_blank" rel="noopener" href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/">Link</a></td>
+<td><strong>25k faces</strong> are annotated with up to <strong>21 landmarks</strong> per image</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="researches"><a class="markdownIt-Anchor" href="#researches"></a> Researches</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Paper</th>
+<th>Code</th>
+<th>Year</th>
+<th>Accuracy</th>
+<th>Pre-trained Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/190500641">RetinaFace</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1905.00641v2.pdf">Link</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/deepinsight/insightface"> Original</a><br><a target="_blank" rel="noopener" href="https://github.com/biubug6/Pytorch_Retinaface"> Pytorch</a></td>
+<td>2019</td>
+<td>Wider Face (Hard): 0.914</td>
+<td>104M(Resnet)<br><a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1oZRSG0ZegbVkVwUd8wUIQx8W7yfZ_ki1">2M(MobileNet0.25)</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/dsfd-dual-shot-face-detector">DFSD</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1810.10220v3.pdf">Link</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/TencentYoutuResearch/FaceDetection-DSFD">Link</a></td>
+<td>2018</td>
+<td>FDDB: 0.991<br>Wider Face: 0.960, 0.953, 0.900</td>
+<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1WeXlNYsM6dMP3xQQELI-4gxhwKUQxc3-/view">459MB</a></td>
+</tr>
+<tr>
+<td><a href="SFD/S3FD">SFD/S3FD</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1708.05237.pdf">Link</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/sfzhang15/SFD">Original</a><br><a target="_blank" rel="noopener" href="https://github.com/yxlijun/S3FD.pytorch">Pytorch</a></td>
+<td>2017</td>
+<td>FDDB: 0.983<br>Wider Face: 0.928, 0.913, 0.840</td>
+<td><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1epyTAUc6qSt3oZ7veK4oEw">85.7M</a></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/joint-face-detection-and-alignment-using">MTCNN</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1604.02878">Link</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/kuaikuaikim/DFace">Original</a><br><a target="_blank" rel="noopener" href="https://github.com/ipazc/mtcnn">Pip Version</a></td>
+<td>2016</td>
+<td>Wider Face: 0.851,  0.820, 0.607</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/ipazc/mtcnn/blob/master/mtcnn/data/mtcnn_weights.npy">2.85M</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="retinaface-pros-cons"><a class="markdownIt-Anchor" href="#retinaface-pros-cons"></a> RetinaFace Pros &amp; Cons:</h5>
+<p>RetinaFace can generate an accurate rectangle face bounding box together with a 5-points facial landmark. It supports two backbone kernels: Resnet and MobileNet. The first one is more accurate but relatively slow, the MobileNet version is fast and really small.</p>
+<p>RetinaFace focus more on the detection of the relatively small faces, and it can do a good(best) job on wider face dataset hard level. However, when the input is an image contain a really large face(About ${short_face_edge}&gt;700\space pixel $ ), RetinaFace tend to fail. Since there is also other people asking the same question on the issue of its GitHub page, I tend to think this is a design defects of RetinaFace.</p>
+<p>Since the game streamers’ face videos can be relatively large, I think this may become a fatal drawback. There are three possible solutions:</p>
+<ol>
+<li>Scale the input image to make sure the largest face short edge is smaller than 700, recommend around 500.</li>
+<li>Wait for the author to change or change the pyramid weights parameters. This is delicate and success is not guaranteed.</li>
+</ol>
+<img data-src="image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;">
+<h5 id="other-models"><a class="markdownIt-Anchor" href="#other-models"></a> Other Models</h5>
+<p>DFSD can behave well on both easy, medium and hard level of Wider Face dataset. The only drawback is that it is much too large and slow. Not to mention real-time, it is even too heavy for GPU prediction when the input is a video and we also need to predict other features.</p>
+<p>SFD has the similar problem as RetinaFace. It will also fail at big face cases.</p>
+<p>MTCNN is just really small and easy to use. It is wrapped finely into a pip package and we can use one line to do face detection here. It behaves much worse in small faces, but better when the input face is big compared to other method. In fact, MTCNN might be a good choice for our project, since it is friendly to big face and fast enough.</p>
+<h4 id="wrapped-libraries"><a class="markdownIt-Anchor" href="#wrapped-libraries"></a> Wrapped Libraries</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Year</th>
+<th>Language</th>
+<th>Pip (Name)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dlib</td>
+<td><a target="_blank" rel="noopener" href="http://dlib.net/">Link</a></td>
+<td>2006-&gt;now</td>
+<td>C++ &amp; Python</td>
+<td>√ dlib</td>
+</tr>
+<tr>
+<td>OpenFace V1</td>
+<td><a target="_blank" rel="noopener" href="http://cmusatyalab.github.io/openface/">Home Page</a><br><a target="_blank" rel="noopener" href="https://github.com/cmusatyalab/openface">GitHub</a></td>
+<td>2016</td>
+<td>Python &amp; Lua</td>
+<td>× conda</td>
+</tr>
+<tr>
+<td>OpenFace V2</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/TadasBaltrusaitis/OpenFace">Link</a></td>
+<td>2018</td>
+<td>C++</td>
+<td>× compile locally</td>
+</tr>
+<tr>
+<td>facenet-pytorch</td>
+<td><a target="_blank" rel="noopener" href="https://pypi.org/project/facenet-pytorch/">Link</a></td>
+<td>2017</td>
+<td>Python(PT)</td>
+<td>√ facenet-pytorch</td>
+</tr>
+<tr>
+<td>MTCNN</td>
+<td><a target="_blank" rel="noopener" href="https://pypi.org/project/mtcnn/">Link</a></td>
+<td>2016</td>
+<td>Python(TF)</td>
+<td>√ mtcnn</td>
+</tr>
+</tbody>
+</table>
+<h5 id="comment"><a class="markdownIt-Anchor" href="#comment"></a> Comment</h5>
+<ol>
+<li>OpenFace V1 uses face detection model from dlib and OpenCV.</li>
+<li>OpenFace V2 also used MTCNN as core face detector.</li>
+</ol>
+<h3 id="face-landmark"><a class="markdownIt-Anchor" href="#face-landmark"></a> Face Landmark</h3>
+<h4 id="datasets-2"><a class="markdownIt-Anchor" href="#datasets-2"></a> Datasets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>300-W</td>
+<td><a target="_blank" rel="noopener" href="https://ibug.doc.ic.ac.uk/resources/300-W/">Link</a></td>
+<td>68 points. Bounding boxes calculated by the boundary of all <strong>68</strong> points.</td>
+</tr>
+<tr>
+<td>WFLW</td>
+<td><a target="_blank" rel="noopener" href="https://wywu.github.io/projects/LAB/WFLW.html">Link</a></td>
+<td>Wider Facial Landmarks in-the-wild (WFLW) contains <strong>10000</strong> faces (7500 for training and 2500 for testing) with <strong>98</strong> fully manual annotated landmarks. Rich attribute annotations included, i.e., occlusion, pose, make-up, illumination, blur and expression.</td>
+</tr>
+<tr>
+<td>COFW</td>
+<td><a target="_blank" rel="noopener" href="http://www.vision.caltech.edu/xpburgos/ICCV13/">Link</a></td>
+<td>All images were hand annotated using the same <strong>29</strong> landmarks as in LFPW. Both the landmark positions and their occluded/unoccluded state are annotated. The faces are occluded to different degrees, with large variations in the type of occlusions encountered. COFW has an average occlusion of over <strong>23%</strong>. To increase the number of training images, and since  COFW has the exact same landmarks as LFPW, for training  we use the original non-augmented 845 LFPW faces + 500 COFW faces (<strong>1345</strong> total), and for testing the remaining <strong>507</strong> COFW faces.</td>
+</tr>
+<tr>
+<td>AFLW</td>
+<td><a target="_blank" rel="noopener" href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/">Link</a></td>
+<td>Annotated Facial Landmarks in the Wild (AFLW) provides a large-scale collection of annotated face images gathered from the web, exhibiting a large variety in appearance (e.g., pose, expression, ethnicity, age, gender) as well as general imaging and environmental conditions. In total about <strong>25k faces</strong> are annotated with up to <strong>21 landmarks</strong> per image.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="attention"><a class="markdownIt-Anchor" href="#attention"></a> Attention</h5>
+<ol>
+<li>The bounding box of 300-W dataset is not human labeled. It is the smallest rectangle which can accurately include every 68 points.</li>
+</ol>
+<img data-src="figure_4_n_2.png" alt="img" style="zoom:15%;">
+<h4 id="researches-2"><a class="markdownIt-Anchor" href="#researches-2"></a> Researches</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Paper</th>
+<th>Code</th>
+<th>Year</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/adaptive-wing-loss-for-robust-face-alignment">AWing</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1904.07399v2.pdf">Adaptive Wing Loss for Robust Face Alignment via Heatmap Regression</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/protossw512/AdaptiveWingLoss">Link</a></td>
+<td>2019</td>
+<td>300-W: 3.07</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/look-at-boundary-a-boundary-aware-face">LAB</a></td>
+<td><a target="_blank" rel="noopener" href="https://wywu.github.io/projects/LAB/LAB.html">Look at Boundary</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/wywu/LAB">Link</a></td>
+<td>2018</td>
+<td>300-W: 3.49</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/style-aggregated-network-for-facial-landmark">SAN</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1803.04108v4.pdf">Style Aggregated Network</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/D-X-Y/landmark-detection">Link</a></td>
+<td>2018</td>
+<td>300W NME: 3.98</td>
+</tr>
+<tr>
+<td>HRNet</td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1908.07919">Deep High-Resolution Representation Learning</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/HRNet/HRNet-Facial-Landmark-Detection">Link</a></td>
+<td>2019</td>
+<td>300-W: 3.32</td>
+</tr>
+<tr>
+<td>FAN</td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1703.07332">Face Alignment Network</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/1adrianb/face-alignment">Link</a></td>
+<td>2017</td>
+<td>300-W: Acc(7% threshold)66.9%</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.paperswithcode.com/paper/deep-alignment-network-a-convolutional-neural">DAN-Menpo</a></td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.01789v2.pdf">Deep Alignment Network</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/MarekKowalski/DeepAlignmentNetwork">Link</a></td>
+<td>2017</td>
+<td>300-W: 3.44</td>
+</tr>
+</tbody>
+</table>
+<p>The accuracy on 300-W is based on <strong>FULLSET (PUBLIC)</strong>.</p>
+<h4 id="overview-on-researches"><a class="markdownIt-Anchor" href="#overview-on-researches"></a> Overview on researches</h4>
+<ol>
+<li>FAN is the final method I choose now. It cannot only generate 2D but also accurate 3D landmark, which is quite important for us considering the head pose and eye gaze can also be deduced from here.</li>
+<li>Although HRNet seems to be good, it will crash completely when the input face is large(About <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>f</mi><mi>a</mi><mi>c</mi><mi>e</mi><mi mathvariant="normal">_</mi><mi>m</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">_</mi><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi></mrow><mo>&gt;</mo><mn>250</mn></mrow><annotation encoding="application/x-tex">{face\_min\_edge} &gt; 250</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mord mathnormal">e</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">m</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">e</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">e</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">0</span></span></span></span>). Not really recommended if no extra operation added. But this can also be fixed by resize before sending to our pipeline, since our target is a single big-face player. When the input face size is limited, the result is quite decent.</li>
+</ol>
+<h4 id="wrapped-libraries-2"><a class="markdownIt-Anchor" href="#wrapped-libraries-2"></a> Wrapped Libraries</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Year</th>
+<th>Language</th>
+<th>Pip (Name)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dlib</td>
+<td><a target="_blank" rel="noopener" href="http://dlib.net/">Link</a></td>
+<td>2006-&gt;now</td>
+<td>C++ &amp; Python</td>
+<td>√ dlib</td>
+</tr>
+<tr>
+<td>OpenFace V1</td>
+<td><a target="_blank" rel="noopener" href="http://cmusatyalab.github.io/openface/">Home Page</a><br><a target="_blank" rel="noopener" href="https://github.com/cmusatyalab/openface">GitHub</a></td>
+<td>2016</td>
+<td>Python &amp; Lua</td>
+<td>× conda</td>
+</tr>
+<tr>
+<td>OpenFace V2</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/TadasBaltrusaitis/OpenFace">Link</a></td>
+<td>2018</td>
+<td>C++</td>
+<td>× compile locally</td>
+</tr>
+<tr>
+<td>face-alignment</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/1adrianb/face-alignment">Link</a></td>
+<td>2017</td>
+<td>Python &amp; Lua</td>
+<td>√ face-alignment</td>
+</tr>
+</tbody>
+</table>
+<h3 id="eye-blinking"><a class="markdownIt-Anchor" href="#eye-blinking"></a> Eye Blinking</h3>
+<h4 id="datasets-3"><a class="markdownIt-Anchor" href="#datasets-3"></a> Datasets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Closed Eyes In The Wild (CEW)</td>
+<td><a target="_blank" rel="noopener" href="http://parnec.nuaa.edu.cn/xtan/data/ClosedEyeDatabases.html">Link</a></td>
+<td>2423 subjects, among which 1192 subjects with both eyes closed are collected directly from Internet, and 1231 subjects with eyes open are selected from the Labeled Face in the Wild (LFW [2]) database. Cropped coarse faces resized to the 100×100 and extract eye patches of 24×24 centered at the localized eye position.</td>
+</tr>
+<tr>
+<td>EBV</td>
+<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1jJTImI-QkmGYFS-0UmE1qvqbwoYOCPnR/view?usp=sharing">Link</a></td>
+<td>It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>.</td>
+</tr>
+<tr>
+<td>Eyeblink8</td>
+<td><a target="_blank" rel="noopener" href="https://www.blinkingmatters.com/research">Link</a></td>
+<td>8 videos with 4 individuals (1 wearing glasses). Videos are recorded in a home environment. 408 eye blinks on 70 992 annotated frames with resolution 640x480.</td>
+</tr>
+<tr>
+<td>MRL</td>
+<td><a target="_blank" rel="noopener" href="http://mrl.cs.vsb.cz/eyedataset">Link</a></td>
+<td>Infrared images in low and high resolution, all captured in various lightning conditions and by different devices. Approximately 15 000 annotation for pupil points (images).</td>
+</tr>
+<tr>
+<td>RT-BENE</td>
+<td><a target="_blank" rel="noopener" href="https://zenodo.org/record/3685316#.XmL4pJP0lQI">Link</a></td>
+<td>Annotations of the eye-openness of more than 200,000 eye images, including more than 10,000 images where the eyes are closed.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="researches-3"><a class="markdownIt-Anchor" href="#researches-3"></a> Researches</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Paper</th>
+<th>Code</th>
+<th>Description</th>
+<th>Pre-trained Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In Ictu Oculi</td>
+<td><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.02877">Link</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/danmohaha/WIFS2018_In_Ictu_Oculi">Link</a></td>
+<td>Using Blink to detect Fake Video.</td>
+<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1OJZ4mvZefwMJ7Knpsf_RFhCsA4xbAOMc/view">429M</a></td>
+</tr>
+<tr>
+<td>RT-GENE &amp; RT-BENE</td>
+<td><a target="_blank" rel="noopener" href="http://openaccess.thecvf.com/content_ECCV_2018/html/Tobias_Fischer_RT-GENE_Real-Time_Eye_ECCV_2018_paper.html">Link</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/Tobias-Fischer/rt_gene">Link</a></td>
+<td>Robust gaze estimation in natural environments.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="my-update"><a class="markdownIt-Anchor" href="#my-update"></a> My Update</h4>
+<ol>
+<li>Build a new Resnet18-LSTM based eye blink detection network, which reaches 99.8% accuracy on both training and testing set the same as “In Ictu Oculi” paper proposed.</li>
+<li>Build a new mixed dataset which has three classes: open, closed, and not-eye. Not-eye class includes hand, cup, microphone, hat, fast food, and bedroom background. They are frequently appearing objects in the gamer’s streaming video. In many cases, part of the face are covered by this kind of things, but the face landmark detector can still give a predicted landmark. For example, one’s left eye may be shield by a microphone constantly due to the camera angle, but we can still get the useful information from his right eye. So in these cases, the new dataset will be more representative.</li>
+<li>All of these new 6-classes images are collected from google image. Total number is <strong>2738</strong>, image number of each class is roughly balanced. I did a manual selecting to make sure the image is usable and representative of that classes. Every collected image will be resized to <strong>48, 64, and 128</strong>(the short edge), and then randomly crop three <strong>(32,32)</strong> images from each resized image. At last, <strong>32855</strong> images are collected.</li>
+<li>EBV dataset from the author “In Ictu Oculi” is used as base dataset. It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>. I build the new dataset by inserting 1, 2, or 3 continuous background images into the video clip image folder. The insert position is random, and the proportion of inserting 0,1,2,3 background images is: 40%, 10%, 30%, 20%. The inserted images is also randomly selected continuous images from all generated <strong>32855</strong> images. Training and validation set separation is the same as original dataset.</li>
+<li>A new “Robust-Eye-Blink” network is trained based on this new dataset, and after sufficient training, it can reach 99.7% at both train and test dataset.</li>
+</ol>
+<h3 id="head-pose"><a class="markdownIt-Anchor" href="#head-pose"></a> Head Pose</h3>
+<h4 id="calculation"><a class="markdownIt-Anchor" href="#calculation"></a> Calculation</h4>
+<p>3D Facial Landmark -&gt; <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation matrix</a> -&gt; <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a> -&gt; <a target="_blank" rel="noopener" href="https://carsexplained.wordpress.com/2017/02/21/fundamentals-of-car-science-pitch-and-roll/">(yaw, pitch, roll)</a></p>
+<img data-src="1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;">
+<p>Visualization of yaw, pitch and roll: <a target="_blank" rel="noopener" href="http://www.ctralie.com/Teaching/COMPSCI290/Materials/EulerAnglesViz/">Link</a></p>
+<p><strong>Euler angles:</strong></p>
+<p><img data-src="300px-Eulerangles.svg.png" alt="img"></p>
+<h5 id="implementation"><a class="markdownIt-Anchor" href="#implementation"></a> Implementation</h5>
+<img data-src="image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;">
+<p>Use the 3D landmark computed, and set the vector from 1 to 17 as the x axis, and 9 to 28 as the y axis, then the z axis is computed by set it perpendicular to both x and y, pointing out of front face.</p>
+<p>Now, the head pose detection part has been wrapped into a module, we can get the pose within one line.</p>
+<h4 id="code-reference"><a class="markdownIt-Anchor" href="#code-reference"></a> Code Reference</h4>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/jerryhouuu/Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV">Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV</a></li>
+<li><a target="_blank" rel="noopener" href="https://gist.github.com/crmccreary/1593090">euler_angles_from_rotation_matrix</a></li>
+</ol>
+<h3 id="emotion"><a class="markdownIt-Anchor" href="#emotion"></a> Emotion</h3>
+<h4 id="can-facial-expression-really-tell-emotion"><a class="markdownIt-Anchor" href="#can-facial-expression-really-tell-emotion"></a> Can facial expression really tell emotion</h4>
+<h5 id="cons"><a class="markdownIt-Anchor" href="#cons"></a> Cons</h5>
+<ol>
+<li>Facial expression is not universal, it also depend on culture and education. Like in Asia, people tend to convey more emotion in their eyes, but in western culture, people use their mouth to deliver more information.</li>
+<li>Human can easily trick the face expression to emotion system, since what they show is not necessarily what they feel.</li>
+<li>One certain facial expression can have multiple possible meanings, and this tend to depend on things near the face, namely the context. Like a soccer player win the game and shouting, without the context, you will judge him as angry or so.</li>
+<li>The current facial expression classification method usually classify all of the emotion into several classes, like 6 or 7. But the fact is that each big emotion contain multiple sub-emotions which is more delicate. They can overlap or differ.</li>
+<li>After reading 1000 papers, they find there was little to no evidence that people can reliably infer someone else’s emotional state from a set of facial movements.</li>
+</ol>
+<h5 id="pros"><a class="markdownIt-Anchor" href="#pros"></a> Pros</h5>
+<ol>
+<li>It is actually accurate. Affectiva has reached an accuracy of more than 90%.</li>
+<li>Most of the culture share the similar facial expression.</li>
+</ol>
+<h4 id="datasets-4"><a class="markdownIt-Anchor" href="#datasets-4"></a> Datasets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FER2013</td>
+<td><a target="_blank" rel="noopener" href="https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data">Kaggle Link</a></td>
+<td>48x48 pixel grayscale images of faces. (0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral). The training set consists of 28,709 examples. The public test set consists of 3,589 examples. The final test set consists of another 3,589 examples.</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/5543262">CK+</a></td>
+<td><a target="_blank" rel="noopener" href="http://www.consortium.ri.cmu.edu/ckagree/">Link</a></td>
+<td>Posed Facial Expressions: 593 sequences from 123 subjects.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="wrapped-libraries-3"><a class="markdownIt-Anchor" href="#wrapped-libraries-3"></a> Wrapped Libraries</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Site</th>
+<th>Year</th>
+<th>Language</th>
+<th>Pip/Pt model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Facial-Expression-Recognition</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/WuJie1010/Facial-Expression-Recognition.Pytorch">Link</a></td>
+<td>2018</td>
+<td>Python(PT)</td>
+<td><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1Oy_9YmpkSKX1Q8jkOhJbz3Mc7qjyISzU/view">76M</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h4>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.nature.com/articles/d41586-020-00507-5">Why faces don’t always tell the truth about feelings</a></li>
+</ol>
+<p>By Zhongyang Zhang</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/machine-earning/" rel="tag"># machine-earning</a>
+              <a href="/tags/face-detection/" rel="tag"># face-detection</a>
+              <a href="/tags/face-alignment/" rel="tag"># face-alignment</a>
+              <a href="/tags/face-features/" rel="tag"># face-features</a>
+              <a href="/tags/face-expression/" rel="tag"># face-expression</a>
+              <a href="/tags/eye-blink/" rel="tag"># eye-blink</a>
+              <a href="/tags/head-pose/" rel="tag"># head-pose</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/04/python-call-static-in-static/" rel="prev" title="Python 在类的静态函数中调用另一个静态函数">
+                  <i class="fa fa-chevron-left"></i> Python 在类的静态函数中调用另一个静态函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/12/eemd/" rel="next" title="EMD, EEMD与CEEMD">
+                  EMD, EEMD与CEEMD <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

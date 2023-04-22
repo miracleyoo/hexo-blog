@@ -1,37 +1,753 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Pytorch Release Version Composition The repository cloned from GitHub pytorch&#x2F;pytorch is different from the package we download using pip install or conda install. In fact, the former contains many C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch Core Code Research">
+<meta property="og:url" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Pytorch Release Version Composition The repository cloned from GitHub pytorch&#x2F;pytorch is different from the package we download using pip install or conda install. In fact, the former contains many C">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128191350467.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191203093005864.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128191750794.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128192741907.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128193018098.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128221930437.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128222130891.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128215249350.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128215538638.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128215740348.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128193909092.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128194349295.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128223910466.png">
+<meta property="article:published_time" content="2019-12-12T00:35:01.000Z">
+<meta property="article:modified_time" content="2021-03-12T22:42:33.940Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine learning">
+<meta property="article:tag" content="deep learning">
+<meta property="article:tag" content="Pytorch">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/image-20191128191350467.png">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/","path":"2019/12/11/Pytorch-Core-Code-Research/","title":"Pytorch Core Code Research"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Pytorch Core Code Research | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch-release-version-composition"><span class="nav-number">1.</span> <span class="nav-text"> Pytorch Release Version Composition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nn"><span class="nav-number">1.0.1.</span> <span class="nav-text"> nn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#autograd"><span class="nav-number">1.0.2.</span> <span class="nav-text"> autograd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cuda"><span class="nav-number">1.0.3.</span> <span class="nav-text"> CUDA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#optim"><span class="nav-number">1.0.4.</span> <span class="nav-text"> optim</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#distributed"><span class="nav-number">1.0.5.</span> <span class="nav-text"> distributed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onnx"><span class="nav-number">1.0.6.</span> <span class="nav-text"> onnx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tensor"><span class="nav-number">1.0.7.</span> <span class="nav-text"> tensor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lib"><span class="nav-number">1.0.8.</span> <span class="nav-text"> lib</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#functional"><span class="nav-number">1.0.9.</span> <span class="nav-text"> functional</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#utils"><span class="nav-number">1.0.10.</span> <span class="nav-text"> utils</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how-pytorch-manage-its-inner-resource"><span class="nav-number">2.</span> <span class="nav-text"> How Pytorch manage its inner resource</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what-is-tensor"><span class="nav-number">2.1.</span> <span class="nav-text"> What is Tensor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how-tensor-organizes"><span class="nav-number">2.2.</span> <span class="nav-text"> How Tensor organizes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#data-storage"><span class="nav-number">2.2.1.</span> <span class="nav-text"> Data Storage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data-access"><span class="nav-number">2.2.2.</span> <span class="nav-text"> Data Access</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#memory-allocator"><span class="nav-number">2.2.3.</span> <span class="nav-text"> Memory Allocator</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#c10coreallocatorh"><span class="nav-number">2.2.3.1.</span> <span class="nav-text"> &#x2F;c10&#x2F;core&#x2F;Allocator.h</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#atensrcththallocatorcpp"><span class="nav-number">2.2.3.2.</span> <span class="nav-text"> &#x2F;aten&#x2F;src&#x2F;TH&#x2F;THAllocator.cpp</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#understand-parameters"><span class="nav-number">2.3.</span> <span class="nav-text"> Understand Parameters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tensor-implementation-dispatch"><span class="nav-number">2.4.</span> <span class="nav-text"> Tensor implementation dispatch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#how-to-dispatch"><span class="nav-number">2.5.</span> <span class="nav-text"> How to dispatch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#file-structure"><span class="nav-number">2.5.1.</span> <span class="nav-text"> File structure:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addh"><span class="nav-number">2.5.2.</span> <span class="nav-text"> add.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addc"><span class="nav-number">2.5.3.</span> <span class="nav-text"> add.c</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#genericaddh"><span class="nav-number">2.5.4.</span> <span class="nav-text"> generic&#x2F;add.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#genericaddc"><span class="nav-number">2.5.5.</span> <span class="nav-text"> generic&#x2F;add.c</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#an-example-finding-thstorage"><span class="nav-number">3.</span> <span class="nav-text"> An Example finding THStorage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#autograd-2"><span class="nav-number">4.</span> <span class="nav-text"> Autograd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch-source-code-composition"><span class="nav-number">5.</span> <span class="nav-text"> Pytorch Source Code Composition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#explanation-of-crucial-folders"><span class="nav-number">5.1.</span> <span class="nav-text"> Explanation of crucial folders</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#c10"><span class="nav-number">5.1.1.</span> <span class="nav-text"> C10</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#aten"><span class="nav-number">5.1.2.</span> <span class="nav-text"> ATen</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#caffe2"><span class="nav-number">5.1.3.</span> <span class="nav-text"> Caffe2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch"><span class="nav-number">5.1.4.</span> <span class="nav-text"> Torch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torchcsrc"><span class="nav-number">5.1.5.</span> <span class="nav-text"> Torch&#x2F;csrc</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mechanism-inside-a-simple-call"><span class="nav-number">5.2.</span> <span class="nav-text"> Mechanism inside a simple call</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-condition-of-memory-management-in-pytorch"><span class="nav-number">6.</span> <span class="nav-text"> Basic Condition of Memory Management in Pytorch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how-python-interact-with-cc"><span class="nav-number">7.</span> <span class="nav-text"> How Python interact with C&#x2F;C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#compile-c-program-to-so-library-and-call-it-in-python"><span class="nav-number">7.1.</span> <span class="nav-text"> Compile C program to .so library and call it in python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#compile-as-shared-library"><span class="nav-number">7.1.1.</span> <span class="nav-text"> Compile as shared library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#add-wrapper-in-c-file"><span class="nav-number">7.1.2.</span> <span class="nav-text"> Add wrapper in C++ file</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-file-include-module-and-expose"><span class="nav-number">7.2.</span> <span class="nav-text"> C++ file include module and Expose</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#integrating-a-ccuda-operation-with-pytorch"><span class="nav-number">8.</span> <span class="nav-text"> Integrating a C++&#x2F;CUDA Operation with PyTorch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cpu-integration"><span class="nav-number">8.0.1.</span> <span class="nav-text"> CPU Integration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cuda-integration"><span class="nav-number">8.0.2.</span> <span class="nav-text"> CUDA Integration</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">9.</span> <span class="nav-text"> Conclusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">10.</span> <span class="nav-text"> Reference</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slides"><span class="nav-number">11.</span> <span class="nav-text"> Slides</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Pytorch Core Code Research | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pytorch Core Code Research<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/Pytorch-Core-Code-Research.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-12-11 16:35:01" itemprop="dateCreated datePublished" datetime="2019-12-11T16:35:01-08:00">2019-12-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 14:42:33" itemprop="dateModified" datetime="2021-03-12T14:42:33-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>4.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>16 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="pytorch-release-version-composition"><a class="markdownIt-Anchor" href="#pytorch-release-version-composition"></a> Pytorch Release Version Composition</h2>
+<p>The repository cloned from GitHub <a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">pytorch/pytorch</a> is different from the package we download using <code>pip install</code> or <code>conda install</code>. In fact, the former contains many C/C++ based files, which consist of the basic of Pytorch, while the latter is more concise and contains compiled libraries and dll files instead.</p>
+<p>Here, let’s discuss the release version, or the installed package at first. The package has a lot of components, Here I only pick out some most important parts to do explanation.</p>
+<p><img data-src="image-20191128191350467.png" alt="image-20191128191350467"></p>
+<span id="more"></span>
+<h4 id="nn"><a class="markdownIt-Anchor" href="#nn"></a> nn</h4>
+<p>All deep learning layers’ python entrance are located here. They mainly collect parameters from init input and do some modification to the input data. After that it will send core computation operation together with parameters into <code>torch._C</code> based functions.</p>
+<h4 id="autograd"><a class="markdownIt-Anchor" href="#autograd"></a> autograd</h4>
+<p>Contains a series of base functions which serves for back propagation. Also, if you dig in, the core implementation is still from C libraries. Variable wrap is also put here, but now it is just omitted because of the merge of tensor and Variable.</p>
+<h4 id="cuda"><a class="markdownIt-Anchor" href="#cuda"></a> CUDA</h4>
+<p>Mainly these parts are contained in <code>cuda</code> folder: Stream, Event, Broadcast and Random.</p>
+<ul>
+<li>A CUDA stream is a linear sequence of execution that belongs to a specific device, independent from other streams.</li>
+<li>CUDA events are synchronization markers that can be used to monitor the device’s progress, to accurately measure timing, and to synchronize CUDA streams.</li>
+<li>Broadcast related functions mainly do the jobs to make sure operations run on different GPUs and gather correctly.</li>
+</ul>
+<h4 id="optim"><a class="markdownIt-Anchor" href="#optim"></a> optim</h4>
+<p><code>torch.optim</code> is a package implementing various optimization algorithms. Most commonly used methods are already supported, like <code>adam</code>, <code>sgd</code> and <code>adagrad</code>.</p>
+<h4 id="distributed"><a class="markdownIt-Anchor" href="#distributed"></a> distributed</h4>
+<p>The <code>distributions</code> package contains parameterizable probability distributions and sampling functions. This allows the construction of stochastic computation graphs and stochastic gradient estimators for optimization.</p>
+<h4 id="onnx"><a class="markdownIt-Anchor" href="#onnx"></a> onnx</h4>
+<p>The <code>torch.onnx</code> module contains functions to export models into the ONNX IR format. These models can be loaded with the ONNX library and then converted to models which run on other deep learning frameworks.</p>
+<h4 id="tensor"><a class="markdownIt-Anchor" href="#tensor"></a> tensor</h4>
+<p>Most basic tensor class defined here. It inherit a super class from C lib, called <code>torch._C._TensorBase</code> . And it attaches a lot of method like <code>register_hook</code>,<code>resize</code>, <code>norm</code> to tensor class. All these method eventually call C based libraries.</p>
+<h4 id="lib"><a class="markdownIt-Anchor" href="#lib"></a> lib</h4>
+<p>The library where compiled C/C++ files located. There are <code>.dll</code> files as well as <code>.lib</code> files. According to the bug reports on google, I believe <code>.dll</code> files are specially compiled for the compatibility of windows and <code>.lib</code> can be used in linux and some of them are also usable in Windows.(If you find a more accurate explanation, please tell me:) These files included: <code>_C.lib</code>, <code>c10.lib</code>, <code>torch.lib</code>, <code>c10_cuda.lib</code>.</p>
+<h4 id="functional"><a class="markdownIt-Anchor" href="#functional"></a> functional</h4>
+<p>Functions related to tensor operation are all located here. In fact, again, they are wrappers of functions from C libraries. You can find functions like <code>tensordot</code>, <code>unique</code>, <code>split</code> in this file.</p>
+<h4 id="utils"><a class="markdownIt-Anchor" href="#utils"></a> utils</h4>
+<p>All kinds of utilities codes are located here. This include dataset related code <code>dataloader.py</code>, <code>dataset.py</code>, <code>sampler.py</code>, also include save and output related <code>checkpoint.py</code>. Some TensorBoard support can also be found here.</p>
+<h2 id="how-pytorch-manage-its-inner-resource"><a class="markdownIt-Anchor" href="#how-pytorch-manage-its-inner-resource"></a> How Pytorch manage its inner resource</h2>
+<h3 id="what-is-tensor"><a class="markdownIt-Anchor" href="#what-is-tensor"></a> What is Tensor</h3>
+<p>In <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mathematics">mathematics</a>, a <strong>tensor</strong> is an algebraic object that describes a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Linear_mapping">linear mapping</a> from one set of algebraic objects to another. Objects that tensors may map between include, but are not limited to, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Vector_(mathematics_and_physics)">vectors</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Scalar_(mathematics)">scalars</a>, and, recursively, even other tensors. The tensor is the central data structure in PyTorch.  It’s an n-dimensional data structure containing some sort of scalar type, e.g., floats, ints, et cetera. We can think of a tensor as consisting of some data, and then some metadata describing the size of the tensor, the type of the elements in contains (dtype), what device the tensor lives on (CPU memory,  CUDA memory)</p>
+<p>![what is tensor](Simple Tutorials on Tensors.jpg)</p>
+<h3 id="how-tensor-organizes"><a class="markdownIt-Anchor" href="#how-tensor-organizes"></a> How Tensor organizes</h3>
+<p>TH library is responsible for the computation,storage and memory management of Tensor. It divide the “Tensor” into two separate parts: Storage and Access/View.</p>
+<p>Storage: <strong>THStorage</strong>. It manage the way of storing the Tensor.</p>
+<p>Access: <strong>THTensor</strong>. It provide a access to user.</p>
+<p><img data-src="image-20191203093005864.png" alt="image-20191203093005864"></p>
+<h4 id="data-storage"><a class="markdownIt-Anchor" href="#data-storage"></a> Data Storage</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">THStorage</span></span><br><span class="line">&#123;</span><br><span class="line"> real *data;</span><br><span class="line"> <span class="type">ptrdiff_t</span> size;</span><br><span class="line"> <span class="type">int</span> refcount;</span><br><span class="line"> <span class="type">char</span> flag;</span><br><span class="line"> THAllocator *allocator;</span><br><span class="line"> <span class="type">void</span> *allocatorContext;</span><br><span class="line"> <span class="keyword">struct</span> <span class="title class_">THStorage</span> *view;</span><br><span class="line">&#125; THStorage;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>All of the “Tensor” in CPU is in fact a C pointer pointing to a data structure in memory like this. And it use reference count to do memory management.</li>
+<li><strong>refcount</strong>: Here we apply reference count method to do automatic garbage collection. When the reference number becomes 0, this struct will be freed automatically.</li>
+</ul>
+<h4 id="data-access"><a class="markdownIt-Anchor" href="#data-access"></a> Data Access</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">THTensor</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">long</span> *size;</span><br><span class="line"> <span class="type">long</span> *stride;</span><br><span class="line"> <span class="type">int</span> nDimension;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// Attention: storage-&gt;size might be bigger than the size of tensor.</span></span><br><span class="line"> THStorage *storage;</span><br><span class="line"> <span class="type">ptrdiff_t</span> storageOffset;</span><br><span class="line"> <span class="type">int</span> refcount;</span><br><span class="line"></span><br><span class="line"> <span class="type">char</span> flag;</span><br><span class="line"></span><br><span class="line">&#125; THTensor;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>nDimension</strong>: The number of dimensions</li>
+<li><strong>size</strong>: It contains the length information of all dimensions.</li>
+<li><strong>refcount</strong>: Reference count</li>
+<li><strong>storage</strong>: Pointer of this data structure</li>
+<li><strong>stride</strong>: The size of each dimension.</li>
+</ul>
+<h4 id="memory-allocator"><a class="markdownIt-Anchor" href="#memory-allocator"></a> Memory Allocator</h4>
+<h5 id="c10coreallocatorh"><a class="markdownIt-Anchor" href="#c10coreallocatorh"></a> <code>/c10/core/Allocator.h</code></h5>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C10_API</span> Allocator &#123;</span><br><span class="line">  <span class="keyword">virtual</span> ~<span class="built_in">Allocator</span>() = <span class="keyword">default</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> DataPtr <span class="title">allocate</span><span class="params">(<span class="type">size_t</span> n)</span> <span class="type">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> DeleterFnPtr <span class="title">raw_deleter</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span>* <span class="title">raw_allocate</span><span class="params">(<span class="type">size_t</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> dptr = <span class="built_in">allocate</span>(n);</span><br><span class="line">    <span class="built_in">AT_ASSERT</span>(dptr.<span class="built_in">get</span>() == dptr.<span class="built_in">get_context</span>());</span><br><span class="line">    <span class="keyword">return</span> dptr.<span class="built_in">release_context</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">raw_deallocate</span><span class="params">(<span class="type">void</span>* ptr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> d = <span class="built_in">raw_deleter</span>();</span><br><span class="line">    <span class="built_in">AT_ASSERT</span>(d);</span><br><span class="line">    <span class="built_in">d</span>(ptr);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>The <code>allocate</code> function is directly included from head file <code>memory</code>.</p>
+<h5 id="atensrcththallocatorcpp"><a class="markdownIt-Anchor" href="#atensrcththallocatorcpp"></a> <code>/aten/src/TH/THAllocator.cpp</code></h5>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">at::DataPtr <span class="title">THMapAllocator::makeDataPtr</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *filename, <span class="type">int</span> flags, <span class="type">size_t</span> size, <span class="type">size_t</span>* actual_size_out)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span>* context = <span class="keyword">new</span> <span class="built_in">THMapAllocator</span>(filename, flags, size);</span><br><span class="line">  <span class="keyword">if</span> (actual_size_out) *actual_size_out = context-&gt;<span class="built_in">size</span>();</span><br><span class="line">  <span class="keyword">return</span> &#123;context-&gt;<span class="built_in">data</span>(), context, &amp;deleteTHMapAllocator, at::DeviceType::CPU&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Default allocator is malloc/free allocator. malloc and realloc raise an error (using THError) on allocation failure.</p>
+</blockquote>
+<h3 id="understand-parameters"><a class="markdownIt-Anchor" href="#understand-parameters"></a> Understand Parameters</h3>
+<p>It is hard and not straightforward enough to understand stride and storage offset, so let’s borrow some images from <a target="_blank" rel="noopener" href="http://blog.ezyang.com/2019/05/pytorch-internals/">ezyang</a>, who is supposed to be an inner developer of Pytorch, to elaborate this problem.</p>
+<p>A tensor is a mathematical concept. But to represent it on our computers, we have to define some sort of physical representation for them. The most common representation is to lay out each element of the tensor contiguously in memory (that’s where the term contiguous comes from), writing out each row to memory.</p>
+<p><img data-src="image-20191128191750794.png" alt="image-20191128191750794"></p>
+<p>Please notice the relationship of sizes and strides. If we get a tensor with a size of (D,H,W) and this tensor is directly defined by user rather than a slice or result of some operation, the stride of it will be (H*W, W, 1). You can compare and draw a conclusion yourself. Each stride element in a certain dimension will be the product of all the following dimensions, and the stride of the last dimension will be 1.</p>
+<p>Physically, stride means how many blocks of memory computer need to skip to get to the starting position of the next corresponding dimension. And if we use a formula to compute the memory position of a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>e</mi><mi>n</mi><mi>s</mi><mi>o</mi><mi>r</mi><mo stretchy="false">[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">Tensor[i,j,k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">s</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span>, it will be <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>a</mi><mi>g</mi><mi>e</mi><mi>O</mi><mi>f</mi><mi>f</mi><mi>s</mi><mi>e</mi><mi>t</mi><mo>+</mo><mi>i</mi><mo>∗</mo><mi>s</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>d</mi><mi>e</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mo>+</mo><mi>j</mi><mo>∗</mo><mi>s</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>d</mi><mi>e</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo>+</mo><mi>k</mi><mo>∗</mo><mi>s</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>d</mi><mi>e</mi><mo stretchy="false">[</mo><mn>2</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">storageOffset + i * stride[0] + j * stride[1] + k * stride[2]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mopen">[</span><span class="mord">2</span><span class="mclose">]</span></span></span></span>.</p>
+<p>In the example image above, I’ve specified that the tensor contains 32-bit integers, so you can see that each integer lies in a physical address, each offset four bytes from each other. To remember what the actual dimensions of the tensor are, we have to also record what the sizes are as extra metadata.</p>
+<p><img data-src="image-20191128192741907.png" alt="image-20191128192741907"></p>
+<p>Then comes to the memory offset. What does this mean? As we has mentioned before, a tensor storage may support multiple tensor view, and if we sliced the first N elements, then we will start from N+1 memory position. The following examples will give a further explanation.</p>
+<p><img data-src="image-20191128193018098.png" alt="image-20191128193018098"></p>
+<p>You can see in the left example, we start at the third element block, so that means we skip two block, and here the offset is 2. Because of the slice, the two dimensional tensor becomes one dimensional tensor, and conjoint elements are continuous in physical storage, this means the strides is [1]. Size is the number of elements in this case and it is 2.</p>
+<p>In the right example, conjoint elements are not continuous, but it do start from the beginning, so the strides is [2] and offset is 0. There are still two elements in total so the sizes don’t change.</p>
+<p>What’s more, if you still find it somehow difficult to understand, you may try <a target="_blank" rel="noopener" href="https://ezyang.github.io/stride-visualizer/index.html">this website</a> to playing with these parameters and see the dynamic process.</p>
+<h3 id="tensor-implementation-dispatch"><a class="markdownIt-Anchor" href="#tensor-implementation-dispatch"></a> Tensor implementation dispatch</h3>
+<p>As we know, although in Python, you can use any type of data as you wish, as the interpreter will take care of the rest of the things. However, since the basic kernels are written in C/C++, functions from Python need to be dispatched into same functions with different input and device type. To a C/C++ functions, a certain function cannot take in <code>int</code> and <code>float</code> Tensor as a same <code>X</code> at the same time, they need separate implementation.</p>
+<p><img data-src="image-20191128221930437.png" alt="image-20191128221930437"></p>
+<h3 id="how-to-dispatch"><a class="markdownIt-Anchor" href="#how-to-dispatch"></a> How to dispatch</h3>
+<p>As we discussed above, the basic C/C++ implementation need to dispatch according to data and device type. But in code, how to actually do this work?</p>
+<p><img data-src="image-20191128222130891.png" alt="image-20191128222130891"></p>
+<p>There are basically three methods.</p>
+<ol>
+<li>Write these functions with different data and device type separately, and manually.</li>
+<li>Using template function to build those dispatched function in the compiling time. But this only works in C++, while many code in Pytorch is still written in C.</li>
+<li>Apply the magic item – Macro. By defining the function name as a Macro which takes in one or some parameters, like the data type name, we can compile this function in different types by <code>#define</code> and <code>#undef</code> multiple times, setting the variables in function name macro into various type name to compile the function into many copies which support different types.</li>
+</ol>
+<p>Here’s a simplified example:</p>
+<h4 id="file-structure"><a class="markdownIt-Anchor" href="#file-structure"></a> File structure:</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── add.c <span class="comment"># Used to extend generic/add.c</span></span><br><span class="line">├── add.h <span class="comment"># Used to extend generic/add.h</span></span><br><span class="line">├── general.h <span class="comment"># Including other header files</span></span><br><span class="line">└── generic</span><br><span class="line"> ├── add.c <span class="comment"># Definition of generic function add</span></span><br><span class="line"> └── add.h <span class="comment"># Definition of generic type Vector</span></span><br></pre></td></tr></table></figure>
+<h4 id="addh"><a class="markdownIt-Anchor" href="#addh"></a> add.h</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;general.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT_2_EXPAND(A, B) A ## B</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT_2(A, B) CONCAT_2_EXPAND(A, B)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT_3_EXPAND(A, B, C) A ## B ## C</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CONCAT_3(A, B, C) CONCAT_3_EXPAND(A, B, C)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Vector_(NAME) CONCAT_3(Num, Vector_, NAME)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Vector CONCAT_2(Num, Vector)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> num float</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Num Float</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;generic/add.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> Num</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> num double</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Num Double</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;generic/add.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> Num</span></span><br></pre></td></tr></table></figure>
+<h4 id="addc"><a class="markdownIt-Anchor" href="#addc"></a> add.c</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;add.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> num float</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Num Float</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;generic/add.c&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> Num</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> num double</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Num Double</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;generic/add.c&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> num</span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> Num</span></span><br></pre></td></tr></table></figure>
+<h4 id="genericaddh"><a class="markdownIt-Anchor" href="#genericaddh"></a> generic/add.h</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// generic/add.h</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Vector</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">num *data;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">&#125; Vector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">Vector_</span><span class="params">(add)</span><span class="params">(Vector *C, Vector *A, Vector *B)</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="genericaddc"><a class="markdownIt-Anchor" href="#genericaddc"></a> generic/add.c</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// generic/add.c</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Vector_</span><span class="params">(add)</span><span class="params">(Vector *C, Vector *A, Vector *B)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">int</span> i, n;</span><br><span class="line">n = C-&gt;n;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">C-&gt;data[i] = A-&gt;data[i] + B-&gt;data[i];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="an-example-finding-thstorage"><a class="markdownIt-Anchor" href="#an-example-finding-thstorage"></a> An Example finding THStorage</h2>
+<p>I try to find the definition of THStorage, since it will give us a brief understand of the file management structure of pytorch, and we can also grab a basic idea of how those macros and includes are forming this huge project. We start from <code>torch/csrc/Storage.cpp</code>, and check step by step to the file included.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Storage.cpp                 -&gt;</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;TH/TH.h&gt;</span>          -&gt;</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;TH/THStorageFunction.h&gt;</span>   -&gt;</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;TH/generic/THStorage.h&gt;</span>   -&gt;</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;c10/core/StorageImpl.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>Find the macro definition in <code>TH/generic/THStorage.h</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> THStorage at::StorageImpl</span></span><br></pre></td></tr></table></figure>
+<p>Find the structure definition in <code>c10/core/StorageImpl.h</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> c10 &#123;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">C10_API</span> StorageImpl <span class="keyword">final</span> : <span class="keyword">public</span> c10::intrusive_ptr_target &#123;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  caffe2::TypeMeta  data_type_;  <span class="comment">// Data type</span></span><br><span class="line">  DataPtr data_ptr_;             <span class="comment">// Data pointer</span></span><br><span class="line">  <span class="type">int64_t</span> numel_;                <span class="comment">// Data number</span></span><br><span class="line">  <span class="type">bool</span> resizable_;</span><br><span class="line">  <span class="type">bool</span> received_cuda_;</span><br><span class="line">  Allocator* allocator_;         <span class="comment">// Data&#x27;s allocator</span></span><br><span class="line">&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Therefore, the hidding real tpye of <code>THWStorage</code> is <code>at::StorageImpl</code>, and it is the implementation of data storage. Let’s look into the definition of <code>THPStorage_(pynew)</code> at first, when the value of  <code>cdata</code> is not provided, it need to create an implementation of class <code>THWStorage</code> using function <code>THWStorage_(NAME)</code>,  and the value of NAME can possibly be:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span>                <span class="comment">// New a THStorage, if size not specified, size=0, that means using default Allocator</span></span><br><span class="line">free</span><br><span class="line">size</span><br><span class="line">get</span><br><span class="line">set</span><br><span class="line">data</span><br><span class="line">newWithSize        <span class="comment">// New THStorage，specify size but use default Allocator</span></span><br><span class="line">newWithAllocator   <span class="comment">// New THStorage，specify size and Allocator</span></span><br><span class="line">copy_functions</span><br><span class="line">copyByte</span><br><span class="line">...</span><br><span class="line">copyCudaByte</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>And also some macro definitions:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> THWStorage_(NAME) THStorage_(NAME)     <span class="comment">// torch/csrc/THP.h</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> THStorage_(NAME) TH_CONCAT_4(TH,Real,Storage_,NAME)   <span class="comment">// TH/THStorageFunctions.h</span></span></span><br></pre></td></tr></table></figure>
+<p>The declaration of function <code>THStorage_(NAME)</code> lives in <code>TH/generic/THStorage.h</code>, <code>TH/generic/THStorageCopy.h</code> and the implementation part lies in corresponding cpp files.</p>
+<p>(BTW, if using cuda, the declaration of  <code>#define THWStorage_(NAME) THCStorage_(NAME)</code>lie in <code>THC/generic/THCStorage.h</code> and <code>THC/generic/THCStorageCopy.h</code>)</p>
+<p>Take THStorage_(newWithSize) function as an example, look into <code>TH/generic/THStorage.cpp</code> and we can find the definition:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">THStorage* <span class="title">THStorage_</span><span class="params">(newWithSize)</span><span class="params">(<span class="type">ptrdiff_t</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  THStorage* storage = c10::<span class="built_in">make_instrusive</span>&lt;at::StorageImpl&gt;(</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> THQUANTIZED</span></span><br><span class="line">    caffe2::TypeMeta::<span class="built_in">Make</span>&lt;<span class="type">quantized_t</span>&gt;(),</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    caffe2::TypeMeta::<span class="built_in">Make</span>&lt;<span class="type">scalar_t</span>&gt;(),        <span class="comment">// New a scalar_t type</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    size,</span><br><span class="line">    <span class="built_in">getTHDefaultAllocator</span>(),</span><br><span class="line">    <span class="literal">true</span>).<span class="built_in">release</span>();</span><br><span class="line">  <span class="keyword">return</span> storage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It’s not hard to infer from this code block that it new an <code>StorageImpl</code>, and add an intrusive pointer pointing to one of them, at last return a pointer pointing to <code>StorageImpl</code> and destroy the intrusive pointer. Macro THStorage is <code>at::StorageImpl</code>, so this method simply new a <code>StorageImpl and return a pointer pointing to it. According to the definition of </code>c10::make_instrusive`, this work will actually be done by the constructor of StorageImpl’ and it is:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">StorageImpl</span>(</span><br><span class="line">    caffe2::TypeMeta data_type,</span><br><span class="line">    int64_4 numel,</span><br><span class="line">    at::Allocator* allocator,</span><br><span class="line">    <span class="type">bool</span> resizable)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>We will only traced here and this show a representative example of how pytorch inner code call and implement those method.</p>
+<h2 id="autograd-2"><a class="markdownIt-Anchor" href="#autograd-2"></a> Autograd</h2>
+<p>Autograd is a method which support automatic computation of gradient which will be used in the back propagation. Autograd depend directly on the computational graph. Computational graph is used for defining the pipeline of a model. It combines functions with variables and shows how they connect to each other.</p>
+<p><img data-src="image-20191128215249350.png" alt="image-20191128215249350"></p>
+<p>A directed graph with the following property:</p>
+<ol>
+<li>Edge: a function, or a function’s dependency</li>
+<li>Points with input edges: a function (or operator)</li>
+<li>Points with output edges: a variable</li>
+</ol>
+<p>Computational graph has two major types, they are dynamic and static computational graphs. TensorFlow applies static graph, it has the following characteristics:</p>
+<ul>
+<li>First define the structure of the graph, and then assign values to the leaf nodes (this is the origin of placeholder)</li>
+<li>Then forward according to the assignment of leaf nodes</li>
+</ul>
+<p>Pytorch, on the other hand, utilize dynamic graph. The structure of the graph is established at the same time as the forward, so there is no need to use placeholder.</p>
+<p>Here is an example inner code of autograd.</p>
+<p><img data-src="image-20191128215538638.png" alt="image-20191128215538638"></p>
+<p>Here we will elaborate these parameters which get involved in this process.</p>
+<ul>
+<li>
+<p><strong>Data</strong>: It’s the data a variable is holding.</p>
+</li>
+<li>
+<p><strong>requires_grad</strong>: This member, if true starts tracking all the operation history and forms a backward graph for gradient calculation.</p>
+</li>
+<li>
+<p><strong>grad:</strong> grad holds the value of gradient. If requires_grad is False it will hold a None value. Even if requires_grad is True, it will hold a None value unless .backward() function is called from some other node.</p>
+</li>
+<li>
+<p><strong>grad_fn:</strong> This is the backward function used to calculate the gradient.</p>
+</li>
+<li>
+<p><strong>is_leaf</strong>: A node is leaf if :</p>
+<ol>
+<li>
+<p>It was initialized explicitly by some function like x = torch.tensor(1.0) or x = torch.randn(1, 1) (basically all the tensor initializing methods discussed at the beginning of this post).</p>
+</li>
+<li>
+<p>It is created after operations on tensors which all have requires_grad = False.</p>
+</li>
+<li>
+<p>It is created by calling .detach() method on some tensor.</p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img data-src="image-20191128215740348.png" alt="image-20191128215740348"></p>
+<h2 id="pytorch-source-code-composition"><a class="markdownIt-Anchor" href="#pytorch-source-code-composition"></a> Pytorch Source Code Composition</h2>
+<p>Since different data type, different devices are supported, and python code call C/C++ based code, the source code structure is not easy to understand. Here is the most important parts in the root directory.</p>
+<p><img data-src="image-20191128193909092.png" alt="image-20191128193909092"></p>
+<p>And provide a more detailed directory comment as well as explanation below.</p>
+<p><img data-src="image-20191128194349295.png" alt="image-20191128194349295"></p>
+<h3 id="explanation-of-crucial-folders"><a class="markdownIt-Anchor" href="#explanation-of-crucial-folders"></a> Explanation of crucial folders</h3>
+<h4 id="c10"><a class="markdownIt-Anchor" href="#c10"></a> C10</h4>
+<p><strong>C</strong>affe <strong>Ten</strong>sor Library: Most basic tensor library. Codes here can be deployed to mobile devices as well as servers. It contains the core abstractions of PyTorch, including the actual implementations of the Tensor and Storage data structures.</p>
+<h4 id="aten"><a class="markdownIt-Anchor" href="#aten"></a> ATen</h4>
+<p><strong>A</strong> <strong>TEN</strong>sor library for C<ins>11, the C</ins> tensor library for Pytorch. It is a C++ library that implements the <strong>operations</strong> of Tensors. If you’re looking for where some kernel code lives, chances are it’s in ATen. ATen itself bifurcates into two neighborhoods of operators: the “native” operators, which are modern, C++ implementations of operators, and the “legacy” operators (TH, THC, THNN, THCUNN), which are legacy, C implementations. The legacy operators are the bad part of town; try not to spend too much time there if you can.</p>
+<h4 id="caffe2"><a class="markdownIt-Anchor" href="#caffe2"></a> Caffe2</h4>
+<p>This part is from the original Caffe2. After the merge of Pytorch and Caffe2, Caffe2 become a kind of backend in Pytorch.</p>
+<h4 id="torch"><a class="markdownIt-Anchor" href="#torch"></a> Torch</h4>
+<p>This is the part normally called by user when then use Pytorch to train or test their models. It contains what you are most familiar with: the actual Python modules that you import and use.</p>
+<h4 id="torchcsrc"><a class="markdownIt-Anchor" href="#torchcsrc"></a> Torch/csrc</h4>
+<p>The C++ code that implements what you might call the frontend of PyTorch. In more descriptive terms, it implements the binding code that translates between the Python and C++ universe, and also some pretty important pieces of PyTorch, like the autograd engine and the JIT compiler. It also contains the C++ frontend code.</p>
+<h3 id="mechanism-inside-a-simple-call"><a class="markdownIt-Anchor" href="#mechanism-inside-a-simple-call"></a> Mechanism inside a simple call</h3>
+<p><img data-src="image-20191128223910466.png" alt="image-20191128223910466"></p>
+<h2 id="basic-condition-of-memory-management-in-pytorch"><a class="markdownIt-Anchor" href="#basic-condition-of-memory-management-in-pytorch"></a> Basic Condition of Memory Management in Pytorch</h2>
+<ol>
+<li>Every tensor will be assigned with a allocator when it is initialized.</li>
+<li><code>c10/core/Allocator.h</code>: Pytorch default allocator class defined here.</li>
+</ol>
+<p>Some Policy in <code>c10/core/Allocator.h</code>:</p>
+<ul>
+<li>
+<p>A DataPtr is a unique pointer (with an attached deleter and some context for the deleter) to some memory, which also records what device is for its data. nullptr DataPtrs can still have a nontrivial device; this allows us to treat zero-size allocations uniformly with non-zero allocations.</p>
+</li>
+<li>
+<p>Choice of CPU here is arbitrary; if there’s an “undefined” device, we could use that too.</p>
+</li>
+<li>
+<p>The deleter can be changed while running using function <code>compare_exchange_deleter</code>.</p>
+</li>
+<li>
+<p>This context is used to generate DataPtr which have arbitrary <code>std::function</code> deleters associated with them.  In some user facing functions, we give a (user-friendly) interface for constructing tensors from external data which take an arbitrary <code>std::function</code> deleter.  Grep for InefficientStdFunctionContext to find these occurrences.</p>
+<p>This context is inefficient because we have to do a dynamic allocation <code>InefficientStdFunctionContext</code>, on top of the dynamic allocation which is implied by <code>std::function</code> itself.</p>
+</li>
+</ul>
+<ol start="3">
+<li>There is a fake allocator in Aten(<code>aten/src/ATen/CPUFixedAllocator.h</code>), which just throws exceptions if some cpu fixed operation is actually used, like <code>cpu_fixed_malloc</code>, <code>cpu_fixed_realloc</code>, <code>cpu_fixed_free</code>.</li>
+<li><code>c10/core/CPUAllocator.cpp</code> contains functions: <code>alloc_cpu</code>, <code>free_cpu</code>, <code>memset_junk</code>,  <code>alloc_cpu</code> even has the code dealing with NUMA machine. And there is a class <code>MemoryAllocationReporter</code> which is used to report C10’s memory allocation and deallocation status.</li>
+<li><code>c10/core/Allocator.cpp</code>: Set and get allocator for different device type.</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DeviceType::CPU</span><br><span class="line">DeviceType::CUDA</span><br><span class="line">DeviceType::OPENGL</span><br><span class="line">DeviceType::OPENCL</span><br><span class="line">DeviceType::MKLDNN</span><br><span class="line">DeviceType::IDEEP</span><br><span class="line">DeviceType::HIP</span><br><span class="line">DeviceType::FPGA</span><br><span class="line">DeviceType::MSNPU</span><br><span class="line">DeviceType::XLA</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>
+<p><code>c10/core/StorageImpl.h</code> &amp; <code>c10/core/Storage.h</code>: Mainly allocates memory buffer using given allocator and creates a storage with it. Mark.</p>
+</li>
+<li>
+<p><code>c10/cuda/CUDACachingAllocator.cpp</code> is a caching allocator for CUDA. It has the following description:</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Yet another caching allocator for CUDA device allocations.</span><br><span class="line"></span><br><span class="line">- Allocations are associated with a stream. Once freed, blocks can be</span><br><span class="line">  re-allocated on the same stream, but not on any other stream.</span><br><span class="line">- The allocator attempts to find the smallest cached block that will fit the</span><br><span class="line">  requested size. If the block is larger than the requested size, it may be</span><br><span class="line">  split. If no block is found, the allocator will delegate to cudaMalloc.</span><br><span class="line">- If the cudaMalloc fails, the allocator will free all cached blocks that</span><br><span class="line">  are not split and retry the allocation.</span><br><span class="line">- Large (&gt;1MB) and small allocations are stored in separate pools.</span><br><span class="line">  Small requests are packed into 2MB buffers. Large requests will use the</span><br><span class="line">  smallest available free block or allocate a new block using cudaMalloc.</span><br><span class="line">  To reduce fragmentation, requests between 1MB and 10MB will allocate and</span><br><span class="line">  split a 20MB block, if no free block of sufficient size is available.</span><br><span class="line"></span><br><span class="line">With this allocator, allocations and frees should logically be considered</span><br><span class="line">&quot;usages&quot; of the memory segment associated with streams, just like kernel</span><br><span class="line">launches. The programmer must insert the proper synchronization if memory</span><br><span class="line">segments are used from multiple streams.</span><br><span class="line"></span><br><span class="line">The library provides a recordStream() function to help insert the correct</span><br><span class="line">synchronization when allocations are used on multiple streams. This will</span><br><span class="line">ensure that the block is not reused before each recorded stream completes</span><br><span class="line">work.</span><br></pre></td></tr></table></figure>
+<h2 id="how-python-interact-with-cc"><a class="markdownIt-Anchor" href="#how-python-interact-with-cc"></a> How Python interact with C/C++</h2>
+<h3 id="compile-c-program-to-so-library-and-call-it-in-python"><a class="markdownIt-Anchor" href="#compile-c-program-to-so-library-and-call-it-in-python"></a> Compile C program to .so library and call it in python</h3>
+<h4 id="compile-as-shared-library"><a class="markdownIt-Anchor" href="#compile-as-shared-library"></a> Compile as shared library</h4>
+<ol>
+<li>Finish writing your C code.</li>
+<li>Compile it into a <code>*.so</code> file.</li>
+<li>Import <code>ctypes</code> in python file.</li>
+<li>Load <code>*.so</code> file inside a python file.</li>
+<li>*Define the input type of a C function.</li>
+<li>Call function inside the <code>*.so</code> file.</li>
+</ol>
+<p><strong>function.c</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">myFunction</span><span class="params">(<span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (num == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> ((num &amp; (num - <span class="number">1</span>)) == <span class="number">0</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Compile</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fPIC -shared -o libfun.so function.c</span><br></pre></td></tr></table></figure>
+<p><strong><a target="_blank" rel="noopener" href="http://function.py">function.py</a></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ctypes </span><br><span class="line">NUM = <span class="number">16</span>      </span><br><span class="line">fun = ctypes.CDLL(libfun.so)   </span><br><span class="line">fun.myFunction.argtypes=[ctypes.c_int] </span><br><span class="line">returnVale = fun.myFunction(NUM)     </span><br></pre></td></tr></table></figure>
+<h4 id="add-wrapper-in-c-file"><a class="markdownIt-Anchor" href="#add-wrapper-in-c-file"></a> Add wrapper in C++ file</h4>
+<p>If this is a C++ file, you need to expose the function you want to use in a <code>extern &quot;C&quot;</code> wrapper.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Foo</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">bar</span><span class="params">()</span></span>&#123;</span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;Hello&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Since ctypes can only talk to C functions, you need </span></span><br><span class="line"><span class="comment">// to provide those declaring them as extern &quot;C&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">    <span class="function">Foo* <span class="title">Foo_new</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Foo</span>(); &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Foo_bar</span><span class="params">(Foo* foo)</span></span>&#123; foo-&gt;<span class="built_in">bar</span>(); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>And then compile:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g++ -c -fPIC foo.cpp -o foo.o</span><br><span class="line">g++ -shared -Wl,-install_name,libfoo.so -o libfoo.so  foo.o</span><br></pre></td></tr></table></figure>
+<p>Afterwards, thing in Python code are similar as those in C.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> cdll</span><br><span class="line">lib = cdll.LoadLibrary(<span class="string">&#x27;./libfoo.so&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Foo</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.obj = lib.Foo_new()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bar</span>(<span class="params">self</span>):</span><br><span class="line">        lib.Foo_bar(self.obj)</span><br><span class="line"><span class="comment"># Once you have that you can call it like</span></span><br><span class="line"></span><br><span class="line">f = Foo()</span><br><span class="line">f.bar() <span class="comment">#and you will see &quot;Hello&quot; on the screen</span></span><br></pre></td></tr></table></figure>
+<h3 id="c-file-include-module-and-expose"><a class="markdownIt-Anchor" href="#c-file-include-module-and-expose"></a> C++ file include module and Expose</h3>
+<p>Include &lt;boost/python.hpp&gt; the function in BOOST_PYTHON_MODULE</p>
+<p>A C++ Function can be exposed to Python by writing a Boost.Python wrapper:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/python.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">char</span> <span class="type">const</span>* <span class="title function_">greet</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;hello, world&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOST_PYTHON_MODULE(hello_ext)</span><br><span class="line">&#123;</span><br><span class="line">    using namespace boost::python;</span><br><span class="line">    def(<span class="string">&quot;greet&quot;</span>, greet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>That’s it. We’re done. We can now build this as a shared library. The resulting DLL is now visible to Python. Here’s a sample Python session:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> hello_ext</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> hello_ext.greet()</span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
+<h2 id="integrating-a-ccuda-operation-with-pytorch"><a class="markdownIt-Anchor" href="#integrating-a-ccuda-operation-with-pytorch"></a> Integrating a C++/CUDA Operation with PyTorch</h2>
+<p>When we want to build a customized method or module, we can choose whether to build it in python or C++. The former is easier but the C++ version is faster and more efficient, especially when we want to build a frequently used or time consuming module. Here comes the explanation.</p>
+<h4 id="cpu-integration"><a class="markdownIt-Anchor" href="#cpu-integration"></a> CPU Integration</h4>
+<p>Besides integrate C++ file in python and use it in Pytorch, Pytorch itself provides us with two quite straightforward way to finish this job. They are Building with <code>setuptools</code> and JIT Compiling Extensions.</p>
+<p>For the “ahead of time” flavor, we build our C++ extension by writing a <code>setup.py</code> script that uses setuptools to compile our C++ code. For the LLTM, it looks as simple as this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup, Extension</span><br><span class="line"><span class="keyword">from</span> torch.utils <span class="keyword">import</span> cpp_extension</span><br><span class="line"></span><br><span class="line">setup(name=<span class="string">&#x27;lltm_cpp&#x27;</span>,</span><br><span class="line">      ext_modules=[cpp_extension.CppExtension(<span class="string">&#x27;lltm_cpp&#x27;</span>, [<span class="string">&#x27;lltm.cpp&#x27;</span>])],</span><br><span class="line">      cmdclass=&#123;<span class="string">&#x27;build_ext&#x27;</span>: cpp_extension.BuildExtension&#125;)</span><br></pre></td></tr></table></figure>
+<p>The JIT compilation mechanism provides you with a way of compiling and loading your extensions on the fly by calling a simple function in PyTorch’s API called <code>torch.utils.cpp_extension.load()</code>. For the LLTM, this would look as simple as this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.cpp_extension <span class="keyword">import</span> load</span><br><span class="line"></span><br><span class="line">lltm_cpp = load(name=<span class="string">&quot;lltm_cpp&quot;</span>, sources=[<span class="string">&quot;lltm.cpp&quot;</span>])</span><br></pre></td></tr></table></figure>
+<h4 id="cuda-integration"><a class="markdownIt-Anchor" href="#cuda-integration"></a> CUDA Integration</h4>
+<p>Integration of our CUDA-enabled op with PyTorch is again very straightforward. If you want to write a <code>setup.py</code> script, it could look like this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> torch.utils.cpp_extension <span class="keyword">import</span> BuildExtension, CUDAExtension</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;lltm&#x27;</span>,</span><br><span class="line">    ext_modules=[</span><br><span class="line">        CUDAExtension(<span class="string">&#x27;lltm_cuda&#x27;</span>, [</span><br><span class="line">            <span class="string">&#x27;lltm_cuda.cpp&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;lltm_cuda_kernel.cu&#x27;</span>,</span><br><span class="line">        ])</span><br><span class="line">    ],</span><br><span class="line">    cmdclass=&#123;</span><br><span class="line">        <span class="string">&#x27;build_ext&#x27;</span>: BuildExtension</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<p>Instead of <code>CppExtension()</code>, we now use <code>CUDAExtension()</code>. We can just specify the <code>.cu</code> file along with the <code>.cpp</code> files – the library takes care of all the hassle this entails for you. The JIT mechanism is even simpler:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.cpp_extension <span class="keyword">import</span> load</span><br><span class="line"></span><br><span class="line">lltm = load(name=<span class="string">&#x27;lltm&#x27;</span>, sources=[<span class="string">&#x27;lltm_cuda.cpp&#x27;</span>, <span class="string">&#x27;lltm_cuda_kernel.cu&#x27;</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="conclusion"><a class="markdownIt-Anchor" href="#conclusion"></a> Conclusion</h2>
+<ul>
+<li>Pytorch’s python part doesn’t have special care on memory management, means it just works in the way standard python programs work.</li>
+<li>Current Pytorch source codes contains codes from multiple source, some of them are pure legacy, some come from caffe2, some serves as basic code, some are packed into dlls to serve python. Also, codes are different for those in CPU and CUDA, we need to focus on the right part if any optimization want to be made.</li>
+<li>Almost all Pytorch core modules and functions are implemented in C++ based code and that will be much more efficient.</li>
+<li>Every tensor is attached with a memory allocator, which can not only do the work of allocate and free, but also record the device on which it is located. Different kinds of allocator for different data type can be delivered as input parameter, this makes the code more compatible.</li>
+<li>Pytorch combines multiple code dispatch method and they work well for C and C++ code.</li>
+<li>Python can call compiled C file using ctypes, but Pytorch provides a toolset which makes it even easier.</li>
+</ul>
+<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://blog.ezyang.com/2019/05/pytorch-internals/">PyTorch internals</a></li>
+<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/pytorch-autograd-understanding-the-heart-of-pytorchs-magic-2686cd94ec95">PyTorch Autograd</a></li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/index.html">PYTORCH DOCUMENTATION</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34629243">PyTorch源码浅析</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch">Pytorch GitHub Repo</a></li>
+</ul>
+<h2 id="slides"><a class="markdownIt-Anchor" href="#slides"></a> Slides</h2>
+<p>![Final Report_1.jpg](Final Report_1.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_2.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_3.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_4.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_5.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_6.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_7.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_8.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_9.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_10.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_11.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_12.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_13.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_14.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_15.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_16.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_17.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_18.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_19.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_20.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_21.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_22.jpg)</p>
+<p>![Final Report_1.jpg](Final Report_23.jpg)</p>
+<p><strong>Zhongyang Zhang</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep learning</a>
+              <a href="/tags/Pytorch/" rel="tag"># Pytorch</a>
+              <a href="/tags/C/" rel="tag"># C++</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/07/video-classification/" rel="prev" title="Video Classification Investigation Report">
+                  <i class="fa fa-chevron-left"></i> Video Classification Investigation Report
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/01/10/matlab-func/" rel="next" title="MATLAB 中与函数、方程相关内容">
+                  MATLAB 中与函数、方程相关内容 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

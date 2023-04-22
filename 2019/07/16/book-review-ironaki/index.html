@@ -1,37 +1,438 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="当世界各国的书，或更准确的说，小说，齐聚一堂时，我才如此清晰的意识到，文化认同感是多么的重要，以及，日本的文学与文化竟如此深刻地影响了我灵魂深处的某些东西，就宛如地震过后的路面一般，就那么存在着，仿佛它一开始就在那里。很难说这种影响是向着什么方向的，如果有方向的话。当然，也无从得知这种影响有没有可能被崭新地出现在我面前的其他文化所碾平，重新浇上沥青，再刻蚀。但只有一点是如此明亮而通透，就是作为“历">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《没有色彩的多琦作和他的巡礼之年》读后感">
+<meta property="og:url" content="https://www.miracleyoo.com/2019/07/16/book-review-ironaki/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="当世界各国的书，或更准确的说，小说，齐聚一堂时，我才如此清晰的意识到，文化认同感是多么的重要，以及，日本的文学与文化竟如此深刻地影响了我灵魂深处的某些东西，就宛如地震过后的路面一般，就那么存在着，仿佛它一开始就在那里。很难说这种影响是向着什么方向的，如果有方向的话。当然，也无从得知这种影响有没有可能被崭新地出现在我面前的其他文化所碾平，重新浇上沥青，再刻蚀。但只有一点是如此明亮而通透，就是作为“历">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-07-17T01:17:38.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:03:34.892Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="book-review">
+<meta name="twitter:card" content="summary">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2019/07/16/book-review-ironaki/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2019/07/16/book-review-ironaki/","path":"2019/07/16/book-review-ironaki/","title":"《没有色彩的多琦作和他的巡礼之年》读后感"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>《没有色彩的多琦作和他的巡礼之年》读后感 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2019/07/16/book-review-ironaki/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="《没有色彩的多琦作和他的巡礼之年》读后感 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《没有色彩的多琦作和他的巡礼之年》读后感<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/book-review-ironaki.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-07-16 18:17:38" itemprop="dateCreated datePublished" datetime="2019-07-16T18:17:38-07:00">2019-07-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:03:34" itemprop="dateModified" datetime="2021-03-12T01:03:34-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>当世界各国的书，或更准确的说，小说，齐聚一堂时，我才如此清晰的意识到，文化认同感是多么的重要，以及，日本的文学与文化竟如此深刻地影响了我灵魂深处的某些东西，就宛如地震过后的路面一般，就那么存在着，仿佛它一开始就在那里。很难说这种影响是向着什么方向的，如果有方向的话。当然，也无从得知这种影响有没有可能被崭新地出现在我面前的其他文化所碾平，重新浇上沥青，再刻蚀。但只有一点是如此明亮而通透，就是作为“历史”，这种影响已经实实在在地改变了很多东西的形状，孕育了一众欢愉与烦恼，并将持续地以某种可见或不可见的方式决定着许多尚未诞生于此的事物。</p>
+<span id="more"></span>
+<p>意外的拿起这本村上君的书时，心中是着实充满着惊喜与意外，为又一次的相遇而感动。村上书中的人物总是能给人一种奇异而美妙的亲近感，总是能在意外的地方引起人的共鸣。这些人物性格各异，有着大相径庭的职业，其中的大多都是在终归和我无缘的地方做着那些理所当然要有人做但却从未被我考虑过的工作。奇怪的是，他们总能带给我一种“生活本应是这样”的近乎玄幻的体验。作经历的生活，作体验过的困苦与纠结，作感受过到的那般颜色稀疏、静如止水、只有不知为何泛起的薄暮与绝对的黑暗交替的日日夜夜，似乎都能像是立体电影一般拼命地从身体的每个毛孔渗入进来，不知不觉间，读者已彻底变成了事件的参与者，向前翻页的动作也具象化为了在混沌与希望中向前迈进的步子，只是单纯的希望触摸即将到来的时间，如同沙子从掌隙间流过那般自然。</p>
+<p>作的巡礼也成了我继续向前探寻的自然延伸，但其间我的心理也在不断发生着变化。从一开始的急不可耐试图知道十六年前究竟发生过什么，到渐渐静下心来体味作当下那建立在尘封的记忆的盖子之上的平静生活；从试图对绿川所言进行逻辑与理性的考量，到把这当做一个单纯的故事，或曰事实来接受；从期待后文中找到强奸与勒死白根柚木的两个亦或是同一个凶手，到放弃对凶手本身的追溯，而是将感情逐渐聚焦于即将发生的故事、生者的自省上以及这个“事实”造成的影响上去了。事件已经发生，而它是怎么发生的，究竟是一个无差别杀人犯还是一个与白相识的密友做出了这般事端，都已经成为了名副其实的历史，而历史不是由点、由少数人组成的，而是由存活其间的一条条闪光的生命之线编织而成。不过一个事件的发生会将许多杂糅的东西聚合在一起，成为一个有机的整体。这包括事件成为事件之前的诸多些微的原因与征兆、事件发生这个事实与其过程、事件不同层次、不同作用的后续影响以及相关者心绪的点滴变化。而观察、追溯，甚至解开后用放大镜研究这些线束则是远为有趣的。</p>
+<p>“我们可以给记忆盖上盖子，但是绝不可能掩盖历史。”</p>
+<p>“说不定里面还有彻底凝固、再也打不开的盖子。”</p>
+<p>喜欢极了这种对话，正如我对这种沉浸式体验的喜爱。当一个旁观者总会让人多多少少变得自傲，错误地认为自己无所不能，但作为一个亲历者，能体会到的东西则大不相同。一个显著的区别是没有一位令人尊敬的上帝在一旁耳语着告诉你一些或关键或无关紧要的信息，你知道的并不比你冯依的人物更多。有些东西是永远无从得知的，比如灰田最终为何突然消失，而绿川在演奏前煞有介事地放在钢琴上的小包里到底包裹着什么秘密，或是白究竟怀着什么样的心态见证着小团体同自己预想的一样逐渐走向分崩离析，又为何在遭受灾难后选择嫁祸于作，以及后面缘何只身一人来到了一座崭新的城市。当然，文中充满了暗示，这些暗示可以帮助我理解，或单纯的揣测这绵密繁复的生命之线中刻蚀着的纹样，却永远只能止步于揣测。我很无力的发现，我能做的只是接受一个又一个的假设，而这则源于令人绝望的信息不足。提前离开的白如理所当然的一般无法再吐露出任何信息，而我能做的，只是呆呆地凝望着这个尽最大努力拼出的、残破依旧的拼图，以及走好后面的路。</p>
+<p>所有的一切都源自于这个多彩的小团体。我是先看了书籍的简介再开读的。这件事并不一定会发生，只是偶然读了简介，没有更多或更少。起先我对这个讲述小团体的主题是多少有些反感的，毕竟，我在绝大多数时候都是独立的，虽不像作一般完全没有朋友，自视为一个空荡荡的容器等待别人加入，但也长期保持并享受着这种“相对孤独”的状态。需要时，也会约一二朋友小聚，但对三人以上的场合，虽并非难以应对，但若非必要，倒也绝不会自发组织。所以我对人在“小团体”中的体会实际上是相对缺乏的，即使我并没有因此感到丝毫的不便。这种空缺就像繁忙路口中央突兀的出现的一口无盖之井，由于大家默认都会绕行，所以大抵也都对此视而不见，久而久之既不会感觉不便，也不会觉得有什么损失，但井就在那里。另外，小团体会让人不由自主的和“排他”“对立”，甚至“欺凌”联系在一起，这个发音总的来说还是令人不那么愉快的。但说来意外的是，就在不久前的旅行中，我实打实的体验了一把这种四五个人长期保持相同步调集体行动本身带来的实在感、愉悦感与安心感，也由衷的认同村上笔下的那种每个人都有自己角色，且愿将自己最好的一面贡献给小团体这种行为本身带来的“复杂的化学反应”的甘美。不得不承认，那确是十分美妙的事情。短短几天的经历便彻底颠覆了我之前的刻板印象，更何况作他们是将自己的几乎整个最为美好的青春特意抽出、然后共享的亲密无间小团体。</p>
+<p>“到了后期，小团体存在的目标就是维持其存续”。书中大致有这样一句。为了这个存续本身，大家都默认了一些规则，甚至包括扼杀心中逐渐萌芽的、写作恬淡，读作浓烈的相互间的爱慕之情。黑是一个令我倍感痛心的角色。她似乎总是藏在白投下的阴影里，作为一个陪衬使得存在愈发突出着白的存在。五人组合中的三个男生无疑都是暗地里喜欢着白的，尽管作很肯定如果黑对他告白，他一定会很自然地接受，并开始一段不一定会结果，但注定有着其独特色彩的恋情。但没人愿意打破这个小团体的稳定性。也没人愿意站出来，道出小团体有一天终将进入新的阶段这一事实。分离才是真正的永恒，迟到的分离并不会带来永久，反而会如在作画终了也不愿抬起的画笔一般，最终将完美的画面浸淫成一种面目狰狞的形状。</p>
+<p>本作对死亡边缘的景象描写的也十分真切，真切到栩栩如生，仿佛自己真的在人生的某一阶段受到过此般打击，一蹶不振到静默无声。“环顾四周，是一片布满岩石的荒凉大地。没有一滴水，不长一棵草。没有颜色，也没有像样的光。既没有太阳，又没有月亮和星星。只怕也没有方向。唯有不明底细的薄暮与深不见底的黑暗，隔一定时间交替轮换。对于拥有意识的人来说，那是终极的边境。但同时那里又是丰润之地。”作最终还是游出了那片苍茫夜色中的大海，即使他被人从甲板上唐突又不留情面地扔下了海，即使甚至没人知道他的消失。在孤独的终点，作看到的不仅仅是无边的黑暗，他也看到了那丰润之地。游泳，似乎使他的灵魂更加健壮。在感情没有经历过巨大的震动，不会轻易对何者动情这一点我也可以再作身上找到些许自己的影子。尽管近在咫尺，却终究无法拿出十分的激情去追逐，去渴求。如果说作是因为大二时被小团体抛弃所带来巨大的创伤所致，那自己又是缘何？静静期待着一个冲动，一个在特别的时光里突然涌现出的“巡礼之年”的冲动。</p>
+<p>愿你我终有一天能找寻到可以互相放心地存放心灵与记忆碎片的对方，以及愿终有一天能够品味并享受孤独与陪伴各自独特的醇香。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/book-review/" rel="tag"># book-review</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/06/film-review-the-wandering-earth/" rel="prev" title="《流浪地球》影评">
+                  <i class="fa fa-chevron-left"></i> 《流浪地球》影评
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/13/anime-review-shingeki/" rel="next" title="一部立体的史书，一众活着的人物——《进击的巨人》观后感">
+                  一部立体的史书，一众活着的人物——《进击的巨人》观后感 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,37 +1,554 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Numpy高维数组连续切片 先回顾一下基础：  创建数组：一般5种方式创建数组  1. 从其他python结构转变，如列表，元祖 1234&gt;&gt;&gt; x &#x3D; np.array([2,3,1,0])&gt;&gt;&gt; x &#x3D; np.array([2, 3, 1, 0])&gt;&gt;&gt; x &#x3D; np.array([[1,2.0],[0,0],(1+1j,3.)]) #">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Numpy高维数组连续切片">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/08/11/numpy-high-dim-slicing/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Numpy高维数组连续切片 先回顾一下基础：  创建数组：一般5种方式创建数组  1. 从其他python结构转变，如列表，元祖 1234&gt;&gt;&gt; x &#x3D; np.array([2,3,1,0])&gt;&gt;&gt; x &#x3D; np.array([2, 3, 1, 0])&gt;&gt;&gt; x &#x3D; np.array([[1,2.0],[0,0],(1+1j,3.)]) #">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/08/11/numpy-high-dim-slicing/0069RVTdly1fu5rpz0moij30yu196tfn.jpg">
+<meta property="article:published_time" content="2018-08-11T08:59:18.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:10:29.854Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="numpy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/08/11/numpy-high-dim-slicing/0069RVTdly1fu5rpz0moij30yu196tfn.jpg">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2018/08/11/numpy-high-dim-slicing/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2018/08/11/numpy-high-dim-slicing/","path":"2018/08/11/numpy-high-dim-slicing/","title":"Numpy高维数组连续切片"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Numpy高维数组连续切片 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#numpy%E9%AB%98%E7%BB%B4%E6%95%B0%E7%BB%84%E8%BF%9E%E7%BB%AD%E5%88%87%E7%89%87"><span class="nav-number">1.</span> <span class="nav-text"> Numpy高维数组连续切片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E7%BB%84%E4%B8%80%E8%88%AC5%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%88%9B%E5%BB%BA%E6%95%B0%E7%BB%84"><span class="nav-number">1.1.</span> <span class="nav-text"> 创建数组：一般5种方式创建数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%8E%E5%85%B6%E4%BB%96python%E7%BB%93%E6%9E%84%E8%BD%AC%E5%8F%98%E5%A6%82%E5%88%97%E8%A1%A8%E5%85%83%E7%A5%96"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 1. 从其他python结构转变，如列表，元祖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-numpy%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%A6%82arangeoneszeros"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 2. numpy内置的方式创建，如arange，ones，zeros，</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">1.2.</span> <span class="nav-text"> 数组的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">1.3.</span> <span class="nav-text"> 多维数组的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#basic-slicing-and-indexing"><span class="nav-number">1.4.</span> <span class="nav-text"> Basic Slicing and Indexing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#advanced-indexing"><span class="nav-number">1.5.</span> <span class="nav-text"> Advanced Indexing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#integer-array-indexing"><span class="nav-number">1.5.1.</span> <span class="nav-text"> Integer array indexing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#purely-integer-array-indexing"><span class="nav-number">1.5.1.1.</span> <span class="nav-text"> Purely integer array indexing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#combining-advanced-and-basic-indexing"><span class="nav-number">1.5.1.2.</span> <span class="nav-text"> Combining advanced and basic indexing</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/08/11/numpy-high-dim-slicing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Numpy高维数组连续切片 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Numpy高维数组连续切片<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/numpy-high-dim-slicing.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-11 01:59:18" itemprop="dateCreated datePublished" datetime="2018-08-11T01:59:18-07:00">2018-08-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:10:29" itemprop="dateModified" datetime="2021-03-12T01:10:29-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>9 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="numpy高维数组连续切片"><a class="markdownIt-Anchor" href="#numpy高维数组连续切片"></a> Numpy高维数组连续切片</h1>
+<p>先回顾一下基础：</p>
+<h2 id="创建数组一般5种方式创建数组"><a class="markdownIt-Anchor" href="#创建数组一般5种方式创建数组"></a> 创建数组：一般5种方式创建数组</h2>
+<h3 id="1-从其他python结构转变如列表元祖"><a class="markdownIt-Anchor" href="#1-从其他python结构转变如列表元祖"></a> 1. 从其他python结构转变，如列表，元祖</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">0</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([[<span class="number">1</span>,<span class="number">2.0</span>],[<span class="number">0</span>,<span class="number">0</span>],(<span class="number">1</span>+<span class="number">1j</span>,<span class="number">3.</span>)]) <span class="comment"># note mix of tuple and lists,and types</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([[ <span class="number">1.</span>+<span class="number">0.j</span>, <span class="number">2.</span>+<span class="number">0.j</span>], [ <span class="number">0.</span>+<span class="number">0.j</span>, <span class="number">0.</span>+<span class="number">0.j</span>], [ <span class="number">1.</span>+<span class="number">1.j</span>, <span class="number">3.</span>+<span class="number">0.j</span>]])<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h3 id="2-numpy内置的方式创建如arangeoneszeros"><a class="markdownIt-Anchor" href="#2-numpy内置的方式创建如arangeoneszeros"></a> 2. numpy内置的方式创建，如arange，ones，zeros，</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.arange(<span class="number">10</span>)</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.arange(<span class="number">2</span>, <span class="number">10</span>, dtype=np.<span class="built_in">float</span>)</span><br><span class="line">array([ <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>, <span class="number">5.</span>, <span class="number">6.</span>, <span class="number">7.</span>, <span class="number">8.</span>, <span class="number">9.</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.arange(<span class="number">2</span>, <span class="number">3</span>, <span class="number">0.1</span>)</span><br><span class="line">array([ <span class="number">2.</span> , <span class="number">2.1</span>, <span class="number">2.2</span>, <span class="number">2.3</span>, <span class="number">2.4</span>, <span class="number">2.5</span>, <span class="number">2.6</span>, <span class="number">2.7</span>, <span class="number">2.8</span>, <span class="number">2.9</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.linspace(<span class="number">1.</span>, <span class="number">4.</span>, <span class="number">6</span>)</span><br><span class="line">array([ <span class="number">1.</span> , <span class="number">1.6</span>, <span class="number">2.2</span>, <span class="number">2.8</span>, <span class="number">3.4</span>, <span class="number">4.</span> ])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.indices((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line">array([[[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>]], [[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]]])<span class="number">12345678910</span></span><br></pre></td></tr></table></figure>
+<p>3.从磁盘的标准格式或定制格式<br>
+4.从使用了字符串或缓存的原始数据创建数组<br>
+这里用到了genfromtxt()函数，而且还要导入StringIO，内容好像蛮多的，得单独整理<br>
+5.使用专门库的函数创建，如random</p>
+<h2 id="数组的索引"><a class="markdownIt-Anchor" href="#数组的索引"></a> 数组的索引</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.arange(<span class="number">10</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.shape = (<span class="number">2</span>,<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.reshape(<span class="number">2</span>,<span class="number">5</span>)<span class="comment">#和上句一样的效果，但是上句改变了x的形状，此句x依然是原先的一维数组，</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.arange(<span class="number">10</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line">array([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[:-<span class="number">7</span>]</span><br><span class="line">array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">1</span>:<span class="number">7</span>:<span class="number">2</span>]<span class="comment">#这里注意，python的list是不具有间隔切片</span></span><br><span class="line">array([<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y = np.arange(<span class="number">35</span>).reshape(<span class="number">5</span>,<span class="number">7</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[<span class="number">1</span>:<span class="number">5</span>:<span class="number">2</span>,::<span class="number">3</span>]<span class="comment">#别弄错成了y[1:5:2][::3]</span></span><br><span class="line">array([[ <span class="number">7</span>, <span class="number">10</span>, <span class="number">13</span>],</span><br><span class="line">       [<span class="number">21</span>, <span class="number">24</span>, <span class="number">27</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.arange(<span class="number">10</span>,<span class="number">1</span>,-<span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x</span><br><span class="line">array([<span class="number">10</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[np.array([<span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">8</span>])]<span class="comment">#以3,3,1,8索引位的数创建数组</span></span><br><span class="line">array([<span class="number">7</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">2</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[np.array([<span class="number">3</span>,<span class="number">3</span>,-<span class="number">3</span>,<span class="number">8</span>])]</span><br><span class="line">array([<span class="number">7</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">2</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[np.array([<span class="number">3</span>, <span class="number">3</span>, <span class="number">20</span>, <span class="number">8</span>])]</span><br><span class="line">&lt;<span class="built_in">type</span> ’exceptions.IndexError’&gt;: index <span class="number">20</span> out of bounds <span class="number">0</span>&lt;=index&lt;<span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[np.array([[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">3</span>]])]</span><br><span class="line">array([[<span class="number">9</span>, <span class="number">9</span>],</span><br><span class="line">       [<span class="number">8</span>, <span class="number">7</span>]])</span><br></pre></td></tr></table></figure>
+<p>下面是正题：</p>
+<h2 id="多维数组的索引"><a class="markdownIt-Anchor" href="#多维数组的索引"></a> 多维数组的索引</h2>
+<p>先拿出来自己的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># scatGaAs[3, :, 2]</span></span><br><span class="line">scatGaAs[np.ix_([<span class="number">3</span>], np.arange(<span class="number">1</span>, Ek_pts+<span class="number">1</span>), [<span class="number">1</span>])]</span><br></pre></td></tr></table></figure>
+<p>乱七八糟的，还是画图吧</p>
+<p><img data-src="0069RVTdly1fu5rpz0moij30yu196tfn.jpg" alt="image-20180811015729519"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]), np.array([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>])]<span class="comment">#这里的y就是上面创建的5*7的二维数组，这里可以理解成x坐标0,2,4，y坐标0,1,2的三个数</span></span><br><span class="line">array([ <span class="number">0</span>, <span class="number">15</span>, <span class="number">30</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]), np.array([<span class="number">0</span>,<span class="number">1</span>])]</span><br><span class="line">&lt;<span class="built_in">type</span> ’exceptions.ValueError’&gt;: shape mismatch: objects cannot be broadcast to a single shape</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]),<span class="number">0</span>:<span class="number">1</span>]</span><br><span class="line">array([[ <span class="number">0</span>],</span><br><span class="line">       [<span class="number">14</span>],</span><br><span class="line">       [<span class="number">28</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>]), <span class="number">1</span>]</span><br><span class="line">array([ <span class="number">1</span>, <span class="number">15</span>, <span class="number">29</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[np.array([<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>])]<span class="comment">#取0行，2行，4行</span></span><br><span class="line">array([[ <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">[<span class="number">14</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>, <span class="number">20</span>],</span><br><span class="line">[<span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>, <span class="number">34</span>]])<span class="number">1234567891011121314</span></span><br></pre></td></tr></table></figure>
+<p>布尔类型的索引</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = y&gt;<span class="number">20</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[b]</span><br><span class="line">array([<span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>, <span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>, <span class="number">34</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b[:,<span class="number">5</span>] <span class="comment"># use a 1-D boolean whose first dim agrees with the first dim of y</span></span><br><span class="line">array([<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>], dtype=<span class="built_in">bool</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[b[:,<span class="number">5</span>]]</span><br><span class="line">array([[<span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>, <span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>],</span><br><span class="line">[<span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>, <span class="number">34</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.arange(<span class="number">30</span>).reshape(<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x</span><br><span class="line">array([[[ <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">[ <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>],</span><br><span class="line">[<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>]],</span><br><span class="line">[[<span class="number">15</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">19</span>],</span><br><span class="line">[<span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>],</span><br><span class="line">[<span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">29</span>]]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = np.array([[<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">False</span>], [<span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[b]</span><br><span class="line">array([[ <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">[ <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>],</span><br><span class="line">[<span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>],</span><br><span class="line">[<span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">29</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y[b[:,<span class="number">5</span>],<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">array([[<span class="number">22</span>, <span class="number">23</span>],</span><br><span class="line">[<span class="number">29</span>, <span class="number">30</span>]])<span class="number">12345678910111213141516171819202122232425</span></span><br></pre></td></tr></table></figure>
+<p>再拿出来官方文档：</p>
+<h2 id="basic-slicing-and-indexing"><a class="markdownIt-Anchor" href="#basic-slicing-and-indexing"></a> Basic Slicing and Indexing</h2>
+<p>Basic slicing extends Python’s basic concept of slicing to N dimensions. Basic slicing occurs when <em>obj</em> is a <a target="_blank" rel="noopener" href="https://docs.python.org/dev/library/functions.html#slice"><code>slice</code></a> object (constructed by <code>start:stop:step</code> notation inside of brackets), an integer, or a tuple of slice objects and integers. <code>Ellipsis</code> and <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#numpy.newaxis"><code>newaxis</code></a> objects can be interspersed with these as well. In order to remain backward compatible with a common usage in Numeric, basic slicing is also initiated if the selection object is any non-ndarray sequence (such as a <a target="_blank" rel="noopener" href="https://docs.python.org/dev/library/stdtypes.html#list"><code>list</code></a>) containing <a target="_blank" rel="noopener" href="https://docs.python.org/dev/library/functions.html#slice"><code>slice</code></a> objects, the <code>Ellipsis</code> object, or the <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#numpy.newaxis"><code>newaxis</code></a> object, but not for integer arrays or other embedded sequences.</p>
+<p>All arrays generated by basic slicing are always <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/glossary.html#term-view">views</a> of the original array.</p>
+<p>The standard rules of sequence slicing apply to basic slicing on a per-dimension basis (including using a step index). Some useful concepts to remember include:</p>
+<ul>
+<li>
+<p>The basic slice syntax is <code>i:j:k</code> where <em>i</em> is the starting index, <em>j</em> is the stopping index, and <em>k</em> is the step. This selects the <em>m</em> elements (in the corresponding dimension) with index values <em>i</em>, <em>i + k</em>, …, <em>i + (m - 1) k</em> where  and <em>q</em> and <em>r</em> are the quotient and remainder obtained by dividing <em>j - i</em> by <em>k</em>: <em>j - i = q k + r</em>, so that <em>i + (m - 1) k &lt; j</em>.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">1</span>:<span class="number">7</span>:<span class="number">2</span>]</span><br><span class="line">array([<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Negative <em>i</em> and <em>j</em> are interpreted as <em>n + i</em> and <em>n + j</em> where <em>n</em> is the number of elements in the corresponding dimension. Negative <em>k</em> makes stepping go towards smaller indices.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[-<span class="number">2</span>:<span class="number">10</span>]</span><br><span class="line">array([<span class="number">8</span>, <span class="number">9</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[-<span class="number">3</span>:<span class="number">3</span>:-<span class="number">1</span>]</span><br><span class="line">array([<span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Assume <em>n</em> is the number of elements in the dimension being sliced. Then, if <em>i</em> is not given it defaults to 0 for <em>k &gt; 0</em> and <em>n - 1</em> for <em>k &lt; 0</em> . If <em>j</em> is not given it defaults to <em>n</em> for <em>k &gt; 0</em> and <em>-n-1</em> for <em>k &lt; 0</em> . If <em>k</em> is not given it defaults to 1. Note that <code>::</code> is the same as <code>:</code> and means select all indices along this axis.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">5</span>:]</span><br><span class="line">array([<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>If the number of objects in the selection tuple is less than <em>N</em> , then <code>:</code> is assumed for any subsequent dimensions.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([[[<span class="number">1</span>],[<span class="number">2</span>],[<span class="number">3</span>]], [[<span class="number">4</span>],[<span class="number">5</span>],[<span class="number">6</span>]]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.shape</span><br><span class="line">(<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">1</span>:<span class="number">2</span>]</span><br><span class="line">array([[[<span class="number">4</span>],</span><br><span class="line">        [<span class="number">5</span>],</span><br><span class="line">        [<span class="number">6</span>]]])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>Ellipsis</code> expand to the number of <code>:</code> objects needed to make a selection tuple of the same length as <code>x.ndim</code>. There may only be a single ellipsis present.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[...,<span class="number">0</span>]</span><br><span class="line">array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">       [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Each <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#numpy.newaxis"><code>newaxis</code></a> object in the selection tuple serves to expand the dimensions of the resulting selection by one unit-length dimension. The added dimension is the position of the <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#numpy.newaxis"><code>newaxis</code></a> object in the selection tuple.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[:,np.newaxis,:,:].shape</span><br><span class="line">(<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>An integer, <em>i</em>, returns the same values as <code>i:i+1</code> <strong>except</strong> the dimensionality of the returned object is reduced by 1. In particular, a selection tuple with the <em>p</em>-th element an integer (and all other entries <code>:</code>) returns the corresponding sub-array with dimension <em>N - 1</em>. If <em>N = 1</em> then the returned object is an array scalar. These objects are explained in <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.scalars.html#arrays-scalars">Scalars</a>.</p>
+</li>
+<li>
+<p>If the selection tuple has all entries <code>:</code> except the <em>p</em>-th entry which is a slice object <code>i:j:k</code>, then the returned array has dimension <em>N</em> formed by concatenating the sub-arrays returned by integer indexing of elements <em>i</em>, <em>i+k</em>, …, <em>i + (m - 1) k &lt; j</em>,</p>
+</li>
+<li>
+<p>Basic slicing with more than one non-<code>:</code> entry in the slicing tuple, acts like repeated application of slicing using a single non-<code>:</code> entry, where the non-<code>:</code> entries are successively taken (with all other non-<code>:</code> entries replaced by <code>:</code>). Thus, <code>x[ind1,...,ind2,:]</code> acts like <code>x[ind1][...,ind2,:]</code> under basic slicing.</p>
+<p>Warning</p>
+<p>The above is <strong>not</strong> true for advanced indexing.</p>
+</li>
+<li>
+<p>You may use slicing to set values in the array, but (unlike lists) you can never grow the array. The size of the value to be set in<code>x[obj] = value</code> must be (broadcastable) to the same shape as <code>x[obj]</code>.</p>
+</li>
+</ul>
+<p>Note</p>
+<p>Remember that a slicing tuple can always be constructed as <em>obj</em> and used in the <code>x[obj]</code> notation. Slice objects can be used in the construction in place of the <code>[start:stop:step]</code> notation. For example, <code>x[1:10:5,::-1]</code> can also be implemented as <code>obj = (slice(1,10,5), slice(None,None,-1)); x[obj]</code> . This can be useful for constructing generic code that works on arrays of arbitrary dimension.</p>
+<ul>
+<li>
+<p><code>numpy.``newaxis</code></p>
+<p>The <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#numpy.newaxis"><code>newaxis</code></a> object can be used in all slicing operations to create an axis of length one. <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#numpy.newaxis"><code>newaxis</code></a> is an alias for ‘None’, and ‘None’ can be used in place of this with the same result.</p>
+</li>
+</ul>
+<h2 id="advanced-indexing"><a class="markdownIt-Anchor" href="#advanced-indexing"></a> Advanced Indexing</h2>
+<p>Advanced indexing is triggered when the selection object, <em>obj</em>, is a non-tuple sequence object, an <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.ndarray.html#numpy.ndarray"><code>ndarray</code></a> (of data type integer or bool), or a tuple with at least one sequence object or ndarray (of data type integer or bool). There are two types of advanced indexing: integer and Boolean.</p>
+<p>Advanced indexing always returns a <em>copy</em> of the data (contrast with basic slicing that returns a <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/glossary.html#term-view">view</a>).</p>
+<p>Warning</p>
+<p>The definition of advanced indexing means that <code>x[(1,2,3),]</code> is fundamentally different than <code>x[(1,2,3)]</code>. The latter is equivalent to <code>x[1,2,3]</code> which will trigger basic selection while the former will trigger advanced indexing. Be sure to understand why this occurs.</p>
+<p>Also recognize that <code>x[[1,2,3]]</code> will trigger advanced indexing, whereas <code>x[[1,2,slice(None)]]</code> will trigger basic slicing.</p>
+<h3 id="integer-array-indexing"><a class="markdownIt-Anchor" href="#integer-array-indexing"></a> Integer array indexing</h3>
+<p>Integer array indexing allows selection of arbitrary items in the array based on their <em>N</em>-dimensional index. Each integer array represents a number of indexes into that dimension.</p>
+<h4 id="purely-integer-array-indexing"><a class="markdownIt-Anchor" href="#purely-integer-array-indexing"></a> Purely integer array indexing</h4>
+<p>When the index consists of as many integer arrays as the array being indexed has dimensions, the indexing is straight forward, but different from slicing.</p>
+<p>Advanced indexes always are <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/ufuncs.html#ufuncs-broadcasting">broadcast</a> and iterated as <em>one</em>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result[i_1, ..., i_M] == x[ind_1[i_1, ..., i_M], ind_2[i_1, ..., i_M],</span><br><span class="line">                           ..., ind_N[i_1, ..., i_M]]</span><br></pre></td></tr></table></figure>
+<p>Note that the result shape is identical to the (broadcast) indexing array shapes <code>ind_1, ..., ind_N</code>.</p>
+<p>Example</p>
+<p>From each row, a specific element should be selected. The row index is just <code>[0, 1, 2]</code> and the column index specifies the element to choose for the corresponding row, here <code>[0, 1, 0]</code>. Using both together the task can be solved using advanced indexing:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]]</span><br><span class="line">array([<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<p>To achieve a behaviour similar to the basic slicing above, broadcasting can be used. The function <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.ix_.html#numpy.ix_"><code>ix_</code></a> can help with this broadcasting. This is best understood with an example.</p>
+<p>Example</p>
+<p>From a 4x3 array the corner elements should be selected using advanced indexing. Thus all elements for which the column is one of <code>[0, 2]</code>and the row is one of <code>[0, 3]</code> need to be selected. To use advanced indexing one needs to select all elements <em>explicitly</em>. Using the method explained previously one could write:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>],</span><br><span class="line"><span class="meta">... </span>           [ <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>],</span><br><span class="line"><span class="meta">... </span>           [ <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>],</span><br><span class="line"><span class="meta">... </span>           [ <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows = np.array([[<span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line"><span class="meta">... </span>                 [<span class="number">3</span>, <span class="number">3</span>]], dtype=np.intp)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>columns = np.array([[<span class="number">0</span>, <span class="number">2</span>],</span><br><span class="line"><span class="meta">... </span>                    [<span class="number">0</span>, <span class="number">2</span>]], dtype=np.intp)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[rows, columns]</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">2</span>],</span><br><span class="line">       [ <span class="number">9</span>, <span class="number">11</span>]])</span><br></pre></td></tr></table></figure>
+<p>However, since the indexing arrays above just repeat themselves, broadcasting can be used (compare operations such as<code>rows[:, np.newaxis] + columns</code>) to simplify this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows = np.array([<span class="number">0</span>, <span class="number">3</span>], dtype=np.intp)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>columns = np.array([<span class="number">0</span>, <span class="number">2</span>], dtype=np.intp)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>rows[:, np.newaxis]</span><br><span class="line">array([[<span class="number">0</span>],</span><br><span class="line">       [<span class="number">3</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[rows[:, np.newaxis], columns]</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">2</span>],</span><br><span class="line">       [ <span class="number">9</span>, <span class="number">11</span>]])</span><br></pre></td></tr></table></figure>
+<p>This broadcasting can also be achieved using the function <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.ix_.html#numpy.ix_"><code>ix_</code></a>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[np.ix_(rows, columns)]</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">2</span>],</span><br><span class="line">       [ <span class="number">9</span>, <span class="number">11</span>]])</span><br></pre></td></tr></table></figure>
+<p>Note that without the <code>np.ix_</code> call, only the diagonal elements would be selected, as was used in the previous example. This difference is the most important thing to remember about indexing with multiple advanced indexes.</p>
+<h4 id="combining-advanced-and-basic-indexing"><a class="markdownIt-Anchor" href="#combining-advanced-and-basic-indexing"></a> Combining advanced and basic indexing</h4>
+<p>When there is at least one slice (<code>:</code>), ellipsis (<code>...</code>) or <code>np.newaxis</code> in the index (or the array has more dimensions than there are advanced indexes), then the behaviour can be more complicated. It is like concatenating the indexing result for each advanced index element</p>
+<p>In the simplest case, there is only a <em>single</em> advanced index. A single advanced index can for example replace a slice and the result array will be the same, however, it is a copy and may have a different memory layout. A slice is preferable when it is possible.</p>
+<p>Example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">1</span>:<span class="number">2</span>, <span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">array([[<span class="number">4</span>, <span class="number">5</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">1</span>:<span class="number">2</span>, [<span class="number">1</span>, <span class="number">2</span>]]</span><br><span class="line">array([[<span class="number">4</span>, <span class="number">5</span>]])</span><br></pre></td></tr></table></figure>
+<p>The easiest way to understand the situation may be to think in terms of the result shape. There are two parts to the indexing operation, the subspace defined by the basic indexing (excluding integers) and the subspace from the advanced indexing part. Two cases of index combination need to be distinguished:</p>
+<ul>
+<li>The advanced indexes are separated by a slice, ellipsis or newaxis. For example <code>x[arr1, :, arr2]</code>.</li>
+<li>The advanced indexes are all next to each other. For example <code>x[..., arr1, arr2, :]</code> but <em>not</em> <code>x[arr1, :, 1]</code> since <code>1</code> is an advanced index in this regard.</li>
+</ul>
+<p>In the first case, the dimensions resulting from the advanced indexing operation come first in the result array, and the subspace dimensions after that. In the second case, the dimensions from the advanced indexing operations are inserted into the result array at the same spot as they were in the initial array (the latter logic is what makes simple advanced indexing behave just like slicing).</p>
+<p>Example</p>
+<p>Suppose <code>x.shape</code> is (10,20,30) and <code>ind</code> is a (2,3,4)-shaped indexing <code>intp</code> array, then <code>result = x[...,ind,:]</code> has shape (10,2,3,4,30) because the (20,)-shaped subspace has been replaced with a (2,3,4)-shaped broadcasted indexing subspace. If we let <em>i, j, k</em> loop over the (2,3,4)-shaped subspace then <code>result[...,i,j,k,:] = x[...,ind[i,j,k],:]</code>. This example produces the same result as <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.ndarray.take.html#numpy.ndarray.take"><code>x.take(ind, axis=-2)</code></a>.</p>
+<p>Example</p>
+<p>Let <code>x.shape</code> be (10,20,30,40,50) and suppose <code>ind_1</code> and <code>ind_2</code> can be broadcast to the shape (2,3,4). Then <code>x[:,ind_1,ind_2]</code> has shape (10,2,3,4,40,50) because the (20,30)-shaped subspace from X has been replaced with the (2,3,4) subspace from the indices. However,<code>x[:,ind_1,:,ind_2]</code> has shape (2,3,4,10,30,50) because there is no unambiguous place to drop in the indexing subspace, thus it is tacked-on to the beginning. It is always possible to use <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.ndarray.transpose.html#numpy.ndarray.transpose"><code>.transpose()</code></a> to move the subspace anywhere desired. Note that this example cannot be replicated using <a target="_blank" rel="noopener" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.take.html#numpy.take"><code>take</code></a>.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/numpy/" rel="tag"># numpy</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/11/net-visualization/" rel="prev" title="Pytorch 自动生成网络结构图">
+                  <i class="fa fa-chevron-left"></i> Pytorch 自动生成网络结构图
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/11/emc-lab-note-4w/" rel="next" title="密苏里科技大学EMC Lab暑研 第四周">
+                  密苏里科技大学EMC Lab暑研 第四周 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

@@ -1,37 +1,651 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="硬盘相关   df命令 df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux(Ubuntu)装机与配置笔记">
+<meta property="og:url" content="https://www.miracleyoo.com/2020/04/11/linux-setup/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="硬盘相关   df命令 df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-12T01:11:47.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:08:49.885Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ssh">
+<meta property="article:tag" content="net-disk">
+<meta property="article:tag" content="cuda">
+<meta name="twitter:card" content="summary">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2020/04/11/linux-setup/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2020/04/11/linux-setup/","path":"2020/04/11/linux-setup/","title":"Linux(Ubuntu)装机与配置笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux(Ubuntu)装机与配置笔记 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%9B%B8%E5%85%B3"><span class="nav-number">1.</span> <span class="nav-text"> 硬盘相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.1.</span> <span class="nav-text"> 参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text"> CUDA的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nouveau%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.1.</span> <span class="nav-text"> Nouveau是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nouveau-accelerated-open-source-driver-for-nvidia-cards"><span class="nav-number">2.1.1.</span> <span class="nav-text"> Nouveau: Accelerated Open Source driver for nVidia cards</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83-2"><span class="nav-number">2.2.</span> <span class="nav-text"> 参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda-%E4%B8%8E-cudnn-%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> CUDA 与 CUDNN 的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dubuntu%E4%B8%AD%E6%A3%80%E6%B5%8B%E5%88%B0%E7%B3%BB%E7%BB%9F%E7%A8%8B%E5%BA%8F%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text"> 修复Ubuntu中“检测到系统程序错误”的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%9D%A5%E6%BA%90"><span class="nav-number">4.2.</span> <span class="nav-text"> 问题来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text"> 解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83-3"><span class="nav-number">4.4.</span> <span class="nav-text"> 参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85python36%E7%89%88%E6%9C%AC%E7%9A%84anaconda"><span class="nav-number">5.</span> <span class="nav-text"> 安装Python3.6版本的Anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0vim%E6%8B%B7%E8%B4%9D%E8%87%B3%E7%B3%BB%E7%BB%9F%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%94%AF%E6%8C%81"><span class="nav-number">6.</span> <span class="nav-text"> 添加Vim拷贝至系统剪贴板快捷键支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8maclinux%E4%B8%8A%E4%BD%BF%E7%94%A8ssh%E6%8C%82%E8%BD%BD%E8%BF%9C%E7%A8%8B%E7%BD%91%E7%BB%9C%E7%A1%AC%E7%9B%98"><span class="nav-number">7.</span> <span class="nav-text"> 在Mac&#x2F;Linux上使用ssh挂载远程网络硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9C%AC%E5%9C%B0linux-server"><span class="nav-number">7.1.</span> <span class="nav-text"> 连接本地Linux Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5gypsum"><span class="nav-number">7.2.</span> <span class="nav-text"> 连接Gypsum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="nav-number">7.3.</span> <span class="nav-text"> 参数解释</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/04/11/linux-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux(Ubuntu)装机与配置笔记 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux(Ubuntu)装机与配置笔记<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/linux-setup.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-04-11 18:11:47" itemprop="dateCreated datePublished" datetime="2020-04-11T18:11:47-07:00">2020-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:08:49" itemprop="dateModified" datetime="2021-03-12T01:08:49-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="硬盘相关"><a class="markdownIt-Anchor" href="#硬盘相关"></a> 硬盘相关</h2>
+<ol>
+<li>
+<p><strong>df命令</strong><br>
+<code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
+<p><code>df -h</code>, 即<code> --human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
+<p><code>df -T</code>：查看所有磁盘的文件系统类型(type)</p>
+<span id="more"></span>
+</li>
+<li>
+<p><strong><code>fdisk</code>命令</strong></p>
+<p><code>fdisk</code>：强大的磁盘监视和操作工具。</p>
+<p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p>
+</li>
+<li>
+<p><strong>mount命令</strong></p>
+<p><code>mount</code>：挂载一个文件系统</p>
+<p><code>mount -t ntfs &lt;source&gt; &lt;target&gt;</code>：以ntfs文件系统的形式从源目录挂载到目标目录。t表示types类型</p>
+<p><code>mount -a</code>：挂载 fstab 中的所有文件系统。a表示all</p>
+</li>
+<li>
+<p><strong>blkid命令</strong></p>
+<p><code>sudo blkid</code>：获取各个分区的UUID和分区类型TYPE</p>
+</li>
+<li>
+<p>物理磁盘与磁盘分区：一个物理磁盘在<code>fdisk -l</code>中的显示往往类似于<code>/dev/sda</code>，<code>/dev/sdb</code>，<code>/dev/nvme0n1</code>。一般情况下是不带数字的，sda sdb是最常见的命名。而分区命名则是如：<code>/dev/sda1</code>，<code>/dev/sdb2</code>之类在物理磁盘的后面带上数字表示分区编号。</p>
+<p>但有些如双系统中，可能会出现最后一个例子中展示的命名，这种磁盘的分区则是以<code>p[x]</code>结尾，如<code>/dev/nvme0n1p1</code>，<code>/dev/nvme0n1p9</code>。</p>
+</li>
+<li>
+<p>Linux开机后不会自动挂载Windows文件格式NTFS的磁盘。</p>
+</li>
+<li>
+<p><code>sudo chmod -R 777 &lt;Folder_Name&gt;</code> 可以取消一个文件夹的全部访问权限。</p>
+</li>
+<li>
+<p><code>chmod</code>命令对ext3/4文件系统，即Linux格式的文件系统才有效，对其他文件系统，如vfat(Fat32)，NTFS都是无效的。</p>
+</li>
+<li>
+<p>/etc/fstab` 文件是掌管硬盘自动挂载配置的文件，包含自动挂载分区过程的必要信息。每一条记录格式如下：</p>
+<p><code>[Device] [Mount Point] [File System Type] [Options] [Dump] [Pass]</code></p>
+<p>如：</p>
+<p><code>UUID=B45A01D55A019570 /data ntfs defaults 0 2</code></p>
+<p>其中：</p>
+<p><code>[Options]</code> ：<code>defaults</code>表示用默认的<code>rw, suid, dev, exec, auto, nouser, async</code>等选项（不同内核和文件系统不同）进行挂载，这些选项的含义：<code>rw</code> 可读写；<code>suid</code> 执行程序时遵守<code>uuid</code>；<code>dev</code> 解释字符或禁止特殊设备；<code>exec</code> 允许执行二进制文件；<code>auto</code> 可以<code>-a</code>方式加载；<code>nouser</code> 禁止普通用户挂载此文件系统；<code>async</code> 所有I/O异步完成。</p>
+<p><code>[Dump]</code> ：是否开启分区备份，0表示关闭</p>
+<p><code>[Pass]</code>：系统启动时检查分区错误的顺序，root为1，其他为2，0为不检查。</p>
+</li>
+<li>
+<p>在<code>fstab</code>文件中添加记录前一定要先尝试用mount命令手动挂载。</p>
+</li>
+</ol>
+<h3 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h3>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qxqxqzzz/article/details/89790688">Ubuntu18.04 开机自动挂载其他硬盘</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ybdesire/article/details/79145180">Linux查看与挂载新磁盘</a></li>
+</ol>
+<h2 id="cuda的安装"><a class="markdownIt-Anchor" href="#cuda的安装"></a> CUDA的安装</h2>
+<ol>
+<li>
+<p>检查自己的GPU是否是CUDA-capable，在终端中输入<code>lspci | grep -I NVIDIA</code> ，会显示自己的NVIDIA GPU版本信息，去CUDA的官网查看自己的GPU版本是否在CUDA的支持列表中。</p>
+</li>
+<li>
+<p>检查自己的Linux版本是否支持 CUDA（Ubuntu 稳定支持版没问题）。</p>
+</li>
+<li>
+<p>检查其他问题。这里就不详述了，正常情况下一般OK，这里主要要检查是否安装了<code>gcc</code>，是否安装了<code>kernel header</code>和 <code>package development</code>。如果害怕出现问题可以参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">官网</a>执行这几步检测。</p>
+</li>
+<li>
+<p>于<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">CUDA官网</a>下载与系统对应的CUDA版本。最后一个选项选择<code>runfile</code>，因为其所需步骤最少，也因此最不容易出问题。所有选项完成后，你会看到如下两行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run</span><br><span class="line">sudo sh cuda_10.2.89_440.33.01_linux.run</span><br></pre></td></tr></table></figure>
+<p>先不要执行第二条<code>sudo</code>开头的指令，只使用<code>wget</code>下载。</p>
+</li>
+<li>
+<p>如果之前有安装过其他版本的CUDA并希望将其卸载，使用<code>sudo nvidia-uninstall</code>卸载。如果该命令不在系统路径中，则使用<code>sudo /usr/bin/nvidia-uninstall</code>（位置可能变化）卸载。如果还是没有，或是之前的驱动已经损坏，则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br><span class="line">sudo <span class="built_in">chmod</span> +x NVIDIA-Linux-x86_64-410.93.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-410.93.run --uninstall</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>屏蔽<code>nouveau</code>驱动。</p>
+</li>
+</ol>
+<h3 id="nouveau是什么"><a class="markdownIt-Anchor" href="#nouveau是什么"></a> Nouveau是什么</h3>
+<blockquote>
+<h4 id="nouveau-accelerated-open-source-driver-for-nvidia-cards"><a class="markdownIt-Anchor" href="#nouveau-accelerated-open-source-driver-for-nvidia-cards"></a> Nouveau: Accelerated Open Source driver for nVidia cards</h4>
+<p>The <strong>nouveau</strong> project aims to build high-quality, free/libre software drivers for <a target="_blank" rel="noopener" href="https://nouveau.freedesktop.org/wiki/CodeNames/">nVidia cards</a>. “Nouveau” [<em>nuvo</em>] is the French word for “new”. Nouveau is composed of a Linux kernel KMS driver (nouveau), Gallium3D drivers in Mesa, and the Xorg DDX (xf86-video-nouveau). The kernel components have also been ported to <a target="_blank" rel="noopener" href="https://nouveau.freedesktop.org/wiki/NetBSD/">NetBSD</a>.</p>
+</blockquote>
+<p>简单说，nouveau是Linux系统默认的给NVIDIA卡预装的一个图形加速驱动，而这个驱动会与CUDA产生部分冲突，所以在安装CUDA之前需要将其禁用，否则会出现卡在开机登录界面无法进入图形界面（仍然可以ssh访问），黑屏，鼠标键盘输入被禁用等问题中的一个或多个（亲身经历）。</p>
+<p>继续安装教程：</p>
+<ol start="6">
+<li>
+<p>刚才说到要屏蔽<code>nouveau</code>，那么怎么知道你有没有装它呢？<br>
+使用<code>lsmod | grep nouveau</code>命令，如果没有输出，就可以判定你没有运行<code>nouveau</code>，可以直接进入下一步，否则：</p>
+<ol>
+<li>
+<p>Create a file at <code>/etc/modprobe.d/blacklist-nouveau.conf</code> with the following contents:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Regenerate the kernel initramfs:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Restart.</p>
+</li>
+<li>
+<p>Run <code>lsmod | grep nouveau</code> again. If there is no output, then you succeed.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>此后建议进入一个非图形界面安装，这里可以在重启后使用<code>ssh</code>接入，也可以在重启后按<code>alt+ctrl+f1</code>，进入<strong>text mode</strong>，登录账户。</p>
+</li>
+<li>
+<p>输入 <code>sudo service lightdm stop</code> 关闭图形化界面。</p>
+</li>
+<li>
+<p>执行刚才官网中给出的第二条命令：<code>sudo sh cuda_10.2.89_440.33.01_linux.run</code>。注意这里的版本会不断有变化。注意这里有一个点，即你是否要同时安装OpenGL，如果你是双显，且主显是非NVIDIA的GPU需要选择no，否则yes。同理，如果准备选no，也可以一开始就加上参数<code>--no-opengl-files</code>。 另外，如果不能直接执行，使用<code>sudo chmod a+x cuda_xx.xx.xx_linux.run</code>为其赋权。</p>
+</li>
+<li>
+<p>安装成功后，会提示你将cuda的几个路径添加到系统路径中，这里重复一下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1<span class="variable">$&#123;PATH:+:<span class="variable">$&#123;PATH&#125;</span>&#125;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\</span><br><span class="line">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用<code>nvcc -V</code>检测是否安装成功。当然也可以同时测试<code>nvidia-smi</code>。这里可能会报错并提示需要apt安装一个包，按提示来。</p>
+</li>
+<li>
+<p>完成。</p>
+</li>
+</ol>
+<h3 id="参考-2"><a class="markdownIt-Anchor" href="#参考-2"></a> 参考</h3>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA下载官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">NVIDIA 官方安装指南（英文）</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">NVIDIA 官方安装指南中前置检查部分</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.pugetsystems.com/labs/hpc/How-To-Install-CUDA-10-together-with-9-2-on-Ubuntu-18-04-with-support-for-NVIDIA-20XX-Turing-GPUs-1236/">How To Install CUDA 10 (together with 9.2) on Ubuntu 18.04 with support for NVIDIA 20XX Turing GPUs</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lipi37/article/details/90407099">Ubuntu 安装 cuda 时卡在登录界面（login loop)的解决方案之一</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wkk15903468980/article/details/56489704">ubuntu安装cuda循环登录</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33200967/article/details/80689543">Ubuntu安装和卸载CUDA和CUDNN</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wf19930209/article/details/81879514">Linux安装CUDA的正确姿势</a></li>
+</ol>
+<h2 id="cuda-与-cudnn-的联系"><a class="markdownIt-Anchor" href="#cuda-与-cudnn-的联系"></a> CUDA 与 CUDNN 的联系</h2>
+<ol>
+<li>要先装CUDA再装CUDNN。</li>
+<li>前者是平台，后者是基于平台的深度学习加速器。加速可以应用于几乎全部深度学习平台。还是要安的。</li>
+<li>一般深度学习使用安装runtime版本即可。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-download">CUDNN官方下载</a>，<a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html">CUDNN官方安装步骤</a></li>
+</ol>
+<h2 id="修复ubuntu中检测到系统程序错误的问题"><a class="markdownIt-Anchor" href="#修复ubuntu中检测到系统程序错误的问题"></a> 修复Ubuntu中“检测到系统程序错误”的问题</h2>
+<h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<p>每次开机时都会有“<strong>Ubuntu xx.xx 在启动时检测到系统程序错误</strong> ”弹窗出现。即使点击报告下次还会继续出现。</p>
+<h3 id="问题来源"><a class="markdownIt-Anchor" href="#问题来源"></a> 问题来源</h3>
+<p>之前的某个时刻某个程序崩溃了，而Ubuntu想让你决定要不要把这个问题报告给开发者，这样他们就能够修复这个问题。</p>
+<h3 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h3>
+<ol>
+<li><code>sudo rm /var/crash/* </code> ：删除这些错误报告。但是如果又有一个程序崩溃了，你就会再次看到“检测到系统程序错误”的错误。你可以再次删除这些报告文件，或者选择禁用Apport来彻底地摆脱这个错误弹窗。如果你这样做，系统中任何程序崩溃时，系统都不会再通知你。但这未必一件坏事，除非你愿意填写错误报告。如果你不想填写错误报告，那么这些错误通知存不存在都不会有什么区别。</li>
+<li><code>sudo vim /etc/default/apport</code> 永久屏蔽这些报错。</li>
+</ol>
+<h3 id="参考-3"><a class="markdownIt-Anchor" href="#参考-3"></a> 参考</h3>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hywerr/article/details/72582082">如何修复ubuntu中检测到系统程序错误的问题</a></li>
+<li><a target="_blank" rel="noopener" href="https://itsfoss.com/how-to-fix-system-program-problem-detected-ubuntu/">How To Fix System Program Problem Detected In Ubuntu</a></li>
+</ol>
+<h2 id="安装python36版本的anaconda"><a class="markdownIt-Anchor" href="#安装python36版本的anaconda"></a> 安装Python3.6版本的Anaconda</h2>
+<p>由于之前使用的一些开源库和软件对3.7的支持性尚还有问题，而Anaconda默认Python版本为3.6， 所以有必要把Anaconda降级为3.6版本。</p>
+<p>安装方法：</p>
+<ol>
+<li>
+<p>到Anaconda官网下载并安装最新3.7版本。</p>
+</li>
+<li>
+<p>世界线开始分歧，你可以选择保留3.7版本的Anaconda，并创建一个虚拟环境，或是直接替换Python版本。</p>
+<ol>
+<li>
+<p>对前者，<br>
+若只要一个python环境不要packages，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name ana36 python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
+<p>反之，如果要安装一个新的Anaconda，包含默认的所有packages，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n ana36 anaconda python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>对后者，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install python=3.6</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="添加vim拷贝至系统剪贴板快捷键支持"><a class="markdownIt-Anchor" href="#添加vim拷贝至系统剪贴板快捷键支持"></a> 添加Vim拷贝至系统剪贴板快捷键支持</h2>
+<p>(from: <a target="_blank" rel="noopener" href="http://vim.wikia.com/wiki/Mac_OS_X_clipboard_sharing">link</a>)</p>
+<p>Having trouble copying selected text from Vim (not MacVim)? Since using <code>&quot;+y</code> or ‘&quot;*y’ in Vim on a Mac doesn’t actually copy the selected text to the system clipboard, you might find it beneficial to do the following:</p>
+<ol>
+<li>Open your <code>~/.vimrc</code> file</li>
+<li>add <code>vmap '' :w !pbcopy</code></li>
+<li>Save it and <code>source</code> the file</li>
+</ol>
+<p>现在，你就可以在 visual mode， 即在Esc命令模式后按下v键后的选择模式中，选好需要拷贝区域后，连击两次<code>'</code> ，即使用 <code>''</code>来拷贝所选区域。</p>
+<h2 id="在maclinux上使用ssh挂载远程网络硬盘"><a class="markdownIt-Anchor" href="#在maclinux上使用ssh挂载远程网络硬盘"></a> 在Mac/Linux上使用ssh挂载远程网络硬盘</h2>
+<p>TL;DR：</p>
+<ol>
+<li>安装sshfs: <code>sudo apt-get install sshfs</code></li>
+<li>直接在<code>~/.zshrc</code>中添加以下行：（当然，需要更改文件夹名称，以及挂载后的命名）</li>
+</ol>
+<h3 id="连接本地linux-server"><a class="markdownIt-Anchor" href="#连接本地linux-server"></a> 连接本地Linux Server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_misaka</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-home&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/misaka-home</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/home/miracle /Volumes/misaka-home/ -ovolname=mk-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-storage&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/misaka-storage</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/data /Volumes/misaka-storage/ -ovolname=mk-2T</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="连接gypsum"><a class="markdownIt-Anchor" href="#连接gypsum"></a> 连接Gypsum</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_gypsum</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/home/zhongyangzha /Volumes/gypsum/ -ovolname=gp-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-scratch/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum-scratch/</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/scratch1/zhongyangzha/ /Volumes/gypsum-scratch/ -ovolname=gp-scratch</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-work/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum-work</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/work1/trahman/zhongyangzha /Volumes/gypsum-work/ -ovolname=gp-work</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参数解释"><a class="markdownIt-Anchor" href="#参数解释"></a> 参数解释</h3>
+<ol>
+<li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
+<li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
+<li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;username@ip.address:/the/source/path&gt; 与本机目标挂载位置</li>
+<li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/ssh/" rel="tag"># ssh</a>
+              <a href="/tags/net-disk/" rel="tag"># net-disk</a>
+              <a href="/tags/cuda/" rel="tag"># cuda</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/24/pandas-resample/" rel="prev" title="Pandas Resample">
+                  <i class="fa fa-chevron-left"></i> Pandas Resample
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/04/26/docker-et-nvidia/" rel="next" title="Docker与Nivida-Docker的用法与注意事项">
+                  Docker与Nivida-Docker的用法与注意事项 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

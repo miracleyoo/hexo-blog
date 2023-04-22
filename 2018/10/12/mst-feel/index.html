@@ -1,37 +1,471 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="2018年于密苏里科技大学暑研感想 脚下坚实的土地是球形的，但徒步向前的旅人一步步走着笔直的路；指缝中划过的时间是不断流逝的，但驻足于此的行者却认为同样的时光将无限地流转。休假、旅行、访学，从某处离去，又终将归来，同样的处所、相同的人、不变的关切和思念，却又有了些不同的记忆、熟识了另一批友人、拥有了新的想法和兴趣以及微调过的思想。行走于一条莫比乌斯环，漫步一周，归来，虽情景依旧，却再也无法当初。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018年于密苏里科技大学暑研感想">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/10/12/mst-feel/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="2018年于密苏里科技大学暑研感想 脚下坚实的土地是球形的，但徒步向前的旅人一步步走着笔直的路；指缝中划过的时间是不断流逝的，但驻足于此的行者却认为同样的时光将无限地流转。休假、旅行、访学，从某处离去，又终将归来，同样的处所、相同的人、不变的关切和思念，却又有了些不同的记忆、熟识了另一批友人、拥有了新的想法和兴趣以及微调过的思想。行走于一条莫比乌斯环，漫步一周，归来，虽情景依旧，却再也无法当初。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwly1fwqarifr05j30rs15o4gf.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwgy1fwqar7f0qij30rs15owu2.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwly1fwqard9lb3j30rs15odvq.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwgy1fwdttttsv7j30rs15ob29.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwly1fwqara7ezsj315o0rsng4.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwgy1fwdulezgp9j315o15okjm.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwgy1fwduocfxu6j30rs15ohdt.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwly1fwqarlq8grj315o15okhe.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwgy1fwduydoyckj315o15ohdu.jpg">
+<meta property="og:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwgy1fwduyktro8j30rs15ox6p.jpg">
+<meta property="article:published_time" content="2018-10-12T22:50:22.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:09:48.751Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="essay">
+<meta property="article:tag" content="EMC">
+<meta property="article:tag" content="abroad">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2018/10/12/mst-feel/006tNbRwly1fwqarifr05j30rs15o4gf.jpg">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2018/10/12/mst-feel/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2018/10/12/mst-feel/","path":"2018/10/12/mst-feel/","title":"2018年于密苏里科技大学暑研感想"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2018年于密苏里科技大学暑研感想 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2018%E5%B9%B4%E4%BA%8E%E5%AF%86%E8%8B%8F%E9%87%8C%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6%E6%9A%91%E7%A0%94%E6%84%9F%E6%83%B3"><span class="nav-number">1.</span> <span class="nav-text"> 2018年于密苏里科技大学暑研感想</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/10/12/mst-feel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2018年于密苏里科技大学暑研感想 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2018年于密苏里科技大学暑研感想<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/mst-feel.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-12 15:50:22" itemprop="dateCreated datePublished" datetime="2018-10-12T15:50:22-07:00">2018-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:09:48" itemprop="dateModified" datetime="2021-03-12T01:09:48-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>9 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="2018年于密苏里科技大学暑研感想"><a class="markdownIt-Anchor" href="#2018年于密苏里科技大学暑研感想"></a> 2018年于密苏里科技大学暑研感想</h1>
+<p>脚下坚实的土地是球形的，但徒步向前的旅人一步步走着笔直的路；指缝中划过的时间是不断流逝的，但驻足于此的行者却认为同样的时光将无限地流转。休假、旅行、访学，从某处离去，又终将归来，同样的处所、相同的人、不变的关切和思念，却又有了些不同的记忆、熟识了另一批友人、拥有了新的想法和兴趣以及微调过的思想。行走于一条莫比乌斯环，漫步一周，归来，虽情景依旧，却再也无法当初。</p>
+<span id="more"></span>
+<p>旅行给了人什么？如果被问及这个问题，我想无疑答案将会是一个新的自我吧。异国他乡新的文化碰撞、来自不同学校、不同地域、不同国家的人各异的性格和处事方式、崭新关系的建立、以及在此之上产生的体验和记忆，无疑都会给人渲染上一层新的颜色。</p>
+<p>也许是托当代科技的福，在离开生活了三个月之久的小城罗拉前夜依然理所当然的认为这样的生活还会一如既往的持续下去，正如过去的三个月那样。在实验室工作、学习、写代码、做演讲；与mentor讨论问题，交流经验、分享知识；在讲台下不断修改一份份Slides；在讲台上展示最新的成果与体悟；在同学和教授家开party，跳舞、唱歌、吃自制的火锅；在周末驱车圣路易闲逛，感受博物馆诉说的历史；在罗拉的各个餐厅驻足，留下小费和欢笑；和陆鸿宇一起谈动漫、讲日语；和大家挤在一起、注视着草丛中时隐时现的敌人；飞去洛杉矶做会议的志愿者、体会美丽的海滩和有趣有料的环球影城；在center健身、游泳、挥洒汗水；在篮球和足球场上狂奔、为精彩的一刹而击掌欢呼。在罗拉和煦的阳光下，我们曾一起奋斗、一同欢笑，留下的是代码和成果，带走的是知识与美好。</p>
+<p>仍清晰地记得初来这座小城时，同行的四个人无一人能下厨做饭，当时我们采购了大量的泡面和速冻食品，连续在罗拉的各个饭店留下足迹，而实验室对面的麦当劳更成了我们的后厨，每当没有学长学姐带去吃饭的时候就只能光顾那里，而最极端的时候甚至可以一日三入金拱门。也是自然而然的，不到一个月，胖了将近十斤。但我们也没有坐以待毙，从即将毕业的学长学姐那里“继承”了锅碗瓢盆、菜刀砧板，又从沃尔玛和圣路易的中超凑齐了各种调味料和食材，之后的时光里则拜“下厨房”APP为师，开启了我们四人的手制料理生活。我们Miner Inn的每个人都掌握了几样拿手菜，平衡了膳食后，我的体重也渐渐回到了最初的水平。</p>
+<p>“只有尝试迈出第一步才能摆脱偏见，遇见更好的自己。”在这里的经历告诉了我这一点。之前我一直不太乐意去健身房，潜意识中觉得这是很荒谬而无聊的事情，并且目标对象是减肥的人和肌肉男。但是在周围学长和同学的带动下一步踏进健身房后，我开始意识到也许之前的想法才是真正荒谬的。对肌肉的精准锻炼、对运动强度的把控、形式多样的健身器材都使得健身成为了一项舒适而开心的事情，而来这里运动的也并非只有肥胖症患者和肌肉男。游泳也是这样，尽管只是学会了一些皮毛，但是也敢于下水游了。一直以来我都感觉很怕水，尝试了几次后最终还是放弃了，但在学长们的悉心指导下，我发现其实并不是真的不能游泳，而是内心深处始终对于呛水有着巨大的恐惧，所以无法将埋头水中，更无法游起来了。同理还有MATLAB，之前一直十分不习惯这种语言，但是真当做起来项目时，我竟开始觉得这门语言也有其方便和合理之处。当然做饭、用英语做演讲等也都是这样，一旦克服了最初的恐惧，后面便会渐渐变得得心应手，并开始领会其中乐趣。</p>
+<p>戏剧之所以令人回味，也许在于其落幕后观客依旧能在脑海中一遍遍回放其中的一幕幕场景，细细抚摩台上演员眉宇间流动的气，品味其颦笑中藏匿的神。而照片亦是如此。</p>
+<p><img data-src="006tNbRwly1fwqarifr05j30rs15o4gf.jpg" alt="IMG_3762"></p>
+<p>下了飞机便是美国。我们的第一餐选择了最原汁原味的麦当劳。四人谈笑风生，本无趣味的快速食品倒也在耳边萦绕的英语这味佐料下生出些别具一格的风味来。之后再次转机，离开西雅图，抵达圣路易，并在学长们深夜体贴的接机车的音乐声中来到了中部小城罗拉。看房间，小，紧凑，但毕竟首次住单人房，倒也有滋有味，甚是舒服。出门便是密苏里科技大学的校区，宽敞，阳光充沛，绿色的草坪在太阳下映衬着红墙，美。</p>
+<p><img data-src="006tNbRwgy1fwqar7f0qij30rs15owu2.jpg" alt="IMG_3772"></p>
+<p>第一次出行发生在我们落地的那周周末。一众学长驱车带着我们实习生来到了省城圣路易，参观了博物馆、逛了百货大楼、还愉快的享用了一次西餐和一次标准的四川菜。不同菜系各有其长，不在牛排上期待蒜香，不在火锅里寻觅甜酱才是愉快生活的保障。</p>
+<p><img data-src="006tNbRwly1fwqard9lb3j30rs15odvq.jpg" alt="IMG_3768"></p>
+<p>做饭，是一种必然的选择。第一个月的泡面和巅峰时一日三食的麦当劳成功让我随身多携带了五公斤的的卡路里，然而是自己的手作料理和运动重新把它们燃烧了。从最初被浙江同学敬畏的鸡蛋土豆丝到什锦米饭，一直到后来的拿手小菜炒生菜、酸辣土豆丝和番茄鸡蛋等，一步步，进入了我们的菜谱中。</p>
+<p><img data-src="006tNbRwgy1fwdttttsv7j30rs15ob29.jpg" alt="IMG_3765"></p>
+<p>不久，我们迎来了期盼已久的洛杉矶之旅。这次来洛杉矶长滩是为了做一个行业会议的志愿者，在这里我遇到了一批日本教授和工业界会社员，交谈甚欢的同时也收获了一些名片和一个Cisco的实习机会，不错。当然工作之余的娱乐活动和会议主办方提供的兼具社交性的出游活动体验也是十分惬意的。</p>
+<p><img data-src="006tNbRwly1fwqara7ezsj315o0rsng4.jpg" alt="IMG_3766"></p>
+<p>在没有排班的一天里，我和两名同学一同来到了洛杉矶的环球影城，这里无疑是我到访过的最棒的游园设施了。逼真的3D效果、沉浸式的环境、精彩的现场表演、华美的灯光秀以及刺激的项目体验都给我们带来了无穷的乐趣，尤其是哈利波特小镇，各种细节都完美还原原作，体验项目中的3D制作更是让人仿佛穿越来到了那个魔法世界，挥舞着手中的魔杖…</p>
+<p><img data-src="006tNbRwgy1fwdulezgp9j315o15okjm.jpg" alt="IMG_3764"></p>
+<p>从洛杉矶回来后的生活也是相当多彩的。足球比赛、烧烤、Road Kill烤肋排等都是生活中不错的调味料，更不用说实验室里可爱的妹子们了。</p>
+<p><img data-src="006tNbRwgy1fwduocfxu6j30rs15ohdt.jpg" alt="IMG_3767"></p>
+<p>去一次射击店体验真实吃鸡操作，是来美国前一个重要的小目标。现实中的射击体验店也确实没让我失望。教练从手枪教起，然后我渐渐上手了猎枪、5.56口径红点瞄准步枪、7.62口径子弹的AKM等的基操，一句话：酷毙了！尽管已经是绝地海岛和热情雨林中久经沙场的老枪手了，但摸到真正的步枪，上膛，瞄准，扣动扳机，等待并顶住那一声巨响的这一系列仪式似的步骤还是让人内心激动不已——硝烟特有的浪漫。</p>
+<p><img data-src="006tNbRwly1fwqarlq8grj315o15okhe.jpg" alt="IMG_3769"></p>
+<p><img data-src="006tNbRwgy1fwduydoyckj315o15ohdu.jpg" alt="IMG_3770"></p>
+<p><img data-src="006tNbRwgy1fwduyktro8j30rs15ox6p.jpg" alt="IMG_3771"></p>
+<p>州立博物馆、大学万国庆典、机车博物馆参观，这些都是后来发生的事情了。其间一个项目做完了，并在岭神的指导下完成了paper的outline和初稿；接手了另一个有趣的任务并借此拉到了谷歌的项目；完成了Linux课设和数字图像处理课设这两个历史遗留任务；开始入门了深度强化学习并写出了第一个基于该技术的项目，编码完成后“惊喜”的发现新出的一篇韩国论文和我们完美撞车了；长胖了并又瘦了，还学会了在水里扑腾。日子就像这么一条铁轨，在日复一日的咣当、咣当的声响中不断向前，蓦然回首，竟已然到了站台。</p>
+<p>张中洋</p>
+<p>2018.10.12</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/essay/" rel="tag"># essay</a>
+              <a href="/tags/EMC/" rel="tag"># EMC</a>
+              <a href="/tags/abroad/" rel="tag"># abroad</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/06/emc-lab-note-12w/" rel="prev" title="密苏里科技大学EMC Lab暑研 第十二周">
+                  <i class="fa fa-chevron-left"></i> 密苏里科技大学EMC Lab暑研 第十二周
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/10/27/paper-dl-poisson/" rel="next" title="Paper："Solving Poisson's Equation using Deep Learning in Particle Simulation of PN Junction"">
+                  Paper："Solving Poisson's Equation using Deep Learning in Particle Simulation of PN Junction" <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

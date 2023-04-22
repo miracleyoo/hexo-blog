@@ -1,37 +1,557 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="模型训练完成后，要注意及时记录保存各种参数，网络结构，分类存档以供后续对比出各种结论，但问题是填写一把这个表格太慢了而且太难受了。。 废话不多说，上脚本：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型训练结束后自动整理记录各项参数">
+<meta property="og:url" content="https://www.miracleyoo.com/2018/05/14/auto-param-table/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="模型训练完成后，要注意及时记录保存各种参数，网络结构，分类存档以供后续对比出各种结论，但问题是填写一把这个表格太慢了而且太难受了。。 废话不多说，上脚本：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-15T06:57:03.000Z">
+<meta property="article:modified_time" content="2021-03-12T09:03:20.046Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="machine-learning">
+<meta name="twitter:card" content="summary">
 
 
-{% block content %}
+<link rel="canonical" href="https://www.miracleyoo.com/2018/05/14/auto-param-table/">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2018/05/14/auto-param-table/","path":"2018/05/14/auto-param-table/","title":"模型训练结束后自动整理记录各项参数"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>模型训练结束后自动整理记录各项参数 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E5%AE%8C%E6%88%90%E5%90%8E%E8%A6%81%E6%B3%A8%E6%84%8F%E5%8F%8A%E6%97%B6%E8%AE%B0%E5%BD%95%E4%BF%9D%E5%AD%98%E5%90%84%E7%A7%8D%E5%8F%82%E6%95%B0%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%88%86%E7%B1%BB%E5%AD%98%E6%A1%A3%E4%BB%A5%E4%BE%9B%E5%90%8E%E7%BB%AD%E5%AF%B9%E6%AF%94%E5%87%BA%E5%90%84%E7%A7%8D%E7%BB%93%E8%AE%BA%E4%BD%86%E9%97%AE%E9%A2%98%E6%98%AF%E5%A1%AB%E5%86%99%E4%B8%80%E6%8A%8A%E8%BF%99%E4%B8%AA%E8%A1%A8%E6%A0%BC%E5%A4%AA%E6%85%A2%E4%BA%86%E8%80%8C%E4%B8%94%E5%A4%AA%E9%9A%BE%E5%8F%97%E4%BA%86"><span class="nav-number">1.</span> <span class="nav-text"> 模型训练完成后，要注意及时记录保存各种参数，网络结构，分类存档以供后续对比出各种结论，但问题是填写一把这个表格太慢了而且太难受了。。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA%E6%95%88%E6%9E%9C%E5%A6%82%E4%B8%8B"><span class="nav-number"></span> <span class="nav-text"> 演示效果如下：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#model-testing-record-form"><span class="nav-number"></span> <span class="nav-text"> Model Testing Record Form</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#configs"><span class="nav-number"></span> <span class="nav-text"> Configs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#net-structure"><span class="nav-number"></span> <span class="nav-text"> Net Structure</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2018/05/14/auto-param-table/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="模型训练结束后自动整理记录各项参数 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          模型训练结束后自动整理记录各项参数<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/auto-param-table.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-05-14 23:57:03" itemprop="dateCreated datePublished" datetime="2018-05-14T23:57:03-07:00">2018-05-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2021-03-12 01:03:20" itemprop="dateModified" datetime="2021-03-12T01:03:20-08:00">2021-03-12</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>717</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="模型训练完成后要注意及时记录保存各种参数网络结构分类存档以供后续对比出各种结论但问题是填写一把这个表格太慢了而且太难受了"><a class="markdownIt-Anchor" href="#模型训练完成后要注意及时记录保存各种参数网络结构分类存档以供后续对比出各种结论但问题是填写一把这个表格太慢了而且太难受了"></a> 模型训练完成后，要注意及时记录保存各种参数，网络结构，分类存档以供后续对比出各种结论，但问题是填写一把这个表格太慢了而且太难受了。。</h3>
+<p>废话不多说，上脚本：</p>
+<span id="more"></span>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">def write_summary(net, opt, summary_info):</span><br><span class="line">    current_time = datetime.datetime.now().strftime(&quot;%Y-%m-%d_%H:%M:%S&quot;)</span><br><span class="line">    prefix   = &#x27;./source/summaries/&#x27;+net.model_name</span><br><span class="line">    if not os.path.exists(prefix): os.mkdir(prefix)</span><br><span class="line">    sum_path = prefix + &#x27;/MiracleYoo_&#x27;+current_time+&#x27;_&#x27;+net.model_name+&#x27;_Model_Testing_Record_Form.md&#x27;</span><br><span class="line">    with codecs.open(&#x27;./config.py&#x27;, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as f:</span><br><span class="line">        raw_data = f.readlines()</span><br><span class="line">        configs  = &#x27;&#x27;</span><br><span class="line">        for line in raw_data:</span><br><span class="line">            if line.strip().startswith(&#x27;self.&#x27;):</span><br><span class="line">                configs += line.strip().strip(&#x27;self.&#x27;)+&#x27;\n&#x27;</span><br><span class="line"></span><br><span class="line">    content = &#x27;&#x27;&#x27;</span><br><span class="line"># Model Testing Record Form</span><br><span class="line">| Item Name        | Information |</span><br><span class="line">| ---------        | ----------- |</span><br><span class="line">| Model Name       | %s          |</span><br><span class="line">| Tester&#x27;s Name    | Miracle Yoo |</span><br><span class="line">| Author&#x27;s Nmae    | Miracle Yoo |</span><br><span class="line">| Test Time        | %s          |</span><br><span class="line">| Test Position    | %s          |</span><br><span class="line">| Training Epoch   | %d          |</span><br><span class="line">| Highest Test Acc | %.4f        |</span><br><span class="line">| Loss of highest Test Acc| %.4f |</span><br><span class="line">| Last epoch test acc   | %.4f   |</span><br><span class="line">| Last epoch test loss  | %.4f   |</span><br><span class="line">| Last epoch train acc  | %.4f   |</span><br><span class="line">| Last epoch train loss | %.4f   |</span><br><span class="line">| Train Dataset Path    | %s     |</span><br><span class="line">| Test Dataset Path     | %s     |</span><br><span class="line">| Class Number     | %d          |</span><br><span class="line">| Framwork         | Pytorch     |</span><br><span class="line">| Basic Method     | Classify    |</span><br><span class="line">| Input Type       | Char        |</span><br><span class="line">| Criterion        | CrossEntropy|</span><br><span class="line">| Optimizer        | %s          |</span><br><span class="line">| Learning Rate    | %.4f        |</span><br><span class="line">| Embedding dimension   | %d     |</span><br><span class="line">| Data Homogenization   | True   |</span><br><span class="line">| Pretreatment|Remove punctuation|</span><br><span class="line">| Other Major Param |            |</span><br><span class="line">| Other Operation   |            |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## Configs</span><br><span class="line">\```</span><br><span class="line">%s</span><br><span class="line">\```</span><br><span class="line"></span><br><span class="line">## Net Structure</span><br><span class="line">\```</span><br><span class="line">%s</span><br><span class="line">\```</span><br><span class="line">    &#x27;&#x27;&#x27;%(</span><br><span class="line">        net.model_name,</span><br><span class="line">        current_time,</span><br><span class="line">        opt.TEST_POSITION,</span><br><span class="line">        summary_info[&#x27;total_epoch&#x27;],</span><br><span class="line">        summary_info[&#x27;best_acc&#x27;],</span><br><span class="line">        summary_info[&#x27;best_acc_loss&#x27;],</span><br><span class="line">        summary_info[&#x27;ave_test_acc&#x27;],</span><br><span class="line">        summary_info[&#x27;ave_test_loss&#x27;],</span><br><span class="line">        summary_info[&#x27;ave_train_acc&#x27;],</span><br><span class="line">        summary_info[&#x27;ave_train_loss&#x27;],</span><br><span class="line">        os.path.basename(opt.TRAIN_DATASET_PATH),</span><br><span class="line">        os.path.basename(opt.TEST_DATASET_PATH),</span><br><span class="line">        opt.NUM_CLASSES,</span><br><span class="line">        opt.OPTIMIZER,</span><br><span class="line">        opt.LEARNING_RATE,</span><br><span class="line">        opt.EMBEDDING_DIM,</span><br><span class="line"></span><br><span class="line">        configs.strip(&#x27;\n&#x27;),</span><br><span class="line">        str(net)</span><br><span class="line">    )</span><br><span class="line">    with codecs.open(sum_path, &#x27;w+&#x27;, encoding=&#x27;utf-8&#x27;) as f:</span><br><span class="line">        f.writelines(content)</span><br></pre></td></tr></table></figure>
+<p>记着把上面```前面的\去掉食用~<br>
+这个表不全，后面会有补充，内容也可以根据你自己模型和项目的具体情况修改。</p>
+<h2 id="演示效果如下"><a class="markdownIt-Anchor" href="#演示效果如下"></a> 演示效果如下：</h2>
+<h1 id="model-testing-record-form"><a class="markdownIt-Anchor" href="#model-testing-record-form"></a> Model Testing Record Form</h1>
+<table>
+<thead>
+<tr>
+<th>Item Name</th>
+<th>Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Name</td>
+<td>TextCNNInc</td>
+</tr>
+<tr>
+<td>Tester’s Name</td>
+<td>Miracle Yoo</td>
+</tr>
+<tr>
+<td>Author’s Nmae</td>
+<td>Miracle Yoo</td>
+</tr>
+<tr>
+<td>Test Time</td>
+<td>2018-05-13_15:24:43</td>
+</tr>
+<tr>
+<td>Test Position</td>
+<td>Gangge Server</td>
+</tr>
+<tr>
+<td>Training Epoch</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Highest Test Acc</td>
+<td>0.7102</td>
+</tr>
+<tr>
+<td>Loss of highest Test Acc</td>
+<td>0.1721</td>
+</tr>
+<tr>
+<td>Last epoch test acc</td>
+<td>0.6706</td>
+</tr>
+<tr>
+<td>Last epoch test loss</td>
+<td>0.1721</td>
+</tr>
+<tr>
+<td>Last epoch train acc</td>
+<td>0.8904</td>
+</tr>
+<tr>
+<td>Last epoch train loss</td>
+<td>1.2189</td>
+</tr>
+<tr>
+<td>Train Dataset Path</td>
+<td>knowledge&amp;log_data.txt</td>
+</tr>
+<tr>
+<td>Test Dataset Path</td>
+<td>yibot_two_year_test.txt</td>
+</tr>
+<tr>
+<td>Class Number</td>
+<td>2411</td>
+</tr>
+<tr>
+<td>Framwork</td>
+<td>Pytorch</td>
+</tr>
+<tr>
+<td>Basic Method</td>
+<td>Classify</td>
+</tr>
+<tr>
+<td>Input Type</td>
+<td>Char</td>
+</tr>
+<tr>
+<td>Criterion</td>
+<td>CrossEntropy</td>
+</tr>
+<tr>
+<td>Optimizer</td>
+<td>Adam</td>
+</tr>
+<tr>
+<td>Learning Rate</td>
+<td>0.0010</td>
+</tr>
+<tr>
+<td>Embedding dimension</td>
+<td>512</td>
+</tr>
+<tr>
+<td>Data Homogenization</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pretreatment</td>
+<td>Remove punctuation</td>
+</tr>
+<tr>
+<td>Other Major Param</td>
+<td></td>
+</tr>
+<tr>
+<td>Other Operation</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="configs"><a class="markdownIt-Anchor" href="#configs"></a> Configs</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">USE_CUDA           = torch.cuda.is_available()</span><br><span class="line">RUNNING_ON_SERVER  = False</span><br><span class="line">NET_SAVE_PATH      = &quot;./source/trained_net/&quot;</span><br><span class="line">TRAIN_DATASET_PATH = &quot;../database/test_train/knowledge&amp;log_data.txt&quot;</span><br><span class="line">TEST_DATASET_PATH  = &quot;../database/test_train/yibot_two_year_test.txt&quot;</span><br><span class="line">NUM_EPOCHS         = 100</span><br><span class="line">BATCH_SIZE         = 8</span><br><span class="line">TOP_NUM            = 4</span><br><span class="line">NUM_WORKERS        = 1</span><br><span class="line">IS_TRAINING        = True</span><br><span class="line">ENSEMBLE_TEST      = False</span><br><span class="line">LEARNING_RATE      = 0.001</span><br><span class="line">RE_TRAIN           = False</span><br><span class="line">TEST_POSITION      = &#x27;Gangge Server&#x27;</span><br><span class="line">OPTIMIZER          = &#x27;Adam&#x27;</span><br><span class="line">USE_CHAR           = True</span><br><span class="line">USE_WORD2VEC       = True</span><br><span class="line">NUM_CLASSES        = 1890#len(get_labels2idx()[0])</span><br><span class="line">EMBEDDING_DIM      = 512</span><br><span class="line">VOCAB_SIZE         = 20029</span><br><span class="line">CHAR_SIZE          = 3403</span><br><span class="line">LSTM_HID_SIZE      = 512</span><br><span class="line">LSTM_LAYER_NUM     = 2</span><br><span class="line">TITLE_DIM          = 200</span><br><span class="line">SENT_LEN           = 20</span><br><span class="line">LINER_HID_SIZE     = 2000</span><br><span class="line">KERNEL_SIZE        = [1,2,3,4,5]</span><br><span class="line">DILA_TITLE_DIM     = 20</span><br></pre></td></tr></table></figure>
+<h2 id="net-structure"><a class="markdownIt-Anchor" href="#net-structure"></a> Net Structure</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">TextCNNInc(</span><br><span class="line">  (encoder): Embedding(3394, 512)</span><br><span class="line">  (question_convs): ModuleList(</span><br><span class="line">    (0): Sequential(</span><br><span class="line">      (0): Conv1d(512, 200, kernel_size=(1,), stride=(1,))</span><br><span class="line">      (1): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">      (2): ReLU(inplace)</span><br><span class="line">      (3): MaxPool1d(kernel_size=20, stride=20, padding=0, dilation=1, ceil_mode=False)</span><br><span class="line">    )</span><br><span class="line">    (1): Sequential(</span><br><span class="line">      (0): Conv1d(512, 200, kernel_size=(3,), stride=(1,))</span><br><span class="line">      (1): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">      (2): ReLU(inplace)</span><br><span class="line">      (3): MaxPool1d(kernel_size=18, stride=18, padding=0, dilation=1, ceil_mode=False)</span><br><span class="line">    )</span><br><span class="line">    (2): Sequential(</span><br><span class="line">      (0): Conv1d(512, 200, kernel_size=(1,), stride=(1,))</span><br><span class="line">      (1): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">      (2): ReLU(inplace)</span><br><span class="line">      (3): Conv1d(200, 200, kernel_size=(3,), stride=(1,))</span><br><span class="line">      (4): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">      (5): ReLU(inplace)</span><br><span class="line">      (6): MaxPool1d(kernel_size=18, stride=18, padding=0, dilation=1, ceil_mode=False)</span><br><span class="line">    )</span><br><span class="line">    (3): Sequential(</span><br><span class="line">      (0): Conv1d(512, 200, kernel_size=(3,), stride=(1,))</span><br><span class="line">      (1): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">      (2): ReLU(inplace)</span><br><span class="line">      (3): Conv1d(200, 200, kernel_size=(5,), stride=(1,))</span><br><span class="line">      (4): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">      (5): ReLU(inplace)</span><br><span class="line">      (6): MaxPool1d(kernel_size=14, stride=14, padding=0, dilation=1, ceil_mode=False)</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">  (fc): Sequential(</span><br><span class="line">    (0): Linear(in_features=800, out_features=2000, bias=True)</span><br><span class="line">    (1): BatchNorm1d(2000, eps=1e-05, momentum=0.1, affine=True)</span><br><span class="line">    (2): ReLU(inplace)</span><br><span class="line">    (3): Dropout(p=0.5)</span><br><span class="line">    (4): Linear(in_features=2000, out_features=2411, bias=True)</span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>喵喵喵~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/05/14/auto-env/" rel="prev" title="自动生成和安装requirements.txt依赖">
+                  <i class="fa fa-chevron-left"></i> 自动生成和安装requirements.txt依赖
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/05/15/server-jn/" rel="next" title="Jupyter notebook远程访问服务器配置">
+                  Jupyter notebook远程访问服务器配置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">181k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">10:58</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

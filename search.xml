@@ -12032,4 +12032,250 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <tag>SNN</tag>
       </tags>
   </entry>
+  <entry>
+    <title>DVS Domain Adaption Note</title>
+    <url>/2023/04/19/dvs-da-paper/</url>
+    <content><![CDATA[<h2 id="unsupervised-domain-adaption-algorithms">Unsupervised Domain Adaption Algorithms</h2>
+<ul>
+<li>GRL: Gradient Reversal Layer。 目标是让两个domain的distribution在feature extractor眼中无法区分（即match两个domain使其分布趋同）。</li>
+<li>MMD：Minimize the Maximum Mean Discrepancy between the target and source domain。最小化两个域之间的最大平均差异。作者提出了一个metric来衡量域间差异，通过加loss来抑制这个差异，最终达到让网络最终层输出与域无关的稳定feature。</li>
+<li>AFN：比较玄学。他们说之所以在target domain上表现不好是因为目标向量的norm相比源域的更小。所以它们就逐渐提高深度embedding的L2 norms来解决这个问题。</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>Rotation：作者添加了一个额外的自监督任务，即预测图片的绝对旋转角度。因为它同时接受源域和目标域的输入，所以理论上会学的更倾向于用共通的参数。甚至还有人扩展了这个方法，让网络直接去预测paired多模态图片的相对旋转角度。</li>
+<li>Entropy：Grandvalet提出了一种表征目标域不确定性的方法，通过加一个正则项来帮助减缓domain shift的影响。</li>
+</ul>
+<h2 id="n-rod-a-neuromorphic-dataset-for-synthetic-to-real-domain-adaptation">N-ROD: a Neuromorphic Dataset for Synthetic-to-Real Domain Adaptation</h2>
+<ul>
+<li><p>CVPRW, 2021, <a href="https://n-rod-dataset.github.io/home/">Site</a></p></li>
+<li><p>核心思想就是用已有的上面提到的各种UDA方法来减轻Synthetic和Real Event Data的domain shift。</p></li>
+<li><p>Pipeline也非常直接，就是给RGB和Event frame分别整一个Feature Extractor，然后让Synthetic的rgb和events feature concat到一起，real的concat到一起，送入一个通用的Domain Adaptation Block(DABlock)作为一个branch，另一个branch做预测。</p>
+<p><img data-src="dvs-da-paper/image-20230422182441632.png" alt="image-20230422182441632" style="zoom:50%;"></p></li>
+<li><p>训练的时候他们用了RGB和Event Frames，但测试的时候只用Event Frames。</p></li>
+<li><p>值得一提的是，既然能用这种架构，说明上面那些UDA方法都可以被归纳为一个auxiliary head来进行plug-and-play。</p></li>
+<li><p>另外，他们提供了一个<a href="https://polimi365-my.sharepoint.com/personal/10425666_polimi_it/_layouts/15/onedrive.aspx?ga=1">数据集</a>，包含有相同目标的real和syn版本。</p></li>
+</ul>
+<h2 id="bridging-the-gap-between-events-and-frames-through-unsupervised-domain-adaptation">Bridging the Gap Between Events and Frames Through Unsupervised Domain Adaptation</h2>
+<ul>
+<li><p>IEEE ROBOTICS AND AUTOMATION LETTERS, 2022</p></li>
+<li><p>感性的认知上，这篇文章主要的手法是循环式Loss，类似cycle gan；主要的逻辑是style transfer。</p></li>
+<li><p>核心优点有两个：</p>
+<ol type="1">
+<li>不使用视频生成events，而是从单个image直接生成。</li>
+<li>不需要paired data。</li>
+</ol></li>
+<li><p>缺点：</p>
+<ol type="1">
+<li>高度依赖所参考的events frame的参数，如dvs相机的ego motion speed，events frame的accumulation方法和参数（如时间）</li>
+<li>有前提假设：环境亮度恒定，且events frame的采样时间短。</li>
+</ol></li>
+<li><p>不被拒稿的创新点：</p>
+<ol type="1">
+<li><p>首先是整体流程相对新颖，他们通过先生成optical flow，再结合frame图像的gradient和time difference生成events的。</p>
+<p><img data-src="dvs-da-paper/image-20230419112731101.png" alt="image-20230419112731101" style="zoom:50%;"></p></li>
+<li><p>把events frame和rgb image之间的domain adaption转化成了一个style transfer问题。events frame只需要贡献style feature就好，而rgb image则基于这个style，它自己的feature map，以及它自己的gradient输出相应的events frame。最后的loss计算也非常有style transfer的味道：</p>
+<ul>
+<li>计算原始rgb image和最终生成的events frame的feature map二者对应的content feature的Loss。</li>
+<li>计算原始event frame和最终生成的events frame的feature map二者对应的style feature的Loss。</li>
+</ul></li>
+<li><p>通过上述手段，相当于作者强制让event feature extractor和rgb frame feature extractor输出的content feature达成一致，从而做到让RGB frame干的活（task，这里是目标检测）同样的events frame出来的feature也能干。</p></li>
+<li><p>虽然作者说他的</p></li>
+<li><p>作者大量使用了Loss，尤其是Adversarial Loss来enforce每个环节生成的内容都足够符合目标域的distribution。</p>
+<p>以下是主Loss：</p>
+<ol type="1">
+<li>原始rgb image的feature map做输入，在task（这里是object Detection）上面的loss。</li>
+<li>最终生成的events frame的feature map做输入，在task上面的loss。</li>
+</ol>
+<p>循环（Cycle）Loss：</p>
+<ol type="1">
+<li>Content部分：让生成的events frame的feature map与最初rgb image的feature map做L1 Loss</li>
+<li>Style部分：让生成的events frame的style feature map和最初events frame的feature map做L1 Loss</li>
+</ol>
+<p>对抗Loss：</p>
+<ol type="1">
+<li><p>首先是最开始rgb image和event frame生成的两个feature map，训练一个PatchGAN Discriminator来尽可能区分二者，同时加一个generator loss到主loss。</p>
+<p><img data-src="dvs-da-paper/image-20230419135409950.png" alt="image-20230419135409950" style="zoom:33%;"></p></li>
+<li><p>对生成的events frame和原始的events frame也做一个GAN，尽可能让Discriminator无法区分出来生成的和真实的。</p>
+<p><img data-src="dvs-da-paper/image-20230419135721458.png" alt="image-20230419135721458" style="zoom:33%;"></p></li>
+</ol></li>
+<li><p>作者不但在深度学习pipeline上做的很好，还充分利用了events 生成的物理知识，通过结合image gradient、optical flow、event trigger mechanism等，在整体流程中把物理prior完美融入。</p></li>
+</ol></li>
+<li><p>核心idea是把event features拆分成两部分，一部分是内容，另一部分是运动特征。通过这种方式，他们可以很高效的让events和images的潜在空间（latent space）进行匹配。他们使用了一个生成式事件模型。</p></li>
+<li><p>虽然说的是直接生成events，实际上生成的是accumulated events frame。</p></li>
+<li><p>注意他的<span class="math inline">\(R_{ref}\)</span>并非一个深度学习block，而是一个使用了原图gradient和pseudo flow的内积操作！</p></li>
+<li><p>同样值得一提的是，他们在pseudo flow generation部分并没有加额外的supervision！之所以即使这样还能生成挺好的pseudo flow，是因为如果想用image gradient和这里生成的东西内积后得到events，根据公式这个feature map必须是flow：</p>
+<p><img data-src="dvs-da-paper/image-20230419163354478.png" alt="image-20230419163354478" style="zoom:33%;"></p></li>
+<li><p>虽然左下角那个content feature没用到，但同样的events feature extractor，再最右边生成的feature map则被用来做了content reference。</p>
+<p><img data-src="dvs-da-paper/image-20230419115118001.png" alt="image-20230419115118001" style="zoom:50%;"></p></li>
+<li><p>作者怎么控制的events feature extractor出来的两个feature map分别代表content和style？</p>
+<ul>
+<li>通过他定义的各种GAN Loss和Cycle Loss教这两个feature map做人。</li>
+</ul></li>
+<li><p>他们做的augmentation也挺有趣，基本是这样的：先正常预测到pseudo flow为止，然后适当随机给预测的全局flow加一个bias，预测出events后再次生成pseudo flow，进行cycle loss。目的是确保events frame feature extractor输出的两个feature map分别表征内容和style（motion）。</p>
+<p><img data-src="dvs-da-paper/image-20230419165600573.png" alt="image-20230419165600573" style="zoom:50%;"></p></li>
+</ul>
+<h2 id="object-tracking-by-jointly-exploiting-frame-and-event-domain">Object Tracking by Jointly Exploiting Frame and Event Domain</h2>
+<ul>
+<li><p>ICCV, 2021</p></li>
+<li><p>目标问题：Object Tracking。</p></li>
+<li><p>Modality：DVS+RGB。本文研究的不是domain shift而是domain fusion，或者说，如何用DVS信息来提高RGB表现。</p></li>
+<li><p>Pipeline理解：</p>
+<ul>
+<li>首先，每个rgb frame会对应好几个events frame。</li>
+<li>events frame们先每个单独进行feature extraction，self-attention，然后结果被element-wise add到一起。</li>
+<li>rgb frame则直接过一系列的feature extraction blocks，直接得到feature map。</li>
+<li>这两者的feature map被送到CDMS block中做cross-attention互相融合，然后过adaptive weighting module被分别赋予不同的权重，最后加到一起得到一个统一的feature map。</li>
+<li>上述过程中，无论是rgb还是events frame，都有深浅两个branch，浅的那个就是early exit。最终会得到两个feature map，一个是<span class="math inline">\(K_l\)</span>，一个是<span class="math inline">\(K_h\)</span>。</li>
+<li>后面其实就没什么好说的了，就是单纯把这两个feature map放到classifier和Bbox regressor里面就好了。</li>
+</ul>
+<p><img data-src="dvs-da-paper/image-20230419174703447.png" alt="image-20230419174703447" style="zoom:33%;"></p>
+<p><img data-src="dvs-da-paper/image-20230419174720669.png" alt="image-20230419174720669" style="zoom: 33%;"></p></li>
+</ul>
+<h2 id="multi-domain-collaborative-feature-representation-for-robust-visual-object-tracking">Multi-domain collaborative feature representation for robust visual object tracking</h2>
+<ul>
+<li>The Visual Computer， 2021</li>
+<li>目标问题：Object Tracking</li>
+<li>Pipeline：
+<ul>
+<li>整体思路是比较典中典的N路并行多模态运算啦。
+<ol type="1">
+<li>第一路：一个SNN feature extractor，输入是raw events（根据shape推算，其实应该是time voxel）。</li>
+<li>第二路：accumulate events into event count frames, 然后和RGB图concat。之后过一个feature extractor。</li>
+<li>第三路：RGB-only feature extractor。</li>
+</ol></li>
+<li>最后把三路结果concat起来，过一些block，得到tracking result。</li>
+</ul></li>
+<li>有点意思的是，他们的SNN branch是直接用的pretrain model然后给freeze起来用了。模型来自于“Eventbased angular velocity regression with spiking networks”。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>paper</tag>
+        <tag>DVS</tag>
+        <tag>domain-adaption</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mmWave Radar Fusion 论文总结</title>
+    <url>/2023/03/09/mmwave-radar-fusion-paper/</url>
+    <content><![CDATA[<h2 id="immfusion-robust-mmwave-rgb-fusion-for-3d-human-body-reconstruction-in-all-weather-conditions">ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions</h2>
+<ul>
+<li>2022, Arxiv</li>
+<li>Question: How to merge mmWave radar with RGB frames to do 3D human mesh reconstruction?</li>
+<li>Spec: Single person, 3D mesh, RGB + mmWave Radar.</li>
+<li>Features: Robust in extreme weather/conditions like rain, smoke, low light, and occlusion.</li>
+</ul>
+<h3 id="points">Points</h3>
+<ul>
+<li><p>Merging scheme: Using three branches: Image branch, radar point cloud branch, and a fusion branch. All three branches are concatenated and sent to a transformer. A human template is also concatenated as "positional encoding" (actually it's more like prior knowledge encoding.)</p>
+<figure>
+<img data-src="image-20230329171848182-1682213515149-69.png" alt="image-20230329171848182"><figcaption aria-hidden="true">image-20230329171848182</figcaption>
+</figure></li>
+<li><p>Previous fusion methods:</p>
+<ol type="1">
+<li>Point-level fusion method: Concatenate image features or projected RGB pixels to the point clouds as extended features of the point-based model.
+<ul>
+<li>This fusion strategy is not suitable for mmWave-RGB fusion due to the sparsity and noise of radar points.</li>
+<li>Undesirable issues like <strong>randomly missing</strong> and <strong>temporally flicking</strong> would lead to fetching fewer or even wrong image features.</li>
+</ul></li>
+<li>DeepFusion: Treat image features as K and V, answering Qs from mmWave point cloud features.</li>
+<li>TokenFusion: Do feature extraction and go through the transformer separately for both image and radar features. Fusion happens in the last stage.</li>
+</ol></li>
+<li><p>They perform positional encoding by attaching the 3D coordinates of each joint and vertex in a <strong>human template</strong> mesh to the global vector.</p></li>
+<li><p>Raw radar side input has a shape of <span class="math inline">\(1024\times 3\)</span>, which means 1024 mmWave radar point cloud in the cropped body region. Here it's not clear how can this dimension keeps the same among all samples, but there should be a sampling mechanism to always sample 1024 points exactly.</p></li>
+<li><p>Image feature part, they use HRNet to extract the feature of <span class="math inline">\(224\times 224\)</span> cropped body region.</p></li>
+<li><p>They use <code>PointNet++</code> to process raw radar point clouds, and the length of the resulting feature map (<code>L</code>) represents the number of seed points sampled by the Farthest Point Sample (FPS).</p></li>
+<li><p>Results:</p>
+<figure>
+<img data-src="image-20230329183402590-1682213515151-78.png" alt="image-20230329183402590"><figcaption aria-hidden="true">image-20230329183402590</figcaption>
+</figure></li>
+</ul>
+<h2 id="mmwave-radar-and-vision-fusion-for-object-detection-in-autonomous-driving-a-review">MmWave Radar and Vision Fusion for Object Detection in Autonomous Driving: A Review</h2>
+<ul>
+<li>2022, Sensors (MDPI)</li>
+<li>This paper discussed various fusion methods used by previous mmWave + Vision sensor papers.</li>
+</ul>
+<h3 id="fusion-methods">Fusion Methods</h3>
+<p><img data-src="image-20230329190214285-1682213515150-70.png" alt="image-20230329190214285" style="zoom:50%;"></p>
+<ol type="1">
+<li><p>Data Level</p>
+<ul>
+<li>Mature, but not the mainstream method.</li>
+<li>Basically, using radar to detect the ROI, and crop the visual frame accordingly.</li>
+<li>The size of the initial ROI is determined by the distance between the obstacle and mmWave radar.</li>
+<li>Radar's information loss is significant.</li>
+</ul>
+<p><img data-src="image-20230329193957860-1682213515150-72.png" alt="image-20230329193957860" style="zoom:50%;"></p></li>
+<li><p>Decision Level</p>
+<ul>
+<li>This is the mainstream fusion scheme at present.</li>
+<li>The basic guideline is to process radar and vision data separately in parallel, let them do the final prediction also separately, and only fuse the predicted results.</li>
+<li>Radar detection results generate a list of objects and contain information such as the distance, azimuth angle, and relative velocity of the detected objects.</li>
+<li>The fusion method can be divided into Bayesian theory-based, Kalman Filter-based, Dempster Shafer Theory-based, and Radar Validation-based.</li>
+</ul>
+<p><img data-src="image-20230329200724366-1682213515150-71.png" alt="image-20230329200724366" style="zoom:50%;"></p></li>
+<li><p>Feature Level</p>
+<ul>
+<li>This is a relatively new strategy.</li>
+<li>The core idea is to extract the feature from both sensors, fuse them, and do the prediction.</li>
+<li>The fusion methods are usually concatenation, point-wise addition, or spatial attention fusion.</li>
+<li>Note that the goal of fusion here is to compile an RGB image-like feature map, and the object detection module here can be any traditional CV object detection algorithm.</li>
+<li>Radar feature extraction mostly adopts the method of converting radar points to the image plane to generate a radar image. The purpose of radar feature extraction is to transform radar information into imagelike matrix information. Each radar-generated feature map's channel represents a physical quantity such as distance, longitudinal speed, lateral speed, and so on.</li>
+</ul>
+<p><img data-src="image-20230329201007298-1682213515150-73.png" alt="image-20230329201007298" style="zoom:50%;"></p></li>
+</ol>
+<h3 id="future-trend">Future Trend</h3>
+<ul>
+<li>3D Object detection. The existing Radar-Vision fusion works are mainly 2D object detection, and 3D detection results are far worse.</li>
+<li>Integrate new sensors.</li>
+<li>Better ways of sensing information fusion (multi-modal fusion).
+<ul>
+<li>Better ways to deal with sparseness brought by radar.</li>
+<li>More efficient multi-sensor fusing methods.</li>
+</ul></li>
+</ul>
+<h3 id="calibration">Calibration</h3>
+<ul>
+<li>Coordinate transformation method: Radar and camera are placed in the same coordinate. Using the camera and radar's absolute coordinates, perform a linear transformation to calibrate.</li>
+<li>Sensor verification method: Radar proposes a target list at first, and then verifies and matches using vision information.</li>
+<li>Vision-based method: Propose candidate areas for moving targets using the camera, and match radar results to it.</li>
+</ul>
+<h2 id="spatial-attention-fusion-for-obstacle-detection-using-mmwave-radar-and-vision-sensor">Spatial Attention Fusion for Obstacle Detection Using MmWave Radar and Vision Sensor</h2>
+<ul>
+<li>2020, Sensors (MDPI)</li>
+<li>Core Contribution: Proposed a novel attention-based radar-vision fusion mechanism to do obstacle detection.</li>
+<li>Taxonomy: Feature level fusion. (Attached is another taxonomy.)</li>
+</ul>
+<p><img data-src="image-20230330151749489-1682213515150-74.png" alt="image-20230330151749489" style="zoom:50%;"></p>
+<h3 id="points-1">Points</h3>
+<ul>
+<li><p>Network structure: The feature extractor part is not anything new, it is a combination of modified ResNet and RetinaNet. The fusion mechanism is the part where it has the edge on.</p>
+<p><img data-src="image-20230330151909029-1682213515150-76.png" alt="image-20230330151909029" style="zoom:50%;"></p></li>
+<li><p>The core mechanism: SAF, aims to predict an attention map generated by radar feature, and point-wise multiply this attention map by the feature extracted from vision features.</p></li>
+</ul>
+<p><img data-src="image-20230330151942545-1682213515150-77.png" alt="image-20230330151942545" style="zoom:50%;"></p>
+<ul>
+<li><p>The "radar image" they used is transformed from radar points, which is shown as follows:</p>
+<ul>
+<li>They calculate the extrinsic matrix of the radar and front camera separately, transforming the radar point cloud into camera coordinates.</li>
+<li>They calculate the pixel value of the radar image using depth <span class="math inline">\(d\)</span>, longitudinal velocity <span class="math inline">\(v_x\)</span> and lateral velocity <span class="math inline">\(v_y\)</span>. The <span class="math inline">\(f\)</span> here is a linear transformation for these three variables.</li>
+<li>Lastly, since each pixel covers a too-small area of the image, they render a solid circle around each radar point. The value within the circle is the same, and the circle's radius is <span class="math inline">\(r\)</span>.</li>
+<li>If there there are two radar points whose distance is less than <span class="math inline">\(2r\)</span>, in the intersection area, use the value of the nearer one (the one with a smaller <span class="math inline">\(d\)</span>).</li>
+</ul>
+<p><img data-src="image-20230330174231545-1682213515150-75.png" alt="image-20230330174231545" style="zoom:50%;"></p></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a href="https://github.com/radar-lab/ti_mmwave_rospkg">ROsPKG</a>: Turn raw radar data to point clouds.</li>
+<li><a href="https://github.com/nesl/RadHAR">RadHAR</a>: Point Cloud Data collection and pre-processing (<a href="https://github.com/nesl/RadHAR/blob/master/DataPreprocessing/voxels.py">Voxel Generation</a>) examples can be found here. This is from a paper: <a href="https://dl.acm.org/citation.cfm?id=3356768"><em>RadHAR: Human Activity Recognition from Point Clouds Generated through a Millimeter-wave Radar</em></a></li>
+<li>Point Cloud-related questions on TI: <a href="https://e2e.ti.com/support/sensors-group/sensors/f/sensors-forum/1049628/dca1000evm-point-cloud-data">Link</a> (They used IWR 1843 BOOST &amp; DCA 1000 EVM)</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>deep-learning</tag>
+        <tag>paper</tag>
+        <tag>mmwave-radar</tag>
+        <tag>domain-fusion</tag>
+      </tags>
+  </entry>
 </search>

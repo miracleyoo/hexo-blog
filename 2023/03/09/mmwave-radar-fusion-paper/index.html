@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions  2022, Arxiv Question: How to merge mmWave radar with RGB frames to do 3D human mesh reconstruction? Spec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmWave Radar Fusion 论文总结">
+<meta property="og:url" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions  2022, Arxiv Question: How to merge mmWave radar with RGB frames to do 3D human mesh reconstruction? Spec">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329171848182-1682213515149-69.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329183402590-1682213515151-78.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329190214285-1682213515150-70.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329193957860-1682213515150-72.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329200724366-1682213515150-71.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329201007298-1682213515150-73.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230330151749489-1682213515150-74.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230330151909029-1682213515150-76.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230330151942545-1682213515150-77.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230330174231545-1682213515150-75.png">
+<meta property="article:published_time" content="2023-03-10T02:32:23.000Z">
+<meta property="article:modified_time" content="2023-04-23T01:32:37.707Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="mmwave-radar">
+<meta property="article:tag" content="domain-fusion">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/image-20230329171848182-1682213515149-69.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/","path":"2023/03/09/mmwave-radar-fusion-paper/","title":"mmWave Radar Fusion 论文总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>mmWave Radar Fusion 论文总结 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#immfusion-robust-mmwave-rgb-fusion-for-3d-human-body-reconstruction-in-all-weather-conditions"><span class="nav-number">1.</span> <span class="nav-text">ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#points"><span class="nav-number">1.1.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mmwave-radar-and-vision-fusion-for-object-detection-in-autonomous-driving-a-review"><span class="nav-number">2.</span> <span class="nav-text">MmWave Radar and Vision Fusion for Object Detection in Autonomous Driving: A Review</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fusion-methods"><span class="nav-number">2.1.</span> <span class="nav-text">Fusion Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#future-trend"><span class="nav-number">2.2.</span> <span class="nav-text">Future Trend</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#calibration"><span class="nav-number">2.3.</span> <span class="nav-text">Calibration</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spatial-attention-fusion-for-obstacle-detection-using-mmwave-radar-and-vision-sensor"><span class="nav-number">3.</span> <span class="nav-text">Spatial Attention Fusion for Obstacle Detection Using MmWave Radar and Vision Sensor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#points-1"><span class="nav-number">3.1.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tools"><span class="nav-number">4.</span> <span class="nav-text">Tools</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">127</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2023/03/09/mmwave-radar-fusion-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="mmWave Radar Fusion 论文总结 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mmWave Radar Fusion 论文总结<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/mmwave-radar-fusion-paper.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-03-09 18:32:23" itemprop="dateCreated datePublished" datetime="2023-03-09T18:32:23-08:00">2023-03-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-04-22 18:32:37" itemprop="dateModified" datetime="2023-04-22T18:32:37-07:00">2023-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="immfusion-robust-mmwave-rgb-fusion-for-3d-human-body-reconstruction-in-all-weather-conditions">ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions</h2>
+<ul>
+<li>2022, Arxiv</li>
+<li>Question: How to merge mmWave radar with RGB frames to do 3D human mesh reconstruction?</li>
+<li>Spec: Single person, 3D mesh, RGB + mmWave Radar.</li>
+<li>Features: Robust in extreme weather/conditions like rain, smoke, low light, and occlusion.</li>
+</ul>
+<h3 id="points">Points</h3>
+<ul>
+<li><p>Merging scheme: Using three branches: Image branch, radar point cloud branch, and a fusion branch. All three branches are concatenated and sent to a transformer. A human template is also concatenated as "positional encoding" (actually it's more like prior knowledge encoding.)</p>
+<figure>
+<img data-src="image-20230329171848182-1682213515149-69.png" alt="image-20230329171848182"><figcaption aria-hidden="true">image-20230329171848182</figcaption>
+</figure></li>
+<li><p>Previous fusion methods:</p>
+<ol type="1">
+<li>Point-level fusion method: Concatenate image features or projected RGB pixels to the point clouds as extended features of the point-based model.
+<ul>
+<li>This fusion strategy is not suitable for mmWave-RGB fusion due to the sparsity and noise of radar points.</li>
+<li>Undesirable issues like <strong>randomly missing</strong> and <strong>temporally flicking</strong> would lead to fetching fewer or even wrong image features.</li>
+</ul></li>
+<li>DeepFusion: Treat image features as K and V, answering Qs from mmWave point cloud features.</li>
+<li>TokenFusion: Do feature extraction and go through the transformer separately for both image and radar features. Fusion happens in the last stage.</li>
+</ol></li>
+<li><p>They perform positional encoding by attaching the 3D coordinates of each joint and vertex in a <strong>human template</strong> mesh to the global vector.</p></li>
+<li><p>Raw radar side input has a shape of <span class="math inline">\(1024\times 3\)</span>, which means 1024 mmWave radar point cloud in the cropped body region. Here it's not clear how can this dimension keeps the same among all samples, but there should be a sampling mechanism to always sample 1024 points exactly.</p></li>
+<li><p>Image feature part, they use HRNet to extract the feature of <span class="math inline">\(224\times 224\)</span> cropped body region.</p></li>
+<li><p>They use <code>PointNet++</code> to process raw radar point clouds, and the length of the resulting feature map (<code>L</code>) represents the number of seed points sampled by the Farthest Point Sample (FPS).</p></li>
+<li><p>Results:</p>
+<figure>
+<img data-src="image-20230329183402590-1682213515151-78.png" alt="image-20230329183402590"><figcaption aria-hidden="true">image-20230329183402590</figcaption>
+</figure></li>
+</ul>
+<h2 id="mmwave-radar-and-vision-fusion-for-object-detection-in-autonomous-driving-a-review">MmWave Radar and Vision Fusion for Object Detection in Autonomous Driving: A Review</h2>
+<ul>
+<li>2022, Sensors (MDPI)</li>
+<li>This paper discussed various fusion methods used by previous mmWave + Vision sensor papers.</li>
+</ul>
+<h3 id="fusion-methods">Fusion Methods</h3>
+<p><img data-src="image-20230329190214285-1682213515150-70.png" alt="image-20230329190214285" style="zoom:50%;"></p>
+<ol type="1">
+<li><p>Data Level</p>
+<ul>
+<li>Mature, but not the mainstream method.</li>
+<li>Basically, using radar to detect the ROI, and crop the visual frame accordingly.</li>
+<li>The size of the initial ROI is determined by the distance between the obstacle and mmWave radar.</li>
+<li>Radar's information loss is significant.</li>
+</ul>
+<p><img data-src="image-20230329193957860-1682213515150-72.png" alt="image-20230329193957860" style="zoom:50%;"></p></li>
+<li><p>Decision Level</p>
+<ul>
+<li>This is the mainstream fusion scheme at present.</li>
+<li>The basic guideline is to process radar and vision data separately in parallel, let them do the final prediction also separately, and only fuse the predicted results.</li>
+<li>Radar detection results generate a list of objects and contain information such as the distance, azimuth angle, and relative velocity of the detected objects.</li>
+<li>The fusion method can be divided into Bayesian theory-based, Kalman Filter-based, Dempster Shafer Theory-based, and Radar Validation-based.</li>
+</ul>
+<p><img data-src="image-20230329200724366-1682213515150-71.png" alt="image-20230329200724366" style="zoom:50%;"></p></li>
+<li><p>Feature Level</p>
+<ul>
+<li>This is a relatively new strategy.</li>
+<li>The core idea is to extract the feature from both sensors, fuse them, and do the prediction.</li>
+<li>The fusion methods are usually concatenation, point-wise addition, or spatial attention fusion.</li>
+<li>Note that the goal of fusion here is to compile an RGB image-like feature map, and the object detection module here can be any traditional CV object detection algorithm.</li>
+<li>Radar feature extraction mostly adopts the method of converting radar points to the image plane to generate a radar image. The purpose of radar feature extraction is to transform radar information into imagelike matrix information. Each radar-generated feature map's channel represents a physical quantity such as distance, longitudinal speed, lateral speed, and so on.</li>
+</ul>
+<p><img data-src="image-20230329201007298-1682213515150-73.png" alt="image-20230329201007298" style="zoom:50%;"></p></li>
+</ol>
+<h3 id="future-trend">Future Trend</h3>
+<ul>
+<li>3D Object detection. The existing Radar-Vision fusion works are mainly 2D object detection, and 3D detection results are far worse.</li>
+<li>Integrate new sensors.</li>
+<li>Better ways of sensing information fusion (multi-modal fusion).
+<ul>
+<li>Better ways to deal with sparseness brought by radar.</li>
+<li>More efficient multi-sensor fusing methods.</li>
+</ul></li>
+</ul>
+<h3 id="calibration">Calibration</h3>
+<ul>
+<li>Coordinate transformation method: Radar and camera are placed in the same coordinate. Using the camera and radar's absolute coordinates, perform a linear transformation to calibrate.</li>
+<li>Sensor verification method: Radar proposes a target list at first, and then verifies and matches using vision information.</li>
+<li>Vision-based method: Propose candidate areas for moving targets using the camera, and match radar results to it.</li>
+</ul>
+<h2 id="spatial-attention-fusion-for-obstacle-detection-using-mmwave-radar-and-vision-sensor">Spatial Attention Fusion for Obstacle Detection Using MmWave Radar and Vision Sensor</h2>
+<ul>
+<li>2020, Sensors (MDPI)</li>
+<li>Core Contribution: Proposed a novel attention-based radar-vision fusion mechanism to do obstacle detection.</li>
+<li>Taxonomy: Feature level fusion. (Attached is another taxonomy.)</li>
+</ul>
+<p><img data-src="image-20230330151749489-1682213515150-74.png" alt="image-20230330151749489" style="zoom:50%;"></p>
+<h3 id="points-1">Points</h3>
+<ul>
+<li><p>Network structure: The feature extractor part is not anything new, it is a combination of modified ResNet and RetinaNet. The fusion mechanism is the part where it has the edge on.</p>
+<p><img data-src="image-20230330151909029-1682213515150-76.png" alt="image-20230330151909029" style="zoom:50%;"></p></li>
+<li><p>The core mechanism: SAF, aims to predict an attention map generated by radar feature, and point-wise multiply this attention map by the feature extracted from vision features.</p></li>
+</ul>
+<p><img data-src="image-20230330151942545-1682213515150-77.png" alt="image-20230330151942545" style="zoom:50%;"></p>
+<ul>
+<li><p>The "radar image" they used is transformed from radar points, which is shown as follows:</p>
+<ul>
+<li>They calculate the extrinsic matrix of the radar and front camera separately, transforming the radar point cloud into camera coordinates.</li>
+<li>They calculate the pixel value of the radar image using depth <span class="math inline">\(d\)</span>, longitudinal velocity <span class="math inline">\(v_x\)</span> and lateral velocity <span class="math inline">\(v_y\)</span>. The <span class="math inline">\(f\)</span> here is a linear transformation for these three variables.</li>
+<li>Lastly, since each pixel covers a too-small area of the image, they render a solid circle around each radar point. The value within the circle is the same, and the circle's radius is <span class="math inline">\(r\)</span>.</li>
+<li>If there there are two radar points whose distance is less than <span class="math inline">\(2r\)</span>, in the intersection area, use the value of the nearer one (the one with a smaller <span class="math inline">\(d\)</span>).</li>
+</ul>
+<p><img data-src="image-20230330174231545-1682213515150-75.png" alt="image-20230330174231545" style="zoom:50%;"></p></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/radar-lab/ti_mmwave_rospkg">ROsPKG</a>: Turn raw radar data to point clouds.</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nesl/RadHAR">RadHAR</a>: Point Cloud Data collection and pre-processing (<a target="_blank" rel="noopener" href="https://github.com/nesl/RadHAR/blob/master/DataPreprocessing/voxels.py">Voxel Generation</a>) examples can be found here. This is from a paper: <a target="_blank" rel="noopener" href="https://dl.acm.org/citation.cfm?id=3356768"><em>RadHAR: Human Activity Recognition from Point Clouds Generated through a Millimeter-wave Radar</em></a></li>
+<li>Point Cloud-related questions on TI: <a target="_blank" rel="noopener" href="https://e2e.ti.com/support/sensors-group/sensors/f/sensors-forum/1049628/dca1000evm-point-cloud-data">Link</a> (They used IWR 1843 BOOST &amp; DCA 1000 EVM)</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/paper/" rel="tag"># paper</a>
+              <a href="/tags/mmwave-radar/" rel="tag"># mmwave-radar</a>
+              <a href="/tags/domain-fusion/" rel="tag"># domain-fusion</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/19/gnn-hpe/" rel="prev" title="GNN-based Human Pose Estimation (HPE) 论文总结">
+                  <i class="fa fa-chevron-left"></i> GNN-based Human Pose Estimation (HPE) 论文总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/03/27/point-cloud-clustering-paper/" rel="next" title="Point Cloud Clustering 聚类方法论文总结">
+                  Point Cloud Clustering 聚类方法论文总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">205k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">12:25</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

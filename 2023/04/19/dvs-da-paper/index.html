@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Unsupervised Domain Adaption Algorithms  GRL: Gradient Reversal Layer。 目标是让两个domain的distribution在feature extractor眼中无法区分（即match两个domain使其分布趋同）。 MMD：Minimize the Maximum Mean Discrepancy between the ta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DVS Domain Adaption Note">
+<meta property="og:url" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Unsupervised Domain Adaption Algorithms  GRL: Gradient Reversal Layer。 目标是让两个domain的distribution在feature extractor眼中无法区分（即match两个domain使其分布趋同）。 MMD：Minimize the Maximum Mean Discrepancy between the ta">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230422182441632.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419112731101.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419135409950.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419135721458.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419163354478.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419115118001.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419165600573.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419174703447.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230419174720669.png">
+<meta property="article:published_time" content="2023-04-20T01:25:34.000Z">
+<meta property="article:modified_time" content="2023-04-23T01:25:57.689Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="DVS">
+<meta property="article:tag" content="domain-adaption">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/dvs-da-paper/image-20230422182441632.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/04/19/dvs-da-paper/","path":"2023/04/19/dvs-da-paper/","title":"DVS Domain Adaption Note"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>DVS Domain Adaption Note | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#unsupervised-domain-adaption-algorithms"><span class="nav-number">1.</span> <span class="nav-text">Unsupervised Domain Adaption Algorithms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#n-rod-a-neuromorphic-dataset-for-synthetic-to-real-domain-adaptation"><span class="nav-number">2.</span> <span class="nav-text">N-ROD: a Neuromorphic Dataset for Synthetic-to-Real Domain Adaptation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bridging-the-gap-between-events-and-frames-through-unsupervised-domain-adaptation"><span class="nav-number">3.</span> <span class="nav-text">Bridging the Gap Between Events and Frames Through Unsupervised Domain Adaptation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#object-tracking-by-jointly-exploiting-frame-and-event-domain"><span class="nav-number">4.</span> <span class="nav-text">Object Tracking by Jointly Exploiting Frame and Event Domain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multi-domain-collaborative-feature-representation-for-robust-visual-object-tracking"><span class="nav-number">5.</span> <span class="nav-text">Multi-domain collaborative feature representation for robust visual object tracking</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">127</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2023/04/19/dvs-da-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="DVS Domain Adaption Note | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DVS Domain Adaption Note<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/dvs-da-paper.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-04-19 18:25:34" itemprop="dateCreated datePublished" datetime="2023-04-19T18:25:34-07:00">2023-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-04-22 18:25:57" itemprop="dateModified" datetime="2023-04-22T18:25:57-07:00">2023-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="unsupervised-domain-adaption-algorithms">Unsupervised Domain Adaption Algorithms</h2>
+<ul>
+<li>GRL: Gradient Reversal Layer。 目标是让两个domain的distribution在feature extractor眼中无法区分（即match两个domain使其分布趋同）。</li>
+<li>MMD：Minimize the Maximum Mean Discrepancy between the target and source domain。最小化两个域之间的最大平均差异。作者提出了一个metric来衡量域间差异，通过加loss来抑制这个差异，最终达到让网络最终层输出与域无关的稳定feature。</li>
+<li>AFN：比较玄学。他们说之所以在target domain上表现不好是因为目标向量的norm相比源域的更小。所以它们就逐渐提高深度embedding的L2 norms来解决这个问题。</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>Rotation：作者添加了一个额外的自监督任务，即预测图片的绝对旋转角度。因为它同时接受源域和目标域的输入，所以理论上会学的更倾向于用共通的参数。甚至还有人扩展了这个方法，让网络直接去预测paired多模态图片的相对旋转角度。</li>
+<li>Entropy：Grandvalet提出了一种表征目标域不确定性的方法，通过加一个正则项来帮助减缓domain shift的影响。</li>
+</ul>
+<h2 id="n-rod-a-neuromorphic-dataset-for-synthetic-to-real-domain-adaptation">N-ROD: a Neuromorphic Dataset for Synthetic-to-Real Domain Adaptation</h2>
+<ul>
+<li><p>CVPRW, 2021, <a target="_blank" rel="noopener" href="https://n-rod-dataset.github.io/home/">Site</a></p></li>
+<li><p>核心思想就是用已有的上面提到的各种UDA方法来减轻Synthetic和Real Event Data的domain shift。</p></li>
+<li><p>Pipeline也非常直接，就是给RGB和Event frame分别整一个Feature Extractor，然后让Synthetic的rgb和events feature concat到一起，real的concat到一起，送入一个通用的Domain Adaptation Block(DABlock)作为一个branch，另一个branch做预测。</p>
+<p><img data-src="dvs-da-paper/image-20230422182441632.png" alt="image-20230422182441632" style="zoom:50%;"></p></li>
+<li><p>训练的时候他们用了RGB和Event Frames，但测试的时候只用Event Frames。</p></li>
+<li><p>值得一提的是，既然能用这种架构，说明上面那些UDA方法都可以被归纳为一个auxiliary head来进行plug-and-play。</p></li>
+<li><p>另外，他们提供了一个<a target="_blank" rel="noopener" href="https://polimi365-my.sharepoint.com/personal/10425666_polimi_it/_layouts/15/onedrive.aspx?ga=1">数据集</a>，包含有相同目标的real和syn版本。</p></li>
+</ul>
+<h2 id="bridging-the-gap-between-events-and-frames-through-unsupervised-domain-adaptation">Bridging the Gap Between Events and Frames Through Unsupervised Domain Adaptation</h2>
+<ul>
+<li><p>IEEE ROBOTICS AND AUTOMATION LETTERS, 2022</p></li>
+<li><p>感性的认知上，这篇文章主要的手法是循环式Loss，类似cycle gan；主要的逻辑是style transfer。</p></li>
+<li><p>核心优点有两个：</p>
+<ol type="1">
+<li>不使用视频生成events，而是从单个image直接生成。</li>
+<li>不需要paired data。</li>
+</ol></li>
+<li><p>缺点：</p>
+<ol type="1">
+<li>高度依赖所参考的events frame的参数，如dvs相机的ego motion speed，events frame的accumulation方法和参数（如时间）</li>
+<li>有前提假设：环境亮度恒定，且events frame的采样时间短。</li>
+</ol></li>
+<li><p>不被拒稿的创新点：</p>
+<ol type="1">
+<li><p>首先是整体流程相对新颖，他们通过先生成optical flow，再结合frame图像的gradient和time difference生成events的。</p>
+<p><img data-src="dvs-da-paper/image-20230419112731101.png" alt="image-20230419112731101" style="zoom:50%;"></p></li>
+<li><p>把events frame和rgb image之间的domain adaption转化成了一个style transfer问题。events frame只需要贡献style feature就好，而rgb image则基于这个style，它自己的feature map，以及它自己的gradient输出相应的events frame。最后的loss计算也非常有style transfer的味道：</p>
+<ul>
+<li>计算原始rgb image和最终生成的events frame的feature map二者对应的content feature的Loss。</li>
+<li>计算原始event frame和最终生成的events frame的feature map二者对应的style feature的Loss。</li>
+</ul></li>
+<li><p>通过上述手段，相当于作者强制让event feature extractor和rgb frame feature extractor输出的content feature达成一致，从而做到让RGB frame干的活（task，这里是目标检测）同样的events frame出来的feature也能干。</p></li>
+<li><p>虽然作者说他的</p></li>
+<li><p>作者大量使用了Loss，尤其是Adversarial Loss来enforce每个环节生成的内容都足够符合目标域的distribution。</p>
+<p>以下是主Loss：</p>
+<ol type="1">
+<li>原始rgb image的feature map做输入，在task（这里是object Detection）上面的loss。</li>
+<li>最终生成的events frame的feature map做输入，在task上面的loss。</li>
+</ol>
+<p>循环（Cycle）Loss：</p>
+<ol type="1">
+<li>Content部分：让生成的events frame的feature map与最初rgb image的feature map做L1 Loss</li>
+<li>Style部分：让生成的events frame的style feature map和最初events frame的feature map做L1 Loss</li>
+</ol>
+<p>对抗Loss：</p>
+<ol type="1">
+<li><p>首先是最开始rgb image和event frame生成的两个feature map，训练一个PatchGAN Discriminator来尽可能区分二者，同时加一个generator loss到主loss。</p>
+<p><img data-src="dvs-da-paper/image-20230419135409950.png" alt="image-20230419135409950" style="zoom:33%;"></p></li>
+<li><p>对生成的events frame和原始的events frame也做一个GAN，尽可能让Discriminator无法区分出来生成的和真实的。</p>
+<p><img data-src="dvs-da-paper/image-20230419135721458.png" alt="image-20230419135721458" style="zoom:33%;"></p></li>
+</ol></li>
+<li><p>作者不但在深度学习pipeline上做的很好，还充分利用了events 生成的物理知识，通过结合image gradient、optical flow、event trigger mechanism等，在整体流程中把物理prior完美融入。</p></li>
+</ol></li>
+<li><p>核心idea是把event features拆分成两部分，一部分是内容，另一部分是运动特征。通过这种方式，他们可以很高效的让events和images的潜在空间（latent space）进行匹配。他们使用了一个生成式事件模型。</p></li>
+<li><p>虽然说的是直接生成events，实际上生成的是accumulated events frame。</p></li>
+<li><p>注意他的<span class="math inline">\(R_{ref}\)</span>并非一个深度学习block，而是一个使用了原图gradient和pseudo flow的内积操作！</p></li>
+<li><p>同样值得一提的是，他们在pseudo flow generation部分并没有加额外的supervision！之所以即使这样还能生成挺好的pseudo flow，是因为如果想用image gradient和这里生成的东西内积后得到events，根据公式这个feature map必须是flow：</p>
+<p><img data-src="dvs-da-paper/image-20230419163354478.png" alt="image-20230419163354478" style="zoom:33%;"></p></li>
+<li><p>虽然左下角那个content feature没用到，但同样的events feature extractor，再最右边生成的feature map则被用来做了content reference。</p>
+<p><img data-src="dvs-da-paper/image-20230419115118001.png" alt="image-20230419115118001" style="zoom:50%;"></p></li>
+<li><p>作者怎么控制的events feature extractor出来的两个feature map分别代表content和style？</p>
+<ul>
+<li>通过他定义的各种GAN Loss和Cycle Loss教这两个feature map做人。</li>
+</ul></li>
+<li><p>他们做的augmentation也挺有趣，基本是这样的：先正常预测到pseudo flow为止，然后适当随机给预测的全局flow加一个bias，预测出events后再次生成pseudo flow，进行cycle loss。目的是确保events frame feature extractor输出的两个feature map分别表征内容和style（motion）。</p>
+<p><img data-src="dvs-da-paper/image-20230419165600573.png" alt="image-20230419165600573" style="zoom:50%;"></p></li>
+</ul>
+<h2 id="object-tracking-by-jointly-exploiting-frame-and-event-domain">Object Tracking by Jointly Exploiting Frame and Event Domain</h2>
+<ul>
+<li><p>ICCV, 2021</p></li>
+<li><p>目标问题：Object Tracking。</p></li>
+<li><p>Modality：DVS+RGB。本文研究的不是domain shift而是domain fusion，或者说，如何用DVS信息来提高RGB表现。</p></li>
+<li><p>Pipeline理解：</p>
+<ul>
+<li>首先，每个rgb frame会对应好几个events frame。</li>
+<li>events frame们先每个单独进行feature extraction，self-attention，然后结果被element-wise add到一起。</li>
+<li>rgb frame则直接过一系列的feature extraction blocks，直接得到feature map。</li>
+<li>这两者的feature map被送到CDMS block中做cross-attention互相融合，然后过adaptive weighting module被分别赋予不同的权重，最后加到一起得到一个统一的feature map。</li>
+<li>上述过程中，无论是rgb还是events frame，都有深浅两个branch，浅的那个就是early exit。最终会得到两个feature map，一个是<span class="math inline">\(K_l\)</span>，一个是<span class="math inline">\(K_h\)</span>。</li>
+<li>后面其实就没什么好说的了，就是单纯把这两个feature map放到classifier和Bbox regressor里面就好了。</li>
+</ul>
+<p><img data-src="dvs-da-paper/image-20230419174703447.png" alt="image-20230419174703447" style="zoom:33%;"></p>
+<p><img data-src="dvs-da-paper/image-20230419174720669.png" alt="image-20230419174720669" style="zoom: 33%;"></p></li>
+</ul>
+<h2 id="multi-domain-collaborative-feature-representation-for-robust-visual-object-tracking">Multi-domain collaborative feature representation for robust visual object tracking</h2>
+<ul>
+<li>The Visual Computer， 2021</li>
+<li>目标问题：Object Tracking</li>
+<li>Pipeline：
+<ul>
+<li>整体思路是比较典中典的N路并行多模态运算啦。
+<ol type="1">
+<li>第一路：一个SNN feature extractor，输入是raw events（根据shape推算，其实应该是time voxel）。</li>
+<li>第二路：accumulate events into event count frames, 然后和RGB图concat。之后过一个feature extractor。</li>
+<li>第三路：RGB-only feature extractor。</li>
+</ol></li>
+<li>最后把三路结果concat起来，过一些block，得到tracking result。</li>
+</ul></li>
+<li>有点意思的是，他们的SNN branch是直接用的pretrain model然后给freeze起来用了。模型来自于“Eventbased angular velocity regression with spiking networks”。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/paper/" rel="tag"># paper</a>
+              <a href="/tags/DVS/" rel="tag"># DVS</a>
+              <a href="/tags/domain-adaption/" rel="tag"># domain-adaption</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/02/3d-multi-hpe-review/" rel="prev" title="3D Multi-Person Pose Estimation (HPE) Reviews">
+                  <i class="fa fa-chevron-left"></i> 3D Multi-Person Pose Estimation (HPE) Reviews
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/22/snn-notes/" rel="next" title="Spiking Neural Network (SNN) 学习笔记">
+                  Spiking Neural Network (SNN) 学习笔记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">205k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">12:25</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

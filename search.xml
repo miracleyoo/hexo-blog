@@ -11218,121 +11218,69 @@ pipe()创建的管道默认是阻塞模式的，阻塞和非阻塞的区别与so
   <entry>
     <title>blender-syn-data-gen-tutorial</title>
     <url>/2021/11/27/blender-syn-data-gen-tutorial/</url>
-    <content><![CDATA[<h1 id="blender-tutorial-on-generating-synthetic-data"><a class="markdownIt-Anchor" href="#blender-tutorial-on-generating-synthetic-data"></a> Blender Tutorial on Generating Synthetic Data</h1>
-<h2 id="how-to-make-an-ok-mmd-video"><a class="markdownIt-Anchor" href="#how-to-make-an-ok-mmd-video"></a> How to make an OK MMD video</h2>
+    <content><![CDATA[<h1 id="blender-tutorial-on-generating-synthetic-data">Blender Tutorial on Generating Synthetic Data</h1>
+<h2 id="how-to-make-an-ok-mmd-video">How to make an OK MMD video</h2>
 <ul>
 <li>MikuMikuDance (MMD) is a simple and powerful tool, as we used in the previous paper. However, users cannot easily inject scripts to access the inner variables. Also, with respect to the rendering, it has a physical limitation of 60 FPS, which restricts the direct simulation of DVS sensors. Lastly, there are many processes in the simulation loop where manual adjustment is forced, which limit the scalability. Therefore, we choose another route that concentrates on Blender and tries to rule out manual participation to the largest extent.</li>
 </ul>
 <span id="more"></span>
 <ul>
-<li>
-<p>First, as the <code>.vmd</code> files distributed on the internet usually only contain the joints’ movement and no mesh physics included, we will have a hard time dealing with the clothes materials, and physics in Blender, as Blender doesn’t automatically use a preset for these factors like MMD. Therefore, we’d better take care of them in advance in MMD.</p>
-</li>
-<li>
-<p>Here we are going to use a “successor” software of MMD, which is called MikuMikuMotion (MMM). Import your <code>.pmx</code> and <code>.vmd</code> files into MMM, and bake the physical mesh movement to a separate <code>.vmd</code> file. Turn the <code>Always</code> button on in the <code>Physics</code> Tab to make sure you calculate the physics for each frame, then click <code>Record</code> to bake your movement when everything is ready.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714212046705.png" alt="image-20220714212046705" style="zoom:50%;">
-</li>
-<li>
-<p>Then dump your recorded motion to another <code>.vmd</code> file:</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714212445071.png" alt="image-20220714212445071" style="zoom:50%;">
-</li>
-<li>
-<p>Ok, then let’s switch to Blender.</p>
-</li>
-<li>
-<p>You have to install a plugin <a href="https://github.com/powroupi/blender_mmd_tools">mmd_tools</a> for Blender at first. It will help you to import your <code>.pmx</code> model files and <code>.vmd</code> motion files, as Blender doesn’t support these file types natively. If you install it successfully, you will be able to see a panel like this on your sidebar:</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714215023678.png" alt="image-20220714215023678" style="zoom:50%;">
-</li>
-<li>
-<p>Click <code>Import</code>, then you could import your model that is used for recording in MMM to Blender. Then, make sure you clicked and selected the model that you just imported, and click the <code>Import</code> button under the tab <code>Motion</code> to import the baked <code>.vmd</code> motion file you get from MMM.</p>
-</li>
-<li>
-<p>After that, you may notice that the skin color of your model looks magenta, then you have to follow the following step to repair that:</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714215437237.png" alt="image-20220714215437237" style="zoom:60%;">
-</li>
-<li>
-<p>If you also have a camera’s trajectory, please click on the camera in the explorer and click <code>Motion-&gt;Import</code> in <code>MMD</code> side panel to select your <code>.vmd</code> camera motion file and import it.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220715103036422.png" alt="image-20220715103036422" style="zoom:50%;">
-</li>
-<li>
-<p>Then, it’s time to set the lighting. Well, honestly speaking, I don’t really care too much about lighting, as the requirement of generating synthetic data is not that high, so let’s simply light everything up.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714220719987.png" alt="image-20220714220719987" style="zoom:50%;">
-</li>
-<li>
-<p>We are almost there, and next, setting the output parameters: Remember to change your resolution, and set your output path as well as the file format. Here the resolution 346x260 is the resolution for event camera DAVIS346, which is the camera we are currently using.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714221006003.png" alt="image-20220714221006003" style="zoom:50%;">
-</li>
-<li>
-<p>Next, let’s set some render properties: For the render engine, you can use either <code>Eevee</code> or <code>Cycles</code>, but if you choose <code>Cycles</code>, remember to turn on the <code>GPU</code> rendering option under it to speed up. Also, if you want the background of your video to be pure white/transparent/other pure color, please check the <code>Tranparent</code> in <code>Film</code> section. Moreover, make sure to change the <code>View Transform</code> from <code>Filmic</code> to <code>Standard</code>, the color looks more <em>Real</em> that way.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714222126060.png" alt="image-20220714222126060" style="zoom:50%;">
-</li>
-<li>
-<p>Lastly, continuing from the last point, if you want to have a pure color background, then you have to add a <em>Background</em> here: Go to the <code>Compositing</code> Tab on the top bar, then add an <code>Alpha Over</code> node and drag it between the existing two nodes. Connect it as the figure shows, then set the first <code>Image</code> with the pure color you desire. All set. (Notice, if there is nothing in this board, click the <code>Use Nodes</code> on the inner menu row, near the <code>Add</code>  and <code>Nodes</code> to show the basic panels.)</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714222651269.png" alt="image-20220714222651269" style="zoom:50%;">
-</li>
-<li>
-<p>Now everything is prepared, let’s render the frame/video. Click on the <code>Render</code> menu, then choose render frame/video, you can then find your video in the output folder you set before.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714223147763.png" alt="image-20220714223147763" style="zoom:50%;">
-</li>
+<li><p>First, as the <code>.vmd</code> files distributed on the internet usually only contain the joints' movement and no mesh physics included, we will have a hard time dealing with the clothes materials, and physics in Blender, as Blender doesn't automatically use a preset for these factors like MMD. Therefore, we'd better take care of them in advance in MMD.</p></li>
+<li><p>Here we are going to use a “successor” software of MMD, which is called MikuMikuMotion (MMM). Import your <code>.pmx</code> and <code>.vmd</code> files into MMM, and bake the physical mesh movement to a separate <code>.vmd</code> file. Turn the <code>Always</code> button on in the <code>Physics</code> Tab to make sure you calculate the physics for each frame, then click <code>Record</code> to bake your movement when everything is ready.</p>
+<p><img data-src="image-20220714212046705.png" alt="image-20220714212046705" style="zoom:50%;"></p></li>
+<li><p>Then dump your recorded motion to another <code>.vmd</code> file:</p>
+<p><img data-src="image-20220714212445071.png" alt="image-20220714212445071" style="zoom:50%;"></p></li>
+<li><p>Ok, then let's switch to Blender.</p></li>
+<li><p>You have to install a plugin <a href="https://github.com/powroupi/blender_mmd_tools">mmd_tools</a> for Blender at first. It will help you to import your <code>.pmx</code> model files and <code>.vmd</code> motion files, as Blender doesn't support these file types natively. If you install it successfully, you will be able to see a panel like this on your sidebar:</p>
+<p><img data-src="image-20220714215023678.png" alt="image-20220714215023678" style="zoom:50%;"></p></li>
+<li><p>Click <code>Import</code>, then you could import your model that is used for recording in MMM to Blender. Then, make sure you clicked and selected the model that you just imported, and click the <code>Import</code> button under the tab <code>Motion</code> to import the baked <code>.vmd</code> motion file you get from MMM.</p></li>
+<li><p>After that, you may notice that the skin color of your model looks magenta, then you have to follow the following step to repair that:</p>
+<p><img data-src="image-20220714215437237.png" alt="image-20220714215437237" style="zoom:60%;"></p></li>
+<li><p>If you also have a camera's trajectory, please click on the camera in the explorer and click <code>Motion-&gt;Import</code> in <code>MMD</code> side panel to select your <code>.vmd</code> camera motion file and import it.</p>
+<p><img data-src="image-20220715103036422.png" alt="image-20220715103036422" style="zoom:50%;"></p></li>
+<li><p>Then, it's time to set the lighting. Well, honestly speaking, I don't really care too much about lighting, as the requirement of generating synthetic data is not that high, so let's simply light everything up.</p>
+<p><img data-src="image-20220714220719987.png" alt="image-20220714220719987" style="zoom:50%;"></p></li>
+<li><p>We are almost there, and next, setting the output parameters: Remember to change your resolution, and set your output path as well as the file format. Here the resolution 346x260 is the resolution for event camera DAVIS346, which is the camera we are currently using.</p>
+<p><img data-src="image-20220714221006003.png" alt="image-20220714221006003" style="zoom:50%;"></p></li>
+<li><p>Next, let's set some render properties: For the render engine, you can use either <code>Eevee</code> or <code>Cycles</code>, but if you choose <code>Cycles</code>, remember to turn on the <code>GPU</code> rendering option under it to speed up. Also, if you want the background of your video to be pure white/transparent/other pure color, please check the <code>Tranparent</code> in <code>Film</code> section. Moreover, make sure to change the <code>View Transform</code> from <code>Filmic</code> to <code>Standard</code>, the color looks more <em>Real</em> that way.</p>
+<p><img data-src="image-20220714222126060.png" alt="image-20220714222126060" style="zoom:50%;"></p></li>
+<li><p>Lastly, continuing from the last point, if you want to have a pure color background, then you have to add a <em>Background</em> here: Go to the <code>Compositing</code> Tab on the top bar, then add an <code>Alpha Over</code> node and drag it between the existing two nodes. Connect it as the figure shows, then set the first <code>Image</code> with the pure color you desire. All set. (Notice, if there is nothing in this board, click the <code>Use Nodes</code> on the inner menu row, near the <code>Add</code> and <code>Nodes</code> to show the basic panels.)</p>
+<p><img data-src="image-20220714222651269.png" alt="image-20220714222651269" style="zoom:50%;"></p></li>
+<li><p>Now everything is prepared, let's render the frame/video. Click on the <code>Render</code> menu, then choose render frame/video, you can then find your video in the output folder you set before.</p>
+<p><img data-src="image-20220714223147763.png" alt="image-20220714223147763" style="zoom:50%;"></p></li>
 </ul>
-<h2 id="generate-mask-video"><a class="markdownIt-Anchor" href="#generate-mask-video"></a> Generate Mask Video</h2>
+<h2 id="generate-mask-video">Generate Mask Video</h2>
 <ul>
-<li>
-<p>One more thing, if you want to dump the human mask, simple change the wires in <code>Composition</code> Panel is fine.</p>
-<p><img data-src="blender-syn-data-gen-tutorial/image-20220714223747030.png" alt="image-20220714223747030"></p>
-</li>
+<li><p>One more thing, if you want to dump the human mask, simple change the wires in <code>Composition</code> Panel is fine.</p>
+<figure>
+<img data-src="image-20220714223747030.png" alt="image-20220714223747030"><figcaption aria-hidden="true">image-20220714223747030</figcaption>
+</figure></li>
 </ul>
-<h2 id="generate-depth-video"><a class="markdownIt-Anchor" href="#generate-depth-video"></a> Generate Depth Video</h2>
+<h2 id="generate-depth-video">Generate Depth Video</h2>
 <ul>
-<li>
-<p>If you even want to have the depth video, it’s still easy enough: add another node in <code>Compositing</code> Tab to map a certain range of depth to <code>[0,1]</code>.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714225113714.png" alt="image-20220714225113714" style="zoom:50%;">
-</li>
-<li>
-<p>You need to tweak this range carefully based on your model’s actual moving range.</p>
-</li>
+<li><p>If you even want to have the depth video, it's still easy enough: add another node in <code>Compositing</code> Tab to map a certain range of depth to <code>[0,1]</code>.</p>
+<p><img data-src="image-20220714225113714.png" alt="image-20220714225113714" style="zoom:50%;"></p></li>
+<li><p>You need to tweak this range carefully based on your model's actual moving range.</p></li>
 </ul>
-<h2 id="better-lighting-settings-like-default-material-preview"><a class="markdownIt-Anchor" href="#better-lighting-settings-like-default-material-preview"></a> Better Lighting Settings (Like Default Material Preview)</h2>
+<h2 id="better-lighting-settings-like-default-material-preview">Better Lighting Settings (Like Default Material Preview)</h2>
 <ul>
-<li>
-<p>You may notice that the default material preview looks great, but it’s not easy to imitate that effect. Here let’s take a step to try to reach a similar level of the effect by applying skybox texture.</p>
-</li>
-<li>
-<p>In the beginning, you should understand what <code>Skybox</code> is used for. Skybox is used as a sort of <strong>Directional Colored Lighting</strong> in all directions. Imagine that you are surrounded by a certain environment, and the objects in each direction could reflect the light of their own color. This is what the sky box is used for. Compared to the <code>Sky box</code>, actually, it’s more like a <code>sky sphere</code>, which is a sphere around you. You could control the <code>Strength</code> of the sky box, just like you modify the lighting strength.</p>
-</li>
-<li>
-<p>First, let’s enable a built-in plugin called <code>Node Wrangler</code> which could enable us to quickly add texture-related pipelines. Go to <code>Edit-&gt;Preference-&gt;Add-ons</code>.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220715154232096.png" alt="image-20220715154232096" style="zoom:50%;">
-</li>
-<li>
-<p>Modify the <code>Shader Editor</code> and switch the <code>Object</code> to <code>World</code> on its right. Also, make sure you turned <code>Use Nodes</code> option on. Then you’ll be able to modify the environmental settings, like the sky box around the world. This is an informative figure. You should first select the <code>Node Groupe</code> which contains <code>Background</code> output port.</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220715155114990.png" alt="image-20220715155114990" style="zoom:50%;">
-</li>
-<li>
-<p>Then, press <code>CTRL+T</code> to instantiate the three boxes on its left together. Next, connect the <code>General</code> option to <code>Vector</code>, and set your sky boxes’ rotation angles. Usually, if you don’t know how to rotate and just want to rotate like you could do in <code>Material Preview</code> mode, please make sure that you only rotate on the Z axis.</p>
-</li>
-<li>
-<p>Then, it’s time to load your actual sky box file. Go to your installation directory of Blender, and go to <code>&lt;Blender Installation Folder&gt;\2.93\datafiles\studiolights\world</code> directory, you can find all the default sky boxes Blender uses in its <code>Material Preview</code> mode. For me, the installation folder is at <code>C:\Program Files\Blender Foundation\Blender 2.93</code>, which is the default location.</p>
-</li>
-<li>
-<p>Lastly, if you want to change the lighting strength, make sure to modify the <code>Strength</code> option in the <code>Node Group</code> box. Here I set it to 2.</p>
-</li>
-<li>
-<p>Still, you may need to have a default sunlighting for a better 3D effect.</p>
-</li>
-<li>
-<p>Done!</p>
-</li>
+<li><p>You may notice that the default material preview looks great, but it's not easy to imitate that effect. Here let's take a step to try to reach a similar level of the effect by applying skybox texture.</p></li>
+<li><p>In the beginning, you should understand what <code>Skybox</code> is used for. Skybox is used as a sort of <strong>Directional Colored Lighting</strong> in all directions. Imagine that you are surrounded by a certain environment, and the objects in each direction could reflect the light of their own color. This is what the sky box is used for. Compared to the <code>Sky box</code>, actually, it's more like a <code>sky sphere</code>, which is a sphere around you. You could control the <code>Strength</code> of the sky box, just like you modify the lighting strength.</p></li>
+<li><p>First, let's enable a built-in plugin called <code>Node Wrangler</code> which could enable us to quickly add texture-related pipelines. Go to <code>Edit-&gt;Preference-&gt;Add-ons</code>.</p>
+<p><img data-src="image-20220715154232096.png" alt="image-20220715154232096" style="zoom:50%;"></p></li>
+<li><p>Modify the <code>Shader Editor</code> and switch the <code>Object</code> to <code>World</code> on its right. Also, make sure you turned <code>Use Nodes</code> option on. Then you'll be able to modify the environmental settings, like the sky box around the world. This is an informative figure. You should first select the <code>Node Groupe</code> which contains <code>Background</code> output port.</p>
+<p><img data-src="image-20220715155114990.png" alt="image-20220715155114990" style="zoom:50%;"></p></li>
+<li><p>Then, press <code>CTRL+T</code> to instantiate the three boxes on its left together. Next, connect the <code>General</code> option to <code>Vector</code>, and set your sky boxes' rotation angles. Usually, if you don't know how to rotate and just want to rotate like you could do in <code>Material Preview</code> mode, please make sure that you only rotate on the Z axis.</p></li>
+<li><p>Then, it's time to load your actual sky box file. Go to your installation directory of Blender, and go to <code>&lt;Blender Installation Folder&gt;\2.93\datafiles\studiolights\world</code> directory, you can find all the default sky boxes Blender uses in its <code>Material Preview</code> mode. For me, the installation folder is at <code>C:\Program Files\Blender Foundation\Blender 2.93</code>, which is the default location.</p></li>
+<li><p>Lastly, if you want to change the lighting strength, make sure to modify the <code>Strength</code> option in the <code>Node Group</code> box. Here I set it to 2.</p></li>
+<li><p>Still, you may need to have a default sunlighting for a better 3D effect.</p></li>
+<li><p>Done!</p></li>
 </ul>
-<h2 id="script-your-operations-and-repeat"><a class="markdownIt-Anchor" href="#script-your-operations-and-repeat"></a> Script Your Operations and Repeat!</h2>
+<h2 id="script-your-operations-and-repeat">Script Your Operations and Repeat!</h2>
 <ul>
-<li>
-<p>Blender has a wonderful feature: it will record and tell you the python command equivalent for all the operations you take! Therefore, if you have done a pipeline correctly, you could simply copy all these commands and make them into a script easily. You could found the console here:</p>
-<img data-src="blender-syn-data-gen-tutorial/image-20220714233705944.png" alt="image-20220714233705944" style="zoom:50%;">
-</li>
-<li>
-<p>You can even select multiple lines and copy them into corresponding python code blocks, which is an amazing function.</p>
-</li>
+<li><p>Blender has a wonderful feature: it will record and tell you the python command equivalent for all the operations you take! Therefore, if you have done a pipeline correctly, you could simply copy all these commands and make them into a script easily. You could found the console here:</p>
+<p><img data-src="image-20220714233705944.png" alt="image-20220714233705944" style="zoom:50%;"></p></li>
+<li><p>You can even select multiple lines and copy them into corresponding python code blocks, which is an amazing function.</p></li>
 </ul>
 ]]></content>
       <tags>
@@ -11831,7 +11779,7 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
     <url>/2022/09/16/mmd-blender-bvh/</url>
     <content><![CDATA[<p>如果你手里有一个MMD模型(<code>.pmx</code>)，并且想在Blender将任务骨骼与某个动捕文件（<code>.bvh</code>）同步，即应用已有的动捕数据到mmd模型中，那么下面的教程可以帮到你。</p>
 <span id="more"></span>
-<h2 id="插件准备"><a class="markdownIt-Anchor" href="#插件准备"></a> 插件准备</h2>
+<h2 id="插件准备">插件准备</h2>
 <ul>
 <li><a href="https://github.com/absolute-quantum/cats-blender-plugin">CATS</a>
 <ul>
@@ -11840,92 +11788,62 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 <li>重命名日文的骨骼、材料、mesh等到英文（在后面map动捕文件的各个骨骼到模型骨架时非常重要）</li>
 <li>精简骨骼（比如无效的外骨骼等会被优化，内部骨骼也会被简化为动捕等常用的骨骼形式，取消IK骨等）</li>
 <li>注意：不需要另行安装<code>mmd_tools</code>，CATS会默认pre-install。</li>
-</ul>
-</li>
+</ul></li>
 <li><a href="https://www.rokoko.com/integrations/3d-character-animation-in-blender#Section-integrations-download-links">Rokoko</a>：
 <ul>
 <li>作用：map动捕文件的各个骨骼到模型骨架</li>
 <li>自动侦测骨骼间的对应关系，基本一键匹配后都是对的，即使名称什么有着较大区别也OK。</li>
 <li>一旦你自己做过了一次匹配，这组mapping就会被它自动记录，后续相似的模型都可以直接一键。</li>
 <li>如果不放心，或是某组匹配很常用想记录，可以直接export对应关系。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="模型导入与处理"><a class="markdownIt-Anchor" href="#模型导入与处理"></a> 模型导入与处理</h2>
+<h2 id="模型导入与处理">模型导入与处理</h2>
 <ul>
-<li>
-<p>首先是用<code>CATS</code>插件导入<code>.pmx</code>模型。这一步没什么问题，也不需要特别的操作，只管导入即可。如果右边的panel被隐藏了，显示的快捷键是<code>N</code>。</p>
-<p><img data-src="mmd-blender-bvh/image-20220803233840197.png" alt="image-20220803233840197"></p>
-</li>
-<li>
-<p>修正模型。刚导入的时候人物可能有各种小问题，但只要经过修正就都OK了。这个步骤是真的完完全全的“一键”操作，真的只用点一下<code>Fix Model</code>就好了。</p>
-<img data-src="mmd-blender-bvh/image-20220803234114008.png" alt="image-20220803234114008" style="zoom: 67%;">
-</li>
-<li>
-<p>修正完成后，请一定记得点一下<code>Start Pose Mode</code>，否则如果后面直接把<code>.bvh</code>文件应用过来，你会发现一些常见的诡异问题，如：手指尖、身上的一些饰物被留在了原地不动，只有身体其他部分在动，导致剧烈变形（这是由于手指/其他位置可能在模型中有多块骨头控制，而<code>.bvh</code>文件中对应位置只有更少的骨骼数，这就导致了某些骨骼没有得到mapping）；亦或是身体骨骼连接比较奇怪，如果旋转某块骨头就会连带其他一些意想不到的部位转动…… Anyway，解法就是简单的点一下<code>Start Pose Mode</code>，程序帮忙进行了一个骨骼和mesh间的绑定修正。这之后即使你再点击<code>Stop Pose Mode</code>也不会有问题，可方向用。</p>
-</li>
-<li>
-<p>处理好之后的模型如图：</p>
-<img data-src="mmd-blender-bvh/image-20220803234942232.png" alt="image-20220803234942232" style="zoom:67%;">
-</li>
+<li><p>首先是用<code>CATS</code>插件导入<code>.pmx</code>模型。这一步没什么问题，也不需要特别的操作，只管导入即可。如果右边的panel被隐藏了，显示的快捷键是<code>N</code>。</p>
+<figure>
+<img data-src="image-20220803233840197.png" alt="image-20220803233840197"><figcaption aria-hidden="true">image-20220803233840197</figcaption>
+</figure></li>
+<li><p>修正模型。刚导入的时候人物可能有各种小问题，但只要经过修正就都OK了。这个步骤是真的完完全全的“一键”操作，真的只用点一下<code>Fix Model</code>就好了。</p>
+<p><img data-src="image-20220803234114008.png" alt="image-20220803234114008" style="zoom: 67%;"></p></li>
+<li><p>修正完成后，请一定记得点一下<code>Start Pose Mode</code>，否则如果后面直接把<code>.bvh</code>文件应用过来，你会发现一些常见的诡异问题，如：手指尖、身上的一些饰物被留在了原地不动，只有身体其他部分在动，导致剧烈变形（这是由于手指/其他位置可能在模型中有多块骨头控制，而<code>.bvh</code>文件中对应位置只有更少的骨骼数，这就导致了某些骨骼没有得到mapping）；亦或是身体骨骼连接比较奇怪，如果旋转某块骨头就会连带其他一些意想不到的部位转动…… Anyway，解法就是简单的点一下<code>Start Pose Mode</code>，程序帮忙进行了一个骨骼和mesh间的绑定修正。这之后即使你再点击<code>Stop Pose Mode</code>也不会有问题，可方向用。</p></li>
+<li><p>处理好之后的模型如图：</p>
+<p><img data-src="image-20220803234942232.png" alt="image-20220803234942232" style="zoom:67%;"></p></li>
 </ul>
-<h2 id="与动捕文件匹配"><a class="markdownIt-Anchor" href="#与动捕文件匹配"></a> 与动捕文件匹配</h2>
+<h2 id="与动捕文件匹配">与动捕文件匹配</h2>
 <p>动捕文件直接导入后会默认出现一个骨架，这个骨架往往很大，所以你可能看不见它，此时需要缩小view很多倍才能看到全貌。我们的任务就是让这个骨架和修正后的人物模型骨架相匹配。</p>
 <ul>
-<li>
-<p>导入<code>.bvh</code>文件。如果你知道其正常的缩放比例，如0.1或0.01，可以在load的时候选择。如果想后面看着动态调节，可以在导入并选中动捕骨骼后按下快捷键<code>S</code>，只需要移动鼠标即可进行等比例缩放。如果想缩放某个特定坐标轴，按下<code>S</code>后再单独按<code>X</code>, <code>Y</code>, 或<code>Z</code>即可。</p>
-<img data-src="mmd-blender-bvh/image-20220803235859075.png" alt="image-20220803235859075" style="zoom:50%;">
-</li>
-<li>
-<p>导入成功后，你将得到一个类似这样的结果：</p>
-<img data-src="mmd-blender-bvh/image-20220804000011284.png" alt="image-20220804000011284" style="zoom:50%;">
-</li>
-<li>
-<p>下一步，让动捕骨骼处于放松（Rest）状态，即T字状态。有两种方式：</p>
-<ol>
-<li>
-<p>直接点击骨骼Panel的<code>Rest Position</code>即可。好处是方便，坏处是一旦点了这个你就无法在此基础上进行调整。</p>
-<img data-src="mmd-blender-bvh/image-20220804000607036.png" alt="image-20220804000607036" style="zoom:50%;">
-</li>
-<li>
-<p>删除动捕骨骼的所有变形。注意这个是Temporary的，只要你不打帧上去，这个并不会影响你这一帧的实际位置，所以不用慌。</p>
-<img data-src="mmd-blender-bvh/image-20220804001114077.png" alt="image-20220804001114077" style="zoom:50%;">
+<li><p>导入<code>.bvh</code>文件。如果你知道其正常的缩放比例，如0.1或0.01，可以在load的时候选择。如果想后面看着动态调节，可以在导入并选中动捕骨骼后按下快捷键<code>S</code>，只需要移动鼠标即可进行等比例缩放。如果想缩放某个特定坐标轴，按下<code>S</code>后再单独按<code>X</code>, <code>Y</code>, 或<code>Z</code>即可。</p>
+<p><img data-src="image-20220803235859075.png" alt="image-20220803235859075" style="zoom:50%;"></p></li>
+<li><p>导入成功后，你将得到一个类似这样的结果：</p>
+<p><img data-src="image-20220804000011284.png" alt="image-20220804000011284" style="zoom:50%;"></p></li>
+<li><p>下一步，让动捕骨骼处于放松（Rest）状态，即T字状态。有两种方式：</p>
+<ol type="1">
+<li><p>直接点击骨骼Panel的<code>Rest Position</code>即可。好处是方便，坏处是一旦点了这个你就无法在此基础上进行调整。</p>
+<p><img data-src="image-20220804000607036.png" alt="image-20220804000607036" style="zoom:50%;"></p></li>
+<li><p>删除动捕骨骼的所有变形。注意这个是Temporary的，只要你不打帧上去，这个并不会影响你这一帧的实际位置，所以不用慌。</p>
+<p><img data-src="image-20220804001114077.png" alt="image-20220804001114077" style="zoom:50%;"></p>
 <p>操作步骤：选择动捕骨骼-&gt;选择Pose Mode-&gt;按下<code>A</code>键全选动捕骨骼-&gt;在下拉菜单<code>Pose</code>中清楚全部Transform。完成后，你将得到一个T字动捕骨骼。</p>
-<img data-src="mmd-blender-bvh/image-20220804001253169.png" alt="image-20220804001253169" style="zoom:50%;">
-</li>
-</ol>
-</li>
-<li>
-<p>然后分两种情况：如果人物的默认放松姿态也是T字，那么就可以直接进入下一步。否则，进行如下操作：先缩放动捕骨骼到和人基本重合的size，然后分别调整左右大臂的旋转角度，使得动捕骨骼和人物骨骼的手臂平行或重合。这一步是为了保证二者在这个用于对齐的帧有着相似的骨骼形态。注意：不能调整人物的大臂来贴合动捕文件，这个即使调了也无效。</p>
-</li>
-<li>
-<p>骨骼匹配：</p>
-<img data-src="mmd-blender-bvh/image-20220804002622271.png" alt="image-20220804002622271" style="zoom:40%;">
-<ol>
-<li>
-<p>打开<code>Rokoko</code> Panel，在<code>Retargeting</code>选项卡里选择动作的源和目标。这里源就是动捕文件，目标就是模型的骨骼。</p>
-</li>
-<li>
-<p>点击<code>Rebuild Bone List</code>进行骨骼匹配。注意这里如果有些骨骼互相没有匹配好，需要手动匹配。方法是切换到<code>Pose Mode</code>后点选目标骨骼，确认其名称，然后填写到Panel对应的下方映射表格中。</p>
-</li>
-<li>
-<p>骨骼匹配完成后，记着点击<code>Use Pose</code>栏的<code>Current</code>选项，表示用于对齐的是当前动捕骨骼的状态，而非Rest状态。</p>
-</li>
-<li>
-<p>最后，点击<code>Retarget Animation</code>，All Set。</p>
-<img data-src="mmd-blender-bvh/image-20220804004103963.png" alt="image-20220804004103963" style="zoom:50%;">
-</li>
-</ol>
-</li>
+<p><img data-src="image-20220804001253169.png" alt="image-20220804001253169" style="zoom:50%;"></p></li>
+</ol></li>
+<li><p>然后分两种情况：如果人物的默认放松姿态也是T字，那么就可以直接进入下一步。否则，进行如下操作：先缩放动捕骨骼到和人基本重合的size，然后分别调整左右大臂的旋转角度，使得动捕骨骼和人物骨骼的手臂平行或重合。这一步是为了保证二者在这个用于对齐的帧有着相似的骨骼形态。注意：不能调整人物的大臂来贴合动捕文件，这个即使调了也无效。</p></li>
+<li><p>骨骼匹配：</p>
+<p><img data-src="image-20220804002622271.png" alt="image-20220804002622271" style="zoom:40%;"></p>
+<ol type="1">
+<li><p>打开<code>Rokoko</code> Panel，在<code>Retargeting</code>选项卡里选择动作的源和目标。这里源就是动捕文件，目标就是模型的骨骼。</p></li>
+<li><p>点击<code>Rebuild Bone List</code>进行骨骼匹配。注意这里如果有些骨骼互相没有匹配好，需要手动匹配。方法是切换到<code>Pose Mode</code>后点选目标骨骼，确认其名称，然后填写到Panel对应的下方映射表格中。</p></li>
+<li><p>骨骼匹配完成后，记着点击<code>Use Pose</code>栏的<code>Current</code>选项，表示用于对齐的是当前动捕骨骼的状态，而非Rest状态。</p></li>
+<li><p>最后，点击<code>Retarget Animation</code>，All Set。</p>
+<p><img data-src="image-20220804004103963.png" alt="image-20220804004103963" style="zoom:50%;"></p></li>
+</ol></li>
 </ul>
-<h2 id="常见问题"><a class="markdownIt-Anchor" href="#常见问题"></a> 常见问题</h2>
+<h2 id="常见问题">常见问题</h2>
 <ul>
-<li>
-<p>如果<code>.bvh</code>文件比较“飘”，脚不在地上，且偏离O点太远，我们可以做的是，先在<code>Object Mode</code>下平移动捕骨骼到合适的中心位置，然后按下<code>Shift+C</code>将cursor重置与O点，接下来选择<code>Set Origin to 3D Cursor</code>把动捕骨骼的中心点设定到坐标原点。在做完这一步之后再执行上面的<code>Retarget Animation</code>。</p>
-<p><img data-src="mmd-blender-bvh/image-20220804012518890.png" alt="image-20220804012518890"></p>
-</li>
+<li><p>如果<code>.bvh</code>文件比较“飘”，脚不在地上，且偏离O点太远，我们可以做的是，先在<code>Object Mode</code>下平移动捕骨骼到合适的中心位置，然后按下<code>Shift+C</code>将cursor重置与O点，接下来选择<code>Set Origin to 3D Cursor</code>把动捕骨骼的中心点设定到坐标原点。在做完这一步之后再执行上面的<code>Retarget Animation</code>。</p>
+<figure>
+<img data-src="image-20220804012518890.png" alt="image-20220804012518890"><figcaption aria-hidden="true">image-20220804012518890</figcaption>
+</figure></li>
 </ul>
-<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=Nyxeb48mUfs&amp;ab_channel=CGDive">Retargeting using Rokoko (COMPLETE guide) - Blender 2.8, 2.9, 3.0</a>：最重要的一个参考，本教程大部分来源于此。</li>
 <li><a href="https://github.com/Rokoko/rokoko-studio-live-blender">Rokoko官方Wiki</a></li>

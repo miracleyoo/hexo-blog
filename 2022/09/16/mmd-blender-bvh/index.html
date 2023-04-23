@@ -27,25 +27,25 @@
 <meta property="og:site_name" content="Miracleyoo">
 <meta property="og:description" content="如果你手里有一个MMD模型(.pmx)，并且想在Blender将任务骨骼与某个动捕文件（.bvh）同步，即应用已有的动捕数据到mmd模型中，那么下面的教程可以帮到你。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220803233840197.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220803234114008.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220803234942232.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220803235859075.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804000011284.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804000607036.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804001114077.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804001253169.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804002622271.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804004103963.png">
-<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220804012518890.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220803233840197.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220803234114008.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220803234942232.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220803235859075.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804000011284.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804000607036.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804001114077.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804001253169.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804002622271.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804004103963.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220804012518890.png">
 <meta property="article:published_time" content="2022-09-17T01:03:32.000Z">
-<meta property="article:modified_time" content="2023-04-23T01:03:48.072Z">
+<meta property="article:modified_time" content="2023-04-23T01:11:05.532Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="blender">
 <meta property="article:tag" content="MMD">
 <meta property="article:tag" content="modeling">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/mmd-blender-bvh/image-20220803233840197.png">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/image-20220803233840197.png">
 
 
 <link rel="canonical" href="https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/">
@@ -155,7 +155,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text"> 插件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text"> 模型导入与处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E%E5%8A%A8%E6%8D%95%E6%96%87%E4%BB%B6%E5%8C%B9%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text"> 与动捕文件匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text"> 常见问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text"> Reference</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">插件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%85%A5%E4%B8%8E%E5%A4%84%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">模型导入与处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E%E5%8A%A8%E6%8D%95%E6%96%87%E4%BB%B6%E5%8C%B9%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">与动捕文件匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">常见问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -253,7 +253,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-04-22 18:03:48" itemprop="dateModified" datetime="2023-04-22T18:03:48-07:00">2023-04-22</time>
+      <time title="Modified: 2023-04-22 18:11:05" itemprop="dateModified" datetime="2023-04-22T18:11:05-07:00">2023-04-22</time>
     </span>
 
   
@@ -290,7 +290,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>如果你手里有一个MMD模型(<code>.pmx</code>)，并且想在Blender将任务骨骼与某个动捕文件（<code>.bvh</code>）同步，即应用已有的动捕数据到mmd模型中，那么下面的教程可以帮到你。</p>
 <span id="more"></span>
-<h2 id="插件准备"><a class="markdownIt-Anchor" href="#插件准备"></a> 插件准备</h2>
+<h2 id="插件准备">插件准备</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/absolute-quantum/cats-blender-plugin">CATS</a>
 <ul>
@@ -299,92 +299,62 @@
 <li>重命名日文的骨骼、材料、mesh等到英文（在后面map动捕文件的各个骨骼到模型骨架时非常重要）</li>
 <li>精简骨骼（比如无效的外骨骼等会被优化，内部骨骼也会被简化为动捕等常用的骨骼形式，取消IK骨等）</li>
 <li>注意：不需要另行安装<code>mmd_tools</code>，CATS会默认pre-install。</li>
-</ul>
-</li>
+</ul></li>
 <li><a target="_blank" rel="noopener" href="https://www.rokoko.com/integrations/3d-character-animation-in-blender#Section-integrations-download-links">Rokoko</a>：
 <ul>
 <li>作用：map动捕文件的各个骨骼到模型骨架</li>
 <li>自动侦测骨骼间的对应关系，基本一键匹配后都是对的，即使名称什么有着较大区别也OK。</li>
 <li>一旦你自己做过了一次匹配，这组mapping就会被它自动记录，后续相似的模型都可以直接一键。</li>
 <li>如果不放心，或是某组匹配很常用想记录，可以直接export对应关系。</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="模型导入与处理"><a class="markdownIt-Anchor" href="#模型导入与处理"></a> 模型导入与处理</h2>
+<h2 id="模型导入与处理">模型导入与处理</h2>
 <ul>
-<li>
-<p>首先是用<code>CATS</code>插件导入<code>.pmx</code>模型。这一步没什么问题，也不需要特别的操作，只管导入即可。如果右边的panel被隐藏了，显示的快捷键是<code>N</code>。</p>
-<p><img data-src="mmd-blender-bvh/image-20220803233840197.png" alt="image-20220803233840197"></p>
-</li>
-<li>
-<p>修正模型。刚导入的时候人物可能有各种小问题，但只要经过修正就都OK了。这个步骤是真的完完全全的“一键”操作，真的只用点一下<code>Fix Model</code>就好了。</p>
-<img data-src="mmd-blender-bvh/image-20220803234114008.png" alt="image-20220803234114008" style="zoom: 67%;">
-</li>
-<li>
-<p>修正完成后，请一定记得点一下<code>Start Pose Mode</code>，否则如果后面直接把<code>.bvh</code>文件应用过来，你会发现一些常见的诡异问题，如：手指尖、身上的一些饰物被留在了原地不动，只有身体其他部分在动，导致剧烈变形（这是由于手指/其他位置可能在模型中有多块骨头控制，而<code>.bvh</code>文件中对应位置只有更少的骨骼数，这就导致了某些骨骼没有得到mapping）；亦或是身体骨骼连接比较奇怪，如果旋转某块骨头就会连带其他一些意想不到的部位转动…… Anyway，解法就是简单的点一下<code>Start Pose Mode</code>，程序帮忙进行了一个骨骼和mesh间的绑定修正。这之后即使你再点击<code>Stop Pose Mode</code>也不会有问题，可方向用。</p>
-</li>
-<li>
-<p>处理好之后的模型如图：</p>
-<img data-src="mmd-blender-bvh/image-20220803234942232.png" alt="image-20220803234942232" style="zoom:67%;">
-</li>
+<li><p>首先是用<code>CATS</code>插件导入<code>.pmx</code>模型。这一步没什么问题，也不需要特别的操作，只管导入即可。如果右边的panel被隐藏了，显示的快捷键是<code>N</code>。</p>
+<figure>
+<img data-src="image-20220803233840197.png" alt="image-20220803233840197"><figcaption aria-hidden="true">image-20220803233840197</figcaption>
+</figure></li>
+<li><p>修正模型。刚导入的时候人物可能有各种小问题，但只要经过修正就都OK了。这个步骤是真的完完全全的“一键”操作，真的只用点一下<code>Fix Model</code>就好了。</p>
+<p><img data-src="image-20220803234114008.png" alt="image-20220803234114008" style="zoom: 67%;"></p></li>
+<li><p>修正完成后，请一定记得点一下<code>Start Pose Mode</code>，否则如果后面直接把<code>.bvh</code>文件应用过来，你会发现一些常见的诡异问题，如：手指尖、身上的一些饰物被留在了原地不动，只有身体其他部分在动，导致剧烈变形（这是由于手指/其他位置可能在模型中有多块骨头控制，而<code>.bvh</code>文件中对应位置只有更少的骨骼数，这就导致了某些骨骼没有得到mapping）；亦或是身体骨骼连接比较奇怪，如果旋转某块骨头就会连带其他一些意想不到的部位转动…… Anyway，解法就是简单的点一下<code>Start Pose Mode</code>，程序帮忙进行了一个骨骼和mesh间的绑定修正。这之后即使你再点击<code>Stop Pose Mode</code>也不会有问题，可方向用。</p></li>
+<li><p>处理好之后的模型如图：</p>
+<p><img data-src="image-20220803234942232.png" alt="image-20220803234942232" style="zoom:67%;"></p></li>
 </ul>
-<h2 id="与动捕文件匹配"><a class="markdownIt-Anchor" href="#与动捕文件匹配"></a> 与动捕文件匹配</h2>
+<h2 id="与动捕文件匹配">与动捕文件匹配</h2>
 <p>动捕文件直接导入后会默认出现一个骨架，这个骨架往往很大，所以你可能看不见它，此时需要缩小view很多倍才能看到全貌。我们的任务就是让这个骨架和修正后的人物模型骨架相匹配。</p>
 <ul>
-<li>
-<p>导入<code>.bvh</code>文件。如果你知道其正常的缩放比例，如0.1或0.01，可以在load的时候选择。如果想后面看着动态调节，可以在导入并选中动捕骨骼后按下快捷键<code>S</code>，只需要移动鼠标即可进行等比例缩放。如果想缩放某个特定坐标轴，按下<code>S</code>后再单独按<code>X</code>, <code>Y</code>, 或<code>Z</code>即可。</p>
-<img data-src="mmd-blender-bvh/image-20220803235859075.png" alt="image-20220803235859075" style="zoom:50%;">
-</li>
-<li>
-<p>导入成功后，你将得到一个类似这样的结果：</p>
-<img data-src="mmd-blender-bvh/image-20220804000011284.png" alt="image-20220804000011284" style="zoom:50%;">
-</li>
-<li>
-<p>下一步，让动捕骨骼处于放松（Rest）状态，即T字状态。有两种方式：</p>
-<ol>
-<li>
-<p>直接点击骨骼Panel的<code>Rest Position</code>即可。好处是方便，坏处是一旦点了这个你就无法在此基础上进行调整。</p>
-<img data-src="mmd-blender-bvh/image-20220804000607036.png" alt="image-20220804000607036" style="zoom:50%;">
-</li>
-<li>
-<p>删除动捕骨骼的所有变形。注意这个是Temporary的，只要你不打帧上去，这个并不会影响你这一帧的实际位置，所以不用慌。</p>
-<img data-src="mmd-blender-bvh/image-20220804001114077.png" alt="image-20220804001114077" style="zoom:50%;">
+<li><p>导入<code>.bvh</code>文件。如果你知道其正常的缩放比例，如0.1或0.01，可以在load的时候选择。如果想后面看着动态调节，可以在导入并选中动捕骨骼后按下快捷键<code>S</code>，只需要移动鼠标即可进行等比例缩放。如果想缩放某个特定坐标轴，按下<code>S</code>后再单独按<code>X</code>, <code>Y</code>, 或<code>Z</code>即可。</p>
+<p><img data-src="image-20220803235859075.png" alt="image-20220803235859075" style="zoom:50%;"></p></li>
+<li><p>导入成功后，你将得到一个类似这样的结果：</p>
+<p><img data-src="image-20220804000011284.png" alt="image-20220804000011284" style="zoom:50%;"></p></li>
+<li><p>下一步，让动捕骨骼处于放松（Rest）状态，即T字状态。有两种方式：</p>
+<ol type="1">
+<li><p>直接点击骨骼Panel的<code>Rest Position</code>即可。好处是方便，坏处是一旦点了这个你就无法在此基础上进行调整。</p>
+<p><img data-src="image-20220804000607036.png" alt="image-20220804000607036" style="zoom:50%;"></p></li>
+<li><p>删除动捕骨骼的所有变形。注意这个是Temporary的，只要你不打帧上去，这个并不会影响你这一帧的实际位置，所以不用慌。</p>
+<p><img data-src="image-20220804001114077.png" alt="image-20220804001114077" style="zoom:50%;"></p>
 <p>操作步骤：选择动捕骨骼-&gt;选择Pose Mode-&gt;按下<code>A</code>键全选动捕骨骼-&gt;在下拉菜单<code>Pose</code>中清楚全部Transform。完成后，你将得到一个T字动捕骨骼。</p>
-<img data-src="mmd-blender-bvh/image-20220804001253169.png" alt="image-20220804001253169" style="zoom:50%;">
-</li>
-</ol>
-</li>
-<li>
-<p>然后分两种情况：如果人物的默认放松姿态也是T字，那么就可以直接进入下一步。否则，进行如下操作：先缩放动捕骨骼到和人基本重合的size，然后分别调整左右大臂的旋转角度，使得动捕骨骼和人物骨骼的手臂平行或重合。这一步是为了保证二者在这个用于对齐的帧有着相似的骨骼形态。注意：不能调整人物的大臂来贴合动捕文件，这个即使调了也无效。</p>
-</li>
-<li>
-<p>骨骼匹配：</p>
-<img data-src="mmd-blender-bvh/image-20220804002622271.png" alt="image-20220804002622271" style="zoom:40%;">
-<ol>
-<li>
-<p>打开<code>Rokoko</code> Panel，在<code>Retargeting</code>选项卡里选择动作的源和目标。这里源就是动捕文件，目标就是模型的骨骼。</p>
-</li>
-<li>
-<p>点击<code>Rebuild Bone List</code>进行骨骼匹配。注意这里如果有些骨骼互相没有匹配好，需要手动匹配。方法是切换到<code>Pose Mode</code>后点选目标骨骼，确认其名称，然后填写到Panel对应的下方映射表格中。</p>
-</li>
-<li>
-<p>骨骼匹配完成后，记着点击<code>Use Pose</code>栏的<code>Current</code>选项，表示用于对齐的是当前动捕骨骼的状态，而非Rest状态。</p>
-</li>
-<li>
-<p>最后，点击<code>Retarget Animation</code>，All Set。</p>
-<img data-src="mmd-blender-bvh/image-20220804004103963.png" alt="image-20220804004103963" style="zoom:50%;">
-</li>
-</ol>
-</li>
+<p><img data-src="image-20220804001253169.png" alt="image-20220804001253169" style="zoom:50%;"></p></li>
+</ol></li>
+<li><p>然后分两种情况：如果人物的默认放松姿态也是T字，那么就可以直接进入下一步。否则，进行如下操作：先缩放动捕骨骼到和人基本重合的size，然后分别调整左右大臂的旋转角度，使得动捕骨骼和人物骨骼的手臂平行或重合。这一步是为了保证二者在这个用于对齐的帧有着相似的骨骼形态。注意：不能调整人物的大臂来贴合动捕文件，这个即使调了也无效。</p></li>
+<li><p>骨骼匹配：</p>
+<p><img data-src="image-20220804002622271.png" alt="image-20220804002622271" style="zoom:40%;"></p>
+<ol type="1">
+<li><p>打开<code>Rokoko</code> Panel，在<code>Retargeting</code>选项卡里选择动作的源和目标。这里源就是动捕文件，目标就是模型的骨骼。</p></li>
+<li><p>点击<code>Rebuild Bone List</code>进行骨骼匹配。注意这里如果有些骨骼互相没有匹配好，需要手动匹配。方法是切换到<code>Pose Mode</code>后点选目标骨骼，确认其名称，然后填写到Panel对应的下方映射表格中。</p></li>
+<li><p>骨骼匹配完成后，记着点击<code>Use Pose</code>栏的<code>Current</code>选项，表示用于对齐的是当前动捕骨骼的状态，而非Rest状态。</p></li>
+<li><p>最后，点击<code>Retarget Animation</code>，All Set。</p>
+<p><img data-src="image-20220804004103963.png" alt="image-20220804004103963" style="zoom:50%;"></p></li>
+</ol></li>
 </ul>
-<h2 id="常见问题"><a class="markdownIt-Anchor" href="#常见问题"></a> 常见问题</h2>
+<h2 id="常见问题">常见问题</h2>
 <ul>
-<li>
-<p>如果<code>.bvh</code>文件比较“飘”，脚不在地上，且偏离O点太远，我们可以做的是，先在<code>Object Mode</code>下平移动捕骨骼到合适的中心位置，然后按下<code>Shift+C</code>将cursor重置与O点，接下来选择<code>Set Origin to 3D Cursor</code>把动捕骨骼的中心点设定到坐标原点。在做完这一步之后再执行上面的<code>Retarget Animation</code>。</p>
-<p><img data-src="mmd-blender-bvh/image-20220804012518890.png" alt="image-20220804012518890"></p>
-</li>
+<li><p>如果<code>.bvh</code>文件比较“飘”，脚不在地上，且偏离O点太远，我们可以做的是，先在<code>Object Mode</code>下平移动捕骨骼到合适的中心位置，然后按下<code>Shift+C</code>将cursor重置与O点，接下来选择<code>Set Origin to 3D Cursor</code>把动捕骨骼的中心点设定到坐标原点。在做完这一步之后再执行上面的<code>Retarget Animation</code>。</p>
+<figure>
+<img data-src="image-20220804012518890.png" alt="image-20220804012518890"><figcaption aria-hidden="true">image-20220804012518890</figcaption>
+</figure></li>
 </ul>
-<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Nyxeb48mUfs&amp;ab_channel=CGDive">Retargeting using Rokoko (COMPLETE guide) - Blender 2.8, 2.9, 3.0</a>：最重要的一个参考，本教程大部分来源于此。</li>
 <li><a target="_blank" rel="noopener" href="https://github.com/Rokoko/rokoko-studio-live-blender">Rokoko官方Wiki</a></li>
@@ -477,7 +447,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">12:14</span>
+    <span title="Reading time total">12:13</span>
   </span>
 </div>
 <div class="busuanzi-count">

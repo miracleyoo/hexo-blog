@@ -2538,60 +2538,75 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
   <entry>
     <title>Face Recognition, Landmark and Relevant Other Feature Extraction</title>
     <url>/2020/03/06/face-features/</url>
-    <content><![CDATA[<h2 id="some-facts"><a class="markdownIt-Anchor" href="#some-facts"></a> Some Facts</h2>
-<ol>
+    <content><![CDATA[<h2 id="some-facts">Some Facts</h2>
+<ol type="1">
 <li>The output of face detector is not always the same, it can be a square, a rectangle, or an oval bounding box.</li>
 <li>Most of the landmark detectors need to take in an square bounding box for the detection.</li>
 <li>Although the bounding box shape is different, they roughly have the same shape center. For the square and rectangle, they have the same bounding box center, and the edge length of the square box is roughly the same as the mean value of the two edge lengths of the rectangle. Here is a sample.</li>
 </ol>
 <span id="more"></span>
-<p><img data-src="A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"></p>
+<figure>
+<img data-src="A48432AC-5A9B-48D6-A502-0777810A592A.png" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure>
 <blockquote>
 <p>White: Dlib Result</p>
 <p>Green: RetinaFace Result</p>
 <p>Red: RetinaFace Transferred Result (Same center, length=(width+height)/2)</p>
 </blockquote>
-<ol start="4">
+<ol start="4" type="1">
 <li>Many face detection and alignment models has an absolute detectable face size range in pixel. If the input image contains a face too big, some network cannot generate correct face bounding box or landmark, like RetinaFace, SFD, Hrnet. On the other hand, if the input image contains faces too small(also in absolute pixel), other network like MTCNN and other traditional method will fail.</li>
 </ol>
-<h2 id="libraries-and-papers"><a class="markdownIt-Anchor" href="#libraries-and-papers"></a> Libraries and Papers</h2>
-<h3 id="face-detection"><a class="markdownIt-Anchor" href="#face-detection"></a> Face Detection</h3>
-<h4 id="datasets"><a class="markdownIt-Anchor" href="#datasets"></a> Datasets</h4>
+<h2 id="libraries-and-papers">Libraries and Papers</h2>
+<h3 id="face-detection">Face Detection</h3>
+<h4 id="datasets">Datasets</h4>
 <table>
+<colgroup>
+<col style="width: 7%">
+<col style="width: 46%">
+<col style="width: 46%">
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Wider Face</td>
 <td><a href="http://shuoyang1213.me/WIDERFACE/">Link</a></td>
 <td><strong>32,203</strong> images, <strong>393,703</strong> faces labeled with a high degree of variability in scale, pose and occlusion</td>
 </tr>
-<tr>
+<tr class="even">
 <td>FFDB</td>
 <td><a href="http://vis-www.cs.umass.edu/fddb/">Link</a></td>
 <td><strong>5171</strong> faces, in which <strong>2845</strong> images from the <a href="http://tamaraberg.com/faceDataset/index.html">Faces in the Wild</a> data set</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>AFLW</td>
 <td><a href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/">Link</a></td>
 <td><strong>25k faces</strong> are annotated with up to <strong>21 landmarks</strong> per image</td>
 </tr>
-<tr>
+<tr class="even">
 <td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h4 id="researches"><a class="markdownIt-Anchor" href="#researches"></a> Researches</h4>
+<h4 id="researches">Researches</h4>
 <table>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 16%">
+<col style="width: 21%">
+<col style="width: 1%">
+<col style="width: 17%">
+<col style="width: 21%">
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Paper</th>
 <th>Code</th>
@@ -2601,15 +2616,15 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><a href="https://www.paperswithcode.com/paper/190500641">RetinaFace</a></td>
 <td><a href="https://arxiv.org/pdf/1905.00641v2.pdf">Link</a></td>
-<td><a href="https://github.com/deepinsight/insightface"> Original</a><br><a href="https://github.com/biubug6/Pytorch_Retinaface"> Pytorch</a></td>
+<td><a href="https://github.com/deepinsight/insightface">Original</a><br><a href="https://github.com/biubug6/Pytorch_Retinaface">Pytorch</a></td>
 <td>2019</td>
 <td>Wider Face (Hard): 0.914</td>
 <td>104M(Resnet)<br><a href="https://drive.google.com/drive/folders/1oZRSG0ZegbVkVwUd8wUIQx8W7yfZ_ki1">2M(MobileNet0.25)</a></td>
 </tr>
-<tr>
+<tr class="even">
 <td><a href="https://www.paperswithcode.com/paper/dsfd-dual-shot-face-detector">DFSD</a></td>
 <td><a href="https://arxiv.org/pdf/1810.10220v3.pdf">Link</a></td>
 <td><a href="https://github.com/TencentYoutuResearch/FaceDetection-DSFD">Link</a></td>
@@ -2617,7 +2632,7 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 <td>FDDB: 0.991<br>Wider Face: 0.960, 0.953, 0.900</td>
 <td><a href="https://drive.google.com/file/d/1WeXlNYsM6dMP3xQQELI-4gxhwKUQxc3-/view">459MB</a></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><a href="SFD/S3FD">SFD/S3FD</a></td>
 <td><a href="https://arxiv.org/pdf/1708.05237.pdf">Link</a></td>
 <td><a href="https://github.com/sfzhang15/SFD">Original</a><br><a href="https://github.com/yxlijun/S3FD.pytorch">Pytorch</a></td>
@@ -2625,33 +2640,33 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 <td>FDDB: 0.983<br>Wider Face: 0.928, 0.913, 0.840</td>
 <td><a href="https://pan.baidu.com/s/1epyTAUc6qSt3oZ7veK4oEw">85.7M</a></td>
 </tr>
-<tr>
+<tr class="even">
 <td><a href="https://www.paperswithcode.com/paper/joint-face-detection-and-alignment-using">MTCNN</a></td>
 <td><a href="https://arxiv.org/abs/1604.02878">Link</a></td>
 <td><a href="https://github.com/kuaikuaikim/DFace">Original</a><br><a href="https://github.com/ipazc/mtcnn">Pip Version</a></td>
 <td>2016</td>
-<td>Wider Face: 0.851,  0.820, 0.607</td>
+<td>Wider Face: 0.851, 0.820, 0.607</td>
 <td><a href="https://github.com/ipazc/mtcnn/blob/master/mtcnn/data/mtcnn_weights.npy">2.85M</a></td>
 </tr>
 </tbody>
 </table>
-<h5 id="retinaface-pros-cons"><a class="markdownIt-Anchor" href="#retinaface-pros-cons"></a> RetinaFace Pros &amp; Cons:</h5>
+<h5 id="retinaface-pros-cons">RetinaFace Pros &amp; Cons:</h5>
 <p>RetinaFace can generate an accurate rectangle face bounding box together with a 5-points facial landmark. It supports two backbone kernels: Resnet and MobileNet. The first one is more accurate but relatively slow, the MobileNet version is fast and really small.</p>
-<p>RetinaFace focus more on the detection of the relatively small faces, and it can do a good(best) job on wider face dataset hard level. However, when the input is an image contain a really large face(About ${short_face_edge}&gt;700\space pixel $ ), RetinaFace tend to fail. Since there is also other people asking the same question on the issue of its GitHub page, I tend to think this is a design defects of RetinaFace.</p>
-<p>Since the game streamers’ face videos can be relatively large, I think this may become a fatal drawback. There are three possible solutions:</p>
-<ol>
+<p>RetinaFace focus more on the detection of the relatively small faces, and it can do a good(best) job on wider face dataset hard level. However, when the input is an image contain a really large face(About ${short_face_edge}&gt;700pixel $ ), RetinaFace tend to fail. Since there is also other people asking the same question on the issue of its GitHub page, I tend to think this is a design defects of RetinaFace.</p>
+<p>Since the game streamers' face videos can be relatively large, I think this may become a fatal drawback. There are three possible solutions:</p>
+<ol type="1">
 <li>Scale the input image to make sure the largest face short edge is smaller than 700, recommend around 500.</li>
 <li>Wait for the author to change or change the pyramid weights parameters. This is delicate and success is not guaranteed.</li>
 </ol>
-<img data-src="image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;">
-<h5 id="other-models"><a class="markdownIt-Anchor" href="#other-models"></a> Other Models</h5>
+<p><img data-src="image-20200306140736438.png" alt="image-20200306140736438" style="zoom:50%;"></p>
+<h5 id="other-models">Other Models</h5>
 <p>DFSD can behave well on both easy, medium and hard level of Wider Face dataset. The only drawback is that it is much too large and slow. Not to mention real-time, it is even too heavy for GPU prediction when the input is a video and we also need to predict other features.</p>
 <p>SFD has the similar problem as RetinaFace. It will also fail at big face cases.</p>
 <p>MTCNN is just really small and easy to use. It is wrapped finely into a pip package and we can use one line to do face detection here. It behaves much worse in small faces, but better when the input face is big compared to other method. In fact, MTCNN might be a good choice for our project, since it is friendly to big face and fast enough.</p>
-<h4 id="wrapped-libraries"><a class="markdownIt-Anchor" href="#wrapped-libraries"></a> Wrapped Libraries</h4>
+<h4 id="wrapped-libraries">Wrapped Libraries</h4>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Year</th>
@@ -2660,35 +2675,35 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Dlib</td>
 <td><a href="http://dlib.net/">Link</a></td>
 <td>2006-&gt;now</td>
 <td>C++ &amp; Python</td>
 <td>√ dlib</td>
 </tr>
-<tr>
+<tr class="even">
 <td>OpenFace V1</td>
 <td><a href="http://cmusatyalab.github.io/openface/">Home Page</a><br><a href="https://github.com/cmusatyalab/openface">GitHub</a></td>
 <td>2016</td>
 <td>Python &amp; Lua</td>
 <td>× conda</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>OpenFace V2</td>
 <td><a href="https://github.com/TadasBaltrusaitis/OpenFace">Link</a></td>
 <td>2018</td>
 <td>C++</td>
 <td>× compile locally</td>
 </tr>
-<tr>
+<tr class="even">
 <td>facenet-pytorch</td>
 <td><a href="https://pypi.org/project/facenet-pytorch/">Link</a></td>
 <td>2017</td>
 <td>Python(PT)</td>
 <td>√ facenet-pytorch</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>MTCNN</td>
 <td><a href="https://pypi.org/project/mtcnn/">Link</a></td>
 <td>2016</td>
@@ -2697,53 +2712,65 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </tbody>
 </table>
-<h5 id="comment"><a class="markdownIt-Anchor" href="#comment"></a> Comment</h5>
-<ol>
+<h5 id="comment">Comment</h5>
+<ol type="1">
 <li>OpenFace V1 uses face detection model from dlib and OpenCV.</li>
 <li>OpenFace V2 also used MTCNN as core face detector.</li>
 </ol>
-<h3 id="face-landmark"><a class="markdownIt-Anchor" href="#face-landmark"></a> Face Landmark</h3>
-<h4 id="datasets-2"><a class="markdownIt-Anchor" href="#datasets-2"></a> Datasets</h4>
+<h3 id="face-landmark">Face Landmark</h3>
+<h4 id="datasets-1">Datasets</h4>
 <table>
+<colgroup>
+<col style="width: 4%">
+<col style="width: 44%">
+<col style="width: 50%">
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>300-W</td>
 <td><a href="https://ibug.doc.ic.ac.uk/resources/300-W/">Link</a></td>
 <td>68 points. Bounding boxes calculated by the boundary of all <strong>68</strong> points.</td>
 </tr>
-<tr>
+<tr class="even">
 <td>WFLW</td>
 <td><a href="https://wywu.github.io/projects/LAB/WFLW.html">Link</a></td>
 <td>Wider Facial Landmarks in-the-wild (WFLW) contains <strong>10000</strong> faces (7500 for training and 2500 for testing) with <strong>98</strong> fully manual annotated landmarks. Rich attribute annotations included, i.e., occlusion, pose, make-up, illumination, blur and expression.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>COFW</td>
 <td><a href="http://www.vision.caltech.edu/xpburgos/ICCV13/">Link</a></td>
 <td>All images were hand annotated using the same <strong>29</strong> landmarks as in LFPW. Both the landmark positions and their occluded/unoccluded state are annotated. The faces are occluded to different degrees, with large variations in the type of occlusions encountered. COFW has an average occlusion of over <strong>23%</strong>. To increase the number of training images, and since  COFW has the exact same landmarks as LFPW, for training  we use the original non-augmented 845 LFPW faces + 500 COFW faces (<strong>1345</strong> total), and for testing the remaining <strong>507</strong> COFW faces.</td>
 </tr>
-<tr>
+<tr class="even">
 <td>AFLW</td>
 <td><a href="https://www.tugraz.at/institute/icg/research/team-bischof/lrs/downloads/aflw/">Link</a></td>
 <td>Annotated Facial Landmarks in the Wild (AFLW) provides a large-scale collection of annotated face images gathered from the web, exhibiting a large variety in appearance (e.g., pose, expression, ethnicity, age, gender) as well as general imaging and environmental conditions. In total about <strong>25k faces</strong> are annotated with up to <strong>21 landmarks</strong> per image.</td>
 </tr>
 </tbody>
 </table>
-<h5 id="attention"><a class="markdownIt-Anchor" href="#attention"></a> Attention</h5>
-<ol>
+<h5 id="attention">Attention</h5>
+<ol type="1">
 <li>The bounding box of 300-W dataset is not human labeled. It is the smallest rectangle which can accurately include every 68 points.</li>
 </ol>
-<img data-src="figure_4_n_2.png" alt="img" style="zoom:15%;">
-<h4 id="researches-2"><a class="markdownIt-Anchor" href="#researches-2"></a> Researches</h4>
+<p><img data-src="figure_4_n_2.png" alt="img" style="zoom:15%;"></p>
+<h4 id="researches-1">Researches</h4>
 <table>
+<colgroup>
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 1%">
+<col style="width: 13%">
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Paper</th>
 <th>Code</th>
@@ -2752,42 +2779,42 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><a href="https://www.paperswithcode.com/paper/adaptive-wing-loss-for-robust-face-alignment">AWing</a></td>
 <td><a href="https://arxiv.org/pdf/1904.07399v2.pdf">Adaptive Wing Loss for Robust Face Alignment via Heatmap Regression</a></td>
 <td><a href="https://github.com/protossw512/AdaptiveWingLoss">Link</a></td>
 <td>2019</td>
 <td>300-W: 3.07</td>
 </tr>
-<tr>
+<tr class="even">
 <td><a href="https://www.paperswithcode.com/paper/look-at-boundary-a-boundary-aware-face">LAB</a></td>
 <td><a href="https://wywu.github.io/projects/LAB/LAB.html">Look at Boundary</a></td>
 <td><a href="https://github.com/wywu/LAB">Link</a></td>
 <td>2018</td>
 <td>300-W: 3.49</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><a href="https://www.paperswithcode.com/paper/style-aggregated-network-for-facial-landmark">SAN</a></td>
 <td><a href="https://arxiv.org/pdf/1803.04108v4.pdf">Style Aggregated Network</a></td>
 <td><a href="https://github.com/D-X-Y/landmark-detection">Link</a></td>
 <td>2018</td>
 <td>300W NME: 3.98</td>
 </tr>
-<tr>
+<tr class="even">
 <td>HRNet</td>
 <td><a href="https://arxiv.org/abs/1908.07919">Deep High-Resolution Representation Learning</a></td>
 <td><a href="https://github.com/HRNet/HRNet-Facial-Landmark-Detection">Link</a></td>
 <td>2019</td>
 <td>300-W: 3.32</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>FAN</td>
 <td><a href="https://arxiv.org/abs/1703.07332">Face Alignment Network</a></td>
 <td><a href="https://github.com/1adrianb/face-alignment">Link</a></td>
 <td>2017</td>
 <td>300-W: Acc(7% threshold)66.9%</td>
 </tr>
-<tr>
+<tr class="even">
 <td><a href="https://www.paperswithcode.com/paper/deep-alignment-network-a-convolutional-neural">DAN-Menpo</a></td>
 <td><a href="https://arxiv.org/pdf/1706.01789v2.pdf">Deep Alignment Network</a></td>
 <td><a href="https://github.com/MarekKowalski/DeepAlignmentNetwork">Link</a></td>
@@ -2797,15 +2824,15 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tbody>
 </table>
 <p>The accuracy on 300-W is based on <strong>FULLSET (PUBLIC)</strong>.</p>
-<h4 id="overview-on-researches"><a class="markdownIt-Anchor" href="#overview-on-researches"></a> Overview on researches</h4>
-<ol>
+<h4 id="overview-on-researches">Overview on researches</h4>
+<ol type="1">
 <li>FAN is the final method I choose now. It cannot only generate 2D but also accurate 3D landmark, which is quite important for us considering the head pose and eye gaze can also be deduced from here.</li>
-<li>Although HRNet seems to be good, it will crash completely when the input face is large(About <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>f</mi><mi>a</mi><mi>c</mi><mi>e</mi><mi mathvariant="normal">_</mi><mi>m</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">_</mi><mi>e</mi><mi>d</mi><mi>g</mi><mi>e</mi></mrow><mo>&gt;</mo><mn>250</mn></mrow><annotation encoding="application/x-tex">{face\_min\_edge} &gt; 250</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mord mathnormal">e</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">m</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">e</span><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">e</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">0</span></span></span></span>). Not really recommended if no extra operation added. But this can also be fixed by resize before sending to our pipeline, since our target is a single big-face player. When the input face size is limited, the result is quite decent.</li>
+<li>Although HRNet seems to be good, it will crash completely when the input face is large(About <span class="math inline">\({face\_min\_edge} &gt; 250\)</span>). Not really recommended if no extra operation added. But this can also be fixed by resize before sending to our pipeline, since our target is a single big-face player. When the input face size is limited, the result is quite decent.</li>
 </ol>
-<h4 id="wrapped-libraries-2"><a class="markdownIt-Anchor" href="#wrapped-libraries-2"></a> Wrapped Libraries</h4>
+<h4 id="wrapped-libraries-1">Wrapped Libraries</h4>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Year</th>
@@ -2814,28 +2841,28 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Dlib</td>
 <td><a href="http://dlib.net/">Link</a></td>
 <td>2006-&gt;now</td>
 <td>C++ &amp; Python</td>
 <td>√ dlib</td>
 </tr>
-<tr>
+<tr class="even">
 <td>OpenFace V1</td>
 <td><a href="http://cmusatyalab.github.io/openface/">Home Page</a><br><a href="https://github.com/cmusatyalab/openface">GitHub</a></td>
 <td>2016</td>
 <td>Python &amp; Lua</td>
 <td>× conda</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>OpenFace V2</td>
 <td><a href="https://github.com/TadasBaltrusaitis/OpenFace">Link</a></td>
 <td>2018</td>
 <td>C++</td>
 <td>× compile locally</td>
 </tr>
-<tr>
+<tr class="even">
 <td>face-alignment</td>
 <td><a href="https://github.com/1adrianb/face-alignment">Link</a></td>
 <td>2017</td>
@@ -2844,48 +2871,53 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </tbody>
 </table>
-<h3 id="eye-blinking"><a class="markdownIt-Anchor" href="#eye-blinking"></a> Eye Blinking</h3>
-<h4 id="datasets-3"><a class="markdownIt-Anchor" href="#datasets-3"></a> Datasets</h4>
-<table>
+<h3 id="eye-blinking">Eye Blinking</h3>
+<h4 id="datasets-2">Datasets</h4>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 40%">
+<col style="width: 40%">
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Closed Eyes In The Wild (CEW)</td>
 <td><a href="http://parnec.nuaa.edu.cn/xtan/data/ClosedEyeDatabases.html">Link</a></td>
 <td>2423 subjects, among which 1192 subjects with both eyes closed are collected directly from Internet, and 1231 subjects with eyes open are selected from the Labeled Face in the Wild (LFW [2]) database. Cropped coarse faces resized to the 100×100 and extract eye patches of 24×24 centered at the localized eye position.</td>
 </tr>
-<tr>
+<tr class="even">
 <td>EBV</td>
 <td><a href="https://drive.google.com/file/d/1jJTImI-QkmGYFS-0UmE1qvqbwoYOCPnR/view?usp=sharing">Link</a></td>
 <td>It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>.</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Eyeblink8</td>
 <td><a href="https://www.blinkingmatters.com/research">Link</a></td>
 <td>8 videos with 4 individuals (1 wearing glasses). Videos are recorded in a home environment. 408 eye blinks on 70 992 annotated frames with resolution 640x480.</td>
 </tr>
-<tr>
+<tr class="even">
 <td>MRL</td>
 <td><a href="http://mrl.cs.vsb.cz/eyedataset">Link</a></td>
 <td>Infrared images in low and high resolution, all captured in various lightning conditions and by different devices. Approximately 15 000 annotation for pupil points (images).</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>RT-BENE</td>
 <td><a href="https://zenodo.org/record/3685316#.XmL4pJP0lQI">Link</a></td>
 <td>Annotations of the eye-openness of more than 200,000 eye images, including more than 10,000 images where the eyes are closed.</td>
 </tr>
 </tbody>
 </table>
-<h4 id="researches-3"><a class="markdownIt-Anchor" href="#researches-3"></a> Researches</h4>
+<h4 id="researches-2">Researches</h4>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Paper</th>
 <th>Code</th>
@@ -2894,14 +2926,14 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>In Ictu Oculi</td>
 <td><a href="https://arxiv.org/abs/1806.02877">Link</a></td>
 <td><a href="https://github.com/danmohaha/WIFS2018_In_Ictu_Oculi">Link</a></td>
 <td>Using Blink to detect Fake Video.</td>
 <td><a href="https://drive.google.com/file/d/1OJZ4mvZefwMJ7Knpsf_RFhCsA4xbAOMc/view">429M</a></td>
 </tr>
-<tr>
+<tr class="even">
 <td>RT-GENE &amp; RT-BENE</td>
 <td><a href="http://openaccess.thecvf.com/content_ECCV_2018/html/Tobias_Fischer_RT-GENE_Real-Time_Eye_ECCV_2018_paper.html">Link</a></td>
 <td><a href="https://github.com/Tobias-Fischer/rt_gene">Link</a></td>
@@ -2910,71 +2942,78 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </tbody>
 </table>
-<h4 id="my-update"><a class="markdownIt-Anchor" href="#my-update"></a> My Update</h4>
-<ol>
-<li>Build a new Resnet18-LSTM based eye blink detection network, which reaches 99.8% accuracy on both training and testing set the same as “In Ictu Oculi” paper proposed.</li>
-<li>Build a new mixed dataset which has three classes: open, closed, and not-eye. Not-eye class includes hand, cup, microphone, hat, fast food, and bedroom background. They are frequently appearing objects in the gamer’s streaming video. In many cases, part of the face are covered by this kind of things, but the face landmark detector can still give a predicted landmark. For example, one’s left eye may be shield by a microphone constantly due to the camera angle, but we can still get the useful information from his right eye. So in these cases, the new dataset will be more representative.</li>
+<h4 id="my-update">My Update</h4>
+<ol type="1">
+<li>Build a new Resnet18-LSTM based eye blink detection network, which reaches 99.8% accuracy on both training and testing set the same as "In Ictu Oculi" paper proposed.</li>
+<li>Build a new mixed dataset which has three classes: open, closed, and not-eye. Not-eye class includes hand, cup, microphone, hat, fast food, and bedroom background. They are frequently appearing objects in the gamer's streaming video. In many cases, part of the face are covered by this kind of things, but the face landmark detector can still give a predicted landmark. For example, one's left eye may be shield by a microphone constantly due to the camera angle, but we can still get the useful information from his right eye. So in these cases, the new dataset will be more representative.</li>
 <li>All of these new 6-classes images are collected from google image. Total number is <strong>2738</strong>, image number of each class is roughly balanced. I did a manual selecting to make sure the image is usable and representative of that classes. Every collected image will be resized to <strong>48, 64, and 128</strong>(the short edge), and then randomly crop three <strong>(32,32)</strong> images from each resized image. At last, <strong>32855</strong> images are collected.</li>
-<li>EBV dataset from the author “In Ictu Oculi” is used as base dataset. It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>. I build the new dataset by inserting 1, 2, or 3 continuous background images into the video clip image folder. The insert position is random, and the proportion of inserting 0,1,2,3 background images is: 40%, 10%, 30%, 20%. The inserted images is also randomly selected continuous images from all generated <strong>32855</strong> images. Training and validation set separation is the same as original dataset.</li>
-<li>A new “Robust-Eye-Blink” network is trained based on this new dataset, and after sufficient training, it can reach 99.7% at both train and test dataset.</li>
+<li>EBV dataset from the author "In Ictu Oculi" is used as base dataset. It contains <strong>11376</strong> video clips, each clip has around <strong>15</strong> image series, whether contains a blink or not. The video fps they use is <strong>30</strong>. I build the new dataset by inserting 1, 2, or 3 continuous background images into the video clip image folder. The insert position is random, and the proportion of inserting 0,1,2,3 background images is: 40%, 10%, 30%, 20%. The inserted images is also randomly selected continuous images from all generated <strong>32855</strong> images. Training and validation set separation is the same as original dataset.</li>
+<li>A new "Robust-Eye-Blink" network is trained based on this new dataset, and after sufficient training, it can reach 99.7% at both train and test dataset.</li>
 </ol>
-<h3 id="head-pose"><a class="markdownIt-Anchor" href="#head-pose"></a> Head Pose</h3>
-<h4 id="calculation"><a class="markdownIt-Anchor" href="#calculation"></a> Calculation</h4>
+<h3 id="head-pose">Head Pose</h3>
+<h4 id="calculation">Calculation</h4>
 <p>3D Facial Landmark -&gt; <a href="https://en.wikipedia.org/wiki/Rotation_matrix">Rotation matrix</a> -&gt; <a href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a> -&gt; <a href="https://carsexplained.wordpress.com/2017/02/21/fundamentals-of-car-science-pitch-and-roll/">(yaw, pitch, roll)</a></p>
-<img data-src="1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;">
+<p><img data-src="1*U4ZQ8UjzouVMRo2Fgsz7UA.png" alt="yaw pitch roll of head" style="zoom:50%;"></p>
 <p>Visualization of yaw, pitch and roll: <a href="http://www.ctralie.com/Teaching/COMPSCI290/Materials/EulerAnglesViz/">Link</a></p>
 <p><strong>Euler angles:</strong></p>
-<p><img data-src="300px-Eulerangles.svg.png" alt="img"></p>
-<h5 id="implementation"><a class="markdownIt-Anchor" href="#implementation"></a> Implementation</h5>
-<img data-src="image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;">
+<figure>
+<img data-src="300px-Eulerangles.svg.png" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h5 id="implementation">Implementation</h5>
+<p><img data-src="image-20200306134751864.png" alt="image-20200306134751864" style="zoom:40%;"></p>
 <p>Use the 3D landmark computed, and set the vector from 1 to 17 as the x axis, and 9 to 28 as the y axis, then the z axis is computed by set it perpendicular to both x and y, pointing out of front face.</p>
 <p>Now, the head pose detection part has been wrapped into a module, we can get the pose within one line.</p>
-<h4 id="code-reference"><a class="markdownIt-Anchor" href="#code-reference"></a> Code Reference</h4>
-<ol>
+<h4 id="code-reference">Code Reference</h4>
+<ol type="1">
 <li><a href="https://github.com/jerryhouuu/Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV">Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV</a></li>
 <li><a href="https://gist.github.com/crmccreary/1593090">euler_angles_from_rotation_matrix</a></li>
 </ol>
-<h3 id="emotion"><a class="markdownIt-Anchor" href="#emotion"></a> Emotion</h3>
-<h4 id="can-facial-expression-really-tell-emotion"><a class="markdownIt-Anchor" href="#can-facial-expression-really-tell-emotion"></a> Can facial expression really tell emotion</h4>
-<h5 id="cons"><a class="markdownIt-Anchor" href="#cons"></a> Cons</h5>
-<ol>
+<h3 id="emotion">Emotion</h3>
+<h4 id="can-facial-expression-really-tell-emotion">Can facial expression really tell emotion</h4>
+<h5 id="cons">Cons</h5>
+<ol type="1">
 <li>Facial expression is not universal, it also depend on culture and education. Like in Asia, people tend to convey more emotion in their eyes, but in western culture, people use their mouth to deliver more information.</li>
 <li>Human can easily trick the face expression to emotion system, since what they show is not necessarily what they feel.</li>
 <li>One certain facial expression can have multiple possible meanings, and this tend to depend on things near the face, namely the context. Like a soccer player win the game and shouting, without the context, you will judge him as angry or so.</li>
 <li>The current facial expression classification method usually classify all of the emotion into several classes, like 6 or 7. But the fact is that each big emotion contain multiple sub-emotions which is more delicate. They can overlap or differ.</li>
 <li>After reading 1000 papers, they find there was little to no evidence that people can reliably infer someone else’s emotional state from a set of facial movements.</li>
 </ol>
-<h5 id="pros"><a class="markdownIt-Anchor" href="#pros"></a> Pros</h5>
-<ol>
+<h5 id="pros">Pros</h5>
+<ol type="1">
 <li>It is actually accurate. Affectiva has reached an accuracy of more than 90%.</li>
 <li>Most of the culture share the similar facial expression.</li>
 </ol>
-<h4 id="datasets-4"><a class="markdownIt-Anchor" href="#datasets-4"></a> Datasets</h4>
+<h4 id="datasets-3">Datasets</h4>
 <table>
+<colgroup>
+<col style="width: 29%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>FER2013</td>
 <td><a href="https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge/data">Kaggle Link</a></td>
 <td>48x48 pixel grayscale images of faces. (0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral). The training set consists of 28,709 examples. The public test set consists of 3,589 examples. The final test set consists of another 3,589 examples.</td>
 </tr>
-<tr>
+<tr class="even">
 <td><a href="https://ieeexplore.ieee.org/document/5543262">CK+</a></td>
 <td><a href="http://www.consortium.ri.cmu.edu/ckagree/">Link</a></td>
 <td>Posed Facial Expressions: 593 sequences from 123 subjects.</td>
 </tr>
 </tbody>
 </table>
-<h4 id="wrapped-libraries-3"><a class="markdownIt-Anchor" href="#wrapped-libraries-3"></a> Wrapped Libraries</h4>
+<h4 id="wrapped-libraries-2">Wrapped Libraries</h4>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Name</th>
 <th>Site</th>
 <th>Year</th>
@@ -2983,7 +3022,7 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Facial-Expression-Recognition</td>
 <td><a href="https://github.com/WuJie1010/Facial-Expression-Recognition.Pytorch">Link</a></td>
 <td>2018</td>
@@ -2992,16 +3031,16 @@ timeshift between camera and IMU timestamps in seconds (t_imu = t_cam + shift)</
 </tr>
 </tbody>
 </table>
-<h4 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h4>
-<ol>
+<h4 id="reference">Reference</h4>
+<ol type="1">
 <li><a href="https://www.nature.com/articles/d41586-020-00507-5">Why faces don’t always tell the truth about feelings</a></li>
 </ol>
 <p>By Zhongyang Zhang</p>
 ]]></content>
       <tags>
         <tag>python</tag>
+        <tag>machine-learning</tag>
         <tag>deep-learning</tag>
-        <tag>machine-earning</tag>
         <tag>face-detection</tag>
         <tag>face-alignment</tag>
         <tag>face-features</tag>
@@ -9155,113 +9194,80 @@ Q函数的实现和训练方法，采用了Deepmind 2015年发表的DQN方法。
   <entry>
     <title>Docker与Nivida-Docker的用法与注意事项</title>
     <url>/2020/04/26/docker-et-nvidia/</url>
-    <content><![CDATA[<h2 id="docker-images-and-containers"><a class="markdownIt-Anchor" href="#docker-images-and-containers"></a> Docker Images and Containers</h2>
+    <content><![CDATA[<h2 id="docker-images-and-containers">Docker Images and Containers</h2>
 <ul>
-<li>
-<p>清除所有已经停止的container：<code>docker container prune -f</code> 。其中 <code>-f</code> 表示不弹出确认提示。也可使用<code>docker rm $(docker ps -a -q)</code>来清理。其中，<code>docker rm</code>代表删除container，而<code>docker rmi</code>则是删除image。</p>
-</li>
-<li>
-<p>如果你需要实例化一个只用一次的container，那么使用<code>docker run --rm</code>参数，结束后会自动删除。</p>
-<span id="more"></span>
-</li>
-<li>
-<p><code>docker ps &lt;-a&gt;</code> 可以列出正在运行的/全部的container。其效果和<code>docker container ls &lt;-a&gt;</code>相同。而若想列出全部images，则要使用<code>docker images</code>。</p>
-</li>
-<li>
-<p>docker images中的环境变量有四个来源：</p>
-<ol>
+<li><p>清除所有已经停止的container：<code>docker container prune -f</code> 。其中 <code>-f</code> 表示不弹出确认提示。也可使用<code>docker rm $(docker ps -a -q)</code>来清理。其中，<code>docker rm</code>代表删除container，而<code>docker rmi</code>则是删除image。</p></li>
+<li><p>如果你需要实例化一个只用一次的container，那么使用<code>docker run --rm</code>参数，结束后会自动删除。</p>
+<span id="more"></span></li>
+<li><p><code>docker ps &lt;-a&gt;</code> 可以列出正在运行的/全部的container。其效果和<code>docker container ls &lt;-a&gt;</code>相同。而若想列出全部images，则要使用<code>docker images</code>。</p></li>
+<li><p>docker images中的环境变量有四个来源：</p>
+<ol type="1">
 <li>Dockerfile中通过<code>ENV</code>指令添加的环境变量，如<code>ENV PATH /opt/conda/bin:$PATH</code></li>
 <li>Dockerfile中通过修改<code>/root/.bashrc</code>文件使用<code>export</code>命令添加到bash中的环境变量，如<code>export PATH=/OPT/conda/bin:$PATH</code>命令。</li>
 <li>在通过image实例化container时添加<code>-e</code>或<code>--env</code>参数来添加到环境中的变量。这个方法有局限性，它不能完成对已有变量的“添加”操作，只能新建一个新的环境变量，如<code>--env NEW_VAR=/opt/conda/bin</code></li>
 <li>在<code>docker run</code>末端的container内命令的前面添加一句<code>export</code>引导的命令，如：<code>docker run -it -v $(PWD):/app debian:jessie bash -c 'export PATH=$PATH:/opt/conda/bin; bash'</code>。它的缺点是较为复杂。</li>
 </ol>
-<p>其中，如果能找到源Dockerfile，最好的方法是通过修改Dockerfile然后重新build得到一个自己的版本。其次是方法三，实在不行使用方法四。如果先进入bash再运行命令可以正常运行，而直接使用<code>docker run</code>出现了环境变量相关的失败提示，很可能是由于Dockerfile写的时候使用的是在<code>/root/.bashrc</code>中添加环境变量的方法所致。</p>
-</li>
-<li>
-<p>如果需要一个container长期在后台待机候命，那可以使用<code>-d</code>或<code>--detach</code>选项建立一个一直待机的docker进程。使用方法：</p>
-<ol>
+<p>其中，如果能找到源Dockerfile，最好的方法是通过修改Dockerfile然后重新build得到一个自己的版本。其次是方法三，实在不行使用方法四。如果先进入bash再运行命令可以正常运行，而直接使用<code>docker run</code>出现了环境变量相关的失败提示，很可能是由于Dockerfile写的时候使用的是在<code>/root/.bashrc</code>中添加环境变量的方法所致。</p></li>
+<li><p>如果需要一个container长期在后台待机候命，那可以使用<code>-d</code>或<code>--detach</code>选项建立一个一直待机的docker进程。使用方法：</p>
+<ol type="1">
 <li><code>docker run -itd --name NAME xxx/xxx:xx /bin/bash</code></li>
-<li><code>docker exec -it NAME your-command </code></li>
-</ol>
-</li>
-<li>
-<p>启动时如果需要对本地文件夹和Docker内部文件夹做映射，则使用<code>docker run -v &lt;LOCAL_FOLDER&gt;:&lt;DOCKER_FOLDER&gt;</code> 。 该参数可以复数次出现，如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">    -v <span class="variable">$AUDIO_IN</span>:/input \</span><br><span class="line">    -v <span class="variable">$AUDIO_OUT</span>:/output \</span><br><span class="line">    -v <span class="variable">$MODEL_DIRECTORY</span>:/model \</span><br><span class="line">    -e MODEL_PATH=/model \</span><br><span class="line">    researchdeezer/spleeter \</span><br><span class="line">    separate -i /input/audio_1.mp3 /input/audio_2.mp3 -o /output</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>docker run所有的参数都应该写在镜像名字<code>xxx/xxx:xx</code>前面，写在其后面的统统会被视作在docker container中运行的命令或命令参数。</p>
-</li>
-<li>
-<p>如果你有了一个在后台持续运行的container，且你想弄一个交互性bash，此时你仍需要加上<code>-it</code>参数，同样是在<code>docker exec</code>后，container名字前加需要的参数，restart和start同理。</p>
-</li>
-<li>
-<p>如果你对作者的Docker Image不满意，需要修改，此时有两种方法：</p>
-<ol>
+<li><code>docker exec -it NAME your-command</code></li>
+</ol></li>
+<li><p>启动时如果需要对本地文件夹和Docker内部文件夹做映射，则使用<code>docker run -v &lt;LOCAL_FOLDER&gt;:&lt;DOCKER_FOLDER&gt;</code> 。 该参数可以复数次出现，如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run \</span><br><span class="line">    -v <span class="variable">$AUDIO_IN</span>:/input \</span><br><span class="line">    -v <span class="variable">$AUDIO_OUT</span>:/output \</span><br><span class="line">    -v <span class="variable">$MODEL_DIRECTORY</span>:/model \</span><br><span class="line">    -e MODEL_PATH=/model \</span><br><span class="line">    researchdeezer/spleeter \</span><br><span class="line">    separate -i /input/audio_1.mp3 /input/audio_2.mp3 -o /output</span><br></pre></td></tr></table></figure></li>
+<li><p>docker run所有的参数都应该写在镜像名字<code>xxx/xxx:xx</code>前面，写在其后面的统统会被视作在docker container中运行的命令或命令参数。</p></li>
+<li><p>如果你有了一个在后台持续运行的container，且你想弄一个交互性bash，此时你仍需要加上<code>-it</code>参数，同样是在<code>docker exec</code>后，container名字前加需要的参数，restart和start同理。</p></li>
+<li><p>如果你对作者的Docker Image不满意，需要修改，此时有两种方法：</p>
+<ol type="1">
 <li>找到Dockerfile并修改，<code>docker build</code>，<code>docker push</code></li>
 <li>使用bash进入一个实例化的Image，在里面做一通操作，出来后使用<code>docker commit -m &lt;YOUR_MESSAGE&gt; -a &lt;AUTHOR_NAME&gt; &lt;CONTAINER_ID&gt; &lt;DOCKERHUB_USERNAME/NEW_IMAGE_NAME:TAG&gt;</code>提交更改使其保存为一个新的镜像，最后使用<code>docker push</code>推送新的镜像到docker hub。如果命名有误或忘记添加docker hub username作为前缀，那么可以使用<code>docker tag &lt;existing-image&gt; &lt;hub-user&gt;/&lt;repo-name&gt;[:&lt;tag&gt;]</code>改名。</li>
 </ol>
-<p>注意，使用<code>docker push</code>需要有docker hub账号，并在push前使用<code>docker login</code>操作登录。</p>
-</li>
-<li>
-<p>一个辨析：<code>docker commit</code>针对的是一个正在运行的container，使其固化为一个image；而<code>docker push</code>推送的则是一个image到docker hub。前者是本地操作，后者是上传操作。</p>
-</li>
-<li>
-<p>一个区别：<code>docker start</code>是启动一个已经停止的container，而<code>docker restart</code>则是先stop一个container再start。如果一个container已经停止了，那么二者等效。</p>
-</li>
+<p>注意，使用<code>docker push</code>需要有docker hub账号，并在push前使用<code>docker login</code>操作登录。</p></li>
+<li><p>一个辨析：<code>docker commit</code>针对的是一个正在运行的container，使其固化为一个image；而<code>docker push</code>推送的则是一个image到docker hub。前者是本地操作，后者是上传操作。</p></li>
+<li><p>一个区别：<code>docker start</code>是启动一个已经停止的container，而<code>docker restart</code>则是先stop一个container再start。如果一个container已经停止了，那么二者等效。</p></li>
+<li><p>如果想从本机要拷贝一个文件/目录到docker内部，可以使用<code>docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH</code>，如<code>docker cp ./some_file CONTAINER:/work</code>. 注意这里是container而非image。</p></li>
 </ul>
-<h2 id="dockerfile"><a class="markdownIt-Anchor" href="#dockerfile"></a> Dockerfile</h2>
+<h2 id="dockerfile">Dockerfile</h2>
 <ul>
 <li>Docker Hub中并不直接提供Dockerfile，但可以通过查看image的“标签”页面看每个image的docker建立操作。但由于Docker build的时候使用git会很方便，所以很多作者会在其Github上发布这些Dockerfile，往往可以查看介绍页面找到链接。</li>
-<li>Dockerfile中设置进入点命令：<code>ENTRYPOINT [&quot;spleeter&quot;]</code>。</li>
+<li>Dockerfile中设置进入点命令：<code>ENTRYPOINT ["spleeter"]</code>。</li>
 </ul>
-<ol>
+<ol type="1">
 <li>这里”spleeter“是一个bin可执行文件。它的效果是：本来需要用户在<code>docker run</code>时输入<code>docker run xxx/xxx:xx spleeter separate</code>， 现在就只用输入<code>docker run xxx/xxx:xx separate</code>了，即run的时候帮你先打了一个命令标记但没给你按回车。</li>
 <li>如果你发现自己在运行一个docker image时候提示了某个你没有输入的命令的相关问题，如<code>xxx don't have a parameter yyy, please input aaa, bbb, or ccc</code>，很有可能是Dockerfile中设定了进入点。</li>
 <li>如果作者在Dockerfile中设定了进入点，但你需要进入docker进行调试或检查时，可以使用<code>docker run -it --entrypoint bash</code>来切换入点，进入一个bash命令行中调试。</li>
 </ol>
 <ul>
 <li><code>docker build</code>针对的是一个url或是一个本地的文件夹。如果是本地的文件夹，文件夹内需要含有一个以<code>Dockerfile</code>为名的文件，如果需要导入某些文件到Docker Image中，则这些文件需要在正确的位置。
-<ol>
+<ol type="1">
 <li>如果dockerfile的名字不是<code>Dockerfile</code>，则使用<code>-f/--file &lt;DOCKERFILE_NAME&gt;</code>来指定名称。</li>
 <li>如果需要指定输出image的名字和tag，则使用<code>-t/--tag</code>标签，以<code>name:tag</code>命名。</li>
 <li>如果build的时候忘记了命名image，则输出的image没有名字和tag，只有一个随机序号。此时如果要重命名，可以用<code>docker tag &lt;SERIAL_NUMBER&gt; &lt;NAME:TAG&gt;</code> 命令。默认tag为latest。</li>
 <li>Docker Build示例：
 <ul>
-<li>本地文件夹：<code>docker build -f &lt;NAME:TAG&gt; &lt;TARGET DICTIONARY&gt; </code></li>
+<li>本地文件夹：<code>docker build -f &lt;NAME:TAG&gt; &lt;TARGET DICTIONARY&gt;</code></li>
 <li>本地文件：<code>docker build - &lt; &lt;Dockerfile_Path&gt;</code></li>
 <li>URL：<code>docker build https://github.com/&lt;USERNAME&gt;/&lt;REPONAME&gt;.git#&lt;BRUNCH&gt;:&lt;SUBFOLDERNAME&gt;</code></li>
+</ul></li>
+</ol></li>
 </ul>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="nivdia-docker"><a class="markdownIt-Anchor" href="#nivdia-docker"></a> Nivdia Docker</h2>
+<h2 id="nivdia-docker">Nivdia Docker</h2>
 <ul>
-<li>
-<p>先放<a href="https://github.com/NVIDIA/nvidia-docker">链接</a>。这里是Nvidia Docker的Github仓库。</p>
-</li>
-<li>
-<p>再说作用。若想在Docker中运行GPU程序，则普通的Docker是做不到的，程序无法默认在Docker中使用GPU计算资源；另一方面，如果本地已经安装了某个版本的CUDA，但目标程序需要依赖另一个版本，这也是非常麻烦的。而Nvidia Docker的出现则很好解决了这个问题。它相当于在Docker的下面塞进了一层CUDA层，介于Container和OS之间。</p>
-<p><img data-src="inner.png" alt="Nvidia Docker 原理图"></p>
-</li>
-<li>
-<p>然后是安装。</p>
-<ol>
-<li>
-<p>作为前置条件，需要本机上安装有Nvidia Driver，不强制要求CUDA。（不过既然都安到Driver了，不如把本机CUDA也装了）官方教程<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation">链接</a>。当然，请安装Docker。</p>
-</li>
-<li>
-<p>执行以下代码：</p>
+<li><p>先放<a href="https://github.com/NVIDIA/nvidia-docker">链接</a>。这里是Nvidia Docker的Github仓库。</p></li>
+<li><p>再说作用。若想在Docker中运行GPU程序，则普通的Docker是做不到的，程序无法默认在Docker中使用GPU计算资源；另一方面，如果本地已经安装了某个版本的CUDA，但目标程序需要依赖另一个版本，这也是非常麻烦的。而Nvidia Docker的出现则很好解决了这个问题。它相当于在Docker的下面塞进了一层CUDA层，介于Container和OS之间。</p>
+<figure>
+<img data-src="inner.png" alt="Nvidia Docker 原理图"><figcaption aria-hidden="true">Nvidia Docker 原理图</figcaption>
+</figure></li>
+<li><p>然后是安装。</p>
+<ol type="1">
+<li><p>作为前置条件，需要本机上安装有Nvidia Driver，不强制要求CUDA。（不过既然都安到Driver了，不如把本机CUDA也装了）官方教程<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation">链接</a>。当然，请安装Docker。</p></li>
+<li><p>执行以下代码：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Add the package repositories</span></span><br><span class="line">distribution=$(. /etc/os-release;<span class="built_in">echo</span> $ID<span class="variable">$VERSION_ID</span>)</span><br><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span><br><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/<span class="variable">$distribution</span>/nvidia-docker.list | sudo <span class="built_in">tee</span> /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line"></span><br><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install -y nvidia-container-toolkit</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>代码可能会随着Nvidia Docker的的升级而发生变化，最好参阅本章第一条的链接。</p>
-</li>
-</ol>
-</li>
-<li>
-<p>试运行：</p>
+<p>代码可能会随着Nvidia Docker的的升级而发生变化，最好参阅本章第一条的链接。</p></li>
+</ol></li>
+<li><p>试运行：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#### Test nvidia-smi with the latest official CUDA image</span></span><br><span class="line">docker run --gpus all nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># Start a GPU enabled container on two GPUs</span></span><br><span class="line">docker run --gpus 2 nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># Starting a GPU enabled container on specific GPUs</span></span><br><span class="line">docker run --gpus <span class="string">&#x27;&quot;device=1,2&quot;&#x27;</span> nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line">docker run --gpus <span class="string">&#x27;&quot;device=UUID-ABCDEF,1&quot;&#x27;</span> nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specifying a capability (graphics, compute, ...) for my container</span></span><br><span class="line"><span class="comment"># Note this is rarely if ever used this way</span></span><br><span class="line">docker run --gpus all,capabilities=utility nvidia/cuda:10.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
-<p>其标志性特点就是一个参数<code>--gpus &lt;PARAMETERS&gt;</code> 一般使用<code>--gpus all</code>即可，其他部分和普通docker一模一样。</p>
-</li>
+<p>其标志性特点就是一个参数<code>--gpus &lt;PARAMETERS&gt;</code> 一般使用<code>--gpus all</code>即可，其他部分和普通docker一模一样。</p></li>
 </ul>
 ]]></content>
       <tags>
@@ -10583,6 +10589,540 @@ pipe()创建的管道默认是阻塞模式的，阻塞和非阻塞的区别与so
       <tags>
         <tag>tech</tag>
         <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GNN-based Human Pose Estimation (HPE) Paper Summary</title>
+    <url>/2023/02/19/gnn-hpe/</url>
+    <content><![CDATA[<h2 id="dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation">DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</h2>
+<p><img data-src="image-20221219151203243.png" alt="image-20221219151203243" style="zoom:50%;"></p>
+<p><img data-src="image-20221219154249782.png" alt="image-20221219154249782" style="zoom:50%;"></p>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>Multi-person.</li>
+<li>Image-based. Graph is just used in their DGCM module.</li>
+<li>Bottom-Up.</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li><p>Basic Hypothesis:</p>
+<blockquote>
+<p>Existing bottom-up methods mainly define relations by empirically picking out edges from this graph, while omitting edges that may contain useful semantic relations.</p>
+</blockquote>
+<p>But actually OpenPose is using the similar idea: "Redundant PAF connections". The difference is that OpenPose redundant connections are still empirical, while in this paper, they take into account all possible connections between two arbitrary joints, instead of limited amount.</p></li>
+<li><p>Core idea: 本文是一篇基于RGB图片的Bottom-up 2D HPE文章。文中Graph是作为其核心模块DGCM的一部分出现的，且并没有使用GNN。这里的Graph是用来建模joints之间关系的，即摆脱了传统的基于经验的骨骼链接，也不是单纯的基于dataset计算的软性链接，而是将软性链接的值当做伯努利分布中的概率来用，每次随机筛出来几个可能的邻接矩阵来用。本文中所谓Graph的使用其实完全可以被transformer代替，本质上是在建模关节点之间的关联性。</p></li>
+<li><p>Graph:</p>
+<ul>
+<li>Node: Human Joints。</li>
+<li>Node Value: 无。</li>
+<li>Edge: Joints间的全连接。</li>
+<li>Edge Value: 两个joints之间的相关性。</li>
+<li>Output: 一个joints间的邻接矩阵。</li>
+<li>Usage: 用于生成带有随机性的、基于soft adjacency matrix的人类关节点关联矩阵。</li>
+</ul></li>
+</ul>
+<h3 id="points">Points</h3>
+<ul>
+<li><blockquote>
+<p>Bottom-up pose estimation methods try to learn two kinds of heatmaps from the deep neural network, including keypoint heatmaps and relation heatmaps.</p>
+</blockquote></li>
+<li><p>Soft Adjacency Matrix:</p>
+<ul>
+<li>基于全部训练集中任意两个joints之间的距离（normalized by scale factor s）的倒数构建软邻接矩阵。</li>
+<li>由于任意一个点到期自身的距离是0，相应的邻接矩阵值设为1。</li>
+<li><span class="math inline">\(A_{s}^{ij}=\sigma(\gamma\frac{1}{M_d^{ij}}), A_s^{ii}=1\)</span>。</li>
+</ul></li>
+<li><p>Dynamic Adjacency Matrix：</p>
+<ul>
+<li><span class="math inline">\(A_d^{ij}\sim B(x,A_s^{ij})\)</span>，x是数量，<span class="math inline">\(A_s^{ij}\)</span>是概率，B是伯努利分布。</li>
+<li>这里的伯努利分布（01分布）实质上就是把软邻接矩阵的值变成了概率。A^(i,j)值越大，概率越大，取1的可能性越大。就这样筛选几次，得到几个可能的邻接矩阵。</li>
+</ul></li>
+<li><p>文中使用了金字塔式多尺度feature map，理由是人的大小远近不一样，多尺度的feature更有适应性。</p></li>
+<li><p>由于邻接矩阵里面每个joint和它自己的relation-term永远是1，就相当于加了一个skip connection一样，不用担心每个joint只被其邻居决定。</p></li>
+<li><p>除了这里提到的动态邻接矩阵，还有一个learnable <span class="math inline">\(K\times K\)</span>的weights，共同起作用。</p></li>
+</ul>
+<h2 id="learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking">Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</h2>
+<p><img data-src="image-20221219160516007.png" alt="image-20221219160516007" style="zoom:50%;"></p>
+<h3 id="summary-1">Summary</h3>
+<ul>
+<li>Multi-person 2D HPE.</li>
+<li>Top-Down.</li>
+<li>Frame-based.</li>
+<li>Pipeline:
+<ul>
+<li>Current Frame 2D HRNet Branch: Crop Human -&gt; Rescale -&gt; HRNet -&gt; HeatMap-F -&gt; Argmax -&gt; Joints-F</li>
+<li>Historical tracklets GNN Branch: Build Joints based on (Tracklets' (0~t-1) joints' + current frames' all pixels')(Visual Features, Joint Locations, Joint Type) -&gt; Connect edges in time and space -&gt; GNN -&gt; HeatMap-G -&gt; Joints-G</li>
+<li>Merging: Hungarian(Joints-F, Joints-G) -&gt; If no matching, new ID, output Joints-G; If matched, output argmax(HeatMap-F, HeatMap-G)</li>
+</ul></li>
+<li>本文是一个Tow-Down的、基于帧序列（视频）的、2D Multi-Human HPE+Human Tracking的工作。它先用传统的剪裁预测方式预测每帧的所有可能人的可能joints，然后再将每帧每人的每个joint都通过MLP转换为一个个node的feature map，连接这些node，过一个GNN，最后得到最终预测。</li>
+<li>Graph：
+<ul>
+<li>Node: 已经被追踪的人的<strong>所有历史joints</strong>(FIFO内的)及当前Frame的<strong>所有像素</strong>。</li>
+<li>Node Value: 一个基于HRNet输出feature、2D相对位置、joint类型softmax的综合feature map，综合方式是分别过MLP后average。</li>
+<li>Edge: 帧内和帧间分别全连接。</li>
+<li>Edge Value: 无。</li>
+<li>Output: 对于每个此前追踪过的人，输出对其每个关节点在当前帧位置的预测。由于当前帧全图像素都是nodes，所以对于每种joint type，其实输出的相当于一个HeatMap。</li>
+<li>Usage: 通过分析过往最终过的人的历史joints location，以及当前帧的visual feature，预测这些人的每个joint在当前帧的位置。</li>
+</ul></li>
+</ul>
+<h3 id="question">Question</h3>
+<ul>
+<li><p>怎么做的tracking？</p>
+<ul>
+<li>又是匈牙利算法。GNN基于tracklets预测的结果和基于当前帧HRNet预测出来的结果进行matching。其中使用的相似度是基于关键点的位置计算出来的。</li>
+</ul></li>
+<li><p>GNN 基于tracklets历史预测的poses和当前帧通过HRNet预测的Pose是如何结合（Aggregate and Merge）的？</p>
+<ul>
+<li>先匹配，匹配上的就对heatmap做平均然后argmax。</li>
+<li>没匹配上的就给一个新ID，直接argmax。</li>
+<li>对匹配上的人，如果FIFO已经满了，就踢一个加新的；反之直接加了。</li>
+</ul>
+<blockquote>
+<p>For all the matched poses, the joint heatmaps of the two poses are first aligned according to their centers and then merged together by averaging the heatmaps.</p>
+</blockquote></li>
+<li><p>GNN的edge怎么定义的？</p>
+<ul>
+<li>Edge有两种，一种是同一帧中joints之间的链接，一种是每个joint与上一帧中所有joints的联系（包括当前帧的nodes）。</li>
+<li>没有具体说edge的值（attr），应该是没有用。</li>
+</ul></li>
+</ul>
+<h3 id="points-1">Points</h3>
+<ul>
+<li><p>每个tracklet都是一个unique的被记录在案的人。</p></li>
+<li><p>对于每个tracklet，都会分别被过一遍一个GNN进行预测。注意，GNN这里也可以理解做是Top-Down的，对于每个历史上记录在案的人，都分别过一遍GNN预测在当前帧这个人每个关节点的位置。</p></li>
+<li><p>GNN的nodes包含某个历史tracklets（追踪的关键点）中的所有joints以及当前帧的所有像素点。</p></li>
+<li><p>当前帧<em>(t)</em>的每个像素组成的node都与tracklets FIFO中最后一帧<em>(t-1)</em>的检测结果中的每个joint相连。</p>
+<p><img data-src="image-20221220121801045.png" alt="image-20221220121801045" style="zoom:50%;"></p></li>
+<li><p>之所以要对Visual Features (<span class="math inline">\(v_k\)</span>), Joint Locations(<span class="math inline">\(p_k\)</span>), Joint Type(<span class="math inline">\(c_k\)</span>)向量分别做MLP，是因为它们的维度不同，且node的channel不能有多维。</p></li>
+<li><p><span class="math inline">\(J_k=Pooling(MLP_{vis}(v_k), MLP_{pos}(p_k), MLP_{type}(c_k))\)</span> 为每个node的值。这里的pooling是average pooling。</p></li>
+<li><p>对于<span class="math inline">\(p_k\)</span>而言，全部帧的这个location都以FIFO中最后一帧<em>(t-1)</em>中人物中心点为基准进行normalization，当前帧这些nodes也不例外。</p></li>
+<li><p>注意，当前帧<em>(t)</em>全像素组成的这些nodes里面，在算<span class="math inline">\(J_k\)</span>时候不加<span class="math inline">\(c_k\)</span>分支，即不用joint type，因为joint type是要predict的东西。</p></li>
+<li><p>最终预测出来的东西是一个Prob，它包含了当前帧t所有像素点可能为某个joint type的概率（classification）。</p></li>
+<li><p>对于每个tracklets，都有一个FIFO队列保存K个过去位置。</p></li>
+</ul>
+<h3 id="comments">Comments</h3>
+<ul>
+<li>非常新颖的使用GNN的方法。用多个方面的features分别过MLP通过average pooling的方法作为node的值，既可以确保这些feature的维度不match不成问题，也可以有效降低channel number，降低cost。最重要的是，对于某些node，你甚至可以移除某些features而不影响整体维度，比如对当前frame像素nodes不添加不存在的类别features。</li>
+<li>同时也非常暴力，直接在帧内、帧间分别用全连接，且当前frame直接把全部像素点位置都变成node，这是一个巨大的开销，并不优雅，也不符合GNN的内含逻辑。</li>
+<li>位置norm方法值得学习。</li>
+<li>我们的项目可能也可以用上匈牙利匹配，但是匹配的是时间上的cluster，而匹配的变量可能是cluster的平均方向向量等。</li>
+</ul>
+<h2 id="context-modeling-in-3d-human-pose-estimation-a-unified-perspective">Context Modeling in 3D Human Pose Estimation: A Unified Perspective</h2>
+<figure>
+<img data-src="image-20221221105021381.png" alt="image-20221221105021381"><figcaption aria-hidden="true">image-20221221105021381</figcaption>
+</figure>
+<h3 id="summary-2">Summary</h3>
+<ul>
+<li>Single image-based.</li>
+<li>2D -&gt; 3D lifting.</li>
+<li>Top-Down.</li>
+<li>核心操作是一套Attention。首先他们预测出2D Pose，然后将这些Pose投影到3D空间，再用一套Encoder-Decoder网络来预测3D Heatmap。具体来说，每个voxel预测J个值，代表它是某个joint的可能性。而其中关键的Attention部分分为两部分，全局Attention和关节对Attention。前者预测某个voxel <span class="math inline">\(q\)</span> 含某个joint <span class="math inline">\(u\)</span>的概率，后者预测当另一个voxel <span class="math inline">\(k\)</span> 包含joint <span class="math inline">\(v\)</span> 时，<span class="math inline">\(u,v\)</span> 间的关联性。这个关联性来自于训练集上的prior，主要成分是所有物理（经验）肢体连接的距离平均值和标准差，这个关联性高时说明 <span class="math inline">\(u,v\)</span> 在当前voxel <span class="math inline">\(q, k\)</span> 中时大概率符合prior中的预测，反之说明这对joints连接的肢体可能过长/短了，所以当前分布可能性很小。</li>
+<li>Graph:
+<ul>
+<li>Node: 所有的voxels。</li>
+<li>Node Value: 来自于2D坐标投影的features。</li>
+<li>Edge: Voxel间的连接。</li>
+<li>Edge Value: Voxel间的关联性（Pairiwise-Attention）。</li>
+<li>Output: 每个3D voxel包含某个joint的概率。</li>
+<li>Usage: 用于从2D预测升维到3D。</li>
+<li>Note: 这里所谓的GNN其实就是ContextPose (Attentions)的一种特例。</li>
+</ul></li>
+</ul>
+<h3 id="points-2">Points</h3>
+<ul>
+<li>Pairwise-Attention（关节对Attention）的公式是：<span class="math inline">\(P(q,k,e_{u,v}) \propto exp(-\frac{(||q-k||_2-\mu_{u,v})^2}{2\alpha\sigma^2_{u,v}+\epsilon})\)</span><br>
+</li>
+<li>PA被normalized了，具体公式是：<span class="math inline">\(\Sigma_{k\in\Omega}G_v(x_{v,k}) \cdot P(q,k,e_{u,v})=1\)</span>, 意味着如果voxel <span class="math inline">\(q\)</span> 包含关节 <span class="math inline">\(u\)</span>，那么所有可能包含关节 <span class="math inline">\(v\)</span> 的voxel <span class="math inline">\(k\)</span> 它本身的概率乘以它满足 <span class="math inline">\(u,v\)</span> 两个关节点物理距离prior的概率和为1。</li>
+</ul>
+<h2 id="optimizing-network-structure-for-3d-human-pose-estimation">Optimizing Network Structure for 3D Human Pose Estimation</h2>
+<figure>
+<img data-src="image-20221221122107913.png" alt="image-20221221122107913"><figcaption aria-hidden="true">image-20221221122107913</figcaption>
+</figure>
+<p><img data-src="image-20221221122050872.png" alt="image-20221221122050872" style="zoom:50%;"></p>
+<h3 id="summary-3">Summary</h3>
+<ul>
+<li><p>本文提出了一种统一模型，它可以将2D-&gt;3D Human Pose Lifting的诸多方法（FCN，GNN，LCN）写入一个统一公式中，并取得更优的效果。</p></li>
+<li><p>相比于普通GCN，其特点在于：</p>
+<ul>
+<li>普通GCN对于所有的node，做Linear的时候都用的共享的weights。</li>
+<li>而在LCN中，计算每个输入node对输出node的贡献时所用的weights，都分别训练，不共享参数。</li>
+</ul>
+<p><img data-src="image-20221221135856400.png" alt="image-20221221135856400" style="zoom:50%;"></p></li>
+<li><p>Graph:</p>
+<ul>
+<li>Node: J个人类Joints。</li>
+<li>Node Value: 2D坐标的features。</li>
+<li>Edge: Joints间的连接。</li>
+<li>Edge Value: Joints间的关联性（邻接矩阵）。</li>
+<li>Output: 每个Joint的3D坐标。</li>
+<li>Usage: 用于从2D预测升维到3D。</li>
+</ul></li>
+</ul>
+<h2 id="adaptive-hypergraph-neural-network-for-multi-person-pose-estimation">Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</h2>
+<figure>
+<img data-src="image-20221220191107517.png" alt="image-20221220191107517"><figcaption aria-hidden="true">image-20221220191107517</figcaption>
+</figure>
+<h3 id="summary-4">Summary</h3>
+<ul>
+<li><p>Image-based.</p></li>
+<li><p>Multi-human 2D HPE.</p></li>
+<li><p>Top-Down.</p></li>
+<li><p>文中提出了一种“<strong>超边</strong>”(Hyperedge)，这种边不是物理的边，也不是非物理但连接两个顶点的边，而是连接了多个顶点、有着类似<strong>区分body part</strong>作用的“大边”。这种超边的分配由训练好的网络负责，生成的依据是图中的语义关系。比如如果人在拉伸右腿，那右手和右脚踝就会被分配到一个超边中，因为它们有着紧密的语义联系。</p>
+<p><img data-src="image-20221220191125713.png" alt="image-20221220191125713" style="zoom:50%;"></p></li>
+<li><p>本文做的是Top-Down的单张图片2D多人HPE。其核心贡献在于提出了“超边”这种由图片语义得来、可连接两个到多个joints的广义边，从而可以更好地应对一些非典型动作的图片。</p></li>
+<li><p>Graph:</p>
+<ul>
+<li>Node: Human Joints.</li>
+<li>Node Value: d dimension feature.</li>
+<li>Edge: m条，为hyperedges。</li>
+<li>Edge Value: 每条超边链接的joints以及链接的紧密程度。</li>
+<li>Output: 一个<span class="math inline">\(J\times m\)</span>的矩阵，m是超边的数量，J是关键点的数量。代表着联系的紧密程度。</li>
+<li>Usage: 根据图片信息更好的建立人类关键点间的高维语义联系。</li>
+</ul></li>
+</ul>
+<h3 id="questions">Questions</h3>
+<ul>
+<li>Adaptive hypergraph矩阵可以包含可变数量的边。这个是怎么处理的？</li>
+<li>这个矩阵是如何训练的？输入是什么？</li>
+</ul>
+<h3 id="points-3">Points</h3>
+<ul>
+<li>对于一层GCN而言，它的forward公式是<span class="math inline">\(H^{(l+1)}=\sigma (\tilde{A}H^{(l)}W^{(W+1)})\)</span>，这里的<span class="math inline">\(\sigma\)</span>代表激活函数，<span class="math inline">\(\tilde{A}\)</span>代表被normalized邻接矩阵，<span class="math inline">\(W\)</span>是这层GCN的parameter。<span class="math inline">\(H\)</span>是feature map，<span class="math inline">\(l\)</span>这里代表第<span class="math inline">\(l\)</span>层GCN。正常情况下，这个步骤整体都被打包进<code>pyg.GCN</code> module一起做了，但这里我们刚好有现成的邻接矩阵<span class="math inline">\(A\)</span>，就不用专门再去构造graph，弄一个专门的<code>edge_index</code>矩阵了，因为<span class="math inline">\(A\)</span>就是了。</li>
+</ul>
+<h2 id="learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation">Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</h2>
+<figure>
+<img data-src="image-20221221141417256.png" alt="image-20221221141417256"><figcaption aria-hidden="true">image-20221221141417256</figcaption>
+</figure>
+<h3 id="summary-5">Summary</h3>
+<ul>
+<li><p>本文提出了一种针对不同距离（hop）的nodes使用不同Aggregation层级的GCN，保证了不同距离的node得以被区分对待，降低远距离node带来的噪音。同时，它还结合了经验人类skeleton和动态可学习skeleton的优点，用同步的两个branch分别运算，进一步提升了基于video的2D-&gt;3D HPE Lifting的质量。</p></li>
+<li><p>Graph:</p>
+<ul>
+<li><p>Node: J个人类Joints。</p></li>
+<li><p>Node Value: 2D坐标的features。</p></li>
+<li><p>Edge: Joints间的连接。分为两部分，一部分是物理连接，一部分是动态可学习的连接。</p></li>
+<li><p>Edge Value: Joints间的关联性（邻接矩阵）。</p></li>
+<li><p>Output: 每个Joint的3D坐标。</p></li>
+<li><p>Usage: 用于从2D预测升维到3D。</p>
+<blockquote>
+<p>Given 2D keypoints <span class="math inline">\(X ∈ R^{N\times 2}\)</span>, with N nodes, the model outputs better 3D positions <span class="math inline">\(Y ∈ R^{N\times 3}\)</span>.</p>
+</blockquote></li>
+</ul></li>
+</ul>
+<h3 id="points-4">Points</h3>
+<ul>
+<li><p>决定文中设计思路的几个重要观察：</p>
+<ol type="1">
+<li>Joints Graph中距离遥远的node虽然有时也会提供有价值的信息，但也导入了许多不相干的噪音。</li>
+<li>动态Joints Graph的构建很有效，但在不同的动作中joints间的关联性变化很大。所以虽然动态图在表征不同的动作时候很直观，如果只给定单张图，它也很容易受到outlier的影响。所以文中引入了TCN让信息在时间轴上流动。</li>
+</ol></li>
+<li><p>实际设计上，基本是一层D-HCSF一层TCN这样串联。</p>
+<p><img data-src="image-20221221150901507.png" alt="image-20221221150901507" style="zoom:50%;"></p></li>
+<li><p>Zoom in，看HCSF层，他们的核心思想是对近程和远程的node区分对待，分不同的层级对待。对于离自己近的node，用类似skip connection的连接直连最后；而离得远的nodes则先分组aggregate几次后再连到主bus上。</p></li>
+<li><p>Dynamic Hierarchical Channel-Squeezing Fusion (D-HCSF) 层的思想：结合了固定skeleton和动态学习skeleton的长处。蓝色是固定分支，橙色是动态。</p>
+<p><img data-src="GNN-based HPE/image-20221221150056706.png" alt="image-20221221150056706" style="zoom:50%;"></p></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>machine-learning</tag>
+        <tag>deep-learning</tag>
+        <tag>paper</tag>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SMPL 完全攻略 -- 从定义到文章到部署</title>
+    <url>/2023/01/21/smpl-all/</url>
+    <content><![CDATA[<h2 id="overview">Overview</h2>
+<ul>
+<li>SMPL主要含有两组参数，一组是人物的体态信息β，一组是人物的姿态信息θ。</li>
+<li>SMPL本身是“相对的”，其只包含人物本身的信息，而不包含任何与环境、相机视角、位置等信息。另外，其mesh点记录的值是相对于模板人类模型标准值的。</li>
+<li>SMPL不包含手、脸和衣服，但后续的其他文章逐渐完善了相应参数。</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>SMPLX中的参数某种程度上包含了肌肉随动作（Pose）变化的信息。他们采用了铰链模型，并搭配PCA方法分析主要关联项，得到了当人体从静态到某个特定Pose时哪些肌肉会发生形变以及如何形变的信息，而其NB也主要NB在这里。有了这些关联模型，人体运动时重建的mesh就不是那种被奇怪地拉伸的mesh了，而是更加符合人体肌肉运动规律的mesh。</li>
+<li>他们使用的训练数据是4维扫描，即<code>3D Mesh + Time</code>的扫描。他们也正是通过分析关节点和mesh随着时间的变化，才分析得到了Pose和Mesh变形之间的相关性。</li>
+<li>在构建MONO/SMPL+H时，由于手非常复杂且容易被遮挡，另外在全身扫描时手部分辨率也很有限，所以他们特意为了手部额外采集了一个数据集，含有各种人物、姿态和遮挡。</li>
+</ul>
+<h2 id="名称辨析">名称辨析</h2>
+<ul>
+<li><code>SMPL</code>: A Skinned Multi-Person Linear Model。人体模型。</li>
+<li><code>MONO</code>: A hand Model with Articulated and Non-rigid defOrmations。手部模型。</li>
+<li><code>SMPL+H</code>: A fully articulated body and Hand model。手部模型+人体模型。</li>
+<li><code>SMPL-X</code>: SMPL eXpressive，是一个含有姿态、表情、手部动作的人体模型。</li>
+<li><code>SMPLify-X</code>：<code>SMPL-X</code>原文中提到的用于拟合SMPL-X模型的一种方法。具体操作是先预测2D Joints，再用Optimization的方法拟合3D模型使得投影与2D Joints尽可能重合。</li>
+<li><code>SMPLify</code>：<code>SMPLify-X</code>的前辈。方法类似，但是效果和速度差一点。</li>
+</ul>
+<h2 id="d模型制作和运用中常用术语">3D模型制作和运用中常用术语</h2>
+<p>该节摘自<a href="https://zhuanlan.zhihu.com/p/256358005">SMPL论文解读和相关基础知识介绍</a></p>
+<blockquote>
+<ul>
+<li>顶点（vertex）：动画模型可以看成多个小三角形（四边形）组成，每个小三角形就可以看成一个顶点。顶点越多，动画模型越精细。</li>
+<li>骨骼点：人体的一些关节点，类似于人体姿态估计的关键点。每个骨骼点都由一个三元组作为参数去控制（可以查看欧拉角，四元数相关概念）</li>
+<li>骨骼蒙皮（Rig）：建立骨骼点和顶点的关联关系。每个骨骼点会关联许多顶点，并且每一个顶点权重不一样。通过这种关联关系，就可以通过控制骨骼点的旋转向量来控制整个人运动。</li>
+<li>纹理贴图：动画人体模型的表面纹理，即衣服裤子这些。</li>
+<li>BlendShape：控制动画角色运动有两种，一种是上面说的利用Rig，还有一种是利用BlendShape。比如：生成一种笑脸和正常脸，那么通过BlendShape就可以自动生成二者过渡的动画。这种方式相比于利用Rig，可以不定义骨骼点，比较方便。</li>
+<li>蒙皮：将模型从一个姿态转变为另一个姿态，使用的转换矩阵叫做蒙皮矩阵。（Linear Blend Skinning算法）</li>
+<li>顶点权重(vertex weights)：用于变形网格mesh</li>
+<li>uv map：将3D多边形网格展开到2D平面得到 UV图像</li>
+<li>texture map：将3D多边形网格表面的纹理展开到2D平面，得到纹理图像</li>
+<li>拓扑(topology)：重新拓扑是将高分辨率模型转换为可用于动画的较小模型的过程。两个mesh拓扑结构相同是指两个mesh上面任一个三角面片的三个顶点的ID是一样的（如某一个三角面片三个顶点是2,5,8；另一个mesh上也必有一个2,5,8组成的三角面片）</li>
+<li>linear blend skinning algorithm</li>
+</ul>
+<p>每个关节的数据结构包含：关节名字、骨骼中其父节点的索引、关节的绑定姿势之逆变换（蒙皮网格顶点绑定至骨骼时，关节的位置、定向及缩放）</p>
+</blockquote>
+<h2 id="三种类型的smpl文章应用">三种类型的SMPL文章/应用</h2>
+<ol type="1">
+<li>提出SMPL这种模型本身的定义的文章。这些文章使用大量不同动作的3D人体扫描构筑了一个平均人类模型（Male，Female，Neutral），且定义了当人物的形体和动作发生特定变化时表皮的相应变形方式。文中的“训练”指的是训练这些运动/形态参数与实际表皮形变的函数映射。</li>
+<li>使用单张/多张不同角度照片来推理相应人物的SMPL模型位置。如SMPLify和SMPL-X。SMPLify-X（用于拟合SMPL-X模型的方法）的pipeline是：
+<ol type="1">
+<li>先自下而上用OpenPose预测人体2D关键点。</li>
+<li>然后再结合各种Prior（身体姿态、手部姿态、身体形状、面部姿态、面部表情、极端弯曲）和各种Loss Punishment（2D与3D在平面投影的Loss，身体Parts互相穿透的Loss）去让3D的模型拟合这些关键点。</li>
+<li>用了Optimization算法直接去拟合的3D模型参数，这个步骤没有使用深度学习。相反，使用的是Limited-memory BFGS optimizer (L-BFGS)的强化Wolfe line search（SMPL-X）、Chumpy+OpenDR（SMPLify）。</li>
+</ol></li>
+<li>端到端的深度学习文章。这些文章都是在SMPL-X发表之后涌现出来的。文章中不再使用Optimization-based methods，而是转而使用SMPLify-X来通过照片或多角度照片生成Ground Truth，制造完数据集后直接使用DL进行预测。</li>
+</ol>
+<h2 id="smpl">SMPL</h2>
+<ul>
+<li><p>SMPL一文与从图片/视频/XXXX预测人体形态没有任何关系，它的贡献单纯是提出了一个更好的人体模型，而这个模型可以很好地建模人的体态和姿势，同时肌肉/蒙皮形状会随着人的运动而相应变化，从而达到拟真的效果，而不会出现滑稽的拉伸形变。</p></li>
+<li><p>SMPL提出的人体模型的输入是由两部分组成的：</p>
+<ul>
+<li>β：一个10维vector</li>
+<li>θ：一个3(K+1)维vector，K是骨架节点数，这里是23。加的1是人体中心。</li>
+</ul></li>
+<li><p>SMPL的输出是N个顶点的坐标，维度为3N。N: 顶点数，6890。</p></li>
+<li><p>SMPL人类模型是可微分的，也就是说，如果你有了人物的3D扫描，想用一个deep learning model来预测这个扫描，你可以直接输入图片/视频/XXXX，中间输出是<span class="math inline">\(\beta+\theta\)</span>，然后最终输出N个顶点的位置，而这N个顶点你是可以直接去和GT做L1 loss的，因为可微也就意味着可以auto backward。</p></li>
+<li><p><span class="math inline">\(\beta\)</span>的十个参数物理意义：</p>
+<blockquote>
+<p>0 代表整个人体的胖瘦和大小，初始为0的情况下，正数变瘦小，负数变大胖（±5） 1 侧面压缩拉伸，正数压缩 2 正数变胖大 3 负数肚子变大很多，人体缩小 4 代表 chest、hip、abdomen的大小，初始为0的情况下，正数变大，负数变小（±5） 5 负数表示大肚子+整体变瘦 6 正数表示肚子变得特别大的情况下，其他部位非常瘦小 7 正数表示身体被纵向挤压 8 正数表示横向表胖 9 正数表示肩膀变宽</p>
+</blockquote></li>
+<li><p>论文核心图的解释：</p>
+<figure>
+<img data-src="image-20221118192351294.png" alt="image-20221118192351294"><figcaption aria-hidden="true">image-20221118192351294</figcaption>
+</figure>
+<ul>
+<li>(a)是平均人体模型，男女各一个，后续的演算都是基于标准平均人体模型的</li>
+<li>(b)是加入了人物体态参数的结果</li>
+<li>(c)是加入了特定动作发生时肌肉/蒙皮变形补偿后的结果。注意此时只是对即将发生的动作进行补偿，但还没有真正apply动作。</li>
+<li>(d)是实际让人物摆出了相应动作的结果</li>
+</ul></li>
+<li><p>再回到上图的一些重要符号表达，</p>
+<ul>
+<li><p><span class="math inline">\(\bar{T}\)</span>: 3N维vector，由N个串联的顶点表示的初始状态下的平均模型。这里的3并不是xyz 3D坐标，而是每个关节点相对于其父关节的轴角旋转量。这里的坐标以父节点为原点。</p>
+<blockquote>
+<p><span class="math inline">\(\omega\)</span> denotes the axis-angle representation of the relative rotation of part k with respect to its parent in the kinematic tree</p>
+</blockquote></li>
+<li><p><span class="math inline">\(\mathcal{W}\)</span> : <span class="math inline">\(4\times 3N\)</span>维，其实应该是<span class="math inline">\(K\times 3N\)</span>维才对，但为了和现存渲染引擎同步，这里取每个顶点最多被附近4个关节点的运动影响。<span class="math inline">\(\mathcal{W}\)</span>是LBS/QBS混合权重矩阵。由于顶点和其附近的关节点存在相关性，这个相关性是每个顶点对应多个关节点，且权重不一。这里就需要这样一个矩阵来记录这种相互关系，即关节点对顶点的影响权重 (第几个顶点受哪些关节点的影响且权重分别为多少)。</p></li>
+<li><p><span class="math inline">\(J\)</span> : 用于补偿joint position因为目标人物体态变化产生的位移。它通过表皮的形状位置来推测新的joints位置。</p></li>
+<li><p><span class="math inline">\(B_S(\overrightarrow{\beta})\)</span>里面的这个<span class="math inline">\(B_S\)</span>的作用是把已经经过PCA筛选压缩过的10个参数恢复到正常的3N维度，即对于每个顶点，应当向哪个方向变化来适应这个人的体态。这里恢复出来的值也是相对于平均模型的。</p></li>
+<li><p><span class="math inline">\(B_S(\overrightarrow{\theta})\)</span>同理，由于我们输入的pose <span class="math inline">\(\overrightarrow{\theta}\)</span> 也只有3(K+1)维度，而想要对因为人体做出特定动作产生的形变进行补偿，也需要一个3N维度的值来对每个顶点分别建模补偿。</p></li>
+</ul></li>
+<li><p>而关于训练，训练过程中对于形态和姿势的训练时分开进行的。前者在一个<code>Multi-Shape Dataset</code>上训练完成，而后者在一个<code>Multi-Pose Dataset</code>上训练完成，二者是相互独立的。</p></li>
+<li><p>模型训练主要训练的是这些参数：形态的<span class="math inline">\(\bar{T}, \mathcal{S}\)</span>和姿势的参数<span class="math inline">\(\mathcal{J},\mathcal{W},\mathcal{P}\)</span>。除去上面介绍过的<span class="math inline">\(\bar{T},\mathcal{W}\)</span>，其他几位的介绍如下</p>
+<ul>
+<li><span class="math inline">\(\mathcal{J}\)</span>: <span class="math inline">\(3N\times 3K\)</span>，将rest vertices转换成rest joints 的矩阵。</li>
+<li><span class="math inline">\(\mathcal{P}\)</span>: 矩阵形状为<span class="math inline">\(3N\times 9K\)</span>，这里之所以K前面系数是9，是因为使用时把关节点的坐标从3D空间坐标处理成了其相对于根节点的旋转矩阵，而3D旋转矩阵有9个参数。<span class="math inline">\(\mathcal{P}\)</span>是这所有27*9=207个 pose blend shapes 组成的矩阵。因此，pose blend shape 函数BP(θ→;P) 完全被矩阵 P 定义。</li>
+</ul></li>
+</ul>
+<h2 id="模型本身使用说明">模型本身使用说明</h2>
+<ul>
+<li>模型本身在Python中的使用是相当简单直接的：<code>Load Model -&gt; Assign β&amp;θ -&gt;Dump</code></li>
+<li>Dump出来的pkl模型可以直接在Blender/Unity等软件中读取，应用到SMPL模型中。</li>
+</ul>
+<h2 id="smpl-x">SMPL-X</h2>
+<ol type="1">
+<li>SMPL-X其实是一个大杂烩，它结合了基本姿态用的SMPL模型，手部姿态的MANO模型和面部特征的FLAME模型。</li>
+<li>SMPL-X模型本身分别在多个数据集上训练：
+<ol type="1">
+<li><span class="math inline">\(\{S\}\)</span>：形状空间参数（shape space parameters），在3800个A-pose捕捉不同性别的变化的数据集上训练</li>
+<li><span class="math inline">\(\{W，P，J\}\)</span> ：身体姿态空间参数（body pose space parameters），在1786个不同姿态的数据集上训练</li>
+<li>MANO：姿态空间及姿态相关混合形状（pose space and pose corrective blendshapes），1500 手部扫描数据</li>
+<li>FLAME：表情空间<span class="math inline">\(\{\varepsilon\}\)</span>（expression space），3800 头部高精度扫描数据上训练</li>
+</ol></li>
+<li>SMPL-X区分了男女模型，用了一个性别分类器。</li>
+<li>Pipeline（上文有提）：
+<ol type="1">
+<li>先自下而上用OpenPose预测人体2D关键点。</li>
+<li>然后再结合各种Prior（身体姿态、手部姿态、身体形状、面部姿态、面部表情、极端弯曲）和各种Loss Punishment（2D与3D在平面投影的Loss，身体Parts互相穿透的Loss）去让3D的模型拟合这些关键点。</li>
+<li>用了Optimization算法直接去拟合的3D模型参数，这个步骤没有使用深度学习。相反，使用的是Limited-memory BFGS optimizer (L-BFGS)的强化Wolfe line search（SMPL-X）、Chumpy+OpenDR（SMPLify）。</li>
+</ol></li>
+<li>既可以用于从2D joints coordinates得到SMPL-X，也可以通过3D joints coordinates得到，如论文“<em>I2l-meshnet: Image-to-lixel prediction network for accurate 3d human pose and mesh estimation from a single rgb image</em>” 中，作者就通过SMPLify-X得到了H3M数据集的SMPL版本。</li>
+</ol>
+<h2 id="已有数据集转化">已有数据集转化</h2>
+<ul>
+<li>带有图片和2D Human Joints Label的数据集：使用<a href="https://github.com/JiangWenPL/multiperson/tree/master/misc/smplify-x">SMPLify-X</a>，或<a href="https://github.com/facebookresearch/eft">EFT</a>。</li>
+<li>带有图片和3D Human Joints Label的数据集：使用<a href="https://github.com/JiangWenPL/multiperson">multiperson</a>库中的<a href="https://github.com/JiangWenPL/multiperson/tree/master/misc/smplify-x">SMPLify-X-for-3D</a>工具.</li>
+<li>带有图片和多视角2D Human Joints Label的数据集：使用SMPLify</li>
+<li>只有图片：使用<a href="https://github.com/facebookresearch/eft">EFT</a>。</li>
+</ul>
+<h2 id="动作的生产转化导入">动作的生产/转化/导入</h2>
+<ul>
+<li>我们已经将相关github repo打包成了docker，可以直接一键部署使用。具体链接和详细教程后续整理后更新。</li>
+</ul>
+<h2 id="other-papers">Other Papers</h2>
+<p>在看完上面几篇最重要的鼻祖论文之后，下面是几篇最近的使用了SMPL系统的文章，通过对他们的分析可以对SMPL的应用有一个更好的理解。</p>
+<h3 id="object-occluded-human-shape-and-pose-estimation-from-a-single-color-image">Object-Occluded Human Shape and Pose Estimation from a Single Color Image</h3>
+<p><img data-src="image-20221129172810204.png" alt="image-20221129172810204" style="zoom:50%;"></p>
+<ul>
+<li><p>数据采集：</p>
+<ul>
+<li>他们先用Mask-RCNN和Alphapose来预测人体Mask及2D Joints。</li>
+<li>对于不准确的label，他们手动矫正。</li>
+<li>最后用SMPLify-X中的多视角方法得到GT。</li>
+<li>得到GT后，他们把这个3D SMPL模型朝着图像平面投影，若投影不在Mask覆盖范围内（即被遮挡），那就给涂黑（-0.5），反之，用表面xyz构建3通道UV Map。</li>
+</ul></li>
+<li><p>数据处理：</p>
+<ul>
+<li>文中预测的基本单位是顶点（即表面上的全部点）而非骨骼、joints。</li>
+<li>UV Map看上去是彩色的，这个颜色其实意味着UV Map有三个通道，而这三个通道是相应每个点所对应的x、y、z坐标值。</li>
+<li>其中，对于未被遮挡的点（Mask点亮的点），把xy给norm到<span class="math inline">\([-0.5,0.5]\)</span>即可；而对被遮挡的点，其xyz是<span class="math inline">\([-0.5,-0.5,-0.5]\)</span>，即全黑（以-0.5为黑）。</li>
+</ul></li>
+<li><p>Pipeline：</p>
+<ol type="1">
+<li>Pipeline分为两部分，Train和Predict。</li>
+<li>Train会先训练一个UV Map Inpainting Network。把之前处理过的、过了norm且遮挡部分给涂黑的UV Map给送到一个网络里，试图输出被涂黑区域得以被重新预测的UV Map。这就把3D SMPL HPE转成了一个image inpainting问题，即填补空缺部分图像。</li>
+<li>Predict过程中，会先预测Mask，然后直接concatenate共同作为输入。</li>
+<li>然后RGB Image预测全体UV Map时候用的是另一个完全不同于训练时UV Map Inpainting Network的branch，但是在这个branch里，Inpainting Branch的高维度feature被拿了进来作为constrain。这里说的不清楚，应该是把这个feature map concatenate到RGB image过了Encoder之后的feature map上作为prior。需要参考代码理解。</li>
+</ol></li>
+<li><p>Points：</p>
+<ul>
+<li><p>UV Map Inpainting Sub-Network的Loss由三部分构成：</p>
+<ol type="1">
+<li><p>首先是预测的UV Map和GT UV Map的L1 Loss。</p></li>
+<li><p>然后是一个挺有趣的term，用于保证人体的每个部位预测出的UV Map是平滑的：对每个点计算一个它与其下方和右方点的差的绝对值。然后通过最小化这个值，保证预测的UV Map的平滑性。<span class="math inline">\(L_{tv}=\sum_{k}\sum_{(i,j)\in R_k}(|P_{i+1,j}-P_{i,j}|+|P_{i,j+1}-P_{i,j}|)\)</span>。其中<span class="math inline">\(R_k\)</span>是第k个身体部位对应的区域。</p></li>
+<li><p>最后是关于人体各部位交界处的点。这些点在多个部位的UV Map上都有坐标。这个loss term旨在计算这些点在所有UV Map上的均值与GT的L1 Loss，以保证交界点处的值也平滑。</p></li>
+<li><p>他们把3D点投影成2D时用了weak perspective projection弱透视投影。</p></li>
+<li><p>速度相较于基于优化的SMPLify-X快得多，从30s降低到了13ms。</p></li>
+<li><p>他们也用了已有的数据集+Occlusion的方式在多个数据集上得到了结果，加遮挡的方式值得学习。</p>
+<p><img data-src="image-20221129175700470.png" alt="image-20221129175700470" style="zoom:50%;"></p></li>
+</ol></li>
+</ul></li>
+</ul>
+<h2 id="monocular-one-stage-regression-of-multiple-3d-people">Monocular, One-stage, Regression of Multiple 3D People</h2>
+<ul>
+<li><p>Idea: 本文的中心思想是用单张图像解析生成图中的多人SMPL模型。</p></li>
+<li><p>Questions:</p>
+<ol type="1">
+<li>2D label的数据集可以通过EFT（Exemplar Fine-Tuning for 3D Human Model Fitting Towards In-the-Wild 3D Human Pose Estimation）生成，但那些只有3D joints coordinates但没有SMPL的数据集是怎么用上的？</li>
+</ol></li>
+<li><p>Pipeline:</p>
+<ul>
+<li>首先过一个Backbone提取feature map。</li>
+<li>然后这个feature map被送到三个branch中，它们分别用来预测：
+<ol type="1">
+<li>人体中心位置的热力图<span class="math inline">\(C_m\in R^{1\times H \times W}\)</span>。它预测的是2D的人体中心位置。</li>
+<li>相机参数map <span class="math inline">\(A_m\)</span>。这里的<span class="math inline">\(A_m\)</span>形状是<span class="math inline">\(R^{3\times W\times H}\)</span>，它的意义是：如果图片上某个pixel是某个人体中心的话，对应的这个人的相关相机参数。每个pixel预测的相机参数含有三个值，分别是<span class="math inline">\((s, t_x, t_y)\)</span>。<span class="math inline">\(s\)</span>是scale，包含了人的body size和depth。而<span class="math inline">\(t_x\)</span>和<span class="math inline">\(t_y\)</span>则是投影相对图片中心在x和y方向上的移动距离。<span class="math inline">\(t_x, t_y \in (-1,1)\)</span>，被normalized过。</li>
+<li>SMPL map <span class="math inline">\(S_m\)</span>。这个和<span class="math inline">\(A_m\)</span>类似，也是假定每个pixel上都有一个可能的人体中心，然后这个人对应的SMPL参数。形状为<span class="math inline">\(R^{142\times H\times W}\)</span>。对于每个pixel，其中10个参数是shape，132个是pose。</li>
+</ol></li>
+<li>上面整个过程可以概括为：知道人大致在哪-&gt;知道这个位置的人的位移和scaling-&gt;知道这个人的形状和pose。</li>
+</ul></li>
+<li><p>Points:</p>
+<ul>
+<li><p>Collision-aware representation: 基于中心的方法往往使用的是bbox的中心，而这个中心在人体中并没有实际意义，且容易落到人体外部。本文选择了计算未被遮挡的人体躯干的几个点的均值作为中心点。如果躯干点都被遮挡了，就计算全部可见joints的中心点。</p>
+<blockquote>
+<p>We define the body center as the center of visible torso joints (neck, left/right shoulders, pelvis, and left/right hips).</p>
+</blockquote></li>
+<li><p>Multiple-human same-center情况的处理：使用类似于正正离子相互排斥的概念，让相近的两个人体中心尽可能远离彼此。</p></li>
+</ul></li>
+</ul>
+<h2 id="exemplar-fine-tuning-for-3d-human-model-fitting-towards-in-the-wild-3d-human-pose-estimation">Exemplar Fine-Tuning for 3D Human Model Fitting Towards In-the-Wild 3D Human Pose Estimation</h2>
+<ul>
+<li><p>Idea: 3D HPE的野外数据和2D不同，很难取得。本文旨在利用已有的大规模2D数据集，通过高质量的优化匹配得到对应的3D labels，进而辅助训练。</p></li>
+<li><p>Questions:</p>
+<ol type="1">
+<li>本文拟合的是SMPL还是3D骨架
+<ul>
+<li>拟合的是SMPL，3D坐标是SMPL pose parameter <span class="math inline">\(\theta\)</span> 的计算后的结果。</li>
+</ul></li>
+<li>本文与SMPLify-X有何不同
+<ul>
+<li>SMPLify-X只是一种单纯的fitting-based method，而本文则是结合了fitting和regression二者。</li>
+</ul></li>
+<li>有哪些文章使用了其公开的3D SMPL数据labels</li>
+<li><strong>prior terms到底长什么样？怎么用到计算循环中的？</strong></li>
+</ol></li>
+<li><p>Pipeline：EFT方法是优化方法与回归方法的结合。具体操作是先正常训练一个神经网络，让它从2D坐标和输入图像预测对应的3D坐标。回归方法到这里就结束了，但EFT这才刚刚开始。EFT针对每一个图片实例，再得到神经网络的预测结果后，再以这个结果作为起点放到fitting method中去进一步优化，并且设定了一个限制就是新的优化后的神经网络权重<span class="math inline">\(w\)</span>与训练好的最佳权重<span class="math inline">\(w^*\)</span>之间差距不能太大。值得注意的是，这个优化后的权重<span class="math inline">\(w^+\)</span>仅服务于这一张图，用完就扔了。</p></li>
+<li><p>Points：</p>
+<ul>
+<li><p>从2D坐标得到3D位置有两种做法：基于优化（fitting）的方法和基于回归（regression）的方法。前者通过构建多个Loss惩罚项、结合多种prior来逐步得到最能满足限制条件的3D坐标，而后者则直接通过深度网络来一步到位预测。</p></li>
+<li><p>而本文提出的EFT则是结合了上面两种方法的方法。</p>
+<figure>
+<img data-src="image-20221205130430922.png" alt="image-20221205130430922"><figcaption aria-hidden="true">image-20221205130430922</figcaption>
+</figure>
+<p>上面三组公式分别是优化法、回归法，及EFT的公式。</p>
+<p><span class="math inline">\(\Theta\)</span>代表SMPL模型的全部参数，其中，<span class="math inline">\(\theta,\beta\)</span>分别代表pose（以铰链夹角的形式展现）和shape参数。<span class="math inline">\(J\)</span>是3D location，<span class="math inline">\(\hat{J}\)</span>是2D location，<span class="math inline">\(\pi\)</span>是Projection matrix，用于把3D坐标投影到图像的2D平面，<span class="math inline">\(M\)</span>用于把SMPL参数转换为absolute 3D坐标。<span class="math inline">\(L_{pose}、L_{shape}\)</span>分别是pose、shape的prior。<span class="math inline">\(\Phi\)</span>是神经网络,<span class="math inline">\(w\)</span>是神经网络的权重。<span class="math inline">\(I\)</span>是输入图片。其中，<span class="math inline">\(\Theta{w}=\Phi_w(I)\)</span></p></li>
+<li><p>优化方法的Loss包含三部分：</p>
+<ol type="1">
+<li>2D Loss</li>
+<li>Pose Prior</li>
+<li>Shape Prior</li>
+</ol></li>
+<li><p>回归方法的Loss包含三部分：</p>
+<ol type="1">
+<li><p>2D Loss</p></li>
+<li><p>3D Loss</p></li>
+<li><p>SMPL Loss</p></li>
+</ol></li>
+<li><p>EFT方法的Loss包含三部分：</p>
+<ol type="1">
+<li>2D Loss</li>
+<li>进一步优化（fitting）后的神经网络参数与预训练网络的神经网络参数的差距Loss</li>
+<li>Shape Prior</li>
+</ol></li>
+<li><p>EFT中有个参数<span class="math inline">\(\gamma\)</span>，这个参数决定了优化后的神经网络参数<span class="math inline">\(w\)</span>与预训练的<span class="math inline">\(w^*\)</span>的相似程度。如果<span class="math inline">\(\gamma\)</span>很大，那么基本这个优化步骤就没用了，因为<span class="math inline">\(w\)</span>不敢跑远，结果将会和神经网络直接预测出来的结果类似。再fitting-based method中，也有这个<span class="math inline">\(\gamma\)</span>，作用相似，如果太大的话，得到的结果将会是pose prior的平均pose。</p></li>
+<li><p>与纯优化方案不同，这里EFT优化的不是<span class="math inline">\(\Theta, \pi\)</span>，而是神经网络的参数<span class="math inline">\(w\)</span>。</p></li>
+<li><p>EFT中没有使用pose prior，因为它假定了神经网络已经隐式地编码了prior。</p></li>
+<li><p>文章中帮我们跑了这些数据集（2D joints -&gt; SMPL）：<code>COCO, MPII, LSPet, PoseTrack, and OCHuman</code> datasets。</p></li>
+<li><p>值得一提的是，由于优化方案有最低可见joints限制，所以不符合要求的人物labels已经被删掉了，所以得到的3D标签并非与原来的一一对应。</p></li>
+</ul></li>
+</ul>
+<h2 id="问题">问题</h2>
+<ul>
+<li>已有的SMPL数据集都是怎么来的，他们是：
+<ul>
+<li>仿真</li>
+<li>3D扫描</li>
+<li>采集RGB的图片，同时通过mocap得到pose（2D/3D），结合SMPLify-X/<a href="https://files.is.tue.mpg.de/black/papers/MoSh.pdf">MoSh</a>/<a href="https://amass.is.tue.mpg.de/">Mosh++</a>得到SMPL-X模型GT。这里mocap可以是使用marker的，也可以是不使用marker的multi-view vision-based mocap system。</li>
+<li>录多角度/单角度Video，全程逐帧应用SMPL预测，得到GT。过程中需要先用openpose预测得到2D坐标。</li>
+</ul></li>
+<li>最重要的几个SMPL数据集？
+<ol type="1">
+<li>AMASS，这个数据集是个整合数据集，把一大堆mocap数据集都给整合进来了，然后用他们自己的Mosh++跑出来SMPL，如果有手部mocap的还会把手部的mesh也进行分别优化。</li>
+</ol></li>
+</ul>
+<h2 id="实践操作">实践/操作</h2>
+<ul>
+<li><p>首先，SMPL有一系列论文，其为：</p>
+<ul>
+<li><p>SMPL：最开始的一篇</p></li>
+<li><p>SMPL+H：加了手部参数的SMPL</p></li>
+<li><p>SMPLX：加了面部和手部参数的SMPL</p>
+<blockquote>
+<p>A new, unified, 3D model of the human body, SMPL-X, that extends SMPL with fully articulated hands and an expressive face.</p>
+</blockquote></li>
+</ul></li>
+</ul>
+<h2 id="reference">Reference</h2>
+<h3 id="papers">Papers</h3>
+<ol type="1">
+<li><a href="https://smpl.is.tue.mpg.de/">SMPL</a>: <a href="https://smpl.is.tue.mpg.de/download.php">Code</a></li>
+<li><a href="https://smpl-x.is.tue.mpg.de/index.html">SMPL-X</a>: <a href="https://github.com/vchoutas/smplx">Original</a>, <a href="https://github.com/vchoutas/smplify-x">Multi-View</a></li>
+<li><a href="https://mano.is.tue.mpg.de/">Embodied Hands (MANO)</a></li>
+<li><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Zhang_Object-Occluded_Human_Shape_and_Pose_Estimation_From_a_Single_Color_CVPR_2020_paper.pdf">Object-Occluded Human Shape and Pose Estimation from a Single Color Image</a></li>
+</ol>
+<h3 id="blogs">Blogs</h3>
+<ol type="1">
+<li><a href="https://zhuanlan.zhihu.com/p/256358005">SMPL论文解读和相关基础知识介绍</a></li>
+<li><a href="https://www.zhihu.com/question/292017089">想弄懂SMPL模型该如何学习</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/419779571">SMPL-X论文学习笔记</a></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>machine-learning</tag>
+        <tag>CV</tag>
+        <tag>SMPL</tag>
       </tags>
   </entry>
 </search>

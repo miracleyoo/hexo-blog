@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.miracleyoo.com/2023/02/19/gnn-hpe/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2023/01/21/smpl-all/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2020/03/06/face-features/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/2022/11/17/slurm-tmux/</loc>
     
     <lastmod>2023-04-23</lastmod>
@@ -785,15 +821,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/2020/03/06/face-features/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/2018/03/29/English-interview/</loc>
     
     <lastmod>2021-03-12</lastmod>
@@ -1110,15 +1137,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/2018/07/29/american-u/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/2020/04/26/docker-et-nvidia/</loc>
     
     <lastmod>2021-03-12</lastmod>
     
@@ -1536,13 +1554,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/Missouri-U-of-S-T/</loc>
-    <lastmod>2023-04-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/machine-earning/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2089,6 +2100,13 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/wsl/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/SMPL/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

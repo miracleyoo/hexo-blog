@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Overview  SMPL主要含有两组参数，一组是人物的体态信息β，一组是人物的姿态信息θ。 SMPL本身是“相对的”，其只包含人物本身的信息，而不包含任何与环境、相机视角、位置等信息。另外，其mesh点记录的值是相对于模板人类模型标准值的。 SMPL不包含手、脸和衣服，但后续的其他文章逐渐完善了相应参数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SMPL 完全攻略 -- 从定义到文章到部署">
+<meta property="og:url" content="https://www.miracleyoo.com/2023/01/21/smpl-all/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="Overview  SMPL主要含有两组参数，一组是人物的体态信息β，一组是人物的姿态信息θ。 SMPL本身是“相对的”，其只包含人物本身的信息，而不包含任何与环境、相机视角、位置等信息。另外，其mesh点记录的值是相对于模板人类模型标准值的。 SMPL不包含手、脸和衣服，但后续的其他文章逐渐完善了相应参数。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/01/21/smpl-all/image-20221118192351294.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/01/21/smpl-all/image-20221129172810204.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/01/21/smpl-all/image-20221129175700470.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/01/21/smpl-all/image-20221205130430922.png">
+<meta property="article:published_time" content="2023-01-22T01:30:32.000Z">
+<meta property="article:modified_time" content="2023-04-23T00:31:06.584Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="CV">
+<meta property="article:tag" content="SMPL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2023/01/21/smpl-all/image-20221118192351294.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2023/01/21/smpl-all/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/01/21/smpl-all/","path":"2023/01/21/smpl-all/","title":"SMPL 完全攻略 -- 从定义到文章到部署"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SMPL 完全攻略 -- 从定义到文章到部署 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E7%A7%B0%E8%BE%A8%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">名称辨析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d%E6%A8%A1%E5%9E%8B%E5%88%B6%E4%BD%9C%E5%92%8C%E8%BF%90%E7%94%A8%E4%B8%AD%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-number">3.</span> <span class="nav-text">3D模型制作和运用中常用术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E7%B1%BB%E5%9E%8B%E7%9A%84smpl%E6%96%87%E7%AB%A0%E5%BA%94%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">三种类型的SMPL文章&#x2F;应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smpl"><span class="nav-number">5.</span> <span class="nav-text">SMPL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9C%AC%E8%BA%AB%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">6.</span> <span class="nav-text">模型本身使用说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#smpl-x"><span class="nav-number">7.</span> <span class="nav-text">SMPL-X</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%B2%E6%9C%89%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BD%AC%E5%8C%96"><span class="nav-number">8.</span> <span class="nav-text">已有数据集转化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E4%BD%9C%E7%9A%84%E7%94%9F%E4%BA%A7%E8%BD%AC%E5%8C%96%E5%AF%BC%E5%85%A5"><span class="nav-number">9.</span> <span class="nav-text">动作的生产&#x2F;转化&#x2F;导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#other-papers"><span class="nav-number">10.</span> <span class="nav-text">Other Papers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#object-occluded-human-shape-and-pose-estimation-from-a-single-color-image"><span class="nav-number">10.1.</span> <span class="nav-text">Object-Occluded Human Shape and Pose Estimation from a Single Color Image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#monocular-one-stage-regression-of-multiple-3d-people"><span class="nav-number">11.</span> <span class="nav-text">Monocular, One-stage, Regression of Multiple 3D People</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#exemplar-fine-tuning-for-3d-human-model-fitting-towards-in-the-wild-3d-human-pose-estimation"><span class="nav-number">12.</span> <span class="nav-text">Exemplar Fine-Tuning for 3D Human Model Fitting Towards In-the-Wild 3D Human Pose Estimation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">13.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E6%93%8D%E4%BD%9C"><span class="nav-number">14.</span> <span class="nav-text">实践&#x2F;操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">15.</span> <span class="nav-text">Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#papers"><span class="nav-number">15.1.</span> <span class="nav-text">Papers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#blogs"><span class="nav-number">15.2.</span> <span class="nav-text">Blogs</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">119</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2023/01/21/smpl-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SMPL 完全攻略 -- 从定义到文章到部署 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SMPL 完全攻略 -- 从定义到文章到部署<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/smpl-all.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-21 17:30:32" itemprop="dateCreated datePublished" datetime="2023-01-21T17:30:32-08:00">2023-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-04-22 17:31:06" itemprop="dateModified" datetime="2023-04-22T17:31:06-07:00">2023-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>5.9k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>22 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="overview">Overview</h2>
+<ul>
+<li>SMPL主要含有两组参数，一组是人物的体态信息β，一组是人物的姿态信息θ。</li>
+<li>SMPL本身是“相对的”，其只包含人物本身的信息，而不包含任何与环境、相机视角、位置等信息。另外，其mesh点记录的值是相对于模板人类模型标准值的。</li>
+<li>SMPL不包含手、脸和衣服，但后续的其他文章逐渐完善了相应参数。</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>SMPLX中的参数某种程度上包含了肌肉随动作（Pose）变化的信息。他们采用了铰链模型，并搭配PCA方法分析主要关联项，得到了当人体从静态到某个特定Pose时哪些肌肉会发生形变以及如何形变的信息，而其NB也主要NB在这里。有了这些关联模型，人体运动时重建的mesh就不是那种被奇怪地拉伸的mesh了，而是更加符合人体肌肉运动规律的mesh。</li>
+<li>他们使用的训练数据是4维扫描，即<code>3D Mesh + Time</code>的扫描。他们也正是通过分析关节点和mesh随着时间的变化，才分析得到了Pose和Mesh变形之间的相关性。</li>
+<li>在构建MONO/SMPL+H时，由于手非常复杂且容易被遮挡，另外在全身扫描时手部分辨率也很有限，所以他们特意为了手部额外采集了一个数据集，含有各种人物、姿态和遮挡。</li>
+</ul>
+<h2 id="名称辨析">名称辨析</h2>
+<ul>
+<li><code>SMPL</code>: A Skinned Multi-Person Linear Model。人体模型。</li>
+<li><code>MONO</code>: A hand Model with Articulated and Non-rigid defOrmations。手部模型。</li>
+<li><code>SMPL+H</code>: A fully articulated body and Hand model。手部模型+人体模型。</li>
+<li><code>SMPL-X</code>: SMPL eXpressive，是一个含有姿态、表情、手部动作的人体模型。</li>
+<li><code>SMPLify-X</code>：<code>SMPL-X</code>原文中提到的用于拟合SMPL-X模型的一种方法。具体操作是先预测2D Joints，再用Optimization的方法拟合3D模型使得投影与2D Joints尽可能重合。</li>
+<li><code>SMPLify</code>：<code>SMPLify-X</code>的前辈。方法类似，但是效果和速度差一点。</li>
+</ul>
+<h2 id="d模型制作和运用中常用术语">3D模型制作和运用中常用术语</h2>
+<p>该节摘自<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/256358005">SMPL论文解读和相关基础知识介绍</a></p>
+<blockquote>
+<ul>
+<li>顶点（vertex）：动画模型可以看成多个小三角形（四边形）组成，每个小三角形就可以看成一个顶点。顶点越多，动画模型越精细。</li>
+<li>骨骼点：人体的一些关节点，类似于人体姿态估计的关键点。每个骨骼点都由一个三元组作为参数去控制（可以查看欧拉角，四元数相关概念）</li>
+<li>骨骼蒙皮（Rig）：建立骨骼点和顶点的关联关系。每个骨骼点会关联许多顶点，并且每一个顶点权重不一样。通过这种关联关系，就可以通过控制骨骼点的旋转向量来控制整个人运动。</li>
+<li>纹理贴图：动画人体模型的表面纹理，即衣服裤子这些。</li>
+<li>BlendShape：控制动画角色运动有两种，一种是上面说的利用Rig，还有一种是利用BlendShape。比如：生成一种笑脸和正常脸，那么通过BlendShape就可以自动生成二者过渡的动画。这种方式相比于利用Rig，可以不定义骨骼点，比较方便。</li>
+<li>蒙皮：将模型从一个姿态转变为另一个姿态，使用的转换矩阵叫做蒙皮矩阵。（Linear Blend Skinning算法）</li>
+<li>顶点权重(vertex weights)：用于变形网格mesh</li>
+<li>uv map：将3D多边形网格展开到2D平面得到 UV图像</li>
+<li>texture map：将3D多边形网格表面的纹理展开到2D平面，得到纹理图像</li>
+<li>拓扑(topology)：重新拓扑是将高分辨率模型转换为可用于动画的较小模型的过程。两个mesh拓扑结构相同是指两个mesh上面任一个三角面片的三个顶点的ID是一样的（如某一个三角面片三个顶点是2,5,8；另一个mesh上也必有一个2,5,8组成的三角面片）</li>
+<li>linear blend skinning algorithm</li>
+</ul>
+<p>每个关节的数据结构包含：关节名字、骨骼中其父节点的索引、关节的绑定姿势之逆变换（蒙皮网格顶点绑定至骨骼时，关节的位置、定向及缩放）</p>
+</blockquote>
+<h2 id="三种类型的smpl文章应用">三种类型的SMPL文章/应用</h2>
+<ol type="1">
+<li>提出SMPL这种模型本身的定义的文章。这些文章使用大量不同动作的3D人体扫描构筑了一个平均人类模型（Male，Female，Neutral），且定义了当人物的形体和动作发生特定变化时表皮的相应变形方式。文中的“训练”指的是训练这些运动/形态参数与实际表皮形变的函数映射。</li>
+<li>使用单张/多张不同角度照片来推理相应人物的SMPL模型位置。如SMPLify和SMPL-X。SMPLify-X（用于拟合SMPL-X模型的方法）的pipeline是：
+<ol type="1">
+<li>先自下而上用OpenPose预测人体2D关键点。</li>
+<li>然后再结合各种Prior（身体姿态、手部姿态、身体形状、面部姿态、面部表情、极端弯曲）和各种Loss Punishment（2D与3D在平面投影的Loss，身体Parts互相穿透的Loss）去让3D的模型拟合这些关键点。</li>
+<li>用了Optimization算法直接去拟合的3D模型参数，这个步骤没有使用深度学习。相反，使用的是Limited-memory BFGS optimizer (L-BFGS)的强化Wolfe line search（SMPL-X）、Chumpy+OpenDR（SMPLify）。</li>
+</ol></li>
+<li>端到端的深度学习文章。这些文章都是在SMPL-X发表之后涌现出来的。文章中不再使用Optimization-based methods，而是转而使用SMPLify-X来通过照片或多角度照片生成Ground Truth，制造完数据集后直接使用DL进行预测。</li>
+</ol>
+<h2 id="smpl">SMPL</h2>
+<ul>
+<li><p>SMPL一文与从图片/视频/XXXX预测人体形态没有任何关系，它的贡献单纯是提出了一个更好的人体模型，而这个模型可以很好地建模人的体态和姿势，同时肌肉/蒙皮形状会随着人的运动而相应变化，从而达到拟真的效果，而不会出现滑稽的拉伸形变。</p></li>
+<li><p>SMPL提出的人体模型的输入是由两部分组成的：</p>
+<ul>
+<li>β：一个10维vector</li>
+<li>θ：一个3(K+1)维vector，K是骨架节点数，这里是23。加的1是人体中心。</li>
+</ul></li>
+<li><p>SMPL的输出是N个顶点的坐标，维度为3N。N: 顶点数，6890。</p></li>
+<li><p>SMPL人类模型是可微分的，也就是说，如果你有了人物的3D扫描，想用一个deep learning model来预测这个扫描，你可以直接输入图片/视频/XXXX，中间输出是<span class="math inline">\(\beta+\theta\)</span>，然后最终输出N个顶点的位置，而这N个顶点你是可以直接去和GT做L1 loss的，因为可微也就意味着可以auto backward。</p></li>
+<li><p><span class="math inline">\(\beta\)</span>的十个参数物理意义：</p>
+<blockquote>
+<p>0 代表整个人体的胖瘦和大小，初始为0的情况下，正数变瘦小，负数变大胖（±5） 1 侧面压缩拉伸，正数压缩 2 正数变胖大 3 负数肚子变大很多，人体缩小 4 代表 chest、hip、abdomen的大小，初始为0的情况下，正数变大，负数变小（±5） 5 负数表示大肚子+整体变瘦 6 正数表示肚子变得特别大的情况下，其他部位非常瘦小 7 正数表示身体被纵向挤压 8 正数表示横向表胖 9 正数表示肩膀变宽</p>
+</blockquote></li>
+<li><p>论文核心图的解释：</p>
+<figure>
+<img data-src="image-20221118192351294.png" alt="image-20221118192351294"><figcaption aria-hidden="true">image-20221118192351294</figcaption>
+</figure>
+<ul>
+<li>(a)是平均人体模型，男女各一个，后续的演算都是基于标准平均人体模型的</li>
+<li>(b)是加入了人物体态参数的结果</li>
+<li>(c)是加入了特定动作发生时肌肉/蒙皮变形补偿后的结果。注意此时只是对即将发生的动作进行补偿，但还没有真正apply动作。</li>
+<li>(d)是实际让人物摆出了相应动作的结果</li>
+</ul></li>
+<li><p>再回到上图的一些重要符号表达，</p>
+<ul>
+<li><p><span class="math inline">\(\bar{T}\)</span>: 3N维vector，由N个串联的顶点表示的初始状态下的平均模型。这里的3并不是xyz 3D坐标，而是每个关节点相对于其父关节的轴角旋转量。这里的坐标以父节点为原点。</p>
+<blockquote>
+<p><span class="math inline">\(\omega\)</span> denotes the axis-angle representation of the relative rotation of part k with respect to its parent in the kinematic tree</p>
+</blockquote></li>
+<li><p><span class="math inline">\(\mathcal{W}\)</span> : <span class="math inline">\(4\times 3N\)</span>维，其实应该是<span class="math inline">\(K\times 3N\)</span>维才对，但为了和现存渲染引擎同步，这里取每个顶点最多被附近4个关节点的运动影响。<span class="math inline">\(\mathcal{W}\)</span>是LBS/QBS混合权重矩阵。由于顶点和其附近的关节点存在相关性，这个相关性是每个顶点对应多个关节点，且权重不一。这里就需要这样一个矩阵来记录这种相互关系，即关节点对顶点的影响权重 (第几个顶点受哪些关节点的影响且权重分别为多少)。</p></li>
+<li><p><span class="math inline">\(J\)</span> : 用于补偿joint position因为目标人物体态变化产生的位移。它通过表皮的形状位置来推测新的joints位置。</p></li>
+<li><p><span class="math inline">\(B_S(\overrightarrow{\beta})\)</span>里面的这个<span class="math inline">\(B_S\)</span>的作用是把已经经过PCA筛选压缩过的10个参数恢复到正常的3N维度，即对于每个顶点，应当向哪个方向变化来适应这个人的体态。这里恢复出来的值也是相对于平均模型的。</p></li>
+<li><p><span class="math inline">\(B_S(\overrightarrow{\theta})\)</span>同理，由于我们输入的pose <span class="math inline">\(\overrightarrow{\theta}\)</span> 也只有3(K+1)维度，而想要对因为人体做出特定动作产生的形变进行补偿，也需要一个3N维度的值来对每个顶点分别建模补偿。</p></li>
+</ul></li>
+<li><p>而关于训练，训练过程中对于形态和姿势的训练时分开进行的。前者在一个<code>Multi-Shape Dataset</code>上训练完成，而后者在一个<code>Multi-Pose Dataset</code>上训练完成，二者是相互独立的。</p></li>
+<li><p>模型训练主要训练的是这些参数：形态的<span class="math inline">\(\bar{T}, \mathcal{S}\)</span>和姿势的参数<span class="math inline">\(\mathcal{J},\mathcal{W},\mathcal{P}\)</span>。除去上面介绍过的<span class="math inline">\(\bar{T},\mathcal{W}\)</span>，其他几位的介绍如下</p>
+<ul>
+<li><span class="math inline">\(\mathcal{J}\)</span>: <span class="math inline">\(3N\times 3K\)</span>，将rest vertices转换成rest joints 的矩阵。</li>
+<li><span class="math inline">\(\mathcal{P}\)</span>: 矩阵形状为<span class="math inline">\(3N\times 9K\)</span>，这里之所以K前面系数是9，是因为使用时把关节点的坐标从3D空间坐标处理成了其相对于根节点的旋转矩阵，而3D旋转矩阵有9个参数。<span class="math inline">\(\mathcal{P}\)</span>是这所有27*9=207个 pose blend shapes 组成的矩阵。因此，pose blend shape 函数BP(θ→;P) 完全被矩阵 P 定义。</li>
+</ul></li>
+</ul>
+<h2 id="模型本身使用说明">模型本身使用说明</h2>
+<ul>
+<li>模型本身在Python中的使用是相当简单直接的：<code>Load Model -&gt; Assign β&amp;θ -&gt;Dump</code></li>
+<li>Dump出来的pkl模型可以直接在Blender/Unity等软件中读取，应用到SMPL模型中。</li>
+</ul>
+<h2 id="smpl-x">SMPL-X</h2>
+<ol type="1">
+<li>SMPL-X其实是一个大杂烩，它结合了基本姿态用的SMPL模型，手部姿态的MANO模型和面部特征的FLAME模型。</li>
+<li>SMPL-X模型本身分别在多个数据集上训练：
+<ol type="1">
+<li><span class="math inline">\(\{S\}\)</span>：形状空间参数（shape space parameters），在3800个A-pose捕捉不同性别的变化的数据集上训练</li>
+<li><span class="math inline">\(\{W，P，J\}\)</span> ：身体姿态空间参数（body pose space parameters），在1786个不同姿态的数据集上训练</li>
+<li>MANO：姿态空间及姿态相关混合形状（pose space and pose corrective blendshapes），1500 手部扫描数据</li>
+<li>FLAME：表情空间<span class="math inline">\(\{\varepsilon\}\)</span>（expression space），3800 头部高精度扫描数据上训练</li>
+</ol></li>
+<li>SMPL-X区分了男女模型，用了一个性别分类器。</li>
+<li>Pipeline（上文有提）：
+<ol type="1">
+<li>先自下而上用OpenPose预测人体2D关键点。</li>
+<li>然后再结合各种Prior（身体姿态、手部姿态、身体形状、面部姿态、面部表情、极端弯曲）和各种Loss Punishment（2D与3D在平面投影的Loss，身体Parts互相穿透的Loss）去让3D的模型拟合这些关键点。</li>
+<li>用了Optimization算法直接去拟合的3D模型参数，这个步骤没有使用深度学习。相反，使用的是Limited-memory BFGS optimizer (L-BFGS)的强化Wolfe line search（SMPL-X）、Chumpy+OpenDR（SMPLify）。</li>
+</ol></li>
+<li>既可以用于从2D joints coordinates得到SMPL-X，也可以通过3D joints coordinates得到，如论文“<em>I2l-meshnet: Image-to-lixel prediction network for accurate 3d human pose and mesh estimation from a single rgb image</em>” 中，作者就通过SMPLify-X得到了H3M数据集的SMPL版本。</li>
+</ol>
+<h2 id="已有数据集转化">已有数据集转化</h2>
+<ul>
+<li>带有图片和2D Human Joints Label的数据集：使用<a target="_blank" rel="noopener" href="https://github.com/JiangWenPL/multiperson/tree/master/misc/smplify-x">SMPLify-X</a>，或<a target="_blank" rel="noopener" href="https://github.com/facebookresearch/eft">EFT</a>。</li>
+<li>带有图片和3D Human Joints Label的数据集：使用<a target="_blank" rel="noopener" href="https://github.com/JiangWenPL/multiperson">multiperson</a>库中的<a target="_blank" rel="noopener" href="https://github.com/JiangWenPL/multiperson/tree/master/misc/smplify-x">SMPLify-X-for-3D</a>工具.</li>
+<li>带有图片和多视角2D Human Joints Label的数据集：使用SMPLify</li>
+<li>只有图片：使用<a target="_blank" rel="noopener" href="https://github.com/facebookresearch/eft">EFT</a>。</li>
+</ul>
+<h2 id="动作的生产转化导入">动作的生产/转化/导入</h2>
+<ul>
+<li>我们已经将相关github repo打包成了docker，可以直接一键部署使用。具体链接和详细教程后续整理后更新。</li>
+</ul>
+<h2 id="other-papers">Other Papers</h2>
+<p>在看完上面几篇最重要的鼻祖论文之后，下面是几篇最近的使用了SMPL系统的文章，通过对他们的分析可以对SMPL的应用有一个更好的理解。</p>
+<h3 id="object-occluded-human-shape-and-pose-estimation-from-a-single-color-image">Object-Occluded Human Shape and Pose Estimation from a Single Color Image</h3>
+<p><img data-src="image-20221129172810204.png" alt="image-20221129172810204" style="zoom:50%;"></p>
+<ul>
+<li><p>数据采集：</p>
+<ul>
+<li>他们先用Mask-RCNN和Alphapose来预测人体Mask及2D Joints。</li>
+<li>对于不准确的label，他们手动矫正。</li>
+<li>最后用SMPLify-X中的多视角方法得到GT。</li>
+<li>得到GT后，他们把这个3D SMPL模型朝着图像平面投影，若投影不在Mask覆盖范围内（即被遮挡），那就给涂黑（-0.5），反之，用表面xyz构建3通道UV Map。</li>
+</ul></li>
+<li><p>数据处理：</p>
+<ul>
+<li>文中预测的基本单位是顶点（即表面上的全部点）而非骨骼、joints。</li>
+<li>UV Map看上去是彩色的，这个颜色其实意味着UV Map有三个通道，而这三个通道是相应每个点所对应的x、y、z坐标值。</li>
+<li>其中，对于未被遮挡的点（Mask点亮的点），把xy给norm到<span class="math inline">\([-0.5,0.5]\)</span>即可；而对被遮挡的点，其xyz是<span class="math inline">\([-0.5,-0.5,-0.5]\)</span>，即全黑（以-0.5为黑）。</li>
+</ul></li>
+<li><p>Pipeline：</p>
+<ol type="1">
+<li>Pipeline分为两部分，Train和Predict。</li>
+<li>Train会先训练一个UV Map Inpainting Network。把之前处理过的、过了norm且遮挡部分给涂黑的UV Map给送到一个网络里，试图输出被涂黑区域得以被重新预测的UV Map。这就把3D SMPL HPE转成了一个image inpainting问题，即填补空缺部分图像。</li>
+<li>Predict过程中，会先预测Mask，然后直接concatenate共同作为输入。</li>
+<li>然后RGB Image预测全体UV Map时候用的是另一个完全不同于训练时UV Map Inpainting Network的branch，但是在这个branch里，Inpainting Branch的高维度feature被拿了进来作为constrain。这里说的不清楚，应该是把这个feature map concatenate到RGB image过了Encoder之后的feature map上作为prior。需要参考代码理解。</li>
+</ol></li>
+<li><p>Points：</p>
+<ul>
+<li><p>UV Map Inpainting Sub-Network的Loss由三部分构成：</p>
+<ol type="1">
+<li><p>首先是预测的UV Map和GT UV Map的L1 Loss。</p></li>
+<li><p>然后是一个挺有趣的term，用于保证人体的每个部位预测出的UV Map是平滑的：对每个点计算一个它与其下方和右方点的差的绝对值。然后通过最小化这个值，保证预测的UV Map的平滑性。<span class="math inline">\(L_{tv}=\sum_{k}\sum_{(i,j)\in R_k}(|P_{i+1,j}-P_{i,j}|+|P_{i,j+1}-P_{i,j}|)\)</span>。其中<span class="math inline">\(R_k\)</span>是第k个身体部位对应的区域。</p></li>
+<li><p>最后是关于人体各部位交界处的点。这些点在多个部位的UV Map上都有坐标。这个loss term旨在计算这些点在所有UV Map上的均值与GT的L1 Loss，以保证交界点处的值也平滑。</p></li>
+<li><p>他们把3D点投影成2D时用了weak perspective projection弱透视投影。</p></li>
+<li><p>速度相较于基于优化的SMPLify-X快得多，从30s降低到了13ms。</p></li>
+<li><p>他们也用了已有的数据集+Occlusion的方式在多个数据集上得到了结果，加遮挡的方式值得学习。</p>
+<p><img data-src="image-20221129175700470.png" alt="image-20221129175700470" style="zoom:50%;"></p></li>
+</ol></li>
+</ul></li>
+</ul>
+<h2 id="monocular-one-stage-regression-of-multiple-3d-people">Monocular, One-stage, Regression of Multiple 3D People</h2>
+<ul>
+<li><p>Idea: 本文的中心思想是用单张图像解析生成图中的多人SMPL模型。</p></li>
+<li><p>Questions:</p>
+<ol type="1">
+<li>2D label的数据集可以通过EFT（Exemplar Fine-Tuning for 3D Human Model Fitting Towards In-the-Wild 3D Human Pose Estimation）生成，但那些只有3D joints coordinates但没有SMPL的数据集是怎么用上的？</li>
+</ol></li>
+<li><p>Pipeline:</p>
+<ul>
+<li>首先过一个Backbone提取feature map。</li>
+<li>然后这个feature map被送到三个branch中，它们分别用来预测：
+<ol type="1">
+<li>人体中心位置的热力图<span class="math inline">\(C_m\in R^{1\times H \times W}\)</span>。它预测的是2D的人体中心位置。</li>
+<li>相机参数map <span class="math inline">\(A_m\)</span>。这里的<span class="math inline">\(A_m\)</span>形状是<span class="math inline">\(R^{3\times W\times H}\)</span>，它的意义是：如果图片上某个pixel是某个人体中心的话，对应的这个人的相关相机参数。每个pixel预测的相机参数含有三个值，分别是<span class="math inline">\((s, t_x, t_y)\)</span>。<span class="math inline">\(s\)</span>是scale，包含了人的body size和depth。而<span class="math inline">\(t_x\)</span>和<span class="math inline">\(t_y\)</span>则是投影相对图片中心在x和y方向上的移动距离。<span class="math inline">\(t_x, t_y \in (-1,1)\)</span>，被normalized过。</li>
+<li>SMPL map <span class="math inline">\(S_m\)</span>。这个和<span class="math inline">\(A_m\)</span>类似，也是假定每个pixel上都有一个可能的人体中心，然后这个人对应的SMPL参数。形状为<span class="math inline">\(R^{142\times H\times W}\)</span>。对于每个pixel，其中10个参数是shape，132个是pose。</li>
+</ol></li>
+<li>上面整个过程可以概括为：知道人大致在哪-&gt;知道这个位置的人的位移和scaling-&gt;知道这个人的形状和pose。</li>
+</ul></li>
+<li><p>Points:</p>
+<ul>
+<li><p>Collision-aware representation: 基于中心的方法往往使用的是bbox的中心，而这个中心在人体中并没有实际意义，且容易落到人体外部。本文选择了计算未被遮挡的人体躯干的几个点的均值作为中心点。如果躯干点都被遮挡了，就计算全部可见joints的中心点。</p>
+<blockquote>
+<p>We define the body center as the center of visible torso joints (neck, left/right shoulders, pelvis, and left/right hips).</p>
+</blockquote></li>
+<li><p>Multiple-human same-center情况的处理：使用类似于正正离子相互排斥的概念，让相近的两个人体中心尽可能远离彼此。</p></li>
+</ul></li>
+</ul>
+<h2 id="exemplar-fine-tuning-for-3d-human-model-fitting-towards-in-the-wild-3d-human-pose-estimation">Exemplar Fine-Tuning for 3D Human Model Fitting Towards In-the-Wild 3D Human Pose Estimation</h2>
+<ul>
+<li><p>Idea: 3D HPE的野外数据和2D不同，很难取得。本文旨在利用已有的大规模2D数据集，通过高质量的优化匹配得到对应的3D labels，进而辅助训练。</p></li>
+<li><p>Questions:</p>
+<ol type="1">
+<li>本文拟合的是SMPL还是3D骨架
+<ul>
+<li>拟合的是SMPL，3D坐标是SMPL pose parameter <span class="math inline">\(\theta\)</span> 的计算后的结果。</li>
+</ul></li>
+<li>本文与SMPLify-X有何不同
+<ul>
+<li>SMPLify-X只是一种单纯的fitting-based method，而本文则是结合了fitting和regression二者。</li>
+</ul></li>
+<li>有哪些文章使用了其公开的3D SMPL数据labels</li>
+<li><strong>prior terms到底长什么样？怎么用到计算循环中的？</strong></li>
+</ol></li>
+<li><p>Pipeline：EFT方法是优化方法与回归方法的结合。具体操作是先正常训练一个神经网络，让它从2D坐标和输入图像预测对应的3D坐标。回归方法到这里就结束了，但EFT这才刚刚开始。EFT针对每一个图片实例，再得到神经网络的预测结果后，再以这个结果作为起点放到fitting method中去进一步优化，并且设定了一个限制就是新的优化后的神经网络权重<span class="math inline">\(w\)</span>与训练好的最佳权重<span class="math inline">\(w^*\)</span>之间差距不能太大。值得注意的是，这个优化后的权重<span class="math inline">\(w^+\)</span>仅服务于这一张图，用完就扔了。</p></li>
+<li><p>Points：</p>
+<ul>
+<li><p>从2D坐标得到3D位置有两种做法：基于优化（fitting）的方法和基于回归（regression）的方法。前者通过构建多个Loss惩罚项、结合多种prior来逐步得到最能满足限制条件的3D坐标，而后者则直接通过深度网络来一步到位预测。</p></li>
+<li><p>而本文提出的EFT则是结合了上面两种方法的方法。</p>
+<figure>
+<img data-src="image-20221205130430922.png" alt="image-20221205130430922"><figcaption aria-hidden="true">image-20221205130430922</figcaption>
+</figure>
+<p>上面三组公式分别是优化法、回归法，及EFT的公式。</p>
+<p><span class="math inline">\(\Theta\)</span>代表SMPL模型的全部参数，其中，<span class="math inline">\(\theta,\beta\)</span>分别代表pose（以铰链夹角的形式展现）和shape参数。<span class="math inline">\(J\)</span>是3D location，<span class="math inline">\(\hat{J}\)</span>是2D location，<span class="math inline">\(\pi\)</span>是Projection matrix，用于把3D坐标投影到图像的2D平面，<span class="math inline">\(M\)</span>用于把SMPL参数转换为absolute 3D坐标。<span class="math inline">\(L_{pose}、L_{shape}\)</span>分别是pose、shape的prior。<span class="math inline">\(\Phi\)</span>是神经网络,<span class="math inline">\(w\)</span>是神经网络的权重。<span class="math inline">\(I\)</span>是输入图片。其中，<span class="math inline">\(\Theta{w}=\Phi_w(I)\)</span></p></li>
+<li><p>优化方法的Loss包含三部分：</p>
+<ol type="1">
+<li>2D Loss</li>
+<li>Pose Prior</li>
+<li>Shape Prior</li>
+</ol></li>
+<li><p>回归方法的Loss包含三部分：</p>
+<ol type="1">
+<li><p>2D Loss</p></li>
+<li><p>3D Loss</p></li>
+<li><p>SMPL Loss</p></li>
+</ol></li>
+<li><p>EFT方法的Loss包含三部分：</p>
+<ol type="1">
+<li>2D Loss</li>
+<li>进一步优化（fitting）后的神经网络参数与预训练网络的神经网络参数的差距Loss</li>
+<li>Shape Prior</li>
+</ol></li>
+<li><p>EFT中有个参数<span class="math inline">\(\gamma\)</span>，这个参数决定了优化后的神经网络参数<span class="math inline">\(w\)</span>与预训练的<span class="math inline">\(w^*\)</span>的相似程度。如果<span class="math inline">\(\gamma\)</span>很大，那么基本这个优化步骤就没用了，因为<span class="math inline">\(w\)</span>不敢跑远，结果将会和神经网络直接预测出来的结果类似。再fitting-based method中，也有这个<span class="math inline">\(\gamma\)</span>，作用相似，如果太大的话，得到的结果将会是pose prior的平均pose。</p></li>
+<li><p>与纯优化方案不同，这里EFT优化的不是<span class="math inline">\(\Theta, \pi\)</span>，而是神经网络的参数<span class="math inline">\(w\)</span>。</p></li>
+<li><p>EFT中没有使用pose prior，因为它假定了神经网络已经隐式地编码了prior。</p></li>
+<li><p>文章中帮我们跑了这些数据集（2D joints -&gt; SMPL）：<code>COCO, MPII, LSPet, PoseTrack, and OCHuman</code> datasets。</p></li>
+<li><p>值得一提的是，由于优化方案有最低可见joints限制，所以不符合要求的人物labels已经被删掉了，所以得到的3D标签并非与原来的一一对应。</p></li>
+</ul></li>
+</ul>
+<h2 id="问题">问题</h2>
+<ul>
+<li>已有的SMPL数据集都是怎么来的，他们是：
+<ul>
+<li>仿真</li>
+<li>3D扫描</li>
+<li>采集RGB的图片，同时通过mocap得到pose（2D/3D），结合SMPLify-X/<a target="_blank" rel="noopener" href="https://files.is.tue.mpg.de/black/papers/MoSh.pdf">MoSh</a>/<a target="_blank" rel="noopener" href="https://amass.is.tue.mpg.de/">Mosh++</a>得到SMPL-X模型GT。这里mocap可以是使用marker的，也可以是不使用marker的multi-view vision-based mocap system。</li>
+<li>录多角度/单角度Video，全程逐帧应用SMPL预测，得到GT。过程中需要先用openpose预测得到2D坐标。</li>
+</ul></li>
+<li>最重要的几个SMPL数据集？
+<ol type="1">
+<li>AMASS，这个数据集是个整合数据集，把一大堆mocap数据集都给整合进来了，然后用他们自己的Mosh++跑出来SMPL，如果有手部mocap的还会把手部的mesh也进行分别优化。</li>
+</ol></li>
+</ul>
+<h2 id="实践操作">实践/操作</h2>
+<ul>
+<li><p>首先，SMPL有一系列论文，其为：</p>
+<ul>
+<li><p>SMPL：最开始的一篇</p></li>
+<li><p>SMPL+H：加了手部参数的SMPL</p></li>
+<li><p>SMPLX：加了面部和手部参数的SMPL</p>
+<blockquote>
+<p>A new, unified, 3D model of the human body, SMPL-X, that extends SMPL with fully articulated hands and an expressive face.</p>
+</blockquote></li>
+</ul></li>
+</ul>
+<h2 id="reference">Reference</h2>
+<h3 id="papers">Papers</h3>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://smpl.is.tue.mpg.de/">SMPL</a>: <a target="_blank" rel="noopener" href="https://smpl.is.tue.mpg.de/download.php">Code</a></li>
+<li><a target="_blank" rel="noopener" href="https://smpl-x.is.tue.mpg.de/index.html">SMPL-X</a>: <a target="_blank" rel="noopener" href="https://github.com/vchoutas/smplx">Original</a>, <a target="_blank" rel="noopener" href="https://github.com/vchoutas/smplify-x">Multi-View</a></li>
+<li><a target="_blank" rel="noopener" href="https://mano.is.tue.mpg.de/">Embodied Hands (MANO)</a></li>
+<li><a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Zhang_Object-Occluded_Human_Shape_and_Pose_Estimation_From_a_Single_Color_CVPR_2020_paper.pdf">Object-Occluded Human Shape and Pose Estimation from a Single Color Image</a></li>
+</ol>
+<h3 id="blogs">Blogs</h3>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/256358005">SMPL论文解读和相关基础知识介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/292017089">想弄懂SMPL模型该如何学习</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/419779571">SMPL-X论文学习笔记</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/CV/" rel="tag"># CV</a>
+              <a href="/tags/SMPL/" rel="tag"># SMPL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/24/wsl-clone/" rel="prev" title="WSL的克隆，WSL1与WSL2的克隆共存">
+                  <i class="fa fa-chevron-left"></i> WSL的克隆，WSL1与WSL2的克隆共存
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/02/19/gnn-hpe/" rel="next" title="GNN-based Human Pose Estimation (HPE) Paper Summary">
+                  GNN-based Human Pose Estimation (HPE) Paper Summary <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">11:39</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

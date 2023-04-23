@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation   Summary  Multi-person. Image-based. Graph is just used in their DGCM module. Bottom-Up.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GNN-based Human Pose Estimation (HPE) Paper Summary">
+<meta property="og:url" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation   Summary  Multi-person. Image-based. Graph is just used in their DGCM module. Bottom-Up.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221219151203243.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221219154249782.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221219160516007.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221220121801045.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221105021381.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221122107913.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221122050872.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221135856400.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221220191107517.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221220191125713.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221141417256.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221150901507.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/GNN-based%20HPE/image-20221221150056706.png">
+<meta property="article:published_time" content="2023-02-20T01:34:18.000Z">
+<meta property="article:modified_time" content="2023-04-23T00:35:13.334Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="CV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221219151203243.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2023/02/19/gnn-hpe/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/02/19/gnn-hpe/","path":"2023/02/19/gnn-hpe/","title":"GNN-based Human Pose Estimation (HPE) Paper Summary"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GNN-based Human Pose Estimation (HPE) Paper Summary | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation"><span class="nav-number">1.</span> <span class="nav-text">DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary"><span class="nav-number">1.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points"><span class="nav-number">1.2.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking"><span class="nav-number">2.</span> <span class="nav-text">Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-1"><span class="nav-number">2.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#question"><span class="nav-number">2.2.</span> <span class="nav-text">Question</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-1"><span class="nav-number">2.3.</span> <span class="nav-text">Points</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comments"><span class="nav-number">2.4.</span> <span class="nav-text">Comments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#context-modeling-in-3d-human-pose-estimation-a-unified-perspective"><span class="nav-number">3.</span> <span class="nav-text">Context Modeling in 3D Human Pose Estimation: A Unified Perspective</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-2"><span class="nav-number">3.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-2"><span class="nav-number">3.2.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#optimizing-network-structure-for-3d-human-pose-estimation"><span class="nav-number">4.</span> <span class="nav-text">Optimizing Network Structure for 3D Human Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-3"><span class="nav-number">4.1.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adaptive-hypergraph-neural-network-for-multi-person-pose-estimation"><span class="nav-number">5.</span> <span class="nav-text">Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-4"><span class="nav-number">5.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#questions"><span class="nav-number">5.2.</span> <span class="nav-text">Questions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-3"><span class="nav-number">5.3.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation"><span class="nav-number">6.</span> <span class="nav-text">Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-5"><span class="nav-number">6.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-4"><span class="nav-number">6.2.</span> <span class="nav-text">Points</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">119</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2023/02/19/gnn-hpe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GNN-based Human Pose Estimation (HPE) Paper Summary | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GNN-based Human Pose Estimation (HPE) Paper Summary<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/gnn-hpe.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-19 17:34:18" itemprop="dateCreated datePublished" datetime="2023-02-19T17:34:18-08:00">2023-02-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-04-22 17:35:13" itemprop="dateModified" datetime="2023-04-22T17:35:13-07:00">2023-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>3.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>13 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation">DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</h2>
+<p><img data-src="image-20221219151203243.png" alt="image-20221219151203243" style="zoom:50%;"></p>
+<p><img data-src="image-20221219154249782.png" alt="image-20221219154249782" style="zoom:50%;"></p>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>Multi-person.</li>
+<li>Image-based. Graph is just used in their DGCM module.</li>
+<li>Bottom-Up.</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li><p>Basic Hypothesis:</p>
+<blockquote>
+<p>Existing bottom-up methods mainly define relations by empirically picking out edges from this graph, while omitting edges that may contain useful semantic relations.</p>
+</blockquote>
+<p>But actually OpenPose is using the similar idea: "Redundant PAF connections". The difference is that OpenPose redundant connections are still empirical, while in this paper, they take into account all possible connections between two arbitrary joints, instead of limited amount.</p></li>
+<li><p>Core idea: 本文是一篇基于RGB图片的Bottom-up 2D HPE文章。文中Graph是作为其核心模块DGCM的一部分出现的，且并没有使用GNN。这里的Graph是用来建模joints之间关系的，即摆脱了传统的基于经验的骨骼链接，也不是单纯的基于dataset计算的软性链接，而是将软性链接的值当做伯努利分布中的概率来用，每次随机筛出来几个可能的邻接矩阵来用。本文中所谓Graph的使用其实完全可以被transformer代替，本质上是在建模关节点之间的关联性。</p></li>
+<li><p>Graph:</p>
+<ul>
+<li>Node: Human Joints。</li>
+<li>Node Value: 无。</li>
+<li>Edge: Joints间的全连接。</li>
+<li>Edge Value: 两个joints之间的相关性。</li>
+<li>Output: 一个joints间的邻接矩阵。</li>
+<li>Usage: 用于生成带有随机性的、基于soft adjacency matrix的人类关节点关联矩阵。</li>
+</ul></li>
+</ul>
+<h3 id="points">Points</h3>
+<ul>
+<li><blockquote>
+<p>Bottom-up pose estimation methods try to learn two kinds of heatmaps from the deep neural network, including keypoint heatmaps and relation heatmaps.</p>
+</blockquote></li>
+<li><p>Soft Adjacency Matrix:</p>
+<ul>
+<li>基于全部训练集中任意两个joints之间的距离（normalized by scale factor s）的倒数构建软邻接矩阵。</li>
+<li>由于任意一个点到期自身的距离是0，相应的邻接矩阵值设为1。</li>
+<li><span class="math inline">\(A_{s}^{ij}=\sigma(\gamma\frac{1}{M_d^{ij}}), A_s^{ii}=1\)</span>。</li>
+</ul></li>
+<li><p>Dynamic Adjacency Matrix：</p>
+<ul>
+<li><span class="math inline">\(A_d^{ij}\sim B(x,A_s^{ij})\)</span>，x是数量，<span class="math inline">\(A_s^{ij}\)</span>是概率，B是伯努利分布。</li>
+<li>这里的伯努利分布（01分布）实质上就是把软邻接矩阵的值变成了概率。A^(i,j)值越大，概率越大，取1的可能性越大。就这样筛选几次，得到几个可能的邻接矩阵。</li>
+</ul></li>
+<li><p>文中使用了金字塔式多尺度feature map，理由是人的大小远近不一样，多尺度的feature更有适应性。</p></li>
+<li><p>由于邻接矩阵里面每个joint和它自己的relation-term永远是1，就相当于加了一个skip connection一样，不用担心每个joint只被其邻居决定。</p></li>
+<li><p>除了这里提到的动态邻接矩阵，还有一个learnable <span class="math inline">\(K\times K\)</span>的weights，共同起作用。</p></li>
+</ul>
+<h2 id="learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking">Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</h2>
+<p><img data-src="image-20221219160516007.png" alt="image-20221219160516007" style="zoom:50%;"></p>
+<h3 id="summary-1">Summary</h3>
+<ul>
+<li>Multi-person 2D HPE.</li>
+<li>Top-Down.</li>
+<li>Frame-based.</li>
+<li>Pipeline:
+<ul>
+<li>Current Frame 2D HRNet Branch: Crop Human -&gt; Rescale -&gt; HRNet -&gt; HeatMap-F -&gt; Argmax -&gt; Joints-F</li>
+<li>Historical tracklets GNN Branch: Build Joints based on (Tracklets' (0~t-1) joints' + current frames' all pixels')(Visual Features, Joint Locations, Joint Type) -&gt; Connect edges in time and space -&gt; GNN -&gt; HeatMap-G -&gt; Joints-G</li>
+<li>Merging: Hungarian(Joints-F, Joints-G) -&gt; If no matching, new ID, output Joints-G; If matched, output argmax(HeatMap-F, HeatMap-G)</li>
+</ul></li>
+<li>本文是一个Tow-Down的、基于帧序列（视频）的、2D Multi-Human HPE+Human Tracking的工作。它先用传统的剪裁预测方式预测每帧的所有可能人的可能joints，然后再将每帧每人的每个joint都通过MLP转换为一个个node的feature map，连接这些node，过一个GNN，最后得到最终预测。</li>
+<li>Graph：
+<ul>
+<li>Node: 已经被追踪的人的<strong>所有历史joints</strong>(FIFO内的)及当前Frame的<strong>所有像素</strong>。</li>
+<li>Node Value: 一个基于HRNet输出feature、2D相对位置、joint类型softmax的综合feature map，综合方式是分别过MLP后average。</li>
+<li>Edge: 帧内和帧间分别全连接。</li>
+<li>Edge Value: 无。</li>
+<li>Output: 对于每个此前追踪过的人，输出对其每个关节点在当前帧位置的预测。由于当前帧全图像素都是nodes，所以对于每种joint type，其实输出的相当于一个HeatMap。</li>
+<li>Usage: 通过分析过往最终过的人的历史joints location，以及当前帧的visual feature，预测这些人的每个joint在当前帧的位置。</li>
+</ul></li>
+</ul>
+<h3 id="question">Question</h3>
+<ul>
+<li><p>怎么做的tracking？</p>
+<ul>
+<li>又是匈牙利算法。GNN基于tracklets预测的结果和基于当前帧HRNet预测出来的结果进行matching。其中使用的相似度是基于关键点的位置计算出来的。</li>
+</ul></li>
+<li><p>GNN 基于tracklets历史预测的poses和当前帧通过HRNet预测的Pose是如何结合（Aggregate and Merge）的？</p>
+<ul>
+<li>先匹配，匹配上的就对heatmap做平均然后argmax。</li>
+<li>没匹配上的就给一个新ID，直接argmax。</li>
+<li>对匹配上的人，如果FIFO已经满了，就踢一个加新的；反之直接加了。</li>
+</ul>
+<blockquote>
+<p>For all the matched poses, the joint heatmaps of the two poses are first aligned according to their centers and then merged together by averaging the heatmaps.</p>
+</blockquote></li>
+<li><p>GNN的edge怎么定义的？</p>
+<ul>
+<li>Edge有两种，一种是同一帧中joints之间的链接，一种是每个joint与上一帧中所有joints的联系（包括当前帧的nodes）。</li>
+<li>没有具体说edge的值（attr），应该是没有用。</li>
+</ul></li>
+</ul>
+<h3 id="points-1">Points</h3>
+<ul>
+<li><p>每个tracklet都是一个unique的被记录在案的人。</p></li>
+<li><p>对于每个tracklet，都会分别被过一遍一个GNN进行预测。注意，GNN这里也可以理解做是Top-Down的，对于每个历史上记录在案的人，都分别过一遍GNN预测在当前帧这个人每个关节点的位置。</p></li>
+<li><p>GNN的nodes包含某个历史tracklets（追踪的关键点）中的所有joints以及当前帧的所有像素点。</p></li>
+<li><p>当前帧<em>(t)</em>的每个像素组成的node都与tracklets FIFO中最后一帧<em>(t-1)</em>的检测结果中的每个joint相连。</p>
+<p><img data-src="image-20221220121801045.png" alt="image-20221220121801045" style="zoom:50%;"></p></li>
+<li><p>之所以要对Visual Features (<span class="math inline">\(v_k\)</span>), Joint Locations(<span class="math inline">\(p_k\)</span>), Joint Type(<span class="math inline">\(c_k\)</span>)向量分别做MLP，是因为它们的维度不同，且node的channel不能有多维。</p></li>
+<li><p><span class="math inline">\(J_k=Pooling(MLP_{vis}(v_k), MLP_{pos}(p_k), MLP_{type}(c_k))\)</span> 为每个node的值。这里的pooling是average pooling。</p></li>
+<li><p>对于<span class="math inline">\(p_k\)</span>而言，全部帧的这个location都以FIFO中最后一帧<em>(t-1)</em>中人物中心点为基准进行normalization，当前帧这些nodes也不例外。</p></li>
+<li><p>注意，当前帧<em>(t)</em>全像素组成的这些nodes里面，在算<span class="math inline">\(J_k\)</span>时候不加<span class="math inline">\(c_k\)</span>分支，即不用joint type，因为joint type是要predict的东西。</p></li>
+<li><p>最终预测出来的东西是一个Prob，它包含了当前帧t所有像素点可能为某个joint type的概率（classification）。</p></li>
+<li><p>对于每个tracklets，都有一个FIFO队列保存K个过去位置。</p></li>
+</ul>
+<h3 id="comments">Comments</h3>
+<ul>
+<li>非常新颖的使用GNN的方法。用多个方面的features分别过MLP通过average pooling的方法作为node的值，既可以确保这些feature的维度不match不成问题，也可以有效降低channel number，降低cost。最重要的是，对于某些node，你甚至可以移除某些features而不影响整体维度，比如对当前frame像素nodes不添加不存在的类别features。</li>
+<li>同时也非常暴力，直接在帧内、帧间分别用全连接，且当前frame直接把全部像素点位置都变成node，这是一个巨大的开销，并不优雅，也不符合GNN的内含逻辑。</li>
+<li>位置norm方法值得学习。</li>
+<li>我们的项目可能也可以用上匈牙利匹配，但是匹配的是时间上的cluster，而匹配的变量可能是cluster的平均方向向量等。</li>
+</ul>
+<h2 id="context-modeling-in-3d-human-pose-estimation-a-unified-perspective">Context Modeling in 3D Human Pose Estimation: A Unified Perspective</h2>
+<figure>
+<img data-src="image-20221221105021381.png" alt="image-20221221105021381"><figcaption aria-hidden="true">image-20221221105021381</figcaption>
+</figure>
+<h3 id="summary-2">Summary</h3>
+<ul>
+<li>Single image-based.</li>
+<li>2D -&gt; 3D lifting.</li>
+<li>Top-Down.</li>
+<li>核心操作是一套Attention。首先他们预测出2D Pose，然后将这些Pose投影到3D空间，再用一套Encoder-Decoder网络来预测3D Heatmap。具体来说，每个voxel预测J个值，代表它是某个joint的可能性。而其中关键的Attention部分分为两部分，全局Attention和关节对Attention。前者预测某个voxel <span class="math inline">\(q\)</span> 含某个joint <span class="math inline">\(u\)</span>的概率，后者预测当另一个voxel <span class="math inline">\(k\)</span> 包含joint <span class="math inline">\(v\)</span> 时，<span class="math inline">\(u,v\)</span> 间的关联性。这个关联性来自于训练集上的prior，主要成分是所有物理（经验）肢体连接的距离平均值和标准差，这个关联性高时说明 <span class="math inline">\(u,v\)</span> 在当前voxel <span class="math inline">\(q, k\)</span> 中时大概率符合prior中的预测，反之说明这对joints连接的肢体可能过长/短了，所以当前分布可能性很小。</li>
+<li>Graph:
+<ul>
+<li>Node: 所有的voxels。</li>
+<li>Node Value: 来自于2D坐标投影的features。</li>
+<li>Edge: Voxel间的连接。</li>
+<li>Edge Value: Voxel间的关联性（Pairiwise-Attention）。</li>
+<li>Output: 每个3D voxel包含某个joint的概率。</li>
+<li>Usage: 用于从2D预测升维到3D。</li>
+<li>Note: 这里所谓的GNN其实就是ContextPose (Attentions)的一种特例。</li>
+</ul></li>
+</ul>
+<h3 id="points-2">Points</h3>
+<ul>
+<li>Pairwise-Attention（关节对Attention）的公式是：<span class="math inline">\(P(q,k,e_{u,v}) \propto exp(-\frac{(||q-k||_2-\mu_{u,v})^2}{2\alpha\sigma^2_{u,v}+\epsilon})\)</span><br>
+</li>
+<li>PA被normalized了，具体公式是：<span class="math inline">\(\Sigma_{k\in\Omega}G_v(x_{v,k}) \cdot P(q,k,e_{u,v})=1\)</span>, 意味着如果voxel <span class="math inline">\(q\)</span> 包含关节 <span class="math inline">\(u\)</span>，那么所有可能包含关节 <span class="math inline">\(v\)</span> 的voxel <span class="math inline">\(k\)</span> 它本身的概率乘以它满足 <span class="math inline">\(u,v\)</span> 两个关节点物理距离prior的概率和为1。</li>
+</ul>
+<h2 id="optimizing-network-structure-for-3d-human-pose-estimation">Optimizing Network Structure for 3D Human Pose Estimation</h2>
+<figure>
+<img data-src="image-20221221122107913.png" alt="image-20221221122107913"><figcaption aria-hidden="true">image-20221221122107913</figcaption>
+</figure>
+<p><img data-src="image-20221221122050872.png" alt="image-20221221122050872" style="zoom:50%;"></p>
+<h3 id="summary-3">Summary</h3>
+<ul>
+<li><p>本文提出了一种统一模型，它可以将2D-&gt;3D Human Pose Lifting的诸多方法（FCN，GNN，LCN）写入一个统一公式中，并取得更优的效果。</p></li>
+<li><p>相比于普通GCN，其特点在于：</p>
+<ul>
+<li>普通GCN对于所有的node，做Linear的时候都用的共享的weights。</li>
+<li>而在LCN中，计算每个输入node对输出node的贡献时所用的weights，都分别训练，不共享参数。</li>
+</ul>
+<p><img data-src="image-20221221135856400.png" alt="image-20221221135856400" style="zoom:50%;"></p></li>
+<li><p>Graph:</p>
+<ul>
+<li>Node: J个人类Joints。</li>
+<li>Node Value: 2D坐标的features。</li>
+<li>Edge: Joints间的连接。</li>
+<li>Edge Value: Joints间的关联性（邻接矩阵）。</li>
+<li>Output: 每个Joint的3D坐标。</li>
+<li>Usage: 用于从2D预测升维到3D。</li>
+</ul></li>
+</ul>
+<h2 id="adaptive-hypergraph-neural-network-for-multi-person-pose-estimation">Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</h2>
+<figure>
+<img data-src="image-20221220191107517.png" alt="image-20221220191107517"><figcaption aria-hidden="true">image-20221220191107517</figcaption>
+</figure>
+<h3 id="summary-4">Summary</h3>
+<ul>
+<li><p>Image-based.</p></li>
+<li><p>Multi-human 2D HPE.</p></li>
+<li><p>Top-Down.</p></li>
+<li><p>文中提出了一种“<strong>超边</strong>”(Hyperedge)，这种边不是物理的边，也不是非物理但连接两个顶点的边，而是连接了多个顶点、有着类似<strong>区分body part</strong>作用的“大边”。这种超边的分配由训练好的网络负责，生成的依据是图中的语义关系。比如如果人在拉伸右腿，那右手和右脚踝就会被分配到一个超边中，因为它们有着紧密的语义联系。</p>
+<p><img data-src="image-20221220191125713.png" alt="image-20221220191125713" style="zoom:50%;"></p></li>
+<li><p>本文做的是Top-Down的单张图片2D多人HPE。其核心贡献在于提出了“超边”这种由图片语义得来、可连接两个到多个joints的广义边，从而可以更好地应对一些非典型动作的图片。</p></li>
+<li><p>Graph:</p>
+<ul>
+<li>Node: Human Joints.</li>
+<li>Node Value: d dimension feature.</li>
+<li>Edge: m条，为hyperedges。</li>
+<li>Edge Value: 每条超边链接的joints以及链接的紧密程度。</li>
+<li>Output: 一个<span class="math inline">\(J\times m\)</span>的矩阵，m是超边的数量，J是关键点的数量。代表着联系的紧密程度。</li>
+<li>Usage: 根据图片信息更好的建立人类关键点间的高维语义联系。</li>
+</ul></li>
+</ul>
+<h3 id="questions">Questions</h3>
+<ul>
+<li>Adaptive hypergraph矩阵可以包含可变数量的边。这个是怎么处理的？</li>
+<li>这个矩阵是如何训练的？输入是什么？</li>
+</ul>
+<h3 id="points-3">Points</h3>
+<ul>
+<li>对于一层GCN而言，它的forward公式是<span class="math inline">\(H^{(l+1)}=\sigma (\tilde{A}H^{(l)}W^{(W+1)})\)</span>，这里的<span class="math inline">\(\sigma\)</span>代表激活函数，<span class="math inline">\(\tilde{A}\)</span>代表被normalized邻接矩阵，<span class="math inline">\(W\)</span>是这层GCN的parameter。<span class="math inline">\(H\)</span>是feature map，<span class="math inline">\(l\)</span>这里代表第<span class="math inline">\(l\)</span>层GCN。正常情况下，这个步骤整体都被打包进<code>pyg.GCN</code> module一起做了，但这里我们刚好有现成的邻接矩阵<span class="math inline">\(A\)</span>，就不用专门再去构造graph，弄一个专门的<code>edge_index</code>矩阵了，因为<span class="math inline">\(A\)</span>就是了。</li>
+</ul>
+<h2 id="learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation">Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</h2>
+<figure>
+<img data-src="image-20221221141417256.png" alt="image-20221221141417256"><figcaption aria-hidden="true">image-20221221141417256</figcaption>
+</figure>
+<h3 id="summary-5">Summary</h3>
+<ul>
+<li><p>本文提出了一种针对不同距离（hop）的nodes使用不同Aggregation层级的GCN，保证了不同距离的node得以被区分对待，降低远距离node带来的噪音。同时，它还结合了经验人类skeleton和动态可学习skeleton的优点，用同步的两个branch分别运算，进一步提升了基于video的2D-&gt;3D HPE Lifting的质量。</p></li>
+<li><p>Graph:</p>
+<ul>
+<li><p>Node: J个人类Joints。</p></li>
+<li><p>Node Value: 2D坐标的features。</p></li>
+<li><p>Edge: Joints间的连接。分为两部分，一部分是物理连接，一部分是动态可学习的连接。</p></li>
+<li><p>Edge Value: Joints间的关联性（邻接矩阵）。</p></li>
+<li><p>Output: 每个Joint的3D坐标。</p></li>
+<li><p>Usage: 用于从2D预测升维到3D。</p>
+<blockquote>
+<p>Given 2D keypoints <span class="math inline">\(X ∈ R^{N\times 2}\)</span>, with N nodes, the model outputs better 3D positions <span class="math inline">\(Y ∈ R^{N\times 3}\)</span>.</p>
+</blockquote></li>
+</ul></li>
+</ul>
+<h3 id="points-4">Points</h3>
+<ul>
+<li><p>决定文中设计思路的几个重要观察：</p>
+<ol type="1">
+<li>Joints Graph中距离遥远的node虽然有时也会提供有价值的信息，但也导入了许多不相干的噪音。</li>
+<li>动态Joints Graph的构建很有效，但在不同的动作中joints间的关联性变化很大。所以虽然动态图在表征不同的动作时候很直观，如果只给定单张图，它也很容易受到outlier的影响。所以文中引入了TCN让信息在时间轴上流动。</li>
+</ol></li>
+<li><p>实际设计上，基本是一层D-HCSF一层TCN这样串联。</p>
+<p><img data-src="image-20221221150901507.png" alt="image-20221221150901507" style="zoom:50%;"></p></li>
+<li><p>Zoom in，看HCSF层，他们的核心思想是对近程和远程的node区分对待，分不同的层级对待。对于离自己近的node，用类似skip connection的连接直连最后；而离得远的nodes则先分组aggregate几次后再连到主bus上。</p></li>
+<li><p>Dynamic Hierarchical Channel-Squeezing Fusion (D-HCSF) 层的思想：结合了固定skeleton和动态学习skeleton的长处。蓝色是固定分支，橙色是动态。</p>
+<p><img data-src="GNN-based HPE/image-20221221150056706.png" alt="image-20221221150056706" style="zoom:50%;"></p></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/paper/" rel="tag"># paper</a>
+              <a href="/tags/CV/" rel="tag"># CV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/01/21/smpl-all/" rel="prev" title="SMPL 完全攻略 -- 从定义到文章到部署">
+                  <i class="fa fa-chevron-left"></i> SMPL 完全攻略 -- 从定义到文章到部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2099/10/03/resume/" rel="next" title="Curriculum Vitae -- Zhongyang Zhang">
+                  Curriculum Vitae -- Zhongyang Zhang <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">11:39</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

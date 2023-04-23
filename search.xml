@@ -10472,4 +10472,117 @@ pipe()创建的管道默认是阻塞模式的，阻塞和非阻塞的区别与so
         <tag>tensorflow</tag>
       </tags>
   </entry>
+  <entry>
+    <title>新浪微博图床失效应对方法</title>
+    <url>/2022/11/18/sina-img-recover/</url>
+    <content><![CDATA[<p>浏览之前的笔记时发现Markdown中所有上传至新浪图床上的内容都无法显示了，说实话还是很急的，毕竟内容比较多。首先明确一点，虽然你无法访问这些图了，但它们还在新浪服务器上，只是需要换一个口进去。</p>
+然后在网上转了一圈，有不少人提这是因为防盗链问题之类，加
+<meta name="referrer" content="no-referrer">
+<p>保平安。但问题是我是Markdown，加这个根本无从谈起。网上一些迁移脚本试了一下也并没有效果，因为下载不下来就是下载不下来嘛。</p>
+<span id="more"></span>
+<p>最后在<a href="https://www.31du.cn/blog/sinaimgurl.html">这里</a>发现了答案：</p>
+<blockquote>
+<p>因为<strong>wx1/2/3/4</strong>、<strong>ww1/2/3/4</strong> 与 <strong>ws1/2/3/4</strong> 为前缀的节点目前都被限制了，而 <strong>tva1/2/3/4</strong> 为前缀的节点目前仍可顺利打开。那么<strong>只要把网址前缀中的 wx、ww 与 ws 都改成 tva 系列应该就可以暂时继续使用微博图床的外链图片了</strong>。</p>
+</blockquote>
+<p>如果在Typora里，只需要正则匹配一下<code>ws\d</code>替换为<code>tva1</code>即可，然后在<code>格式-图像-移动所有图片到...</code>选项中将这些图片全部拉到本地即可。如果需要批量处理，可以参考这个<a href="https://github.com/wangshub/markdown-img-backup">脚本</a>，但需要修改一下，把上述替换加进代码中去。</p>
+]]></content>
+      <tags>
+        <tag>web</tag>
+        <tag>tech</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenCV与Qt不兼容问题</title>
+    <url>/2022/11/22/opencv-qt-comp/</url>
+    <content><![CDATA[<p>今天测试WSL2时，发现OpenCV弹窗显示图片一直会报错，所以就试着解决了一下。</p>
+<p>报的错是：<code>QObject::moveToThread:&lt;XXXX&gt; Current thread is not the object's thread &lt;XXXX&gt;</code>，且是一大堆错连着。</p>
+<span id="more"></span>
+<p>Google了一会儿，发现很多人指出是安装的qtpy和OpenCV存在兼容性问题，只要将OpenCV Downgrade一下就好了。具体的命令是：</p>
+<p><code>pip install opencv-python==4.1.2.30</code></p>
+<p>这个版本是确认可用的，你也可以试试其附近的版本。</p>
+<p>我用的测试代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> qtpy</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(cv2.__version__)</span><br><span class="line"><span class="built_in">print</span>(qtpy.__version__)</span><br><span class="line">img=cv2.imread(<span class="string">&#x27;~/workdir/output.png&#x27;</span>)</span><br><span class="line">cv2.imshow(<span class="string">&#x27;test&#x27;</span>, img)</span><br><span class="line">cv2.waitKey(<span class="number">1</span>)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<p>如果跑完不报错，问题就解决了。</p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>opencv</tag>
+        <tag>qt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SLURM集群中多次登录时保存的Tmux Session不见/消失/时隐时现/随机出现的问题</title>
+    <url>/2022/11/17/slurm-tmux/</url>
+    <content><![CDATA[<p>先说结论，不少Slurm集群使用了两到多个login node来缓解入口机器的压力，均衡负载。这些node每个实际上都可以被看做是一个独立的服务器，只是共享了文件系统和其他一些服务。而Tmux是依赖于node，即这里是login node的。如果换了node，自然也就找不到你之前detach后存档的tmux窗口了。</p>
+<span id="more"></span>
+<p>不幸的是，你能登录到哪个node不说是完全随机的，但是由系统根据负载动态分配的，所以说到底你并无法控制你ssh到cluster后被自动分配到了哪个主机。当然，你可以通过<code>hostname -s</code>或<code>cat /etc/hostname</code>来获知你当前的主机名，以判断你之前save的tmux session是不是在相同的node上。</p>
+<p>至于解决方案，有三种：</p>
+<ol type="1">
+<li><p>如果你的SLURM集群支持集群内部node相互ssh，那问题就好办了，直接ssh过去就好了。例如，如果你已知自己的tmux session建立在<code>login2</code> node上，而经过上一步的check hostname，你得知当前的主机名称是<code>login1</code>，那解决方案就简单直接了：<code>ssh login2</code>或<code>ssh -Y login2</code>. 来源：<a href="https://docs.ycrc.yale.edu/clusters-at-yale/guides/tmux/">Link</a></p>
+<blockquote>
+<p>注意：如果你登录server时候用的是pub和private key file认证，那么很有可能你无法直接在多个login node中跳转。若想做到这点，需要你将自己的private key上传到server，并使用<code>ssh -i &lt;your/id_rsa.pub&gt; loginN</code> 命令登录。</p>
+</blockquote></li>
+<li><p>如果很遗憾，由于安全设定原因，你无法在cluster内从一个node ssh到另一个，那其实解决方案就比较脏了，建议多次登录，开多个tab登录，使用多个可能的机器登录，挑选被分配到<code>login2</code> node的那个session使用吧。据我的经验来看，如果一个机器登不上<code>login2</code>，比起在同一个机器上继续尝试，使用另一台机器试试成功概率更大。当然这也许有点玄学成分了。</p></li>
+<li><p>参考这篇文章，他们的大致做法是每次启动tmux时写一个文件保存当前login node，然后你本地登录的时候对此进行解析，如果不在一个node上就重新来。但看下来他们需要不同的login node有一个专属的名字，可以直接ssh到特定login node。<a href="https://sumner.verhaaklab.com/slurm/how_to_interactive_via_tmux/">Webpage Link</a>，以及<a href="https://github.com/TheJacksonLaboratory/sumnerdocs/tree/master/docs/confs/bin">GitHub Link</a>。</p></li>
+</ol>
+<p>小Tips：如果可能，把tmux放login1上，一般负载没那么高的时候经验来看更倾向于被分配到第一个login node。</p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>server</tag>
+        <tag>slurm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WSL的克隆，WSL1与WSL2的克隆共存</title>
+    <url>/2022/11/24/wsl-clone/</url>
+    <content><![CDATA[<p><strong>前言</strong>：WSL1和WSL2各有各的特点。WSL2支持GPU和外接USB硬件设备访问，效率也更高；但一旦涉及到Windows内部的文件系统访问，那只能说是慢的不能行，尤其是运行涉及到大量文件操作的脚本时。但是我用WSL很久了，也有了不少个性化设置，安装了很多Library。如果重头再来一遍，耗时耗力且可能某些内容与之前的环境不兼容。于是想法来了：能不能直接把已有的WSL克隆一份，并升级为WSL2，或者相反？</p>
+<span id="more"></span>
+<h2 id="具体操作">具体操作</h2>
+<ol type="1">
+<li><p>导出已有的WSL Distribution到一个tar压缩包。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--export</span> &lt;distribution name&gt; &lt;export file name&gt;</span><br></pre></td></tr></table></figure>
+<p>例如如果你安装的是Ubuntu，想把它导出到当前目录，文件名为<code>ubuntu.tar</code>，则：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--export</span> Ubuntu ubuntu.tar</span><br></pre></td></tr></table></figure></li>
+<li><p>导出之后，自然就是导入了。选好导入后的压缩包准备解压的位置，然后：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--import</span> &lt;new distribution name&gt; &lt;install location&gt; &lt;export file name&gt;</span><br></pre></td></tr></table></figure>
+<p>如果你想给新的系统命名为<code>Ubuntu-WSL2</code>,新WSL位置放<code>.\Ubuntu-WSL2</code>，则：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--import</span> Ubuntu<span class="literal">-WSL2</span> .\Ubuntu<span class="literal">-WSL2</span> ubuntu.tar</span><br></pre></td></tr></table></figure>
+<p>值得一提的是，如果你想把新的克隆版也装到类似原本WSL的安装位置，这个位置在：</p>
+<p><code>**%USERPROFILE%\AppData\Local\Packages\&lt;distribution package name&gt;\LocalState\ext4.vhdx**</code></p>
+<p>以Ubuntu为例，这个目录是：<code>%USERPROFILE%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\ext4.vhdx</code></p></li>
+<li><p>导入完之后，必须要先运行一次，以把新的系统写入Windows Terminal的配置文件中。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">-d</span> &lt;new distribution name&gt;</span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">-d</span> Ubuntu<span class="literal">-WSL2</span></span><br></pre></td></tr></table></figure>
+<p><img data-src="image-20221124151115574.png" alt="image-20221124151115574" style="zoom:50%;"></p>
+<p>我这里是把WSL2作为Main，克隆后输出的WSL1，所以图示如上。</p></li>
+<li><p>如果你的目的只是单纯的克隆一下WSL，那到第三步其实已经完成了。但如果你还想更改WSL版本，那么：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--set-version</span> &lt;new distribution name&gt; <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>这里的<code>2</code>代表WSL2，如果你原本的WSL是WSL2，希望把克隆后的WSL版本降至<code>1</code>，那么把这里的<code>2</code>替换为<code>1</code>即可。如：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--set-version</span> Ubuntu<span class="literal">-WSL1</span> <span class="number">1</span></span><br></pre></td></tr></table></figure></li>
+<li><p>此时你会注意到，虽然登录进去了，但是你的user是root，不再是之前你自己的用户名。当然这个不需要慌，很容易就改了。</p>
+<p>只需要在<code>/etc/wsl.conf</code>文件中加上这样两行即可：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[user]</span><br><span class="line">default=&lt;YOUR_PREVIOUS_USERNAME&gt;</span><br></pre></td></tr></table></figure>
+<p>如果没有这个文件，创建一个该文件即可。</p>
+<p>做完这步之后，你需要彻底关闭该WSL，重新进入后生效。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wsl --terminate Ubuntu-WSL1</span><br></pre></td></tr></table></figure>
+<p>另外，如果你不想要更改默认用户，但想要某次以该用户进入WSL，可以使用以下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">-d</span> Ubuntu<span class="literal">-WSL1</span> <span class="literal">-u</span> &lt;YOUR_PREVIOUS_USERNAME&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>最后，如果你想查看确认当前安装的所有WSL系统版本：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">-l</span> <span class="literal">-v</span></span><br></pre></td></tr></table></figure>
+<p>有类似如下这两项说明已经成功：</p>
+<p><img data-src="image-20221124152610692.png" alt="image-20221124152610692" style="zoom:50%;"></p></li>
+</ol>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://endjin.com/blog/2021/11/setting-up-multiple-wsl-distribution-instances">Setting up multiple WSL distribution instances</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>tech</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
 </search>

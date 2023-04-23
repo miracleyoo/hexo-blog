@@ -5198,137 +5198,99 @@ C类，以192.168开头的都是私网地址，或192.168.0.1–192.168.255.254�
   </entry>
   <entry>
     <title>Linux(Ubuntu)装机与配置笔记</title>
-    <url>/2020/04/11/linux-setup/</url>
-    <content><![CDATA[<h2 id="硬盘相关"><a class="markdownIt-Anchor" href="#硬盘相关"></a> 硬盘相关</h2>
-<ol>
-<li>
-<p><strong>df命令</strong><br>
-<code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
-<p><code>df -h</code>, 即<code> --human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
+    <url>/2022/04/11/linux-setup/</url>
+    <content><![CDATA[<h2 id="硬盘相关">硬盘相关</h2>
+<ol type="1">
+<li><p><strong>df命令</strong> <code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
+<p><code>df -h</code>, 即<code>--human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
 <p><code>df -T</code>：查看所有磁盘的文件系统类型(type)</p>
-<span id="more"></span>
-</li>
-<li>
-<p><strong><code>fdisk</code>命令</strong></p>
+<span id="more"></span></li>
+<li><p><strong><code>fdisk</code>命令</strong></p>
 <p><code>fdisk</code>：强大的磁盘监视和操作工具。</p>
-<p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p>
-</li>
-<li>
-<p><strong>mount命令</strong></p>
+<p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p></li>
+<li><p><strong>mount命令</strong></p>
 <p><code>mount</code>：挂载一个文件系统</p>
 <p><code>mount -t ntfs &lt;source&gt; &lt;target&gt;</code>：以ntfs文件系统的形式从源目录挂载到目标目录。t表示types类型</p>
-<p><code>mount -a</code>：挂载 fstab 中的所有文件系统。a表示all</p>
-</li>
-<li>
-<p><strong>blkid命令</strong></p>
-<p><code>sudo blkid</code>：获取各个分区的UUID和分区类型TYPE</p>
-</li>
-<li>
-<p>物理磁盘与磁盘分区：一个物理磁盘在<code>fdisk -l</code>中的显示往往类似于<code>/dev/sda</code>，<code>/dev/sdb</code>，<code>/dev/nvme0n1</code>。一般情况下是不带数字的，sda sdb是最常见的命名。而分区命名则是如：<code>/dev/sda1</code>，<code>/dev/sdb2</code>之类在物理磁盘的后面带上数字表示分区编号。</p>
-<p>但有些如双系统中，可能会出现最后一个例子中展示的命名，这种磁盘的分区则是以<code>p[x]</code>结尾，如<code>/dev/nvme0n1p1</code>，<code>/dev/nvme0n1p9</code>。</p>
-</li>
-<li>
-<p>Linux开机后不会自动挂载Windows文件格式NTFS的磁盘。</p>
-</li>
-<li>
-<p><code>sudo chmod -R 777 &lt;Folder_Name&gt;</code> 可以取消一个文件夹的全部访问权限。</p>
-</li>
-<li>
-<p><code>chmod</code>命令对ext3/4文件系统，即Linux格式的文件系统才有效，对其他文件系统，如vfat(Fat32)，NTFS都是无效的。</p>
-</li>
-<li>
-<p>/etc/fstab` 文件是掌管硬盘自动挂载配置的文件，包含自动挂载分区过程的必要信息。每一条记录格式如下：</p>
+<p><code>mount -a</code>：挂载 fstab 中的所有文件系统。a表示all</p></li>
+<li><p><strong>blkid命令</strong></p>
+<p><code>sudo blkid</code>：获取各个分区的UUID和分区类型TYPE</p></li>
+<li><p>物理磁盘与磁盘分区：一个物理磁盘在<code>fdisk -l</code>中的显示往往类似于<code>/dev/sda</code>，<code>/dev/sdb</code>，<code>/dev/nvme0n1</code>。一般情况下是不带数字的，sda sdb是最常见的命名。而分区命名则是如：<code>/dev/sda1</code>，<code>/dev/sdb2</code>之类在物理磁盘的后面带上数字表示分区编号。</p>
+<p>但有些如双系统中，可能会出现最后一个例子中展示的命名，这种磁盘的分区则是以<code>p[x]</code>结尾，如<code>/dev/nvme0n1p1</code>，<code>/dev/nvme0n1p9</code>。</p></li>
+<li><p>Linux开机后不会自动挂载Windows文件格式NTFS的磁盘。</p></li>
+<li><p><code>sudo chmod -R 777 &lt;Folder_Name&gt;</code> 可以取消一个文件夹的全部访问权限。</p></li>
+<li><p><code>chmod</code>命令对ext3/4文件系统，即Linux格式的文件系统才有效，对其他文件系统，如vfat(Fat32)，NTFS都是无效的。</p></li>
+<li><p>/etc/fstab` 文件是掌管硬盘自动挂载配置的文件，包含自动挂载分区过程的必要信息。每一条记录格式如下：</p>
 <p><code>[Device] [Mount Point] [File System Type] [Options] [Dump] [Pass]</code></p>
 <p>如：</p>
 <p><code>UUID=B45A01D55A019570 /data ntfs defaults 0 2</code></p>
 <p>其中：</p>
 <p><code>[Options]</code> ：<code>defaults</code>表示用默认的<code>rw, suid, dev, exec, auto, nouser, async</code>等选项（不同内核和文件系统不同）进行挂载，这些选项的含义：<code>rw</code> 可读写；<code>suid</code> 执行程序时遵守<code>uuid</code>；<code>dev</code> 解释字符或禁止特殊设备；<code>exec</code> 允许执行二进制文件；<code>auto</code> 可以<code>-a</code>方式加载；<code>nouser</code> 禁止普通用户挂载此文件系统；<code>async</code> 所有I/O异步完成。</p>
 <p><code>[Dump]</code> ：是否开启分区备份，0表示关闭</p>
-<p><code>[Pass]</code>：系统启动时检查分区错误的顺序，root为1，其他为2，0为不检查。</p>
-</li>
-<li>
-<p>在<code>fstab</code>文件中添加记录前一定要先尝试用mount命令手动挂载。</p>
-</li>
+<p><code>[Pass]</code>：系统启动时检查分区错误的顺序，root为1，其他为2，0为不检查。</p></li>
+<li><p>在<code>fstab</code>文件中添加记录前一定要先尝试用mount命令手动挂载。</p></li>
 </ol>
-<h3 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h3>
-<ol>
+<h3 id="参考">参考</h3>
+<ol type="1">
 <li><a href="https://blog.csdn.net/qxqxqzzz/article/details/89790688">Ubuntu18.04 开机自动挂载其他硬盘</a></li>
 <li><a href="https://blog.csdn.net/ybdesire/article/details/79145180">Linux查看与挂载新磁盘</a></li>
 </ol>
-<h2 id="cuda的安装"><a class="markdownIt-Anchor" href="#cuda的安装"></a> CUDA的安装</h2>
-<ol>
-<li>
-<p>检查自己的GPU是否是CUDA-capable，在终端中输入<code>lspci | grep -I NVIDIA</code> ，会显示自己的NVIDIA GPU版本信息，去CUDA的官网查看自己的GPU版本是否在CUDA的支持列表中。</p>
-</li>
-<li>
-<p>检查自己的Linux版本是否支持 CUDA（Ubuntu 稳定支持版没问题）。</p>
-</li>
-<li>
-<p>检查其他问题。这里就不详述了，正常情况下一般OK，这里主要要检查是否安装了<code>gcc</code>，是否安装了<code>kernel header</code>和 <code>package development</code>。如果害怕出现问题可以参考<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">官网</a>执行这几步检测。</p>
-</li>
-<li>
-<p>于<a href="https://developer.nvidia.com/cuda-downloads">CUDA官网</a>下载与系统对应的CUDA版本。最后一个选项选择<code>runfile</code>，因为其所需步骤最少，也因此最不容易出问题。所有选项完成后，你会看到如下两行命令：</p>
+<h2 id="cuda的安装">CUDA的安装</h2>
+<ol type="1">
+<li><p>这里是官方<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#environment-setup">指南</a>，注意使用左侧的导航链接，以免翻看中看漏信息。下载链接在<a href="https://developer.nvidia.com/cuda-downloads">这里</a>。</p></li>
+<li><p>检查自己的GPU是否是CUDA-capable，在终端中输入<code>lspci | grep -I NVIDIA</code> ，会显示自己的NVIDIA GPU版本信息，去CUDA的官网查看自己的GPU版本是否在CUDA的支持列表中。</p></li>
+<li><p>检查自己的Linux版本是否支持 CUDA（Ubuntu 稳定支持版没问题）。</p></li>
+<li><p>检查其他问题。这里就不详述了，正常情况下一般OK，这里主要要检查是否安装了<code>gcc</code>，是否安装了<code>kernel header</code>和 <code>package development</code>。如果害怕出现问题可以参考<a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">官网</a>执行这几步检测。</p></li>
+<li><p>于<a href="https://developer.nvidia.com/cuda-downloads">CUDA官网</a>下载与系统对应的CUDA版本。最后一个选项选择<code>runfile</code>，因为其所需步骤最少，也因此最不容易出问题。所有选项完成后，你会看到如下两行命令：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run</span><br><span class="line">sudo sh cuda_10.2.89_440.33.01_linux.run</span><br></pre></td></tr></table></figure>
-<p>先不要执行第二条<code>sudo</code>开头的指令，只使用<code>wget</code>下载。</p>
-</li>
-<li>
-<p>如果之前有安装过其他版本的CUDA并希望将其卸载，使用<code>sudo nvidia-uninstall</code>卸载。如果该命令不在系统路径中，则使用<code>sudo /usr/bin/nvidia-uninstall</code>（位置可能变化）卸载。如果还是没有，或是之前的驱动已经损坏，则：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br><span class="line">sudo <span class="built_in">chmod</span> +x NVIDIA-Linux-x86_64-410.93.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-410.93.run --uninstall</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>屏蔽<code>nouveau</code>驱动。</p>
-</li>
+<p>先不要执行第二条<code>sudo</code>开头的指令，只使用<code>wget</code>下载。</p></li>
+<li><p>如果之前有安装过其他版本的CUDA并希望将其卸载，使用<code>sudo nvidia-uninstall</code>卸载。如果该命令不在系统路径中，则使用<code>sudo /usr/bin/nvidia-uninstall</code>（位置可能变化）卸载。如果还是没有，或是之前的驱动已经损坏，则：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br><span class="line">sudo <span class="built_in">chmod</span> +x NVIDIA-Linux-x86_64-410.93.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-410.93.run --uninstall</span><br></pre></td></tr></table></figure></li>
+<li><p>屏蔽<code>nouveau</code>驱动。</p></li>
 </ol>
-<h3 id="nouveau是什么"><a class="markdownIt-Anchor" href="#nouveau是什么"></a> Nouveau是什么</h3>
+<h3 id="nouveau是什么">Nouveau是什么</h3>
 <blockquote>
-<h4 id="nouveau-accelerated-open-source-driver-for-nvidia-cards"><a class="markdownIt-Anchor" href="#nouveau-accelerated-open-source-driver-for-nvidia-cards"></a> Nouveau: Accelerated Open Source driver for nVidia cards</h4>
+<h4 id="nouveau-accelerated-open-source-driver-for-nvidia-cards">Nouveau: Accelerated Open Source driver for nVidia cards</h4>
 <p>The <strong>nouveau</strong> project aims to build high-quality, free/libre software drivers for <a href="https://nouveau.freedesktop.org/wiki/CodeNames/">nVidia cards</a>. “Nouveau” [<em>nuvo</em>] is the French word for “new”. Nouveau is composed of a Linux kernel KMS driver (nouveau), Gallium3D drivers in Mesa, and the Xorg DDX (xf86-video-nouveau). The kernel components have also been ported to <a href="https://nouveau.freedesktop.org/wiki/NetBSD/">NetBSD</a>.</p>
 </blockquote>
 <p>简单说，nouveau是Linux系统默认的给NVIDIA卡预装的一个图形加速驱动，而这个驱动会与CUDA产生部分冲突，所以在安装CUDA之前需要将其禁用，否则会出现卡在开机登录界面无法进入图形界面（仍然可以ssh访问），黑屏，鼠标键盘输入被禁用等问题中的一个或多个（亲身经历）。</p>
 <p>继续安装教程：</p>
-<ol start="6">
-<li>
-<p>刚才说到要屏蔽<code>nouveau</code>，那么怎么知道你有没有装它呢？<br>
-使用<code>lsmod | grep nouveau</code>命令，如果没有输出，就可以判定你没有运行<code>nouveau</code>，可以直接进入下一步，否则：</p>
-<ol>
-<li>
-<p>Create a file at <code>/etc/modprobe.d/blacklist-nouveau.conf</code> with the following contents:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>Regenerate the kernel initramfs:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>Restart.</p>
-</li>
-<li>
-<p>Run <code>lsmod | grep nouveau</code> again. If there is no output, then you succeed.</p>
-</li>
+<ol start="6" type="1">
+<li><p>刚才说到要屏蔽<code>nouveau</code>，那么怎么知道你有没有装它呢？ 使用<code>lsmod | grep nouveau</code>命令，如果没有输出，就可以判定你没有运行<code>nouveau</code>，可以直接进入下一步，否则：</p>
+<ol type="1">
+<li><p>Create a file at <code>/etc/modprobe.d/blacklist-nouveau.conf</code> with the following contents:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure></li>
+<li><p>Regenerate the kernel initramfs:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure></li>
+<li><p>Restart.</p></li>
+<li><p>Run <code>lsmod | grep nouveau</code> again. If there is no output, then you succeed.</p></li>
+</ol></li>
+<li><p>此后建议进入一个非图形界面安装，这里可以在重启后使用<code>ssh</code>接入，也可以在重启后按<code>alt+ctrl+f1</code>，进入<strong>text mode</strong>，登录账户。</p></li>
+<li><p>输入 <code>sudo service lightdm stop</code> 关闭图形化界面。</p></li>
+<li><p>执行刚才官网中给出的第二条命令：<code>sudo sh cuda_10.2.89_440.33.01_linux.run</code>。注意这里的版本会不断有变化。注意这里有一个点，即你是否要同时安装OpenGL，如果你是双显，且主显是非NVIDIA的GPU需要选择no，否则yes。同理，如果准备选no，也可以一开始就加上参数<code>--no-opengl-files</code>。 另外，如果不能直接执行，使用<code>sudo chmod a+x cuda_xx.xx.xx_linux.run</code>为其赋权。</p></li>
+<li><p>安装成功后，会提示你将cuda的几个路径添加到系统路径中，这里重复一下，</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1<span class="variable">$&#123;PATH:+:<span class="variable">$&#123;PATH&#125;</span>&#125;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\</span><br><span class="line">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>使用<code>nvcc -V</code>检测是否安装成功。当然也可以同时测试<code>nvidia-smi</code>。这里可能会报错并提示需要apt安装一个包，按提示来。</p></li>
+<li><p>此时可能要再安装一个nvidia driver，具体适配版本可以在<a href="https://www.nvidia.com/download/index.aspx">这里</a>找到。</p></li>
+<li><p>reboot，此时你可能会发现GUI的登录界面消失了，你面对的只有一个空白的壁纸/纯色。不要慌张，只要切换一下display manager就好了。如果你默认的是<code>gbm3</code> display manager，那最简单的方法就是直接安装<code>lightdm</code>并切换过去就好了。</p>
+<p>首先按<code>CTRL+ALT+F5</code>进入纯命令行模式，然后输入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install lightdm</span><br><span class="line">sudo dpkg-reconfigure lightdm</span><br></pre></td></tr></table></figure>
+<p>如果提示服务没起来，用<code>sudo systemctl start lightdm</code>。</p></li>
+<li><p>完成。</p></li>
 </ol>
-</li>
-<li>
-<p>此后建议进入一个非图形界面安装，这里可以在重启后使用<code>ssh</code>接入，也可以在重启后按<code>alt+ctrl+f1</code>，进入<strong>text mode</strong>，登录账户。</p>
-</li>
-<li>
-<p>输入 <code>sudo service lightdm stop</code> 关闭图形化界面。</p>
-</li>
-<li>
-<p>执行刚才官网中给出的第二条命令：<code>sudo sh cuda_10.2.89_440.33.01_linux.run</code>。注意这里的版本会不断有变化。注意这里有一个点，即你是否要同时安装OpenGL，如果你是双显，且主显是非NVIDIA的GPU需要选择no，否则yes。同理，如果准备选no，也可以一开始就加上参数<code>--no-opengl-files</code>。 另外，如果不能直接执行，使用<code>sudo chmod a+x cuda_xx.xx.xx_linux.run</code>为其赋权。</p>
-</li>
-<li>
-<p>安装成功后，会提示你将cuda的几个路径添加到系统路径中，这里重复一下，</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1<span class="variable">$&#123;PATH:+:<span class="variable">$&#123;PATH&#125;</span>&#125;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\</span><br><span class="line">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>使用<code>nvcc -V</code>检测是否安装成功。当然也可以同时测试<code>nvidia-smi</code>。这里可能会报错并提示需要apt安装一个包，按提示来。</p>
-</li>
-<li>
-<p>完成。</p>
-</li>
-</ol>
-<h3 id="参考-2"><a class="markdownIt-Anchor" href="#参考-2"></a> 参考</h3>
-<ol>
+<h2 id="nvidia-driver-的安装与使用">NVIDIA Driver 的安装与使用</h2>
+<p>这里需要澄清一个问题，即NVIDIA Driver，NVIDIA utils (390), CUDA 之间的关系。NVIDIA Driver是需要单独安装的，它与Nouveau是并列关系。系统默认的<strong>显卡驱动</strong>是后者。utils 是服务于Driver的，比如<code>nvidia-smi</code>, <code>nvidia-settings</code>等就是utils的组件。而CUDA是建构在Driver之上的一个服务于深度学习程序的<strong>指令转换器</strong>，所以要现有前两者，CUDA才能正常运行。</p>
+<p>安装Driver有两种方法，一种是在GUI中的<strong>Software &amp; Updates</strong>中选择Additional Drivers中的第一行<strong>Proprietary, tested</strong>的那个NVIDIA Driver选项，然后Apply Changes即可。</p>
+<figure>
+<img data-src="ubuntu-18.04-nvidia-drivers-430.png" alt="ubuntu 18.04 nvidia-drivers 430"><figcaption aria-hidden="true">ubuntu 18.04 nvidia-drivers 430</figcaption>
+</figure>
+<p>也可以在命令行中用<code>sudo ubuntu-drivers autoinstall</code> 选项来进行安装。这里就不展开了，<a href="https://www.linuxbabe.com/ubuntu/install-nvidia-driver-ubuntu-18-04">这篇文章</a>讲的非常详细。</p>
+<h3 id="error-shooting">Error Shooting</h3>
+<ul>
+<li>如果系统分辨率突然被固定为了一个很小的数值，且无法调整，请尝试<code>nvcc --version</code>和<code>nvidia-smi</code>，往往是由于CUDA相关的两个路径没有很好的添加到正确的位置。如果想保险，直接在<code>~/.bashrc</code>或<code>~/.zshrc</code>中添加那两行<code>export</code>命令，然后重启。</li>
+<li>如果你电脑物理连接了两个显示器，而你登录后发现桌面是空的，也没有Dock，什么都没有，有可能是他们在另一个显示器上，即使你没打开那个显示器。</li>
+</ul>
+<h3 id="参考-1">参考</h3>
+<ol type="1">
 <li><a href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA下载官网</a></li>
 <li><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">NVIDIA 官方安装指南（英文）</a></li>
 <li><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">NVIDIA 官方安装指南中前置检查部分</a></li>
@@ -5338,77 +5300,80 @@ C类，以192.168开头的都是私网地址，或192.168.0.1–192.168.255.254�
 <li><a href="https://blog.csdn.net/qq_33200967/article/details/80689543">Ubuntu安装和卸载CUDA和CUDNN</a></li>
 <li><a href="https://blog.csdn.net/wf19930209/article/details/81879514">Linux安装CUDA的正确姿势</a></li>
 </ol>
-<h2 id="cuda-与-cudnn-的联系"><a class="markdownIt-Anchor" href="#cuda-与-cudnn-的联系"></a> CUDA 与 CUDNN 的联系</h2>
-<ol>
+<h2 id="cuda-与-cudnn-的联系">CUDA 与 CUDNN 的联系</h2>
+<ol type="1">
 <li>要先装CUDA再装CUDNN。</li>
 <li>前者是平台，后者是基于平台的深度学习加速器。加速可以应用于几乎全部深度学习平台。还是要安的。</li>
 <li>一般深度学习使用安装runtime版本即可。</li>
 <li><a href="https://developer.nvidia.com/rdp/cudnn-download">CUDNN官方下载</a>，<a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html">CUDNN官方安装步骤</a></li>
 </ol>
-<h2 id="修复ubuntu中检测到系统程序错误的问题"><a class="markdownIt-Anchor" href="#修复ubuntu中检测到系统程序错误的问题"></a> 修复Ubuntu中“检测到系统程序错误”的问题</h2>
-<h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<h2 id="修复ubuntu中检测到系统程序错误的问题">修复Ubuntu中“检测到系统程序错误”的问题</h2>
+<h3 id="问题描述">问题描述</h3>
 <p>每次开机时都会有“<strong>Ubuntu xx.xx 在启动时检测到系统程序错误</strong> ”弹窗出现。即使点击报告下次还会继续出现。</p>
-<h3 id="问题来源"><a class="markdownIt-Anchor" href="#问题来源"></a> 问题来源</h3>
+<h3 id="问题来源">问题来源</h3>
 <p>之前的某个时刻某个程序崩溃了，而Ubuntu想让你决定要不要把这个问题报告给开发者，这样他们就能够修复这个问题。</p>
-<h3 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h3>
-<ol>
-<li><code>sudo rm /var/crash/* </code> ：删除这些错误报告。但是如果又有一个程序崩溃了，你就会再次看到“检测到系统程序错误”的错误。你可以再次删除这些报告文件，或者选择禁用Apport来彻底地摆脱这个错误弹窗。如果你这样做，系统中任何程序崩溃时，系统都不会再通知你。但这未必一件坏事，除非你愿意填写错误报告。如果你不想填写错误报告，那么这些错误通知存不存在都不会有什么区别。</li>
+<h3 id="解决办法">解决办法</h3>
+<ol type="1">
+<li><code>sudo rm /var/crash/*</code> ：删除这些错误报告。但是如果又有一个程序崩溃了，你就会再次看到“检测到系统程序错误”的错误。你可以再次删除这些报告文件，或者选择禁用Apport来彻底地摆脱这个错误弹窗。如果你这样做，系统中任何程序崩溃时，系统都不会再通知你。但这未必一件坏事，除非你愿意填写错误报告。如果你不想填写错误报告，那么这些错误通知存不存在都不会有什么区别。</li>
 <li><code>sudo vim /etc/default/apport</code> 永久屏蔽这些报错。</li>
 </ol>
-<h3 id="参考-3"><a class="markdownIt-Anchor" href="#参考-3"></a> 参考</h3>
-<ol>
+<h3 id="参考-2">参考</h3>
+<ol type="1">
 <li><a href="https://blog.csdn.net/hywerr/article/details/72582082">如何修复ubuntu中检测到系统程序错误的问题</a></li>
 <li><a href="https://itsfoss.com/how-to-fix-system-program-problem-detected-ubuntu/">How To Fix System Program Problem Detected In Ubuntu</a></li>
 </ol>
-<h2 id="安装python36版本的anaconda"><a class="markdownIt-Anchor" href="#安装python36版本的anaconda"></a> 安装Python3.6版本的Anaconda</h2>
+<h2 id="安装python3.6版本的anaconda">安装Python3.6版本的Anaconda</h2>
 <p>由于之前使用的一些开源库和软件对3.7的支持性尚还有问题，而Anaconda默认Python版本为3.6， 所以有必要把Anaconda降级为3.6版本。</p>
 <p>安装方法：</p>
-<ol>
-<li>
-<p>到Anaconda官网下载并安装最新3.7版本。</p>
-</li>
-<li>
-<p>世界线开始分歧，你可以选择保留3.7版本的Anaconda，并创建一个虚拟环境，或是直接替换Python版本。</p>
-<ol>
-<li>
-<p>对前者，<br>
-若只要一个python环境不要packages，</p>
+<ol type="1">
+<li><p>到Anaconda官网下载并安装最新3.7版本。</p></li>
+<li><p>世界线开始分歧，你可以选择保留3.7版本的Anaconda，并创建一个虚拟环境，或是直接替换Python版本。</p>
+<ol type="1">
+<li><p>对前者， 若只要一个python环境不要packages，</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda create --name ana36 python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
 <p>反之，如果要安装一个新的Anaconda，包含默认的所有packages，</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda create -n ana36 anaconda python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>对后者，</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda install python=3.6</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda create -n ana36 anaconda python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure></li>
+<li><p>对后者，</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda install python=3.6</span><br></pre></td></tr></table></figure></li>
+</ol></li>
 </ol>
-</li>
-</ol>
-<h2 id="添加vim拷贝至系统剪贴板快捷键支持"><a class="markdownIt-Anchor" href="#添加vim拷贝至系统剪贴板快捷键支持"></a> 添加Vim拷贝至系统剪贴板快捷键支持</h2>
+<h2 id="添加vim拷贝至系统剪贴板快捷键支持">添加Vim拷贝至系统剪贴板快捷键支持</h2>
 <p>(from: <a href="http://vim.wikia.com/wiki/Mac_OS_X_clipboard_sharing">link</a>)</p>
-<p>Having trouble copying selected text from Vim (not MacVim)? Since using <code>&quot;+y</code> or ‘&quot;*y’ in Vim on a Mac doesn’t actually copy the selected text to the system clipboard, you might find it beneficial to do the following:</p>
-<ol>
+<p>Having trouble copying selected text from Vim (not MacVim)? Since using <code>"+y</code> or '"*y' in Vim on a Mac doesn't actually copy the selected text to the system clipboard, you might find it beneficial to do the following:</p>
+<ol type="1">
 <li>Open your <code>~/.vimrc</code> file</li>
 <li>add <code>vmap '' :w !pbcopy</code></li>
 <li>Save it and <code>source</code> the file</li>
 </ol>
 <p>现在，你就可以在 visual mode， 即在Esc命令模式后按下v键后的选择模式中，选好需要拷贝区域后，连击两次<code>'</code> ，即使用 <code>''</code>来拷贝所选区域。</p>
-<h2 id="在maclinux上使用ssh挂载远程网络硬盘"><a class="markdownIt-Anchor" href="#在maclinux上使用ssh挂载远程网络硬盘"></a> 在Mac/Linux上使用ssh挂载远程网络硬盘</h2>
+<h2 id="在maclinux上使用ssh挂载远程网络硬盘">在Mac/Linux上使用ssh挂载远程网络硬盘</h2>
 <p>TL;DR：</p>
-<ol>
+<ol type="1">
 <li>安装sshfs: <code>sudo apt-get install sshfs</code></li>
 <li>直接在<code>~/.zshrc</code>中添加以下行：（当然，需要更改文件夹名称，以及挂载后的命名）</li>
 </ol>
-<h3 id="连接本地linux-server"><a class="markdownIt-Anchor" href="#连接本地linux-server"></a> 连接本地Linux Server</h3>
+<h3 id="连接本地linux-server">连接本地Linux Server</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_misaka</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-home&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/misaka-home</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/home/miracle /Volumes/misaka-home/ -ovolname=mk-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-storage&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/misaka-storage</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/data /Volumes/misaka-storage/ -ovolname=mk-2T</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="连接gypsum"><a class="markdownIt-Anchor" href="#连接gypsum"></a> 连接Gypsum</h3>
+<h3 id="连接gypsum">连接Gypsum</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_gypsum</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/home/zhongyangzha /Volumes/gypsum/ -ovolname=gp-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-scratch/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum-scratch/</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/scratch1/zhongyangzha/ /Volumes/gypsum-scratch/ -ovolname=gp-scratch</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-work/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum-work</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/work1/trahman/zhongyangzha /Volumes/gypsum-work/ -ovolname=gp-work</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="参数解释"><a class="markdownIt-Anchor" href="#参数解释"></a> 参数解释</h3>
-<ol>
+<h3 id="参数解释">参数解释</h3>
+<ol type="1">
 <li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
 <li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
 <li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;username@ip.address:/the/source/path&gt; 与本机目标挂载位置</li>
 <li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
+</ol>
+<h2 id="硬盘相关-1">硬盘相关</h2>
+<h3 id="硬盘信息查看三幻神">硬盘信息查看三幻神</h3>
+<ol type="1">
+<li><code>sudo fdisk -l</code>: 最为详细全面的硬盘信息，既包含了已挂载的盘，也包含了未挂载的盘。其含有磁盘在<code>/dev</code>中的位置，size（非常详细，既有易于阅读的单位MB/GB等，也有精确到字节和扇区的信息），硬盘型号，disklabel型号（GPT DOS）等。</li>
+<li><code>df -h</code>: 含有所有当前已挂载的磁盘的信息，包括<code>/dev</code>位置，总空间，已用空间和可用空间，利用率，以及挂载点位置。</li>
+<li><code>sudo blkid</code>: 全部（已挂载+未挂载）的硬盘信息，包括<code>/dev</code>位置，文件系统类型（ntfs，ext4，fat32等），Label（就是Windows上写的卷名），UUID，以及Partition UUID。</li>
+</ol>
+<h3 id="为什么有的硬盘开机就自动挂载了而另一些则没有">为什么有的硬盘开机就自动挂载了，而另一些则没有</h3>
+<ol type="1">
+<li>在我遇到的情况里，什么都不用做就会自动挂载的是外置的USB盘符，它们其实是开机之后被一个个load起来的。而装在主机里面的那些硬盘，则需要额外进行设置以便能开机自动挂载。</li>
+<li>设置方法：<code>sudo vim /etc/fstab</code>进行编辑即可。每个想要挂在的盘各自写一行，每行包括设备UUID，挂载点，文件系统，以及后面不怎么用改的三个参数（用 <code>default 0 0</code>填充即可）。这些信息的查看方法在上个小节有提。</li>
 </ol>
 ]]></content>
       <tags>
@@ -12301,6 +12266,76 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <tag>paper</tag>
         <tag>mmwave-radar</tag>
         <tag>domain-fusion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>qDVS 论文笔记</title>
+    <url>/2023/01/28/gert-qdvs-paper/</url>
+    <content><![CDATA[<p><strong>Paper's full name</strong>: A 256x256 6.3pJ/pixel-event Query-driven Dynamic Vision Sensor with Energy-conserving Row-parallel Event Scanning, <a href="https://ieeexplore.ieee.org/document/9431446">Link</a></p>
+<h2 id="idea">Idea</h2>
+<p>This paper proposed a novel query-driven DVS (qDVS) hardware. This new hardware combines the advantages of APS and DVS, following a fixed scanning rate to inquire <strong>all</strong> pixels whether are good to fire an event. The output of qDVS is event <strong>frames</strong>. Pixels here are responsible for fewer functions, they only need to tell whether they are good to shoot and the polarity, as their address is fixed on the generated event frames. As each pixel has fewer functions, they are able to be made smaller, which results in an overall higher pixel density. Also, since the output of qDVS is already framed, machine learning researchers don't need to do accumulation themselves and hence optimized the processing pipeline.</p>
+<span id="more"></span>
+<h2 id="questions">Questions</h2>
+<ul>
+<li>They used a fixed scanning rate to interact with all pixels, but how to change this rate to better accommodate different information densities?
+<ul>
+<li>Change the external clock rate. (Not sure)</li>
+</ul></li>
+<li>What is the "fill factor" in DVS?</li>
+<li>Although qDVS can directly output event frames, as qDVS works at a very high clock rate according to the paper, each frame should not contain enough events for a prediction. For problems like human pose estimation, using these frames will definitely cause a severe missing torso problem, as humans don't move all his/her body parts all the time.
+<ul>
+<li>Not clearly mentioned in the paper. This problem may not be solved in their paper originally.</li>
+<li>Maybe accumulation is also used?</li>
+</ul></li>
+<li>Why the dynamic range is clearly lower (68dB) than other DVS cameras like Prophesee (124dB) and DAVIS346 (120dB)? Even the RGB camera has a higher dynamic range (FLIR BlackFly, 74.35dB). This means the qDVS camera doesn't have an advantage over other RGB cameras in low-lighting conditions.
+<ul>
+<li>An inference is stated in <em>Hardware Design Consideration</em> Point 6.</li>
+</ul></li>
+<li>Will the reset process eliminate the accumulated voltage change if this change is not big enough to trigger an event?</li>
+</ul>
+<figure>
+<img data-src="kuben1-027-large.gif" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h2 id="points">Points</h2>
+<ol type="1">
+<li>This is a hardware paper regarding a novel query-driven DVS sensing approach (qDVS).</li>
+<li>It aims to boost the achievable pixel density and energy efficiency.</li>
+<li>Combines complementary advantages of RGB + DVS.</li>
+<li>Spec: 256 x 256, 33% fill factor, 10% temporal contrast sensitivity.</li>
+<li>Peak rate: 0.5mW, 1.2V, 80Meps, 6.3pJ/pixel-event.</li>
+<li>Comparison between chips:</li>
+</ol>
+<ul>
+<li>Traditional CMOS/APS: High pixel density, use frame scanning at a <strong>fixed clock rate</strong>, causes constant data rate and <strong>power independent of information content</strong>.</li>
+<li>Typical DVS: Saves energy by more efficient visual event coding. <strong>Low pixel density</strong>, inefficient implementation, caused extra area and power overhead to continuously monitor for events and handle requests and acknowledge handshaking with each pixel. This leads to substantial <strong>static power</strong>.</li>
+<li>qDVS: Uses a <strong>clocked time-division multiplexing</strong> to <strong>periodically scan</strong> the array, querying each pixel to check whether the brightness change has passed a threshold. This scanning time interval is way smaller than the APS rate.</li>
+</ul>
+<ol start="7" type="1">
+<li>gDVS achieves 2x greater pixel density, 20x greater energy efficiency than state-of-the-art.</li>
+<li>qDVS is more suitable for deep learning since it directly outputs frames of events and does not require accumulation of events in the buffer memory, to reconstruct frames or dynamic clustering algorithms to identify object boundaries, in order to track them.</li>
+</ol>
+<h2 id="hardware-design-consideration">Hardware Design Consideration</h2>
+<ol type="1">
+<li><p>In qDVS, the <span class="math inline">\(V_{IN}\)</span> is defined by both <span class="math inline">\(C_{PH}\)</span> and <span class="math inline">\(C_{REF}\)</span>, where <span class="math inline">\(\Delta V_{IN} = \frac{C_{PH}}{C_{PH}+C_{REF}}\cdot\Delta V_{PH} + \frac{C_{REF}}{C_{PH}+C_{REF}}\cdot\Delta V_{REF} \space\space\space\space\space (1)\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\Delta V_{IN}&gt;+\epsilon\)</span>, output an ON event, if <span class="math inline">\(\Delta V_{IN}&lt;-\epsilon\)</span>, output an OFF event.</p></li>
+<li><p>The photodiode generates output <span class="math inline">\(V_{PH}\)</span> in a <strong>logarithmic</strong> way to the brightness. This is the reason that there is a <span class="math inline">\(log\)</span> applied to the brightness in DVS.</p></li>
+<li><p>Capacitors work as <strong>differentiators</strong>, turning the variation of electric potential into electric potential current <span class="math inline">\(Q=It=C\Delta U\)</span>, <span class="math inline">\(I=C\frac{dU}{dt}\)</span>. Therefore, when the brightness on this photodiode doesn't change, no potential is generated after the capacitor <span class="math inline">\(C_{PH}\)</span>.</p></li>
+<li><p>As the threshold for generating an ON/OFF event is <strong>fixed</strong> and based on <span class="math inline">\(\Delta V_{IN}\)</span>, while <span class="math inline">\(\Delta V_{IN}\)</span> is decided by two factors <span class="math inline">\(\Delta V_{IN}\)</span> and <span class="math inline">\(\Delta V_{REF}\)</span> together, if we want to make the system easier to shoot events, then it's better to use a larger <span class="math inline">\(\Delta V_{REF}\)</span>. In this way, a smaller <span class="math inline">\(\Delta V_{IN}\)</span> is able to trigger an event. Otherwise, if the <span class="math inline">\(\Delta V_{REF}\)</span> is set smaller, a larger <span class="math inline">\(\Delta V_{IN}\)</span> in required for shooting an event, which leads to a higher requirement of input brightness change.</p></li>
+<li><p>As formula (1) shows, <span class="math inline">\(\Delta V_{PH}\)</span> cannot contribute more than <span class="math inline">\(1\times \Delta V_{PH}\)</span> as <span class="math inline">\(C_{REF}\)</span> is not negative. There is <strong>no amplifier</strong> applied after <span class="math inline">\(V_{PH}\)</span> to enlarge this value. This is called passive coupling, while in a regular DVS camera, an active amplifier is applied after the photodiode, making a relatively smaller change of potential becomes larger. This is why qDVS has a much smaller dynamic range.</p></li>
+<li><p>Illumination intensity change sensitivity (Hardness to trigger an event) is determined by <span class="math inline">\(C_{REF}\)</span>, while the dynamic range (to which absolute brightness range events can still be effectively triggered) is determined by coupling amplification of input <span class="math inline">\(\Delta V_{PH}\)</span>.</p></li>
+<li><p>As qDVS is a frame scan-based design, there is no need to <strong>report the row and column address</strong> for each event, which alleviates the energy consumption by acquiring these addresses, resulting in a higher information density with a fixed bus bandwidth.</p></li>
+<li><p>The queries are processed in a <strong>row-parallel, column-serial</strong> scanned output pattern. (How does this row parallel happen? Not clear in the paper. My guess is that it is using clocked time division multiplexing technique here for rows.)</p></li>
+<li><p>Column readout performs thresholding comparison of the pixel photodiode voltage, using <strong>bipolar voltage modulation</strong> of <span class="math inline">\(V_{REF}(V_{UP} \space and \space V_{DN})\)</span>, to detect ON and OFF temporal change events in intensity.</p></li>
+<li><p>A Gm-boosted high-gain cascode amplifier (Gain &gt; 90dB) provides a <strong>voltage clamp</strong> on the sense line to mitigate capacitive loading on the sense line and eliminate CV2 losses incurred in APS and DDS readout.</p></li>
+<li><p>A dynamic comparator eliminates static power losses in event generation. This is the key reason that it is more energy efficient than regular DVS. (?What does dynamic comparator means? How different from the regular DVS?)</p></li>
+</ol>
+<figure>
+<img data-src="kuben2-027-large.gif" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure>
+]]></content>
+      <tags>
+        <tag>paper</tag>
+        <tag>DVS</tag>
       </tags>
   </entry>
 </search>

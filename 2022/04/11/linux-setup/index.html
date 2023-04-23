@@ -20,15 +20,16 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="硬盘相关   df命令 df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
+    <meta name="description" content="硬盘相关  df命令 df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即--human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux(Ubuntu)装机与配置笔记">
-<meta property="og:url" content="https://www.miracleyoo.com/2020/04/11/linux-setup/index.html">
+<meta property="og:url" content="https://www.miracleyoo.com/2022/04/11/linux-setup/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="硬盘相关   df命令 df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即 --human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
+<meta property="og:description" content="硬盘相关  df命令 df：检查linux服务器的文件系统的磁盘空间占用情况。它只会显示已经挂载的磁盘信息！ df -h, 即--human-readble：以1024的倍数的方式显示大小。(e.g., 1023M) df -T：查看所有磁盘的文件系统类型(type)">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-12T01:11:47.000Z">
-<meta property="article:modified_time" content="2021-03-12T09:08:49.885Z">
+<meta property="og:image" content="https://www.miracleyoo.com/2022/04/11/linux-setup/ubuntu-18.04-nvidia-drivers-430.png">
+<meta property="article:published_time" content="2022-04-12T01:11:47.000Z">
+<meta property="article:modified_time" content="2023-04-23T01:48:26.950Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="machine-learning">
@@ -38,13 +39,14 @@
 <meta property="article:tag" content="net-disk">
 <meta property="article:tag" content="cuda">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2022/04/11/linux-setup/ubuntu-18.04-nvidia-drivers-430.png">
 
 
-<link rel="canonical" href="https://www.miracleyoo.com/2020/04/11/linux-setup/">
+<link rel="canonical" href="https://www.miracleyoo.com/2022/04/11/linux-setup/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2020/04/11/linux-setup/","path":"2020/04/11/linux-setup/","title":"Linux(Ubuntu)装机与配置笔记"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2022/04/11/linux-setup/","path":"2022/04/11/linux-setup/","title":"Linux(Ubuntu)装机与配置笔记"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Linux(Ubuntu)装机与配置笔记 | Miracleyoo</title>
@@ -147,7 +149,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%9B%B8%E5%85%B3"><span class="nav-number">1.</span> <span class="nav-text"> 硬盘相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.1.</span> <span class="nav-text"> 参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text"> CUDA的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nouveau%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.1.</span> <span class="nav-text"> Nouveau是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nouveau-accelerated-open-source-driver-for-nvidia-cards"><span class="nav-number">2.1.1.</span> <span class="nav-text"> Nouveau: Accelerated Open Source driver for nVidia cards</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83-2"><span class="nav-number">2.2.</span> <span class="nav-text"> 参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda-%E4%B8%8E-cudnn-%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text"> CUDA 与 CUDNN 的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dubuntu%E4%B8%AD%E6%A3%80%E6%B5%8B%E5%88%B0%E7%B3%BB%E7%BB%9F%E7%A8%8B%E5%BA%8F%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text"> 修复Ubuntu中“检测到系统程序错误”的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%9D%A5%E6%BA%90"><span class="nav-number">4.2.</span> <span class="nav-text"> 问题来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text"> 解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83-3"><span class="nav-number">4.4.</span> <span class="nav-text"> 参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85python36%E7%89%88%E6%9C%AC%E7%9A%84anaconda"><span class="nav-number">5.</span> <span class="nav-text"> 安装Python3.6版本的Anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0vim%E6%8B%B7%E8%B4%9D%E8%87%B3%E7%B3%BB%E7%BB%9F%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%94%AF%E6%8C%81"><span class="nav-number">6.</span> <span class="nav-text"> 添加Vim拷贝至系统剪贴板快捷键支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8maclinux%E4%B8%8A%E4%BD%BF%E7%94%A8ssh%E6%8C%82%E8%BD%BD%E8%BF%9C%E7%A8%8B%E7%BD%91%E7%BB%9C%E7%A1%AC%E7%9B%98"><span class="nav-number">7.</span> <span class="nav-text"> 在Mac&#x2F;Linux上使用ssh挂载远程网络硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9C%AC%E5%9C%B0linux-server"><span class="nav-number">7.1.</span> <span class="nav-text"> 连接本地Linux Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5gypsum"><span class="nav-number">7.2.</span> <span class="nav-text"> 连接Gypsum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="nav-number">7.3.</span> <span class="nav-text"> 参数解释</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%9B%B8%E5%85%B3"><span class="nav-number">1.</span> <span class="nav-text">硬盘相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.1.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">CUDA的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nouveau%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.1.</span> <span class="nav-text">Nouveau是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nouveau-accelerated-open-source-driver-for-nvidia-cards"><span class="nav-number">2.1.1.</span> <span class="nav-text">Nouveau: Accelerated Open Source driver for nVidia cards</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nvidia-driver-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">NVIDIA Driver 的安装与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#error-shooting"><span class="nav-number">3.1.</span> <span class="nav-text">Error Shooting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83-1"><span class="nav-number">3.2.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cuda-%E4%B8%8E-cudnn-%E7%9A%84%E8%81%94%E7%B3%BB"><span class="nav-number">4.</span> <span class="nav-text">CUDA 与 CUDNN 的联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dubuntu%E4%B8%AD%E6%A3%80%E6%B5%8B%E5%88%B0%E7%B3%BB%E7%BB%9F%E7%A8%8B%E5%BA%8F%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">修复Ubuntu中“检测到系统程序错误”的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%9D%A5%E6%BA%90"><span class="nav-number">5.2.</span> <span class="nav-text">问题来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">5.3.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83-2"><span class="nav-number">5.4.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85python3.6%E7%89%88%E6%9C%AC%E7%9A%84anaconda"><span class="nav-number">6.</span> <span class="nav-text">安装Python3.6版本的Anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0vim%E6%8B%B7%E8%B4%9D%E8%87%B3%E7%B3%BB%E7%BB%9F%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%94%AF%E6%8C%81"><span class="nav-number">7.</span> <span class="nav-text">添加Vim拷贝至系统剪贴板快捷键支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8maclinux%E4%B8%8A%E4%BD%BF%E7%94%A8ssh%E6%8C%82%E8%BD%BD%E8%BF%9C%E7%A8%8B%E7%BD%91%E7%BB%9C%E7%A1%AC%E7%9B%98"><span class="nav-number">8.</span> <span class="nav-text">在Mac&#x2F;Linux上使用ssh挂载远程网络硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9C%AC%E5%9C%B0linux-server"><span class="nav-number">8.1.</span> <span class="nav-text">连接本地Linux Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5gypsum"><span class="nav-number">8.2.</span> <span class="nav-text">连接Gypsum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="nav-number">8.3.</span> <span class="nav-text">参数解释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%9B%B8%E5%85%B3-1"><span class="nav-number">9.</span> <span class="nav-text">硬盘相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B%E4%B8%89%E5%B9%BB%E7%A5%9E"><span class="nav-number">9.1.</span> <span class="nav-text">硬盘信息查看三幻神</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E7%9A%84%E7%A1%AC%E7%9B%98%E5%BC%80%E6%9C%BA%E5%B0%B1%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E4%BA%86%E8%80%8C%E5%8F%A6%E4%B8%80%E4%BA%9B%E5%88%99%E6%B2%A1%E6%9C%89"><span class="nav-number">9.2.</span> <span class="nav-text">为什么有的硬盘开机就自动挂载了，而另一些则没有</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -160,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-count">146</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -209,7 +211,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2020/04/11/linux-setup/">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2022/04/11/linux-setup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -238,14 +240,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2020-04-11 18:11:47" itemprop="dateCreated datePublished" datetime="2020-04-11T18:11:47-07:00">2020-04-11</time>
+      <time title="Created: 2022-04-11 18:11:47" itemprop="dateCreated datePublished" datetime="2022-04-11T18:11:47-07:00">2022-04-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2021-03-12 01:08:49" itemprop="dateModified" datetime="2021-03-12T01:08:49-08:00">2021-03-12</time>
+      <time title="Modified: 2023-04-22 18:48:26" itemprop="dateModified" datetime="2023-04-22T18:48:26-07:00">2023-04-22</time>
     </span>
 
   
@@ -262,14 +264,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>2.7k</span>
+      <span>3.6k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>10 mins.</span>
+      <span>13 mins.</span>
     </span>
 </div>
 
@@ -280,136 +282,98 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="硬盘相关"><a class="markdownIt-Anchor" href="#硬盘相关"></a> 硬盘相关</h2>
-<ol>
-<li>
-<p><strong>df命令</strong><br>
-<code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
-<p><code>df -h</code>, 即<code> --human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
+        <h2 id="硬盘相关">硬盘相关</h2>
+<ol type="1">
+<li><p><strong>df命令</strong> <code>df</code>：检查linux服务器的文件系统的磁盘空间占用情况。<strong>它只会显示已经挂载的磁盘信息！</strong></p>
+<p><code>df -h</code>, 即<code>--human-readble</code>：以1024的倍数的方式显示大小。(e.g., 1023M)</p>
 <p><code>df -T</code>：查看所有磁盘的文件系统类型(type)</p>
-<span id="more"></span>
-</li>
-<li>
-<p><strong><code>fdisk</code>命令</strong></p>
+<span id="more"></span></li>
+<li><p><strong><code>fdisk</code>命令</strong></p>
 <p><code>fdisk</code>：强大的磁盘监视和操作工具。</p>
-<p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p>
-</li>
-<li>
-<p><strong>mount命令</strong></p>
+<p><code>fdisk -l</code>会显示<strong>所有的</strong>磁盘和分区！不论有没有挂载，都会被列出来。</p></li>
+<li><p><strong>mount命令</strong></p>
 <p><code>mount</code>：挂载一个文件系统</p>
 <p><code>mount -t ntfs &lt;source&gt; &lt;target&gt;</code>：以ntfs文件系统的形式从源目录挂载到目标目录。t表示types类型</p>
-<p><code>mount -a</code>：挂载 fstab 中的所有文件系统。a表示all</p>
-</li>
-<li>
-<p><strong>blkid命令</strong></p>
-<p><code>sudo blkid</code>：获取各个分区的UUID和分区类型TYPE</p>
-</li>
-<li>
-<p>物理磁盘与磁盘分区：一个物理磁盘在<code>fdisk -l</code>中的显示往往类似于<code>/dev/sda</code>，<code>/dev/sdb</code>，<code>/dev/nvme0n1</code>。一般情况下是不带数字的，sda sdb是最常见的命名。而分区命名则是如：<code>/dev/sda1</code>，<code>/dev/sdb2</code>之类在物理磁盘的后面带上数字表示分区编号。</p>
-<p>但有些如双系统中，可能会出现最后一个例子中展示的命名，这种磁盘的分区则是以<code>p[x]</code>结尾，如<code>/dev/nvme0n1p1</code>，<code>/dev/nvme0n1p9</code>。</p>
-</li>
-<li>
-<p>Linux开机后不会自动挂载Windows文件格式NTFS的磁盘。</p>
-</li>
-<li>
-<p><code>sudo chmod -R 777 &lt;Folder_Name&gt;</code> 可以取消一个文件夹的全部访问权限。</p>
-</li>
-<li>
-<p><code>chmod</code>命令对ext3/4文件系统，即Linux格式的文件系统才有效，对其他文件系统，如vfat(Fat32)，NTFS都是无效的。</p>
-</li>
-<li>
-<p>/etc/fstab` 文件是掌管硬盘自动挂载配置的文件，包含自动挂载分区过程的必要信息。每一条记录格式如下：</p>
+<p><code>mount -a</code>：挂载 fstab 中的所有文件系统。a表示all</p></li>
+<li><p><strong>blkid命令</strong></p>
+<p><code>sudo blkid</code>：获取各个分区的UUID和分区类型TYPE</p></li>
+<li><p>物理磁盘与磁盘分区：一个物理磁盘在<code>fdisk -l</code>中的显示往往类似于<code>/dev/sda</code>，<code>/dev/sdb</code>，<code>/dev/nvme0n1</code>。一般情况下是不带数字的，sda sdb是最常见的命名。而分区命名则是如：<code>/dev/sda1</code>，<code>/dev/sdb2</code>之类在物理磁盘的后面带上数字表示分区编号。</p>
+<p>但有些如双系统中，可能会出现最后一个例子中展示的命名，这种磁盘的分区则是以<code>p[x]</code>结尾，如<code>/dev/nvme0n1p1</code>，<code>/dev/nvme0n1p9</code>。</p></li>
+<li><p>Linux开机后不会自动挂载Windows文件格式NTFS的磁盘。</p></li>
+<li><p><code>sudo chmod -R 777 &lt;Folder_Name&gt;</code> 可以取消一个文件夹的全部访问权限。</p></li>
+<li><p><code>chmod</code>命令对ext3/4文件系统，即Linux格式的文件系统才有效，对其他文件系统，如vfat(Fat32)，NTFS都是无效的。</p></li>
+<li><p>/etc/fstab` 文件是掌管硬盘自动挂载配置的文件，包含自动挂载分区过程的必要信息。每一条记录格式如下：</p>
 <p><code>[Device] [Mount Point] [File System Type] [Options] [Dump] [Pass]</code></p>
 <p>如：</p>
 <p><code>UUID=B45A01D55A019570 /data ntfs defaults 0 2</code></p>
 <p>其中：</p>
 <p><code>[Options]</code> ：<code>defaults</code>表示用默认的<code>rw, suid, dev, exec, auto, nouser, async</code>等选项（不同内核和文件系统不同）进行挂载，这些选项的含义：<code>rw</code> 可读写；<code>suid</code> 执行程序时遵守<code>uuid</code>；<code>dev</code> 解释字符或禁止特殊设备；<code>exec</code> 允许执行二进制文件；<code>auto</code> 可以<code>-a</code>方式加载；<code>nouser</code> 禁止普通用户挂载此文件系统；<code>async</code> 所有I/O异步完成。</p>
 <p><code>[Dump]</code> ：是否开启分区备份，0表示关闭</p>
-<p><code>[Pass]</code>：系统启动时检查分区错误的顺序，root为1，其他为2，0为不检查。</p>
-</li>
-<li>
-<p>在<code>fstab</code>文件中添加记录前一定要先尝试用mount命令手动挂载。</p>
-</li>
+<p><code>[Pass]</code>：系统启动时检查分区错误的顺序，root为1，其他为2，0为不检查。</p></li>
+<li><p>在<code>fstab</code>文件中添加记录前一定要先尝试用mount命令手动挂载。</p></li>
 </ol>
-<h3 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h3>
-<ol>
+<h3 id="参考">参考</h3>
+<ol type="1">
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qxqxqzzz/article/details/89790688">Ubuntu18.04 开机自动挂载其他硬盘</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ybdesire/article/details/79145180">Linux查看与挂载新磁盘</a></li>
 </ol>
-<h2 id="cuda的安装"><a class="markdownIt-Anchor" href="#cuda的安装"></a> CUDA的安装</h2>
-<ol>
-<li>
-<p>检查自己的GPU是否是CUDA-capable，在终端中输入<code>lspci | grep -I NVIDIA</code> ，会显示自己的NVIDIA GPU版本信息，去CUDA的官网查看自己的GPU版本是否在CUDA的支持列表中。</p>
-</li>
-<li>
-<p>检查自己的Linux版本是否支持 CUDA（Ubuntu 稳定支持版没问题）。</p>
-</li>
-<li>
-<p>检查其他问题。这里就不详述了，正常情况下一般OK，这里主要要检查是否安装了<code>gcc</code>，是否安装了<code>kernel header</code>和 <code>package development</code>。如果害怕出现问题可以参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">官网</a>执行这几步检测。</p>
-</li>
-<li>
-<p>于<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">CUDA官网</a>下载与系统对应的CUDA版本。最后一个选项选择<code>runfile</code>，因为其所需步骤最少，也因此最不容易出问题。所有选项完成后，你会看到如下两行命令：</p>
+<h2 id="cuda的安装">CUDA的安装</h2>
+<ol type="1">
+<li><p>这里是官方<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#environment-setup">指南</a>，注意使用左侧的导航链接，以免翻看中看漏信息。下载链接在<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">这里</a>。</p></li>
+<li><p>检查自己的GPU是否是CUDA-capable，在终端中输入<code>lspci | grep -I NVIDIA</code> ，会显示自己的NVIDIA GPU版本信息，去CUDA的官网查看自己的GPU版本是否在CUDA的支持列表中。</p></li>
+<li><p>检查自己的Linux版本是否支持 CUDA（Ubuntu 稳定支持版没问题）。</p></li>
+<li><p>检查其他问题。这里就不详述了，正常情况下一般OK，这里主要要检查是否安装了<code>gcc</code>，是否安装了<code>kernel header</code>和 <code>package development</code>。如果害怕出现问题可以参考<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">官网</a>执行这几步检测。</p></li>
+<li><p>于<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">CUDA官网</a>下载与系统对应的CUDA版本。最后一个选项选择<code>runfile</code>，因为其所需步骤最少，也因此最不容易出问题。所有选项完成后，你会看到如下两行命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run</span><br><span class="line">sudo sh cuda_10.2.89_440.33.01_linux.run</span><br></pre></td></tr></table></figure>
-<p>先不要执行第二条<code>sudo</code>开头的指令，只使用<code>wget</code>下载。</p>
-</li>
-<li>
-<p>如果之前有安装过其他版本的CUDA并希望将其卸载，使用<code>sudo nvidia-uninstall</code>卸载。如果该命令不在系统路径中，则使用<code>sudo /usr/bin/nvidia-uninstall</code>（位置可能变化）卸载。如果还是没有，或是之前的驱动已经损坏，则：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br><span class="line">sudo <span class="built_in">chmod</span> +x NVIDIA-Linux-x86_64-410.93.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-410.93.run --uninstall</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>屏蔽<code>nouveau</code>驱动。</p>
-</li>
+<p>先不要执行第二条<code>sudo</code>开头的指令，只使用<code>wget</code>下载。</p></li>
+<li><p>如果之前有安装过其他版本的CUDA并希望将其卸载，使用<code>sudo nvidia-uninstall</code>卸载。如果该命令不在系统路径中，则使用<code>sudo /usr/bin/nvidia-uninstall</code>（位置可能变化）卸载。如果还是没有，或是之前的驱动已经损坏，则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br><span class="line">sudo <span class="built_in">chmod</span> +x NVIDIA-Linux-x86_64-410.93.run</span><br><span class="line">sudo ./NVIDIA-Linux-x86_64-410.93.run --uninstall</span><br></pre></td></tr></table></figure></li>
+<li><p>屏蔽<code>nouveau</code>驱动。</p></li>
 </ol>
-<h3 id="nouveau是什么"><a class="markdownIt-Anchor" href="#nouveau是什么"></a> Nouveau是什么</h3>
+<h3 id="nouveau是什么">Nouveau是什么</h3>
 <blockquote>
-<h4 id="nouveau-accelerated-open-source-driver-for-nvidia-cards"><a class="markdownIt-Anchor" href="#nouveau-accelerated-open-source-driver-for-nvidia-cards"></a> Nouveau: Accelerated Open Source driver for nVidia cards</h4>
+<h4 id="nouveau-accelerated-open-source-driver-for-nvidia-cards">Nouveau: Accelerated Open Source driver for nVidia cards</h4>
 <p>The <strong>nouveau</strong> project aims to build high-quality, free/libre software drivers for <a target="_blank" rel="noopener" href="https://nouveau.freedesktop.org/wiki/CodeNames/">nVidia cards</a>. “Nouveau” [<em>nuvo</em>] is the French word for “new”. Nouveau is composed of a Linux kernel KMS driver (nouveau), Gallium3D drivers in Mesa, and the Xorg DDX (xf86-video-nouveau). The kernel components have also been ported to <a target="_blank" rel="noopener" href="https://nouveau.freedesktop.org/wiki/NetBSD/">NetBSD</a>.</p>
 </blockquote>
 <p>简单说，nouveau是Linux系统默认的给NVIDIA卡预装的一个图形加速驱动，而这个驱动会与CUDA产生部分冲突，所以在安装CUDA之前需要将其禁用，否则会出现卡在开机登录界面无法进入图形界面（仍然可以ssh访问），黑屏，鼠标键盘输入被禁用等问题中的一个或多个（亲身经历）。</p>
 <p>继续安装教程：</p>
-<ol start="6">
-<li>
-<p>刚才说到要屏蔽<code>nouveau</code>，那么怎么知道你有没有装它呢？<br>
-使用<code>lsmod | grep nouveau</code>命令，如果没有输出，就可以判定你没有运行<code>nouveau</code>，可以直接进入下一步，否则：</p>
-<ol>
-<li>
-<p>Create a file at <code>/etc/modprobe.d/blacklist-nouveau.conf</code> with the following contents:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>Regenerate the kernel initramfs:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>Restart.</p>
-</li>
-<li>
-<p>Run <code>lsmod | grep nouveau</code> again. If there is no output, then you succeed.</p>
-</li>
+<ol start="6" type="1">
+<li><p>刚才说到要屏蔽<code>nouveau</code>，那么怎么知道你有没有装它呢？ 使用<code>lsmod | grep nouveau</code>命令，如果没有输出，就可以判定你没有运行<code>nouveau</code>，可以直接进入下一步，否则：</p>
+<ol type="1">
+<li><p>Create a file at <code>/etc/modprobe.d/blacklist-nouveau.conf</code> with the following contents:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure></li>
+<li><p>Regenerate the kernel initramfs:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure></li>
+<li><p>Restart.</p></li>
+<li><p>Run <code>lsmod | grep nouveau</code> again. If there is no output, then you succeed.</p></li>
+</ol></li>
+<li><p>此后建议进入一个非图形界面安装，这里可以在重启后使用<code>ssh</code>接入，也可以在重启后按<code>alt+ctrl+f1</code>，进入<strong>text mode</strong>，登录账户。</p></li>
+<li><p>输入 <code>sudo service lightdm stop</code> 关闭图形化界面。</p></li>
+<li><p>执行刚才官网中给出的第二条命令：<code>sudo sh cuda_10.2.89_440.33.01_linux.run</code>。注意这里的版本会不断有变化。注意这里有一个点，即你是否要同时安装OpenGL，如果你是双显，且主显是非NVIDIA的GPU需要选择no，否则yes。同理，如果准备选no，也可以一开始就加上参数<code>--no-opengl-files</code>。 另外，如果不能直接执行，使用<code>sudo chmod a+x cuda_xx.xx.xx_linux.run</code>为其赋权。</p></li>
+<li><p>安装成功后，会提示你将cuda的几个路径添加到系统路径中，这里重复一下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1<span class="variable">$&#123;PATH:+:<span class="variable">$&#123;PATH&#125;</span>&#125;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\</span><br><span class="line">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>使用<code>nvcc -V</code>检测是否安装成功。当然也可以同时测试<code>nvidia-smi</code>。这里可能会报错并提示需要apt安装一个包，按提示来。</p></li>
+<li><p>此时可能要再安装一个nvidia driver，具体适配版本可以在<a target="_blank" rel="noopener" href="https://www.nvidia.com/download/index.aspx">这里</a>找到。</p></li>
+<li><p>reboot，此时你可能会发现GUI的登录界面消失了，你面对的只有一个空白的壁纸/纯色。不要慌张，只要切换一下display manager就好了。如果你默认的是<code>gbm3</code> display manager，那最简单的方法就是直接安装<code>lightdm</code>并切换过去就好了。</p>
+<p>首先按<code>CTRL+ALT+F5</code>进入纯命令行模式，然后输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install lightdm</span><br><span class="line">sudo dpkg-reconfigure lightdm</span><br></pre></td></tr></table></figure>
+<p>如果提示服务没起来，用<code>sudo systemctl start lightdm</code>。</p></li>
+<li><p>完成。</p></li>
 </ol>
-</li>
-<li>
-<p>此后建议进入一个非图形界面安装，这里可以在重启后使用<code>ssh</code>接入，也可以在重启后按<code>alt+ctrl+f1</code>，进入<strong>text mode</strong>，登录账户。</p>
-</li>
-<li>
-<p>输入 <code>sudo service lightdm stop</code> 关闭图形化界面。</p>
-</li>
-<li>
-<p>执行刚才官网中给出的第二条命令：<code>sudo sh cuda_10.2.89_440.33.01_linux.run</code>。注意这里的版本会不断有变化。注意这里有一个点，即你是否要同时安装OpenGL，如果你是双显，且主显是非NVIDIA的GPU需要选择no，否则yes。同理，如果准备选no，也可以一开始就加上参数<code>--no-opengl-files</code>。 另外，如果不能直接执行，使用<code>sudo chmod a+x cuda_xx.xx.xx_linux.run</code>为其赋权。</p>
-</li>
-<li>
-<p>安装成功后，会提示你将cuda的几个路径添加到系统路径中，这里重复一下，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1<span class="variable">$&#123;PATH:+:<span class="variable">$&#123;PATH&#125;</span>&#125;</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64\</span><br><span class="line">                         <span class="variable">$&#123;LD_LIBRARY_PATH:+:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>使用<code>nvcc -V</code>检测是否安装成功。当然也可以同时测试<code>nvidia-smi</code>。这里可能会报错并提示需要apt安装一个包，按提示来。</p>
-</li>
-<li>
-<p>完成。</p>
-</li>
-</ol>
-<h3 id="参考-2"><a class="markdownIt-Anchor" href="#参考-2"></a> 参考</h3>
-<ol>
+<h2 id="nvidia-driver-的安装与使用">NVIDIA Driver 的安装与使用</h2>
+<p>这里需要澄清一个问题，即NVIDIA Driver，NVIDIA utils (390), CUDA 之间的关系。NVIDIA Driver是需要单独安装的，它与Nouveau是并列关系。系统默认的<strong>显卡驱动</strong>是后者。utils 是服务于Driver的，比如<code>nvidia-smi</code>, <code>nvidia-settings</code>等就是utils的组件。而CUDA是建构在Driver之上的一个服务于深度学习程序的<strong>指令转换器</strong>，所以要现有前两者，CUDA才能正常运行。</p>
+<p>安装Driver有两种方法，一种是在GUI中的<strong>Software &amp; Updates</strong>中选择Additional Drivers中的第一行<strong>Proprietary, tested</strong>的那个NVIDIA Driver选项，然后Apply Changes即可。</p>
+<figure>
+<img data-src="ubuntu-18.04-nvidia-drivers-430.png" alt="ubuntu 18.04 nvidia-drivers 430"><figcaption aria-hidden="true">ubuntu 18.04 nvidia-drivers 430</figcaption>
+</figure>
+<p>也可以在命令行中用<code>sudo ubuntu-drivers autoinstall</code> 选项来进行安装。这里就不展开了，<a target="_blank" rel="noopener" href="https://www.linuxbabe.com/ubuntu/install-nvidia-driver-ubuntu-18-04">这篇文章</a>讲的非常详细。</p>
+<h3 id="error-shooting">Error Shooting</h3>
+<ul>
+<li>如果系统分辨率突然被固定为了一个很小的数值，且无法调整，请尝试<code>nvcc --version</code>和<code>nvidia-smi</code>，往往是由于CUDA相关的两个路径没有很好的添加到正确的位置。如果想保险，直接在<code>~/.bashrc</code>或<code>~/.zshrc</code>中添加那两行<code>export</code>命令，然后重启。</li>
+<li>如果你电脑物理连接了两个显示器，而你登录后发现桌面是空的，也没有Dock，什么都没有，有可能是他们在另一个显示器上，即使你没打开那个显示器。</li>
+</ul>
+<h3 id="参考-1">参考</h3>
+<ol type="1">
 <li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA下载官网</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html">NVIDIA 官方安装指南（英文）</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#pre-installation-actions">NVIDIA 官方安装指南中前置检查部分</a></li>
@@ -419,77 +383,80 @@
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33200967/article/details/80689543">Ubuntu安装和卸载CUDA和CUDNN</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wf19930209/article/details/81879514">Linux安装CUDA的正确姿势</a></li>
 </ol>
-<h2 id="cuda-与-cudnn-的联系"><a class="markdownIt-Anchor" href="#cuda-与-cudnn-的联系"></a> CUDA 与 CUDNN 的联系</h2>
-<ol>
+<h2 id="cuda-与-cudnn-的联系">CUDA 与 CUDNN 的联系</h2>
+<ol type="1">
 <li>要先装CUDA再装CUDNN。</li>
 <li>前者是平台，后者是基于平台的深度学习加速器。加速可以应用于几乎全部深度学习平台。还是要安的。</li>
 <li>一般深度学习使用安装runtime版本即可。</li>
 <li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-download">CUDNN官方下载</a>，<a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html">CUDNN官方安装步骤</a></li>
 </ol>
-<h2 id="修复ubuntu中检测到系统程序错误的问题"><a class="markdownIt-Anchor" href="#修复ubuntu中检测到系统程序错误的问题"></a> 修复Ubuntu中“检测到系统程序错误”的问题</h2>
-<h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<h2 id="修复ubuntu中检测到系统程序错误的问题">修复Ubuntu中“检测到系统程序错误”的问题</h2>
+<h3 id="问题描述">问题描述</h3>
 <p>每次开机时都会有“<strong>Ubuntu xx.xx 在启动时检测到系统程序错误</strong> ”弹窗出现。即使点击报告下次还会继续出现。</p>
-<h3 id="问题来源"><a class="markdownIt-Anchor" href="#问题来源"></a> 问题来源</h3>
+<h3 id="问题来源">问题来源</h3>
 <p>之前的某个时刻某个程序崩溃了，而Ubuntu想让你决定要不要把这个问题报告给开发者，这样他们就能够修复这个问题。</p>
-<h3 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h3>
-<ol>
-<li><code>sudo rm /var/crash/* </code> ：删除这些错误报告。但是如果又有一个程序崩溃了，你就会再次看到“检测到系统程序错误”的错误。你可以再次删除这些报告文件，或者选择禁用Apport来彻底地摆脱这个错误弹窗。如果你这样做，系统中任何程序崩溃时，系统都不会再通知你。但这未必一件坏事，除非你愿意填写错误报告。如果你不想填写错误报告，那么这些错误通知存不存在都不会有什么区别。</li>
+<h3 id="解决办法">解决办法</h3>
+<ol type="1">
+<li><code>sudo rm /var/crash/*</code> ：删除这些错误报告。但是如果又有一个程序崩溃了，你就会再次看到“检测到系统程序错误”的错误。你可以再次删除这些报告文件，或者选择禁用Apport来彻底地摆脱这个错误弹窗。如果你这样做，系统中任何程序崩溃时，系统都不会再通知你。但这未必一件坏事，除非你愿意填写错误报告。如果你不想填写错误报告，那么这些错误通知存不存在都不会有什么区别。</li>
 <li><code>sudo vim /etc/default/apport</code> 永久屏蔽这些报错。</li>
 </ol>
-<h3 id="参考-3"><a class="markdownIt-Anchor" href="#参考-3"></a> 参考</h3>
-<ol>
+<h3 id="参考-2">参考</h3>
+<ol type="1">
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hywerr/article/details/72582082">如何修复ubuntu中检测到系统程序错误的问题</a></li>
 <li><a target="_blank" rel="noopener" href="https://itsfoss.com/how-to-fix-system-program-problem-detected-ubuntu/">How To Fix System Program Problem Detected In Ubuntu</a></li>
 </ol>
-<h2 id="安装python36版本的anaconda"><a class="markdownIt-Anchor" href="#安装python36版本的anaconda"></a> 安装Python3.6版本的Anaconda</h2>
+<h2 id="安装python3.6版本的anaconda">安装Python3.6版本的Anaconda</h2>
 <p>由于之前使用的一些开源库和软件对3.7的支持性尚还有问题，而Anaconda默认Python版本为3.6， 所以有必要把Anaconda降级为3.6版本。</p>
 <p>安装方法：</p>
-<ol>
-<li>
-<p>到Anaconda官网下载并安装最新3.7版本。</p>
-</li>
-<li>
-<p>世界线开始分歧，你可以选择保留3.7版本的Anaconda，并创建一个虚拟环境，或是直接替换Python版本。</p>
-<ol>
-<li>
-<p>对前者，<br>
-若只要一个python环境不要packages，</p>
+<ol type="1">
+<li><p>到Anaconda官网下载并安装最新3.7版本。</p></li>
+<li><p>世界线开始分歧，你可以选择保留3.7版本的Anaconda，并创建一个虚拟环境，或是直接替换Python版本。</p>
+<ol type="1">
+<li><p>对前者， 若只要一个python环境不要packages，</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name ana36 python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
 <p>反之，如果要安装一个新的Anaconda，包含默认的所有packages，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n ana36 anaconda python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>对后者，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install python=3.6</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n ana36 anaconda python=3.6</span><br><span class="line"><span class="built_in">source</span> activate ana36</span><br></pre></td></tr></table></figure></li>
+<li><p>对后者，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install python=3.6</span><br></pre></td></tr></table></figure></li>
+</ol></li>
 </ol>
-</li>
-</ol>
-<h2 id="添加vim拷贝至系统剪贴板快捷键支持"><a class="markdownIt-Anchor" href="#添加vim拷贝至系统剪贴板快捷键支持"></a> 添加Vim拷贝至系统剪贴板快捷键支持</h2>
+<h2 id="添加vim拷贝至系统剪贴板快捷键支持">添加Vim拷贝至系统剪贴板快捷键支持</h2>
 <p>(from: <a target="_blank" rel="noopener" href="http://vim.wikia.com/wiki/Mac_OS_X_clipboard_sharing">link</a>)</p>
-<p>Having trouble copying selected text from Vim (not MacVim)? Since using <code>&quot;+y</code> or ‘&quot;*y’ in Vim on a Mac doesn’t actually copy the selected text to the system clipboard, you might find it beneficial to do the following:</p>
-<ol>
+<p>Having trouble copying selected text from Vim (not MacVim)? Since using <code>"+y</code> or '"*y' in Vim on a Mac doesn't actually copy the selected text to the system clipboard, you might find it beneficial to do the following:</p>
+<ol type="1">
 <li>Open your <code>~/.vimrc</code> file</li>
 <li>add <code>vmap '' :w !pbcopy</code></li>
 <li>Save it and <code>source</code> the file</li>
 </ol>
 <p>现在，你就可以在 visual mode， 即在Esc命令模式后按下v键后的选择模式中，选好需要拷贝区域后，连击两次<code>'</code> ，即使用 <code>''</code>来拷贝所选区域。</p>
-<h2 id="在maclinux上使用ssh挂载远程网络硬盘"><a class="markdownIt-Anchor" href="#在maclinux上使用ssh挂载远程网络硬盘"></a> 在Mac/Linux上使用ssh挂载远程网络硬盘</h2>
+<h2 id="在maclinux上使用ssh挂载远程网络硬盘">在Mac/Linux上使用ssh挂载远程网络硬盘</h2>
 <p>TL;DR：</p>
-<ol>
+<ol type="1">
 <li>安装sshfs: <code>sudo apt-get install sshfs</code></li>
 <li>直接在<code>~/.zshrc</code>中添加以下行：（当然，需要更改文件夹名称，以及挂载后的命名）</li>
 </ol>
-<h3 id="连接本地linux-server"><a class="markdownIt-Anchor" href="#连接本地linux-server"></a> 连接本地Linux Server</h3>
+<h3 id="连接本地linux-server">连接本地Linux Server</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_misaka</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-home&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/misaka-home</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/home/miracle /Volumes/misaka-home/ -ovolname=mk-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/misaka-storage&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/misaka-storage</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 misaka:/data /Volumes/misaka-storage/ -ovolname=mk-2T</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="连接gypsum"><a class="markdownIt-Anchor" href="#连接gypsum"></a> 连接Gypsum</h3>
+<h3 id="连接gypsum">连接Gypsum</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">connect_gypsum</span></span> () &#123;</span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/home/zhongyangzha /Volumes/gypsum/ -ovolname=gp-home</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-scratch/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum-scratch/</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/scratch1/zhongyangzha/ /Volumes/gypsum-scratch/ -ovolname=gp-scratch</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">if</span> [ ! -d <span class="string">&quot;/Volumes/gypsum-work/&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">mkdir</span> /Volumes/gypsum-work</span><br><span class="line">        sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa,reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 gypsum:/mnt/nfs/work1/trahman/zhongyangzha /Volumes/gypsum-work/ -ovolname=gp-work</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="参数解释"><a class="markdownIt-Anchor" href="#参数解释"></a> 参数解释</h3>
-<ol>
+<h3 id="参数解释">参数解释</h3>
+<ol type="1">
 <li><code>ovolname</code>：挂载上网络硬盘之后硬盘的命名</li>
 <li><code>IdentityFile</code>：如果已经设置了免密登录，用这个参数指明ssh私钥位置即可，不需要输入密码。</li>
 <li><code>&lt;source&gt; &lt;target&gt;</code>：网络硬盘源位置&lt;username@ip.address:/the/source/path&gt; 与本机目标挂载位置</li>
 <li><code>reconnect,ServerAliveInterval=15,ServerAliveCountMax=3</code>：多次断线重连，可以再断开网络连接、服务器重启等问题发生后再次自动连接。</li>
+</ol>
+<h2 id="硬盘相关-1">硬盘相关</h2>
+<h3 id="硬盘信息查看三幻神">硬盘信息查看三幻神</h3>
+<ol type="1">
+<li><code>sudo fdisk -l</code>: 最为详细全面的硬盘信息，既包含了已挂载的盘，也包含了未挂载的盘。其含有磁盘在<code>/dev</code>中的位置，size（非常详细，既有易于阅读的单位MB/GB等，也有精确到字节和扇区的信息），硬盘型号，disklabel型号（GPT DOS）等。</li>
+<li><code>df -h</code>: 含有所有当前已挂载的磁盘的信息，包括<code>/dev</code>位置，总空间，已用空间和可用空间，利用率，以及挂载点位置。</li>
+<li><code>sudo blkid</code>: 全部（已挂载+未挂载）的硬盘信息，包括<code>/dev</code>位置，文件系统类型（ntfs，ext4，fat32等），Label（就是Windows上写的卷名），UUID，以及Partition UUID。</li>
+</ol>
+<h3 id="为什么有的硬盘开机就自动挂载了而另一些则没有">为什么有的硬盘开机就自动挂载了，而另一些则没有</h3>
+<ol type="1">
+<li>在我遇到的情况里，什么都不用做就会自动挂载的是外置的USB盘符，它们其实是开机之后被一个个load起来的。而装在主机里面的那些硬盘，则需要额外进行设置以便能开机自动挂载。</li>
+<li>设置方法：<code>sudo vim /etc/fstab</code>进行编辑即可。每个想要挂在的盘各自写一行，每行包括设备UUID，挂载点，文件系统，以及后面不怎么用改的三个参数（用 <code>default 0 0</code>填充即可）。这些信息的查看方法在上个小节有提。</li>
 </ol>
 
     </div>
@@ -530,13 +497,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/03/24/pandas-resample/" rel="prev" title="Pandas Resample">
-                  <i class="fa fa-chevron-left"></i> Pandas Resample
+                <a href="/2021/11/27/blender-syn-data-gen-tutorial/" rel="prev" title="blender-syn-data-gen-tutorial">
+                  <i class="fa fa-chevron-left"></i> blender-syn-data-gen-tutorial
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/04/26/docker-et-nvidia/" rel="next" title="Docker与Nivida-Docker的用法与注意事项">
-                  Docker与Nivida-Docker的用法与注意事项 <i class="fa fa-chevron-right"></i>
+                <a href="/2022/09/16/mmd-blender-bvh/" rel="next" title="MMD模型导入Blender后应用动捕BVH文件">
+                  MMD模型导入Blender后应用动捕BVH文件 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -570,13 +537,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Word count total">205k</span>
+    <span title="Word count total">207k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">12:25</span>
+    <span title="Reading time total">12:32</span>
   </span>
 </div>
 <div class="busuanzi-count">

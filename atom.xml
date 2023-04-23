@@ -6,7 +6,7 @@
   <link href="https://www.miracleyoo.com/atom.xml" rel="self"/>
   
   <link href="https://www.miracleyoo.com/"/>
-  <updated>2023-04-23T02:35:45.843Z</updated>
+  <updated>2023-04-23T02:43:20.893Z</updated>
   <id>https://www.miracleyoo.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://www.miracleyoo.com/2099/10/03/resume/"/>
     <id>https://www.miracleyoo.com/2099/10/03/resume/</id>
     <published>2099-10-03T22:44:20.000Z</published>
-    <updated>2023-04-23T02:35:45.843Z</updated>
+    <updated>2023-04-23T02:43:20.893Z</updated>
     
-    <content type="html"><![CDATA[<p>The following document is my resume:</p><span id="more"></span><div class="pdf-container" data-target="cv.pdf" data-height="500px"></div><figure><img data-src="cv.png" alt="Resume_ZhongyangZhang_HUST"><figcaption aria-hidden="true">Resume_ZhongyangZhang_HUST</figcaption></figure>]]></content>
+    <content type="html"><![CDATA[<p>The following document is my resume:</p><span id="more"></span><div class="pdf-container" data-target="cv.pdf" data-height="1200px"></div>]]></content>
     
     
     <summary type="html">&lt;p&gt;The following document is my resume:&lt;/p&gt;</summary>

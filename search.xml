@@ -8430,10 +8430,7 @@ The simplest way to use it is through Plotly’s online tools and import the dat
     <url>/2099/10/03/resume/</url>
     <content><![CDATA[<p>The following document is my resume:</p>
 <span id="more"></span>
-<div class="pdf-container" data-target="cv.pdf" data-height="500px"></div>
-<figure>
-<img data-src="cv.png" alt="Resume_ZhongyangZhang_HUST"><figcaption aria-hidden="true">Resume_ZhongyangZhang_HUST</figcaption>
-</figure>
+<div class="pdf-container" data-target="cv.pdf" data-height="1200px"></div>
 ]]></content>
       <tags>
         <tag>Resume</tag>

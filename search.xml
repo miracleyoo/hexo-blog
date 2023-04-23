@@ -12158,73 +12158,91 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <entry>
     <title>mmWave Radar Fusion 论文总结</title>
     <url>/2023/03/09/mmwave-radar-fusion-paper/</url>
-    <content><![CDATA[<h2 id="immfusion-robust-mmwave-rgb-fusion-for-3d-human-body-reconstruction-in-all-weather-conditions">ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions</h2>
+    <content><![CDATA[<h2 id="immfusion-robust-mmwave-rgb-fusion-for-3d-human-body-reconstruction-in-all-weather-conditions"><a class="markdownIt-Anchor" href="#immfusion-robust-mmwave-rgb-fusion-for-3d-human-body-reconstruction-in-all-weather-conditions"></a> ImmFusion: Robust mmWave-RGB Fusion for 3D Human Body Reconstruction in All Weather Conditions</h2>
 <ul>
 <li>2022, Arxiv</li>
 <li>Question: How to merge mmWave radar with RGB frames to do 3D human mesh reconstruction?</li>
 <li>Spec: Single person, 3D mesh, RGB + mmWave Radar.</li>
 <li>Features: Robust in extreme weather/conditions like rain, smoke, low light, and occlusion.</li>
 </ul>
-<h3 id="points">Points</h3>
+<span id="more"></span>
+<h3 id="points"><a class="markdownIt-Anchor" href="#points"></a> Points</h3>
 <ul>
-<li><p>Merging scheme: Using three branches: Image branch, radar point cloud branch, and a fusion branch. All three branches are concatenated and sent to a transformer. A human template is also concatenated as "positional encoding" (actually it's more like prior knowledge encoding.)</p>
-<figure>
-<img data-src="image-20230329171848182-1682213515149-69.png" alt="image-20230329171848182"><figcaption aria-hidden="true">image-20230329171848182</figcaption>
-</figure></li>
-<li><p>Previous fusion methods:</p>
-<ol type="1">
+<li>
+<p>Merging scheme: Using three branches: Image branch, radar point cloud branch, and a fusion branch. All three branches are concatenated and sent to a transformer. A human template is also concatenated as “positional encoding” (actually it’s more like prior knowledge encoding.)</p>
+<p><img data-src="image-20230329171848182-1682213515149-69.png" alt="image-20230329171848182"></p>
+</li>
+<li>
+<p>Previous fusion methods:</p>
+<ol>
 <li>Point-level fusion method: Concatenate image features or projected RGB pixels to the point clouds as extended features of the point-based model.
 <ul>
 <li>This fusion strategy is not suitable for mmWave-RGB fusion due to the sparsity and noise of radar points.</li>
 <li>Undesirable issues like <strong>randomly missing</strong> and <strong>temporally flicking</strong> would lead to fetching fewer or even wrong image features.</li>
-</ul></li>
+</ul>
+</li>
 <li>DeepFusion: Treat image features as K and V, answering Qs from mmWave point cloud features.</li>
 <li>TokenFusion: Do feature extraction and go through the transformer separately for both image and radar features. Fusion happens in the last stage.</li>
-</ol></li>
-<li><p>They perform positional encoding by attaching the 3D coordinates of each joint and vertex in a <strong>human template</strong> mesh to the global vector.</p></li>
-<li><p>Raw radar side input has a shape of <span class="math inline">\(1024\times 3\)</span>, which means 1024 mmWave radar point cloud in the cropped body region. Here it's not clear how can this dimension keeps the same among all samples, but there should be a sampling mechanism to always sample 1024 points exactly.</p></li>
-<li><p>Image feature part, they use HRNet to extract the feature of <span class="math inline">\(224\times 224\)</span> cropped body region.</p></li>
-<li><p>They use <code>PointNet++</code> to process raw radar point clouds, and the length of the resulting feature map (<code>L</code>) represents the number of seed points sampled by the Farthest Point Sample (FPS).</p></li>
-<li><p>Results:</p>
-<figure>
-<img data-src="image-20230329183402590-1682213515151-78.png" alt="image-20230329183402590"><figcaption aria-hidden="true">image-20230329183402590</figcaption>
-</figure></li>
+</ol>
+</li>
+<li>
+<p>They perform positional encoding by attaching the 3D coordinates of each joint and vertex in a <strong>human template</strong> mesh to the global vector.</p>
+</li>
+<li>
+<p>Raw radar side input has a shape of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1024</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">1024\times 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">2</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>, which means 1024 mmWave radar point cloud in the cropped body region. Here it’s not clear how can this dimension keeps the same among all samples, but there should be a sampling mechanism to always sample 1024 points exactly.</p>
+</li>
+<li>
+<p>Image feature part, they use HRNet to extract the feature of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>224</mn><mo>×</mo><mn>224</mn></mrow><annotation encoding="application/x-tex">224\times 224</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mord">2</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">2</span><span class="mord">4</span></span></span></span> cropped body region.</p>
+</li>
+<li>
+<p>They use <code>PointNet++</code> to process raw radar point clouds, and the length of the resulting feature map (<code>L</code>) represents the number of seed points sampled by the Farthest Point Sample (FPS).</p>
+</li>
+<li>
+<p>Results:</p>
+<p><img data-src="image-20230329183402590-1682213515151-78.png" alt="image-20230329183402590"></p>
+</li>
 </ul>
-<h2 id="mmwave-radar-and-vision-fusion-for-object-detection-in-autonomous-driving-a-review">MmWave Radar and Vision Fusion for Object Detection in Autonomous Driving: A Review</h2>
+<h2 id="mmwave-radar-and-vision-fusion-for-object-detection-in-autonomous-driving-a-review"><a class="markdownIt-Anchor" href="#mmwave-radar-and-vision-fusion-for-object-detection-in-autonomous-driving-a-review"></a> MmWave Radar and Vision Fusion for Object Detection in Autonomous Driving: A Review</h2>
 <ul>
 <li>2022, Sensors (MDPI)</li>
 <li>This paper discussed various fusion methods used by previous mmWave + Vision sensor papers.</li>
 </ul>
-<h3 id="fusion-methods">Fusion Methods</h3>
-<p><img data-src="image-20230329190214285-1682213515150-70.png" alt="image-20230329190214285" style="zoom:50%;"></p>
-<ol type="1">
-<li><p>Data Level</p>
+<h3 id="fusion-methods"><a class="markdownIt-Anchor" href="#fusion-methods"></a> Fusion Methods</h3>
+<img data-src="image-20230329190214285-1682213515150-70.png" alt="image-20230329190214285" style="zoom:50%;">
+<ol>
+<li>
+<p>Data Level</p>
 <ul>
 <li>Mature, but not the mainstream method.</li>
 <li>Basically, using radar to detect the ROI, and crop the visual frame accordingly.</li>
 <li>The size of the initial ROI is determined by the distance between the obstacle and mmWave radar.</li>
-<li>Radar's information loss is significant.</li>
+<li>Radar’s information loss is significant.</li>
 </ul>
-<p><img data-src="image-20230329193957860-1682213515150-72.png" alt="image-20230329193957860" style="zoom:50%;"></p></li>
-<li><p>Decision Level</p>
+<img data-src="image-20230329193957860-1682213515150-72.png" alt="image-20230329193957860" style="zoom:50%;">
+</li>
+<li>
+<p>Decision Level</p>
 <ul>
 <li>This is the mainstream fusion scheme at present.</li>
 <li>The basic guideline is to process radar and vision data separately in parallel, let them do the final prediction also separately, and only fuse the predicted results.</li>
 <li>Radar detection results generate a list of objects and contain information such as the distance, azimuth angle, and relative velocity of the detected objects.</li>
 <li>The fusion method can be divided into Bayesian theory-based, Kalman Filter-based, Dempster Shafer Theory-based, and Radar Validation-based.</li>
 </ul>
-<p><img data-src="image-20230329200724366-1682213515150-71.png" alt="image-20230329200724366" style="zoom:50%;"></p></li>
-<li><p>Feature Level</p>
+<img data-src="image-20230329200724366-1682213515150-71.png" alt="image-20230329200724366" style="zoom:50%;">
+</li>
+<li>
+<p>Feature Level</p>
 <ul>
 <li>This is a relatively new strategy.</li>
 <li>The core idea is to extract the feature from both sensors, fuse them, and do the prediction.</li>
 <li>The fusion methods are usually concatenation, point-wise addition, or spatial attention fusion.</li>
 <li>Note that the goal of fusion here is to compile an RGB image-like feature map, and the object detection module here can be any traditional CV object detection algorithm.</li>
-<li>Radar feature extraction mostly adopts the method of converting radar points to the image plane to generate a radar image. The purpose of radar feature extraction is to transform radar information into imagelike matrix information. Each radar-generated feature map's channel represents a physical quantity such as distance, longitudinal speed, lateral speed, and so on.</li>
+<li>Radar feature extraction mostly adopts the method of converting radar points to the image plane to generate a radar image. The purpose of radar feature extraction is to transform radar information into imagelike matrix information. Each radar-generated feature map’s channel represents a physical quantity such as distance, longitudinal speed, lateral speed, and so on.</li>
 </ul>
-<p><img data-src="image-20230329201007298-1682213515150-73.png" alt="image-20230329201007298" style="zoom:50%;"></p></li>
+<img data-src="image-20230329201007298-1682213515150-73.png" alt="image-20230329201007298" style="zoom:50%;">
+</li>
 </ol>
-<h3 id="future-trend">Future Trend</h3>
+<h3 id="future-trend"><a class="markdownIt-Anchor" href="#future-trend"></a> Future Trend</h3>
 <ul>
 <li>3D Object detection. The existing Radar-Vision fusion works are mainly 2D object detection, and 3D detection results are far worse.</li>
 <li>Integrate new sensors.</li>
@@ -12232,39 +12250,46 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 <ul>
 <li>Better ways to deal with sparseness brought by radar.</li>
 <li>More efficient multi-sensor fusing methods.</li>
-</ul></li>
 </ul>
-<h3 id="calibration">Calibration</h3>
+</li>
+</ul>
+<h3 id="calibration"><a class="markdownIt-Anchor" href="#calibration"></a> Calibration</h3>
 <ul>
-<li>Coordinate transformation method: Radar and camera are placed in the same coordinate. Using the camera and radar's absolute coordinates, perform a linear transformation to calibrate.</li>
+<li>Coordinate transformation method: Radar and camera are placed in the same coordinate. Using the camera and radar’s absolute coordinates, perform a linear transformation to calibrate.</li>
 <li>Sensor verification method: Radar proposes a target list at first, and then verifies and matches using vision information.</li>
 <li>Vision-based method: Propose candidate areas for moving targets using the camera, and match radar results to it.</li>
 </ul>
-<h2 id="spatial-attention-fusion-for-obstacle-detection-using-mmwave-radar-and-vision-sensor">Spatial Attention Fusion for Obstacle Detection Using MmWave Radar and Vision Sensor</h2>
+<h2 id="spatial-attention-fusion-for-obstacle-detection-using-mmwave-radar-and-vision-sensor"><a class="markdownIt-Anchor" href="#spatial-attention-fusion-for-obstacle-detection-using-mmwave-radar-and-vision-sensor"></a> Spatial Attention Fusion for Obstacle Detection Using MmWave Radar and Vision Sensor</h2>
 <ul>
 <li>2020, Sensors (MDPI)</li>
 <li>Core Contribution: Proposed a novel attention-based radar-vision fusion mechanism to do obstacle detection.</li>
 <li>Taxonomy: Feature level fusion. (Attached is another taxonomy.)</li>
 </ul>
-<p><img data-src="image-20230330151749489-1682213515150-74.png" alt="image-20230330151749489" style="zoom:50%;"></p>
-<h3 id="points-1">Points</h3>
+<img data-src="image-20230330151749489-1682213515150-74.png" alt="image-20230330151749489" style="zoom:50%;">
+<h3 id="points-2"><a class="markdownIt-Anchor" href="#points-2"></a> Points</h3>
 <ul>
-<li><p>Network structure: The feature extractor part is not anything new, it is a combination of modified ResNet and RetinaNet. The fusion mechanism is the part where it has the edge on.</p>
-<p><img data-src="image-20230330151909029-1682213515150-76.png" alt="image-20230330151909029" style="zoom:50%;"></p></li>
-<li><p>The core mechanism: SAF, aims to predict an attention map generated by radar feature, and point-wise multiply this attention map by the feature extracted from vision features.</p></li>
+<li>
+<p>Network structure: The feature extractor part is not anything new, it is a combination of modified ResNet and RetinaNet. The fusion mechanism is the part where it has the edge on.</p>
+<img data-src="image-20230330151909029-1682213515150-76.png" alt="image-20230330151909029" style="zoom:50%;">
+</li>
+<li>
+<p>The core mechanism: SAF, aims to predict an attention map generated by radar feature, and point-wise multiply this attention map by the feature extracted from vision features.</p>
+</li>
 </ul>
-<p><img data-src="image-20230330151942545-1682213515150-77.png" alt="image-20230330151942545" style="zoom:50%;"></p>
+<img data-src="image-20230330151942545-1682213515150-77.png" alt="image-20230330151942545" style="zoom:50%;">
 <ul>
-<li><p>The "radar image" they used is transformed from radar points, which is shown as follows:</p>
+<li>
+<p>The “radar image” they used is transformed from radar points, which is shown as follows:</p>
 <ul>
 <li>They calculate the extrinsic matrix of the radar and front camera separately, transforming the radar point cloud into camera coordinates.</li>
-<li>They calculate the pixel value of the radar image using depth <span class="math inline">\(d\)</span>, longitudinal velocity <span class="math inline">\(v_x\)</span> and lateral velocity <span class="math inline">\(v_y\)</span>. The <span class="math inline">\(f\)</span> here is a linear transformation for these three variables.</li>
-<li>Lastly, since each pixel covers a too-small area of the image, they render a solid circle around each radar point. The value within the circle is the same, and the circle's radius is <span class="math inline">\(r\)</span>.</li>
-<li>If there there are two radar points whose distance is less than <span class="math inline">\(2r\)</span>, in the intersection area, use the value of the nearer one (the one with a smaller <span class="math inline">\(d\)</span>).</li>
+<li>They calculate the pixel value of the radar image using depth <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span>, longitudinal velocity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>x</mi></msub></mrow><annotation encoding="application/x-tex">v_x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and lateral velocity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">v_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>. The <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span> here is a linear transformation for these three variables.</li>
+<li>Lastly, since each pixel covers a too-small area of the image, they render a solid circle around each radar point. The value within the circle is the same, and the circle’s radius is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span>.</li>
+<li>If there there are two radar points whose distance is less than <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>r</mi></mrow><annotation encoding="application/x-tex">2r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span>, in the intersection area, use the value of the nearer one (the one with a smaller <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span>).</li>
 </ul>
-<p><img data-src="image-20230330174231545-1682213515150-75.png" alt="image-20230330174231545" style="zoom:50%;"></p></li>
+<img data-src="image-20230330174231545-1682213515150-75.png" alt="image-20230330174231545" style="zoom:50%;">
+</li>
 </ul>
-<h2 id="tools">Tools</h2>
+<h2 id="tools"><a class="markdownIt-Anchor" href="#tools"></a> Tools</h2>
 <ul>
 <li><a href="https://github.com/radar-lab/ti_mmwave_rospkg">ROsPKG</a>: Turn raw radar data to point clouds.</li>
 <li><a href="https://github.com/nesl/RadHAR">RadHAR</a>: Point Cloud Data collection and pre-processing (<a href="https://github.com/nesl/RadHAR/blob/master/DataPreprocessing/voxels.py">Voxel Generation</a>) examples can be found here. This is from a paper: <a href="https://dl.acm.org/citation.cfm?id=3356768"><em>RadHAR: Human Activity Recognition from Point Clouds Generated through a Millimeter-wave Radar</em></a></li>

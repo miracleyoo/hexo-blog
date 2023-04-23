@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.miracleyoo.com/2022/06/11/slurm-resource-busy-bug-report/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/2099/10/03/resume/</loc>
     
     <lastmod>2023-04-23</lastmod>
@@ -2235,6 +2244,13 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/domain-fusion/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/bug-report/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

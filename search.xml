@@ -12339,4 +12339,41 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <tag>DVS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>记一个不常见SLURM Device Busy BUG</title>
+    <url>/2022/06/11/slurm-resource-busy-bug-report/</url>
+    <content><![CDATA[<h2 id="运行环境">运行环境</h2>
+<ul>
+<li>SLURM 深度学习集群。</li>
+<li>系统：Ubuntu 20.04.5 LTS</li>
+<li>造成BUG的程序：深度学习训练代码。</li>
+<li>具体造成BUG的库：python的<code>multiprocessing</code>。</li>
+</ul>
+<span id="more"></span>
+<h2 id="现象">现象</h2>
+<ul>
+<li><p>训练了几十个epoch都没有问题，突然狂报这个错：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">OSError: [Errno 16] Device or resource busy: <span class="string">&#x27;.nfsf7f2453cdbd6a8c40001fce6&#x27;</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/work/&lt;USER&gt;/anaconda3/envs/ROMP/lib/python3.9/multiprocessing/util.py&quot;</span>, line 300, <span class="keyword">in</span> _run_finalizers</span><br><span class="line">    finalizer()</span><br><span class="line">  File <span class="string">&quot;/work/&lt;USER&gt;/anaconda3/envs/ROMP/lib/python3.9/multiprocessing/util.py&quot;</span>, line 224, <span class="keyword">in</span> __call__</span><br><span class="line">    res = self._callback(*self._args, **self._kwargs)</span><br><span class="line">  File <span class="string">&quot;/work/&lt;USER&gt;/anaconda3/envs/ROMP/lib/python3.9/multiprocessing/util.py&quot;</span>, line 133, <span class="keyword">in</span> _remove_temp_dir</span><br><span class="line">    rmtree(tempdir)</span><br><span class="line">  File <span class="string">&quot;/work/&lt;USER&gt;/anaconda3/envs/ROMP/lib/python3.9/shutil.py&quot;</span>, line 734, <span class="keyword">in</span> rmtree</span><br><span class="line">    _rmtree_safe_fd(fd, path, onerror)</span><br><span class="line">  File <span class="string">&quot;/work/&lt;USER&gt;/anaconda3/envs/ROMP/lib/python3.9/shutil.py&quot;</span>, line 690, <span class="keyword">in</span> _rmtree_safe_fd</span><br><span class="line">    onerror(os.unlink, fullname, sys.exc_info())</span><br><span class="line">  File <span class="string">&quot;/work/&lt;USER&gt;/anaconda3/envs/ROMP/lib/python3.9/shutil.py&quot;</span>, line 688, <span class="keyword">in</span> _rmtree_safe_fd</span><br><span class="line">    os.unlink(entry.name, dir_fd=topfd)</span><br></pre></td></tr></table></figure></li>
+<li><p><code>.nfs&lt;xxxxxxxxxx&gt;</code>后面的这一串符号会不断变化，其他报错信息基本稳定。</p></li>
+</ul>
+<h2 id="解决">解决</h2>
+<ul>
+<li><p>经过查询得到，OSError [Errno 16] Device or resource busy 往往是某个资源正在被其他程序访问。然而这里的“资源”都是<code>multiprocessing</code>库用来在进程间交流信息的临时文件。</p></li>
+<li><p>当该错误和<code>.nfs&lt;xxxxxxx&gt;</code>一起出现时，表明该资源位于一个网络位置上。这里是因为集群的储存都是以挂载的网络位置方式进行的。</p></li>
+<li><p>经过一番Google，最初认为可能原因和某几个帖子一样，是disk quota已经用光了，所以会无法新建文件等，所以我先删除了一波东西，然而error依旧，且往各个位置下载大文件也并不会报类似的错误，所以暂时认为不是这个原因。</p></li>
+<li><p>最终解决方案是，因为这些文件都是临时文件，所以问题一定是出在了储存临时文件的位置处，大概率是集群本身的问题（集群还是挺经常出各种奇怪问题的），所以只需要在程序开始处重新指定临时文件存储目录即可。</p></li>
+<li><p>值得注意的是，跑代码需要在GPU node上跑，每个node都有自己的临时文件文件夹（估计是为了加速，把cache存到离本机最近的物理储存位置），所以更改的目标位置可以就设为<code>/tmp</code>。</p></li>
+<li><p>具体代码如下（Python）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line">tempfile.tempdir = <span class="string">&#x27;/tmp&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>注意需要将这两行代码放到程序入口文件的最上方。如果你的暂存文件夹本来就是<code>/tmp</code>，换成任意一个你喜欢的路径即可。</p></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>linux</tag>
+        <tag>server</tag>
+        <tag>slurm</tag>
+        <tag>bug-report</tag>
+      </tags>
+  </entry>
 </search>

@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.miracleyoo.com/2099/10/03/resume/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/2022/04/11/linux-setup/</loc>
     
     <lastmod>2023-04-23</lastmod>
@@ -194,15 +203,6 @@
     <loc>https://www.miracleyoo.com/2022/11/18/sina-img-recover/</loc>
     
     <lastmod>2023-04-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/2099/10/03/resume/</loc>
-    
-    <lastmod>2023-04-22</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

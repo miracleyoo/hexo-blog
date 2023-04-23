@@ -2,7 +2,97 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2022/09/16/mmd-blender-bvh/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2023/04/22/snn-notes/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2023/04/02/3d-multi-hpe-review/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.miracleyoo.com/2023/02/19/gnn-hpe/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2018/07/29/xcode-c/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2018/08/01/get-pre-time/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2018/08/01/c-project-note/</loc>
+    
+    <lastmod>2023-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/2019/11/07/video-classification/</loc>
     
     <lastmod>2023-04-23</lastmod>
     
@@ -155,15 +245,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/2019/12/11/Pytorch-Core-Code-Research/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/2020/05/24/ps-blend/</loc>
     
     <lastmod>2021-03-12</lastmod>
@@ -282,24 +363,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/2019/09/11/zelda/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/2018/07/29/xcode-c/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/2019/11/07/video-classification/</loc>
     
     <lastmod>2021-03-12</lastmod>
     
@@ -803,15 +866,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/2018/08/01/get-pre-time/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/2019/07/06/film-review-the-wandering-earth/</loc>
     
     <lastmod>2021-03-12</lastmod>
@@ -1038,15 +1092,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/2018/05/14/certain-GPU/</loc>
-    
-    <lastmod>2021-03-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/2018/08/01/c-project-note/</loc>
     
     <lastmod>2021-03-12</lastmod>
     
@@ -1287,13 +1332,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/machine-learning/</loc>
-    <lastmod>2023-04-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/tags/deep-learning/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -1351,20 +1389,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/paper/</loc>
-    <lastmod>2023-04-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/Pytorch/</loc>
-    <lastmod>2023-04-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/C/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1610,13 +1634,6 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/Hexo/</loc>
-    <lastmod>2023-04-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.miracleyoo.com/tags/c/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2036,13 +2053,6 @@
   </url>
   
   <url>
-    <loc>https://www.miracleyoo.com/tags/cv/</loc>
-    <lastmod>2023-04-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.miracleyoo.com/tags/video-classification/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -2107,6 +2117,69 @@
   
   <url>
     <loc>https://www.miracleyoo.com/tags/SMPL/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/blender/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/MMD/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/data-generation/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/HPE/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/C-lang/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/clustering/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/point-cloud/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/modeling/</loc>
+    <lastmod>2023-04-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.miracleyoo.com/tags/SNN/</loc>
     <lastmod>2023-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

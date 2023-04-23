@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基本操作  降噪 点云聚类（DBSCAN） 追踪（Tracking） ID（Identification）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Point Cloud Clustering 聚类方法论文总结">
+<meta property="og:url" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/index.html">
+<meta property="og:site_name" content="Miracleyoo">
+<meta property="og:description" content="基本操作  降噪 点云聚类（DBSCAN） 追踪（Tracking） ID（Identification）">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216011045607.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216011117452.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216143959204.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216095831664.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216134555511.png">
+<meta property="og:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216110618763.png">
+<meta property="article:published_time" content="2023-03-28T00:43:27.000Z">
+<meta property="article:modified_time" content="2023-04-23T00:44:09.792Z">
+<meta property="article:author" content="Miracle Yoo">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="deep-learning">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="clustering">
+<meta property="article:tag" content="point-cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/image-20221216011045607.png">
+
+
+<link rel="canonical" href="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/","path":"2023/03/27/point-cloud-clustering-paper/","title":"Point Cloud Clustering 聚类方法论文总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Point Cloud Clustering 聚类方法论文总结 | Miracleyoo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Miracleyoo" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Miracleyoo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text"> 基本操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#real-time-people-tracking-and-identification-from-sparse-mm-wave-radar-point-clouds"><span class="nav-number">2.</span> <span class="nav-text"> Real-time People Tracking and Identification from Sparse mm-Wave Radar Point-clouds</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#question"><span class="nav-number">2.1.</span> <span class="nav-text"> Question</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#radar-part"><span class="nav-number">2.2.</span> <span class="nav-text"> Radar Part</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points"><span class="nav-number">2.3.</span> <span class="nav-text"> Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#human-tracking-and-identification-through-a-millimeter-wave-radar"><span class="nav-number">3.</span> <span class="nav-text"> Human tracking and identification through a millimeter wave radar</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#questions"><span class="nav-number">3.1.</span> <span class="nav-text"> Questions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-2"><span class="nav-number">3.2.</span> <span class="nav-text"> Points</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#about-fmcw-radar"><span class="nav-number">3.3.</span> <span class="nav-text"> About FMCW Radar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#improvable-points"><span class="nav-number">3.4.</span> <span class="nav-text"> Improvable Points</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Miracle Yoo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/miracleyoo" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;miracleyoo" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhongyang.zhang.hust@gmail.com" title="E-Mail → mailto:zhongyang.zhang.hust@gmail.com" rel="noopener me" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Ogisomiracle" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Ogisomiracle" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/mirakuruyoo" title="FB Page → https:&#x2F;&#x2F;www.facebook.com&#x2F;mirakuruyoo" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>FB Page</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="pjax">
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.miracleyoo.com/2023/03/27/point-cloud-clustering-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Miracle Yoo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Point Cloud Clustering 聚类方法论文总结 | Miracleyoo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Point Cloud Clustering 聚类方法论文总结<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/point-cloud-clustering-paper.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-03-27 17:43:27" itemprop="dateCreated datePublished" datetime="2023-03-27T17:43:27-07:00">2023-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-04-22 17:44:09" itemprop="dateModified" datetime="2023-04-22T17:44:09-07:00">2023-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>7 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="基本操作"><a class="markdownIt-Anchor" href="#基本操作"></a> 基本操作</h2>
+<ol>
+<li>降噪</li>
+<li>点云聚类（DBSCAN）</li>
+<li>追踪（Tracking）</li>
+<li>ID（Identification）</li>
+</ol>
+<span id="more"></span>
+<h2 id="real-time-people-tracking-and-identification-from-sparse-mm-wave-radar-point-clouds"><a class="markdownIt-Anchor" href="#real-time-people-tracking-and-identification-from-sparse-mm-wave-radar-point-clouds"></a> Real-time People Tracking and Identification from Sparse mm-Wave Radar Point-clouds</h2>
+<p><img data-src="image-20221216011045607.png" alt="image-20221216011045607"></p>
+<p><img data-src="image-20221216011117452.png" alt="image-20221216011117452"></p>
+<h3 id="question"><a class="markdownIt-Anchor" href="#question"></a> Question</h3>
+<ul>
+<li>
+<p>怎么做的tracking？</p>
+<ul>
+<li>
+<p>使用了converted-measurements Kalman filter (CM-KF) 方法预测目标人物位置、速度、Extension（？）。</p>
+</li>
+<li>
+<p>用了NN-JPDA（nearest-neighbors joint probabilistic data association）算法计算轨迹。</p>
+<blockquote>
+<p>The MTT association between new observations and trajectories is achieved using an approximation of the nearest-neighbors joint probabilistic data association (NN-JPDA) algorithm</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="radar-part"><a class="markdownIt-Anchor" href="#radar-part"></a> Radar Part</h3>
+<p><strong>※ 本文含有大量关于使用FMCW雷达采集和处理数据的细节，完全可以用作相关参考。</strong></p>
+<ul>
+<li>
+<p>首先，雷达用的是MIMO雷达（multiple-input multiple-output)。</p>
+</li>
+<li>
+<p>发射器3个，接收器4个，等效为一个发射器12个接收器。</p>
+</li>
+<li>
+<p>发射信号被分布在两个空间走向上，分别是经(Azimuth, AZ)和纬(Elevation, EL)。两个方向上的信号以时分复用的方式交替发射，以取得两个方向上的角度，用以计算Point Cloud中每个点的空间位置。</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo separator="true">,</mo><mi>ϕ</mi></mrow><annotation encoding="application/x-tex">\theta, \phi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">ϕ</span></span></span></span>分别是一个反射点在 AZ 和 EL 方向上的角度，R是反射点相对雷达的距离。xyz可以只靠<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo separator="true">,</mo><mi>θ</mi><mo separator="true">,</mo><mi>ϕ</mi></mrow><annotation encoding="application/x-tex">R,\theta,\phi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">ϕ</span></span></span></span>来计算出来。</p>
+<img data-src="image-20221216143959204.png" alt="image-20221216143959204" style="zoom:50%;">
+</li>
+</ul>
+<h3 id="points"><a class="markdownIt-Anchor" href="#points"></a> Points</h3>
+<ul>
+<li>
+<p>本文中，并没有针对可变数量的人物进行适配。仅仅支持或3人或8人。所谓的ID只是一个N分类CNN罢了。</p>
+<blockquote>
+<p>Identification: a deep NN classifier is applied to a temporal sequence of K subsequent point-clouds associated with each trajectory, with the objective of discerning among a set of Q pre-defined subject identities.</p>
+</blockquote>
+</li>
+<li>
+<p>聚类还是DBSCAN方法。</p>
+</li>
+</ul>
+<h2 id="human-tracking-and-identification-through-a-millimeter-wave-radar"><a class="markdownIt-Anchor" href="#human-tracking-and-identification-through-a-millimeter-wave-radar"></a> Human tracking and identification through a millimeter wave radar</h2>
+<h3 id="questions"><a class="markdownIt-Anchor" href="#questions"></a> Questions</h3>
+<ul>
+<li>
+<p>遮挡情况怎么办，多个人离得近有重合时候怎么办？</p>
+<ul>
+<li>凉拌，论文避开了这个问题没说。</li>
+</ul>
+</li>
+<li>
+<p>mmWave Radar的具体参数？</p>
+<ul>
+<li>频段为77–81 GHz。</li>
+<li>Bandwidth是 4 GHz。</li>
+<li>The Chirp Cycle Time 𝑇𝑐 是 162.14 μs。</li>
+<li>Frequency Slope 是 70 GHz∕ms。</li>
+<li>Range resolution （距离分辨率）是 4.4 cm。</li>
+<li>Maximum unambiguous range （最大有效工作距离）是 5 m。</li>
+<li>可分辨的最大径向速度是 2 m∕s。</li>
+<li>速度分辨率是 0.26 m∕s。</li>
+<li>128 chirps 每帧。</li>
+<li>每秒33帧。</li>
+</ul>
+</li>
+<li>
+<p>怎么做的human track？</p>
+<ul>
+<li>这个过程是逐帧的。每当有新的人被检出，或是有被检出的人无法与之前帧的任何一个之前记录在案的人匹配成功，则添加一个新的track record</li>
+<li>帧间目标匹配用的是匈牙利算法做的。</li>
+<li>若有某个之前检出并记录过的人物在从某帧开始的连续D帧都没再出现过，则删除这个人。</li>
+<li>最后，用Kalman Filter来预测和纠正轨迹。</li>
+</ul>
+<img data-src="image-20221216095831664.png" alt="image-20221216095831664" style="zoom:50%;">
+</li>
+<li>
+<p>Detection &amp; Association 步骤中，匈牙利算法匹配已知人物和新一帧中的所有检出人物时，具体的匹配对象是什么（已知人物是一种什么形态被存贮记录的）？</p>
+<ul>
+<li>
+<p>无论是track record中记录的人还是新一帧检测出来的人，其实际representation形式都是在x和y方向上的位置和速度。</p>
+<blockquote>
+<p>For each track we maintain a state which consists of location and velocity along the x and y axes. For each track the initial state consists of the first detection location and velocity.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>Kalman Filter的具体作用？</p>
+<ol>
+<li>
+<p>降噪。纠正传感器噪声。</p>
+</li>
+<li>
+<p>当目标物体有几帧缺失时，补全。</p>
+</li>
+<li>
+<p>在本文中Kalman Filter是在track prediction部分使用的。它每次会结合过去对当前帧结果（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mover accent="true"><mi>x</mi><mo>^</mo></mover><mi>t</mi></msup><mo separator="true">,</mo><msup><mover accent="true"><mi>y</mi><mo>^</mo></mover><mi>t</mi></msup><mo separator="true">,</mo><msubsup><mover accent="true"><mi>v</mi><mo>^</mo></mover><mi>x</mi><mi>t</mi></msubsup><mo separator="true">,</mo><msubsup><mover accent="true"><mi>v</mi><mo>^</mo></mover><mi>y</mi><mi>t</mi></msubsup></mrow><annotation encoding="application/x-tex">\hat{x}^t,\hat{y}^t,\hat{v}_x^t,\hat{v}_y^t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.176664em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.19444em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>）的预测和当前的实际CNN Output（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mi>t</mi></msup><mo separator="true">,</mo><msup><mi>y</mi><mi>t</mi></msup><mo separator="true">,</mo><msubsup><mi>v</mi><mi>x</mi><mi>t</mi></msubsup><mo separator="true">,</mo><msubsup><mi>v</mi><mi>y</mi><mi>t</mi></msubsup></mrow><annotation encoding="application/x-tex">x^t,y^t,v^t_x,v^t_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.176664em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>）得到一个新的综合了二者的结果（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mover accent="true"><mi>x</mi><mo>˚</mo></mover><mi>t</mi></msup><mo separator="true">,</mo><msup><mover accent="true"><mi>y</mi><mo>˚</mo></mover><mi>t</mi></msup><mo separator="true">,</mo><msubsup><mover accent="true"><mi>v</mi><mo>˚</mo></mover><mi>x</mi><mi>t</mi></msubsup><mo separator="true">,</mo><msubsup><mover accent="true"><mi>v</mi><mo>˚</mo></mover><mi>y</mi><mi>t</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathring{x}^{t},\mathring{y}^{t},\mathring{v}^{t}_x,\mathring{v}^{t}_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.176664em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.34722em;"><span class="mord">˚</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.31944em;"><span class="mord">˚</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.34722em;"><span class="mord">˚</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.34722em;"><span class="mord">˚</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>），并以此为基础预测下一帧的结果（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mover accent="true"><mi>x</mi><mo>^</mo></mover><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msup><mo separator="true">,</mo><msup><mover accent="true"><mi>y</mi><mo>^</mo></mover><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msup><mo separator="true">,</mo><msubsup><mover accent="true"><mi>v</mi><mo>^</mo></mover><mi>x</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msubsup><mo separator="true">,</mo><msubsup><mover accent="true"><mi>v</mi><mo>^</mo></mover><mi>y</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msubsup></mrow><annotation encoding="application/x-tex">\hat{x}^{t+1},\hat{y}^{t+1},\hat{v}^{t+1}_x,\hat{v}^{t+1}_y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.197216em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.19444em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mord">^</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-2.4530000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>）。</p>
+</li>
+<li>
+<p>具体可参考<a target="_blank" rel="noopener" href="https://sikasjc.github.io/2018/05/08/kalman_filter/">Kalman Filter 卡尔曼滤波</a>，如下图，橙色是基于之前结果对小车当前相对距离的预测，紫色是对当前距离的观测，二者都有误差且服从正态分布，绿色则是综合了预测和观测的分布。</p>
+<p><img data-src="image-20221216134555511.png" alt="image-20221216134555511"></p>
+</li>
+</ol>
+</li>
+<li>
+<p>User Identification具体怎么做的？</p>
+<ul>
+<li>
+<p>首先让人失望的是，还是softmax+classification-based方法，还是fixed number of human。</p>
+</li>
+<li>
+<p>然后具体的做法是：</p>
+<ol>
+<li>先是正常的sliding windows聚合2s以内的所有点，步长为0.5s。</li>
+<li>对于所有人，先使用一个大小相同的bbox圈起来这个人的所有点。</li>
+<li>然后做Voxel Grid，有点像pooling操作，聚合成一个个空间块。</li>
+<li>Flatten这些voxel grid到一维，输入一个classifier（BiLSTM+MLP）过softmax出每个人的概率。</li>
+</ol>
+<img data-src="image-20221216110618763.png" alt="image-20221216110618763" style="zoom:50%;">
+</li>
+</ul>
+</li>
+<li>
+<p>mmWave信号是如何转换成3D点云的？</p>
+<ol>
+<li>首先FMCW雷达先记录所有的反射。</li>
+<li>然后通过range-FFT之后移除clutter。</li>
+<li>最后在估算完速度和角度之后生成point cloud。</li>
+</ol>
+</li>
+<li>
+<p>怎么做到的区分未训练的闯入者和每个训练对象的？</p>
+<ul>
+<li>在softmax loss分类，还加了一个center loss，旨在让来自同一个人的samples的intra-class distance最小，拥有相似的中心点，聚集在一起。</li>
+<li>一旦来了新的人，他的sample feature中心点会远离前面的所有人，就会被区分开。</li>
+<li>值得注意的是，这个所谓的相似的中心点并不是根据同一个人的features自然聚合训练出来的，而是通过对每个人类别label过一个embedding得到的。这个embedding会和每个该类的人的输出feature map做loss。</li>
+<li>具体说道怎么根据这个embedding区分，那就是对每个人物bbox内得到的feature map，分别和每个已知人的bbox逐点算距离，距离太大就算闯入者，反之如果有一个还算小，那就是这类了。</li>
+</ul>
+</li>
+</ul>
+<h3 id="points-2"><a class="markdownIt-Anchor" href="#points-2"></a> Points</h3>
+<ul>
+<li>
+<p>用的VICON Mocap System。</p>
+</li>
+<li>
+<p>他们在论文中指出mmWave雷达很能穿，泡沫、塑料、木材、甚至铝对点云密度造成的影响都小于1%。</p>
+<ul>
+<li>用的材料是统一的3mm厚<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup><mi>m</mi><msup><mi>m</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">10^5mm^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mord mathnormal">m</span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>大小的板子。约为1.5张A4纸大。</li>
+<li>问题是，他们直接把材料怼到雷达脸上测的（1cm away from the sensor），为了防止radar signal transmitted in the line-of-sight condition。算是又避开了一个重要问题。估计在可视范围内放obstacles会出问题。</li>
+<li>这种程度的穿透其实只在sensor有用，比如可以装配到屏幕、家具下面，而对应用端意义有限，即没法真的在日常空间中穿透物体。</li>
+</ul>
+</li>
+<li>
+<p>Clustering用的是DBScan，参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>0.05</mn><mo separator="true">,</mo><mi>α</mi><mo>=</mo><mn>0.25</mn><mo separator="true">,</mo><mi>M</mi><mi>i</mi><mi>n</mi><mi>P</mi><mi>t</mi><mi>s</mi><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">\epsilon=0.05, \alpha=0.25, MinPts=20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">t</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">0</span></span></span></span></p>
+<blockquote>
+<p>DBScan has two parameters, namely Eps which indicates the maximum distance of two points in the same cluster and MinPts which indicates the minimum point number in a cluster to cope with noise points. In practice, we choose 0.05 as Eps and 20 as MinPts. 𝛼 was set to 0.25 in the customized distance function.</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="about-fmcw-radar"><a class="markdownIt-Anchor" href="#about-fmcw-radar"></a> About FMCW Radar</h3>
+<ul>
+<li>
+<p>步骤：</p>
+<ol>
+<li>range-FFT: 用来算目标物体距离。</li>
+<li>Clutter Removal: 去掉静态物体。具体做法是对于每个range bin，对于每个天线，减去其均值。理由没看懂。(?)</li>
+</ol>
+<blockquote>
+<p>As we are interested in identifying people moving in the scene, the background, corresponding to stationary objects, needs to be removed before performing Doppler FFT. This is performed by subtracting a mean for each range bin per antenna across the chirps in a frame. With this step in the processing pipeline, the millimeter wave radar is able to generate a point cloud which does not contain static obstacles. However, this does not guarantee that the point cloud does not contain noise. While the users move in the scene, parts of the background objects are occluded and the reflections from these areas changes over time, leading to noise in the radar point cloud.</p>
+</blockquote>
+<ol start="3">
+<li>
+<p>Doppler-FFT: 用来算目标物体速度。这一步前必须先把静态物体移除到位。</p>
+</li>
+<li>
+<p>Angle Estimation：用天线组合来算目标物体相对雷达角度。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>很好奇究竟是如何从距离速度和角度还原出来如此高精度的3D空间坐标信息的。(?)</p>
+</li>
+</ul>
+<h3 id="improvable-points"><a class="markdownIt-Anchor" href="#improvable-points"></a> Improvable Points</h3>
+<ul>
+<li>首先，这是针对特定人群的训练。无法泛化，训练集里面有谁谁才能用。</li>
+<li>其次，他们算center loss时候只考虑了类内区别最小，没考虑让类间不同最大。</li>
+<li>没有考虑人们距离太近时候的点云重合混杂问题，避而不谈。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://www.zhihu.com/people/miracleyoo">
+            <span class="icon">
+              <i class="fab fa-zhihu"></i>
+            </span>
+
+            <span class="label">Zhihu</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine-learning</a>
+              <a href="/tags/deep-learning/" rel="tag"># deep-learning</a>
+              <a href="/tags/paper/" rel="tag"># paper</a>
+              <a href="/tags/clustering/" rel="tag"># clustering</a>
+              <a href="/tags/point-cloud/" rel="tag"># point-cloud</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/19/gnn-hpe/" rel="prev" title="GNN-based Human Pose Estimation (HPE) 论文总结">
+                  <i class="fa fa-chevron-left"></i> GNN-based Human Pose Estimation (HPE) 论文总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/02/3d-multi-hpe-review/" rel="next" title="3D Multi-Person Pose Estimation (HPE) Reviews">
+                  3D Multi-Person Pose Estimation (HPE) Reviews <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Miracle Yoo</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">202k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">12:14</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/miracleyoo" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" integrity="sha256-gMRN4/6qeELzO1wbFa8qQLU8kfuF2dnAPiUoI0ATjx8=" crossorigin="anonymous">
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"miracleyoo/utterances-repo","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

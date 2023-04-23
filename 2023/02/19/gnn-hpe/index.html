@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation   Summary  Multi-person. Image-based. Graph is just used in their DGCM module. Bottom-Up.">
+    <meta name="description" content="DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation    Summary  Multi-person. Image-based. Graph is just used in their DGCM module. Bottom-Up.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GNN-based Human Pose Estimation (HPE) Paper Summary">
+<meta property="og:title" content="GNN-based Human Pose Estimation (HPE) 论文总结">
 <meta property="og:url" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation   Summary  Multi-person. Image-based. Graph is just used in their DGCM module. Bottom-Up.">
+<meta property="og:description" content="DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation    Summary  Multi-person. Image-based. Graph is just used in their DGCM module. Bottom-Up.">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221219151203243.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221219154249782.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/image-20221221150901507.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2023/02/19/gnn-hpe/GNN-based%20HPE/image-20221221150056706.png">
 <meta property="article:published_time" content="2023-02-20T01:34:18.000Z">
-<meta property="article:modified_time" content="2023-04-23T00:35:13.334Z">
+<meta property="article:modified_time" content="2023-04-23T00:44:00.009Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="machine-learning">
 <meta property="article:tag" content="deep-learning">
@@ -55,10 +55,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/02/19/gnn-hpe/","path":"2023/02/19/gnn-hpe/","title":"GNN-based Human Pose Estimation (HPE) Paper Summary"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2023/02/19/gnn-hpe/","path":"2023/02/19/gnn-hpe/","title":"GNN-based Human Pose Estimation (HPE) 论文总结"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>GNN-based Human Pose Estimation (HPE) Paper Summary | Miracleyoo</title>
+<title>GNN-based Human Pose Estimation (HPE) 论文总结 | Miracleyoo</title>
   
 
 
@@ -158,7 +158,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation"><span class="nav-number">1.</span> <span class="nav-text">DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary"><span class="nav-number">1.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points"><span class="nav-number">1.2.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking"><span class="nav-number">2.</span> <span class="nav-text">Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-1"><span class="nav-number">2.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#question"><span class="nav-number">2.2.</span> <span class="nav-text">Question</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-1"><span class="nav-number">2.3.</span> <span class="nav-text">Points</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comments"><span class="nav-number">2.4.</span> <span class="nav-text">Comments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#context-modeling-in-3d-human-pose-estimation-a-unified-perspective"><span class="nav-number">3.</span> <span class="nav-text">Context Modeling in 3D Human Pose Estimation: A Unified Perspective</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-2"><span class="nav-number">3.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-2"><span class="nav-number">3.2.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#optimizing-network-structure-for-3d-human-pose-estimation"><span class="nav-number">4.</span> <span class="nav-text">Optimizing Network Structure for 3D Human Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-3"><span class="nav-number">4.1.</span> <span class="nav-text">Summary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adaptive-hypergraph-neural-network-for-multi-person-pose-estimation"><span class="nav-number">5.</span> <span class="nav-text">Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-4"><span class="nav-number">5.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#questions"><span class="nav-number">5.2.</span> <span class="nav-text">Questions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-3"><span class="nav-number">5.3.</span> <span class="nav-text">Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation"><span class="nav-number">6.</span> <span class="nav-text">Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-5"><span class="nav-number">6.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-4"><span class="nav-number">6.2.</span> <span class="nav-text">Points</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation"><span class="nav-number">1.</span> <span class="nav-text"> DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary"><span class="nav-number">1.1.</span> <span class="nav-text"> Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points"><span class="nav-number">1.2.</span> <span class="nav-text"> Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking"><span class="nav-number">2.</span> <span class="nav-text"> Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-2"><span class="nav-number">2.1.</span> <span class="nav-text"> Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#question"><span class="nav-number">2.2.</span> <span class="nav-text"> Question</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-2"><span class="nav-number">2.3.</span> <span class="nav-text"> Points</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comments"><span class="nav-number">2.4.</span> <span class="nav-text"> Comments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#context-modeling-in-3d-human-pose-estimation-a-unified-perspective"><span class="nav-number">3.</span> <span class="nav-text"> Context Modeling in 3D Human Pose Estimation: A Unified Perspective</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-3"><span class="nav-number">3.1.</span> <span class="nav-text"> Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-3"><span class="nav-number">3.2.</span> <span class="nav-text"> Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#optimizing-network-structure-for-3d-human-pose-estimation"><span class="nav-number">4.</span> <span class="nav-text"> Optimizing Network Structure for 3D Human Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-4"><span class="nav-number">4.1.</span> <span class="nav-text"> Summary</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#adaptive-hypergraph-neural-network-for-multi-person-pose-estimation"><span class="nav-number">5.</span> <span class="nav-text"> Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-5"><span class="nav-number">5.1.</span> <span class="nav-text"> Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#questions"><span class="nav-number">5.2.</span> <span class="nav-text"> Questions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-4"><span class="nav-number">5.3.</span> <span class="nav-text"> Points</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation"><span class="nav-number">6.</span> <span class="nav-text"> Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#summary-6"><span class="nav-number">6.1.</span> <span class="nav-text"> Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#points-5"><span class="nav-number">6.2.</span> <span class="nav-text"> Points</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -171,13 +171,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">119</span>
+        <span class="site-state-item-count">123</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -233,12 +233,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="GNN-based Human Pose Estimation (HPE) Paper Summary | Miracleyoo">
+      <meta itemprop="name" content="GNN-based Human Pose Estimation (HPE) 论文总结 | Miracleyoo">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          GNN-based Human Pose Estimation (HPE) Paper Summary<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/gnn-hpe.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+          GNN-based Human Pose Estimation (HPE) 论文总结<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/gnn-hpe.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
         </h1>
 
         <div class="post-meta-container">
@@ -256,7 +256,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-04-22 17:35:13" itemprop="dateModified" datetime="2023-04-22T17:35:13-07:00">2023-04-22</time>
+      <time title="Modified: 2023-04-22 17:44:00" itemprop="dateModified" datetime="2023-04-22T17:44:00-07:00">2023-04-22</time>
     </span>
 
   
@@ -291,10 +291,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation">DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</h2>
-<p><img data-src="image-20221219151203243.png" alt="image-20221219151203243" style="zoom:50%;"></p>
-<p><img data-src="image-20221219154249782.png" alt="image-20221219154249782" style="zoom:50%;"></p>
-<h3 id="summary">Summary</h3>
+        <h2 id="dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation"><a class="markdownIt-Anchor" href="#dgcn-dynamic-graph-convolutional-network-for-efficient-multi-person-pose-estimation"></a> DGCN: Dynamic Graph Convolutional Network for Efficient Multi-Person Pose Estimation</h2>
+<img data-src="image-20221219151203243.png" alt="image-20221219151203243" style="zoom:50%;">
+<img data-src="image-20221219154249782.png" alt="image-20221219154249782" style="zoom:50%;">
+<h3 id="summary"><a class="markdownIt-Anchor" href="#summary"></a> Summary</h3>
 <ul>
 <li>Multi-person.</li>
 <li>Image-based. Graph is just used in their DGCM module.</li>
@@ -302,13 +302,18 @@
 </ul>
 <span id="more"></span>
 <ul>
-<li><p>Basic Hypothesis:</p>
+<li>
+<p>Basic Hypothesis:</p>
 <blockquote>
 <p>Existing bottom-up methods mainly define relations by empirically picking out edges from this graph, while omitting edges that may contain useful semantic relations.</p>
 </blockquote>
-<p>But actually OpenPose is using the similar idea: "Redundant PAF connections". The difference is that OpenPose redundant connections are still empirical, while in this paper, they take into account all possible connections between two arbitrary joints, instead of limited amount.</p></li>
-<li><p>Core idea: 本文是一篇基于RGB图片的Bottom-up 2D HPE文章。文中Graph是作为其核心模块DGCM的一部分出现的，且并没有使用GNN。这里的Graph是用来建模joints之间关系的，即摆脱了传统的基于经验的骨骼链接，也不是单纯的基于dataset计算的软性链接，而是将软性链接的值当做伯努利分布中的概率来用，每次随机筛出来几个可能的邻接矩阵来用。本文中所谓Graph的使用其实完全可以被transformer代替，本质上是在建模关节点之间的关联性。</p></li>
-<li><p>Graph:</p>
+<p>But actually OpenPose is using the similar idea: “Redundant PAF connections”. The difference is that OpenPose redundant connections are still empirical, while in this paper, they take into account all possible connections between two arbitrary joints, instead of limited amount.</p>
+</li>
+<li>
+<p>Core idea: 本文是一篇基于RGB图片的Bottom-up 2D HPE文章。文中Graph是作为其核心模块DGCM的一部分出现的，且并没有使用GNN。这里的Graph是用来建模joints之间关系的，即摆脱了传统的基于经验的骨骼链接，也不是单纯的基于dataset计算的软性链接，而是将软性链接的值当做伯努利分布中的概率来用，每次随机筛出来几个可能的邻接矩阵来用。本文中所谓Graph的使用其实完全可以被transformer代替，本质上是在建模关节点之间的关联性。</p>
+</li>
+<li>
+<p>Graph:</p>
 <ul>
 <li>Node: Human Joints。</li>
 <li>Node Value: 无。</li>
@@ -316,43 +321,67 @@
 <li>Edge Value: 两个joints之间的相关性。</li>
 <li>Output: 一个joints间的邻接矩阵。</li>
 <li>Usage: 用于生成带有随机性的、基于soft adjacency matrix的人类关节点关联矩阵。</li>
-</ul></li>
 </ul>
-<h3 id="points">Points</h3>
+</li>
+</ul>
+<h3 id="points"><a class="markdownIt-Anchor" href="#points"></a> Points</h3>
 <ul>
-<li><blockquote>
+<li>
+<blockquote>
 <p>Bottom-up pose estimation methods try to learn two kinds of heatmaps from the deep neural network, including keypoint heatmaps and relation heatmaps.</p>
-</blockquote></li>
-<li><p>Soft Adjacency Matrix:</p>
+</blockquote>
+</li>
+<li>
+<p>Soft Adjacency Matrix:</p>
 <ul>
 <li>基于全部训练集中任意两个joints之间的距离（normalized by scale factor s）的倒数构建软邻接矩阵。</li>
 <li>由于任意一个点到期自身的距离是0，相应的邻接矩阵值设为1。</li>
-<li><span class="math inline">\(A_{s}^{ij}=\sigma(\gamma\frac{1}{M_d^{ij}}), A_s^{ii}=1\)</span>。</li>
-</ul></li>
-<li><p>Dynamic Adjacency Matrix：</p>
-<ul>
-<li><span class="math inline">\(A_d^{ij}\sim B(x,A_s^{ij})\)</span>，x是数量，<span class="math inline">\(A_s^{ij}\)</span>是概率，B是伯努利分布。</li>
-<li>这里的伯努利分布（01分布）实质上就是把软邻接矩阵的值变成了概率。A^(i,j)值越大，概率越大，取1的可能性越大。就这样筛选几次，得到几个可能的邻接矩阵。</li>
-</ul></li>
-<li><p>文中使用了金字塔式多尺度feature map，理由是人的大小远近不一样，多尺度的feature更有适应性。</p></li>
-<li><p>由于邻接矩阵里面每个joint和它自己的relation-term永远是1，就相当于加了一个skip connection一样，不用担心每个joint只被其邻居决定。</p></li>
-<li><p>除了这里提到的动态邻接矩阵，还有一个learnable <span class="math inline">\(K\times K\)</span>的weights，共同起作用。</p></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>A</mi><mi>s</mi><mrow><mi>i</mi><mi>j</mi></mrow></msubsup><mo>=</mo><mi>σ</mi><mo stretchy="false">(</mo><mi>γ</mi><mfrac><mn>1</mn><msubsup><mi>M</mi><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msubsup></mfrac><mo stretchy="false">)</mo><mo separator="true">,</mo><msubsup><mi>A</mi><mi>s</mi><mrow><mi>i</mi><mi>i</mi></mrow></msubsup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A_{s}^{ij}=\sigma(\gamma\frac{1}{M_d^{ij}}), A_s^{ii}=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.071664em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.5665079999999998em;vertical-align:-0.7213999999999998em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.52166em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9547714285714286em;"><span style="top:-2.1527714285714286em;margin-left:-0.10903em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span><span style="top:-2.9836857142857145em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3472285714285714em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7213999999999998em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>。</li>
 </ul>
-<h2 id="learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking">Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</h2>
-<p><img data-src="image-20221219160516007.png" alt="image-20221219160516007" style="zoom:50%;"></p>
-<h3 id="summary-1">Summary</h3>
+</li>
+<li>
+<p>Dynamic Adjacency Matrix：</p>
 <ul>
-<li>Multi-person 2D HPE.</li>
-<li>Top-Down.</li>
-<li>Frame-based.</li>
-<li>Pipeline:
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>A</mi><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msubsup><mo>∼</mo><mi>B</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><msubsup><mi>A</mi><mi>s</mi><mrow><mi>i</mi><mi>j</mi></mrow></msubsup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A_d^{ij}\sim B(x,A_s^{ij})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2438799999999999em;vertical-align:-0.3013079999999999em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.942572em;"><span style="top:-2.3986920000000005em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span><span style="top:-3.1809080000000005em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3013079999999999em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.0746639999999998em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，x是数量，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>A</mi><mi>s</mi><mrow><mi>i</mi><mi>j</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">A_s^{ij}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.071664em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>是概率，B是伯努利分布。</li>
+<li>这里的伯努利分布（01分布）实质上就是把软邻接矩阵的值变成了概率。A^(i,j)值越大，概率越大，取1的可能性越大。就这样筛选几次，得到几个可能的邻接矩阵。</li>
+</ul>
+</li>
+<li>
+<p>文中使用了金字塔式多尺度feature map，理由是人的大小远近不一样，多尺度的feature更有适应性。</p>
+</li>
+<li>
+<p>由于邻接矩阵里面每个joint和它自己的relation-term永远是1，就相当于加了一个skip connection一样，不用担心每个joint只被其邻居决定。</p>
+</li>
+<li>
+<p>除了这里提到的动态邻接矩阵，还有一个learnable <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>×</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">K\times K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>的weights，共同起作用。</p>
+</li>
+</ul>
+<h2 id="learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking"><a class="markdownIt-Anchor" href="#learning-dynamics-via-graph-neural-networks-for-human-pose-estimation-and-tracking"></a> Learning Dynamics via Graph Neural Networks for Human Pose Estimation and Tracking</h2>
+<img data-src="image-20221219160516007.png" alt="image-20221219160516007" style="zoom:50%;">
+<h3 id="summary-2"><a class="markdownIt-Anchor" href="#summary-2"></a> Summary</h3>
+<ul>
+<li>
+<p>Multi-person 2D HPE.</p>
+</li>
+<li>
+<p>Top-Down.</p>
+</li>
+<li>
+<p>Frame-based.</p>
+</li>
+<li>
+<p>Pipeline:</p>
 <ul>
 <li>Current Frame 2D HRNet Branch: Crop Human -&gt; Rescale -&gt; HRNet -&gt; HeatMap-F -&gt; Argmax -&gt; Joints-F</li>
-<li>Historical tracklets GNN Branch: Build Joints based on (Tracklets' (0~t-1) joints' + current frames' all pixels')(Visual Features, Joint Locations, Joint Type) -&gt; Connect edges in time and space -&gt; GNN -&gt; HeatMap-G -&gt; Joints-G</li>
+<li>Historical tracklets GNN Branch: Build Joints based on (Tracklets’ (0~t-1) joints’ + current frames’ all pixels’)(Visual Features, Joint Locations, Joint Type) -&gt; Connect edges in time and space -&gt; GNN -&gt; HeatMap-G -&gt; Joints-G</li>
 <li>Merging: Hungarian(Joints-F, Joints-G) -&gt; If no matching, new ID, output Joints-G; If matched, output argmax(HeatMap-F, HeatMap-G)</li>
-</ul></li>
-<li>本文是一个Tow-Down的、基于帧序列（视频）的、2D Multi-Human HPE+Human Tracking的工作。它先用传统的剪裁预测方式预测每帧的所有可能人的可能joints，然后再将每帧每人的每个joint都通过MLP转换为一个个node的feature map，连接这些node，过一个GNN，最后得到最终预测。</li>
-<li>Graph：
+</ul>
+</li>
+<li>
+<p>本文是一个Tow-Down的、基于帧序列（视频）的、2D Multi-Human HPE+Human Tracking的工作。它先用传统的剪裁预测方式预测每帧的所有可能人的可能joints，然后再将每帧每人的每个joint都通过MLP转换为一个个node的feature map，连接这些node，过一个GNN，最后得到最终预测。</p>
+</li>
+<li>
+<p>Graph：</p>
 <ul>
 <li>Node: 已经被追踪的人的<strong>所有历史joints</strong>(FIFO内的)及当前Frame的<strong>所有像素</strong>。</li>
 <li>Node Value: 一个基于HRNet输出feature、2D相对位置、joint类型softmax的综合feature map，综合方式是分别过MLP后average。</li>
@@ -360,15 +389,19 @@
 <li>Edge Value: 无。</li>
 <li>Output: 对于每个此前追踪过的人，输出对其每个关节点在当前帧位置的预测。由于当前帧全图像素都是nodes，所以对于每种joint type，其实输出的相当于一个HeatMap。</li>
 <li>Usage: 通过分析过往最终过的人的历史joints location，以及当前帧的visual feature，预测这些人的每个joint在当前帧的位置。</li>
-</ul></li>
 </ul>
-<h3 id="question">Question</h3>
+</li>
+</ul>
+<h3 id="question"><a class="markdownIt-Anchor" href="#question"></a> Question</h3>
 <ul>
-<li><p>怎么做的tracking？</p>
+<li>
+<p>怎么做的tracking？</p>
 <ul>
 <li>又是匈牙利算法。GNN基于tracklets预测的结果和基于当前帧HRNet预测出来的结果进行matching。其中使用的相似度是基于关键点的位置计算出来的。</li>
-</ul></li>
-<li><p>GNN 基于tracklets历史预测的poses和当前帧通过HRNet预测的Pose是如何结合（Aggregate and Merge）的？</p>
+</ul>
+</li>
+<li>
+<p>GNN 基于tracklets历史预测的poses和当前帧通过HRNet预测的Pose是如何结合（Aggregate and Merge）的？</p>
 <ul>
 <li>先匹配，匹配上的就对heatmap做平均然后argmax。</li>
 <li>没匹配上的就给一个新ID，直接argmax。</li>
@@ -376,44 +409,65 @@
 </ul>
 <blockquote>
 <p>For all the matched poses, the joint heatmaps of the two poses are first aligned according to their centers and then merged together by averaging the heatmaps.</p>
-</blockquote></li>
-<li><p>GNN的edge怎么定义的？</p>
+</blockquote>
+</li>
+<li>
+<p>GNN的edge怎么定义的？</p>
 <ul>
 <li>Edge有两种，一种是同一帧中joints之间的链接，一种是每个joint与上一帧中所有joints的联系（包括当前帧的nodes）。</li>
 <li>没有具体说edge的值（attr），应该是没有用。</li>
-</ul></li>
 </ul>
-<h3 id="points-1">Points</h3>
+</li>
+</ul>
+<h3 id="points-2"><a class="markdownIt-Anchor" href="#points-2"></a> Points</h3>
 <ul>
-<li><p>每个tracklet都是一个unique的被记录在案的人。</p></li>
-<li><p>对于每个tracklet，都会分别被过一遍一个GNN进行预测。注意，GNN这里也可以理解做是Top-Down的，对于每个历史上记录在案的人，都分别过一遍GNN预测在当前帧这个人每个关节点的位置。</p></li>
-<li><p>GNN的nodes包含某个历史tracklets（追踪的关键点）中的所有joints以及当前帧的所有像素点。</p></li>
-<li><p>当前帧<em>(t)</em>的每个像素组成的node都与tracklets FIFO中最后一帧<em>(t-1)</em>的检测结果中的每个joint相连。</p>
-<p><img data-src="image-20221220121801045.png" alt="image-20221220121801045" style="zoom:50%;"></p></li>
-<li><p>之所以要对Visual Features (<span class="math inline">\(v_k\)</span>), Joint Locations(<span class="math inline">\(p_k\)</span>), Joint Type(<span class="math inline">\(c_k\)</span>)向量分别做MLP，是因为它们的维度不同，且node的channel不能有多维。</p></li>
-<li><p><span class="math inline">\(J_k=Pooling(MLP_{vis}(v_k), MLP_{pos}(p_k), MLP_{type}(c_k))\)</span> 为每个node的值。这里的pooling是average pooling。</p></li>
-<li><p>对于<span class="math inline">\(p_k\)</span>而言，全部帧的这个location都以FIFO中最后一帧<em>(t-1)</em>中人物中心点为基准进行normalization，当前帧这些nodes也不例外。</p></li>
-<li><p>注意，当前帧<em>(t)</em>全像素组成的这些nodes里面，在算<span class="math inline">\(J_k\)</span>时候不加<span class="math inline">\(c_k\)</span>分支，即不用joint type，因为joint type是要predict的东西。</p></li>
-<li><p>最终预测出来的东西是一个Prob，它包含了当前帧t所有像素点可能为某个joint type的概率（classification）。</p></li>
-<li><p>对于每个tracklets，都有一个FIFO队列保存K个过去位置。</p></li>
+<li>
+<p>每个tracklet都是一个unique的被记录在案的人。</p>
+</li>
+<li>
+<p>对于每个tracklet，都会分别被过一遍一个GNN进行预测。注意，GNN这里也可以理解做是Top-Down的，对于每个历史上记录在案的人，都分别过一遍GNN预测在当前帧这个人每个关节点的位置。</p>
+</li>
+<li>
+<p>GNN的nodes包含某个历史tracklets（追踪的关键点）中的所有joints以及当前帧的所有像素点。</p>
+</li>
+<li>
+<p>当前帧*(t)<em>的每个像素组成的node都与tracklets FIFO中最后一帧</em>(t-1)*的检测结果中的每个joint相连。</p>
+<img data-src="image-20221220121801045.png" alt="image-20221220121801045" style="zoom:50%;">
+</li>
+<li>
+<p>之所以要对Visual Features (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">v_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>), Joint Locations(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">p_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>), Joint Type(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">c_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)向量分别做MLP，是因为它们的维度不同，且node的channel不能有多维。</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mi>k</mi></msub><mo>=</mo><mi>P</mi><mi>o</mi><mi>o</mi><mi>l</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo stretchy="false">(</mo><mi>M</mi><mi>L</mi><msub><mi>P</mi><mrow><mi>v</mi><mi>i</mi><mi>s</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>v</mi><mi>k</mi></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>M</mi><mi>L</mi><msub><mi>P</mi><mrow><mi>p</mi><mi>o</mi><mi>s</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>p</mi><mi>k</mi></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>M</mi><mi>L</mi><msub><mi>P</mi><mrow><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>c</mi><mi>k</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">J_k=Pooling(MLP_{vis}(v_k), MLP_{pos}(p_k), MLP_{type}(c_k))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal">o</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">L</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">L</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">L</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.28055599999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span> 为每个node的值。这里的pooling是average pooling。</p>
+</li>
+<li>
+<p>对于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">p_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>而言，全部帧的这个location都以FIFO中最后一帧*(t-1)*中人物中心点为基准进行normalization，当前帧这些nodes也不例外。</p>
+</li>
+<li>
+<p>注意，当前帧*(t)*全像素组成的这些nodes里面，在算<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>J</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">J_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.09618em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>时候不加<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">c_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>分支，即不用joint type，因为joint type是要predict的东西。</p>
+</li>
+<li>
+<p>最终预测出来的东西是一个Prob，它包含了当前帧t所有像素点可能为某个joint type的概率（classification）。</p>
+</li>
+<li>
+<p>对于每个tracklets，都有一个FIFO队列保存K个过去位置。</p>
+</li>
 </ul>
-<h3 id="comments">Comments</h3>
+<h3 id="comments"><a class="markdownIt-Anchor" href="#comments"></a> Comments</h3>
 <ul>
 <li>非常新颖的使用GNN的方法。用多个方面的features分别过MLP通过average pooling的方法作为node的值，既可以确保这些feature的维度不match不成问题，也可以有效降低channel number，降低cost。最重要的是，对于某些node，你甚至可以移除某些features而不影响整体维度，比如对当前frame像素nodes不添加不存在的类别features。</li>
 <li>同时也非常暴力，直接在帧内、帧间分别用全连接，且当前frame直接把全部像素点位置都变成node，这是一个巨大的开销，并不优雅，也不符合GNN的内含逻辑。</li>
 <li>位置norm方法值得学习。</li>
 <li>我们的项目可能也可以用上匈牙利匹配，但是匹配的是时间上的cluster，而匹配的变量可能是cluster的平均方向向量等。</li>
 </ul>
-<h2 id="context-modeling-in-3d-human-pose-estimation-a-unified-perspective">Context Modeling in 3D Human Pose Estimation: A Unified Perspective</h2>
-<figure>
-<img data-src="image-20221221105021381.png" alt="image-20221221105021381"><figcaption aria-hidden="true">image-20221221105021381</figcaption>
-</figure>
-<h3 id="summary-2">Summary</h3>
+<h2 id="context-modeling-in-3d-human-pose-estimation-a-unified-perspective"><a class="markdownIt-Anchor" href="#context-modeling-in-3d-human-pose-estimation-a-unified-perspective"></a> Context Modeling in 3D Human Pose Estimation: A Unified Perspective</h2>
+<p><img data-src="image-20221221105021381.png" alt="image-20221221105021381"></p>
+<h3 id="summary-3"><a class="markdownIt-Anchor" href="#summary-3"></a> Summary</h3>
 <ul>
 <li>Single image-based.</li>
 <li>2D -&gt; 3D lifting.</li>
 <li>Top-Down.</li>
-<li>核心操作是一套Attention。首先他们预测出2D Pose，然后将这些Pose投影到3D空间，再用一套Encoder-Decoder网络来预测3D Heatmap。具体来说，每个voxel预测J个值，代表它是某个joint的可能性。而其中关键的Attention部分分为两部分，全局Attention和关节对Attention。前者预测某个voxel <span class="math inline">\(q\)</span> 含某个joint <span class="math inline">\(u\)</span>的概率，后者预测当另一个voxel <span class="math inline">\(k\)</span> 包含joint <span class="math inline">\(v\)</span> 时，<span class="math inline">\(u,v\)</span> 间的关联性。这个关联性来自于训练集上的prior，主要成分是所有物理（经验）肢体连接的距离平均值和标准差，这个关联性高时说明 <span class="math inline">\(u,v\)</span> 在当前voxel <span class="math inline">\(q, k\)</span> 中时大概率符合prior中的预测，反之说明这对joints连接的肢体可能过长/短了，所以当前分布可能性很小。</li>
+<li>核心操作是一套Attention。首先他们预测出2D Pose，然后将这些Pose投影到3D空间，再用一套Encoder-Decoder网络来预测3D Heatmap。具体来说，每个voxel预测J个值，代表它是某个joint的可能性。而其中关键的Attention部分分为两部分，全局Attention和关节对Attention。前者预测某个voxel <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span></span></span> 含某个joint <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span></span></span></span>的概率，后者预测当另一个voxel <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 包含joint <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 时，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u,v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 间的关联性。这个关联性来自于训练集上的prior，主要成分是所有物理（经验）肢体连接的距离平均值和标准差，这个关联性高时说明 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u,v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 在当前voxel <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo separator="true">,</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">q, k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 中时大概率符合prior中的预测，反之说明这对joints连接的肢体可能过长/短了，所以当前分布可能性很小。</li>
 <li>Graph:
 <ul>
 <li>Node: 所有的voxels。</li>
@@ -423,29 +477,32 @@
 <li>Output: 每个3D voxel包含某个joint的概率。</li>
 <li>Usage: 用于从2D预测升维到3D。</li>
 <li>Note: 这里所谓的GNN其实就是ContextPose (Attentions)的一种特例。</li>
-</ul></li>
 </ul>
-<h3 id="points-2">Points</h3>
-<ul>
-<li>Pairwise-Attention（关节对Attention）的公式是：<span class="math inline">\(P(q,k,e_{u,v}) \propto exp(-\frac{(||q-k||_2-\mu_{u,v})^2}{2\alpha\sigma^2_{u,v}+\epsilon})\)</span><br>
 </li>
-<li>PA被normalized了，具体公式是：<span class="math inline">\(\Sigma_{k\in\Omega}G_v(x_{v,k}) \cdot P(q,k,e_{u,v})=1\)</span>, 意味着如果voxel <span class="math inline">\(q\)</span> 包含关节 <span class="math inline">\(u\)</span>，那么所有可能包含关节 <span class="math inline">\(v\)</span> 的voxel <span class="math inline">\(k\)</span> 它本身的概率乘以它满足 <span class="math inline">\(u,v\)</span> 两个关节点物理距离prior的概率和为1。</li>
 </ul>
-<h2 id="optimizing-network-structure-for-3d-human-pose-estimation">Optimizing Network Structure for 3D Human Pose Estimation</h2>
-<figure>
-<img data-src="image-20221221122107913.png" alt="image-20221221122107913"><figcaption aria-hidden="true">image-20221221122107913</figcaption>
-</figure>
-<p><img data-src="image-20221221122050872.png" alt="image-20221221122050872" style="zoom:50%;"></p>
-<h3 id="summary-3">Summary</h3>
+<h3 id="points-3"><a class="markdownIt-Anchor" href="#points-3"></a> Points</h3>
 <ul>
-<li><p>本文提出了一种统一模型，它可以将2D-&gt;3D Human Pose Lifting的诸多方法（FCN，GNN，LCN）写入一个统一公式中，并取得更优的效果。</p></li>
-<li><p>相比于普通GCN，其特点在于：</p>
+<li>Pairwise-Attention（关节对Attention）的公式是：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><mi>k</mi><mo separator="true">,</mo><msub><mi>e</mi><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow></msub><mo stretchy="false">)</mo><mo>∝</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo stretchy="false">(</mo><mo>−</mo><mfrac><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mi>q</mi><mo>−</mo><mi>k</mi><mi mathvariant="normal">∣</mi><msub><mi mathvariant="normal">∣</mi><mn>2</mn></msub><mo>−</mo><msub><mi>μ</mi><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow></msub><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><mrow><mn>2</mn><mi>α</mi><msubsup><mi>σ</mi><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><mn>2</mn></msubsup><mo>+</mo><mi>ϵ</mi></mrow></mfrac><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(q,k,e_{u,v}) \propto exp(-\frac{(||q-k||_2-\mu_{u,v})^2}{2\alpha\sigma^2_{u,v}+\epsilon})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∝</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.77366em;vertical-align:-0.64242em;"></span><span class="mord mathnormal">e</span><span class="mord mathnormal">x</span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.13124em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.214em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.42488571428571426em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">ϵ</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.50732em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">∣</span><span class="mord mtight">∣</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">q</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mord mtight">∣</span><span class="mord mtight"><span class="mord mtight">∣</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285716em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.64242em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span></li>
+<li>PA被normalized了，具体公式是：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Σ</mi><mrow><mi>k</mi><mo>∈</mo><mi mathvariant="normal">Ω</mi></mrow></msub><msub><mi>G</mi><mi>v</mi></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mrow><mi>v</mi><mo separator="true">,</mo><mi>k</mi></mrow></msub><mo stretchy="false">)</mo><mo>⋅</mo><mi>P</mi><mo stretchy="false">(</mo><mi>q</mi><mo separator="true">,</mo><mi>k</mi><mo separator="true">,</mo><msub><mi>e</mi><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\Sigma_{k\in\Omega}G_v(x_{v,k}) \cdot P(q,k,e_{u,v})=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord">Σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999985em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">∈</span><span class="mord mtight">Ω</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.17737em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">u</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>, 意味着如果voxel <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span></span></span> 包含关节 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">u</span></span></span></span>，那么所有可能包含关节 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 的voxel <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 它本身的概率乘以它满足 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo separator="true">,</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">u,v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 两个关节点物理距离prior的概率和为1。</li>
+</ul>
+<h2 id="optimizing-network-structure-for-3d-human-pose-estimation"><a class="markdownIt-Anchor" href="#optimizing-network-structure-for-3d-human-pose-estimation"></a> Optimizing Network Structure for 3D Human Pose Estimation</h2>
+<p><img data-src="image-20221221122107913.png" alt="image-20221221122107913"></p>
+<img data-src="image-20221221122050872.png" alt="image-20221221122050872" style="zoom:50%;">
+<h3 id="summary-4"><a class="markdownIt-Anchor" href="#summary-4"></a> Summary</h3>
+<ul>
+<li>
+<p>本文提出了一种统一模型，它可以将2D-&gt;3D Human Pose Lifting的诸多方法（FCN，GNN，LCN）写入一个统一公式中，并取得更优的效果。</p>
+</li>
+<li>
+<p>相比于普通GCN，其特点在于：</p>
 <ul>
 <li>普通GCN对于所有的node，做Linear的时候都用的共享的weights。</li>
 <li>而在LCN中，计算每个输入node对输出node的贡献时所用的weights，都分别训练，不共享参数。</li>
 </ul>
-<p><img data-src="image-20221221135856400.png" alt="image-20221221135856400" style="zoom:50%;"></p></li>
-<li><p>Graph:</p>
+<img data-src="image-20221221135856400.png" alt="image-20221221135856400" style="zoom:50%;">
+</li>
+<li>
+<p>Graph:</p>
 <ul>
 <li>Node: J个人类Joints。</li>
 <li>Node Value: 2D坐标的features。</li>
@@ -453,71 +510,104 @@
 <li>Edge Value: Joints间的关联性（邻接矩阵）。</li>
 <li>Output: 每个Joint的3D坐标。</li>
 <li>Usage: 用于从2D预测升维到3D。</li>
-</ul></li>
 </ul>
-<h2 id="adaptive-hypergraph-neural-network-for-multi-person-pose-estimation">Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</h2>
-<figure>
-<img data-src="image-20221220191107517.png" alt="image-20221220191107517"><figcaption aria-hidden="true">image-20221220191107517</figcaption>
-</figure>
-<h3 id="summary-4">Summary</h3>
+</li>
+</ul>
+<h2 id="adaptive-hypergraph-neural-network-for-multi-person-pose-estimation"><a class="markdownIt-Anchor" href="#adaptive-hypergraph-neural-network-for-multi-person-pose-estimation"></a> Adaptive Hypergraph Neural Network for Multi-Person Pose Estimation</h2>
+<p><img data-src="image-20221220191107517.png" alt="image-20221220191107517"></p>
+<h3 id="summary-5"><a class="markdownIt-Anchor" href="#summary-5"></a> Summary</h3>
 <ul>
-<li><p>Image-based.</p></li>
-<li><p>Multi-human 2D HPE.</p></li>
-<li><p>Top-Down.</p></li>
-<li><p>文中提出了一种“<strong>超边</strong>”(Hyperedge)，这种边不是物理的边，也不是非物理但连接两个顶点的边，而是连接了多个顶点、有着类似<strong>区分body part</strong>作用的“大边”。这种超边的分配由训练好的网络负责，生成的依据是图中的语义关系。比如如果人在拉伸右腿，那右手和右脚踝就会被分配到一个超边中，因为它们有着紧密的语义联系。</p>
-<p><img data-src="image-20221220191125713.png" alt="image-20221220191125713" style="zoom:50%;"></p></li>
-<li><p>本文做的是Top-Down的单张图片2D多人HPE。其核心贡献在于提出了“超边”这种由图片语义得来、可连接两个到多个joints的广义边，从而可以更好地应对一些非典型动作的图片。</p></li>
-<li><p>Graph:</p>
+<li>
+<p>Image-based.</p>
+</li>
+<li>
+<p>Multi-human 2D HPE.</p>
+</li>
+<li>
+<p>Top-Down.</p>
+</li>
+<li>
+<p>文中提出了一种“<strong>超边</strong>”(Hyperedge)，这种边不是物理的边，也不是非物理但连接两个顶点的边，而是连接了多个顶点、有着类似<strong>区分body part</strong>作用的“大边”。这种超边的分配由训练好的网络负责，生成的依据是图中的语义关系。比如如果人在拉伸右腿，那右手和右脚踝就会被分配到一个超边中，因为它们有着紧密的语义联系。</p>
+<img data-src="image-20221220191125713.png" alt="image-20221220191125713" style="zoom:50%;">
+</li>
+<li>
+<p>本文做的是Top-Down的单张图片2D多人HPE。其核心贡献在于提出了“超边”这种由图片语义得来、可连接两个到多个joints的广义边，从而可以更好地应对一些非典型动作的图片。</p>
+</li>
+<li>
+<p>Graph:</p>
 <ul>
 <li>Node: Human Joints.</li>
 <li>Node Value: d dimension feature.</li>
 <li>Edge: m条，为hyperedges。</li>
 <li>Edge Value: 每条超边链接的joints以及链接的紧密程度。</li>
-<li>Output: 一个<span class="math inline">\(J\times m\)</span>的矩阵，m是超边的数量，J是关键点的数量。代表着联系的紧密程度。</li>
+<li>Output: 一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mo>×</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">J\times m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.09618em;">J</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>的矩阵，m是超边的数量，J是关键点的数量。代表着联系的紧密程度。</li>
 <li>Usage: 根据图片信息更好的建立人类关键点间的高维语义联系。</li>
-</ul></li>
 </ul>
-<h3 id="questions">Questions</h3>
+</li>
+</ul>
+<h3 id="questions"><a class="markdownIt-Anchor" href="#questions"></a> Questions</h3>
 <ul>
 <li>Adaptive hypergraph矩阵可以包含可变数量的边。这个是怎么处理的？</li>
 <li>这个矩阵是如何训练的？输入是什么？</li>
 </ul>
-<h3 id="points-3">Points</h3>
+<h3 id="points-4"><a class="markdownIt-Anchor" href="#points-4"></a> Points</h3>
 <ul>
-<li>对于一层GCN而言，它的forward公式是<span class="math inline">\(H^{(l+1)}=\sigma (\tilde{A}H^{(l)}W^{(W+1)})\)</span>，这里的<span class="math inline">\(\sigma\)</span>代表激活函数，<span class="math inline">\(\tilde{A}\)</span>代表被normalized邻接矩阵，<span class="math inline">\(W\)</span>是这层GCN的parameter。<span class="math inline">\(H\)</span>是feature map，<span class="math inline">\(l\)</span>这里代表第<span class="math inline">\(l\)</span>层GCN。正常情况下，这个步骤整体都被打包进<code>pyg.GCN</code> module一起做了，但这里我们刚好有现成的邻接矩阵<span class="math inline">\(A\)</span>，就不用专门再去构造graph，弄一个专门的<code>edge_index</code>矩阵了，因为<span class="math inline">\(A\)</span>就是了。</li>
+<li>对于一层GCN而言，它的forward公式是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>H</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo>=</mo><mi>σ</mi><mo stretchy="false">(</mo><mover accent="true"><mi>A</mi><mo>~</mo></mover><msup><mi>H</mi><mrow><mo stretchy="false">(</mo><mi>l</mi><mo stretchy="false">)</mo></mrow></msup><msup><mi>W</mi><mrow><mo stretchy="false">(</mo><mi>W</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">H^{(l+1)}=\sigma (\tilde{A}H^{(l)}W^{(W+1)})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8879999999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.1701899999999998em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9201899999999998em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.6023300000000003em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.11110999999999999em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，这里的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span>代表激活函数，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>A</mi><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9201899999999998em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9201899999999998em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">A</span></span></span><span style="top:-3.6023300000000003em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.11110999999999999em;"><span class="mord">~</span></span></span></span></span></span></span></span></span></span>代表被normalized邻接矩阵，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi></mrow><annotation encoding="application/x-tex">W</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span></span></span></span>是这层GCN的parameter。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>是feature map，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>这里代表第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi></mrow><annotation encoding="application/x-tex">l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>层GCN。正常情况下，这个步骤整体都被打包进<code>pyg.GCN</code> module一起做了，但这里我们刚好有现成的邻接矩阵<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span></span></span></span>，就不用专门再去构造graph，弄一个专门的<code>edge_index</code>矩阵了，因为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span></span></span></span>就是了。</li>
 </ul>
-<h2 id="learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation">Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</h2>
-<figure>
-<img data-src="image-20221221141417256.png" alt="image-20221221141417256"><figcaption aria-hidden="true">image-20221221141417256</figcaption>
-</figure>
-<h3 id="summary-5">Summary</h3>
+<h2 id="learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation"><a class="markdownIt-Anchor" href="#learning-skeletal-graph-neural-networks-for-hard-3d-pose-estimation"></a> Learning Skeletal Graph Neural Networks for Hard 3D Pose Estimation</h2>
+<p><img data-src="image-20221221141417256.png" alt="image-20221221141417256"></p>
+<h3 id="summary-6"><a class="markdownIt-Anchor" href="#summary-6"></a> Summary</h3>
 <ul>
-<li><p>本文提出了一种针对不同距离（hop）的nodes使用不同Aggregation层级的GCN，保证了不同距离的node得以被区分对待，降低远距离node带来的噪音。同时，它还结合了经验人类skeleton和动态可学习skeleton的优点，用同步的两个branch分别运算，进一步提升了基于video的2D-&gt;3D HPE Lifting的质量。</p></li>
-<li><p>Graph:</p>
+<li>
+<p>本文提出了一种针对不同距离（hop）的nodes使用不同Aggregation层级的GCN，保证了不同距离的node得以被区分对待，降低远距离node带来的噪音。同时，它还结合了经验人类skeleton和动态可学习skeleton的优点，用同步的两个branch分别运算，进一步提升了基于video的2D-&gt;3D HPE Lifting的质量。</p>
+</li>
+<li>
+<p>Graph:</p>
 <ul>
-<li><p>Node: J个人类Joints。</p></li>
-<li><p>Node Value: 2D坐标的features。</p></li>
-<li><p>Edge: Joints间的连接。分为两部分，一部分是物理连接，一部分是动态可学习的连接。</p></li>
-<li><p>Edge Value: Joints间的关联性（邻接矩阵）。</p></li>
-<li><p>Output: 每个Joint的3D坐标。</p></li>
-<li><p>Usage: 用于从2D预测升维到3D。</p>
+<li>
+<p>Node: J个人类Joints。</p>
+</li>
+<li>
+<p>Node Value: 2D坐标的features。</p>
+</li>
+<li>
+<p>Edge: Joints间的连接。分为两部分，一部分是物理连接，一部分是动态可学习的连接。</p>
+</li>
+<li>
+<p>Edge Value: Joints间的关联性（邻接矩阵）。</p>
+</li>
+<li>
+<p>Output: 每个Joint的3D坐标。</p>
+</li>
+<li>
+<p>Usage: 用于从2D预测升维到3D。</p>
 <blockquote>
-<p>Given 2D keypoints <span class="math inline">\(X ∈ R^{N\times 2}\)</span>, with N nodes, the model outputs better 3D positions <span class="math inline">\(Y ∈ R^{N\times 3}\)</span>.</p>
-</blockquote></li>
-</ul></li>
+<p>Given 2D keypoints <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∈</mo><msup><mi>R</mi><mrow><mi>N</mi><mo>×</mo><mn>2</mn></mrow></msup></mrow><annotation encoding="application/x-tex">X ∈ R^{N\times 2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">×</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>, with N nodes, the model outputs better 3D positions <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>∈</mo><msup><mi>R</mi><mrow><mi>N</mi><mo>×</mo><mn>3</mn></mrow></msup></mrow><annotation encoding="application/x-tex">Y ∈ R^{N\times 3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8413309999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">×</span><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></span>.</p>
+</blockquote>
+</li>
 </ul>
-<h3 id="points-4">Points</h3>
+</li>
+</ul>
+<h3 id="points-5"><a class="markdownIt-Anchor" href="#points-5"></a> Points</h3>
 <ul>
-<li><p>决定文中设计思路的几个重要观察：</p>
-<ol type="1">
+<li>
+<p>决定文中设计思路的几个重要观察：</p>
+<ol>
 <li>Joints Graph中距离遥远的node虽然有时也会提供有价值的信息，但也导入了许多不相干的噪音。</li>
 <li>动态Joints Graph的构建很有效，但在不同的动作中joints间的关联性变化很大。所以虽然动态图在表征不同的动作时候很直观，如果只给定单张图，它也很容易受到outlier的影响。所以文中引入了TCN让信息在时间轴上流动。</li>
-</ol></li>
-<li><p>实际设计上，基本是一层D-HCSF一层TCN这样串联。</p>
-<p><img data-src="image-20221221150901507.png" alt="image-20221221150901507" style="zoom:50%;"></p></li>
-<li><p>Zoom in，看HCSF层，他们的核心思想是对近程和远程的node区分对待，分不同的层级对待。对于离自己近的node，用类似skip connection的连接直连最后；而离得远的nodes则先分组aggregate几次后再连到主bus上。</p></li>
-<li><p>Dynamic Hierarchical Channel-Squeezing Fusion (D-HCSF) 层的思想：结合了固定skeleton和动态学习skeleton的长处。蓝色是固定分支，橙色是动态。</p>
-<p><img data-src="GNN-based HPE/image-20221221150056706.png" alt="image-20221221150056706" style="zoom:50%;"></p></li>
+</ol>
+</li>
+<li>
+<p>实际设计上，基本是一层D-HCSF一层TCN这样串联。</p>
+<img data-src="image-20221221150901507.png" alt="image-20221221150901507" style="zoom:50%;">
+</li>
+<li>
+<p>Zoom in，看HCSF层，他们的核心思想是对近程和远程的node区分对待，分不同的层级对待。对于离自己近的node，用类似skip connection的连接直连最后；而离得远的nodes则先分组aggregate几次后再连到主bus上。</p>
+</li>
+<li>
+<p>Dynamic Hierarchical Channel-Squeezing Fusion (D-HCSF) 层的思想：结合了固定skeleton和动态学习skeleton的长处。蓝色是固定分支，橙色是动态。</p>
+<img data-src="GNN-based HPE/image-20221221150056706.png" alt="image-20221221150056706" style="zoom:50%;">
+</li>
 </ul>
 
     </div>
@@ -560,8 +650,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2099/10/03/resume/" rel="next" title="Curriculum Vitae -- Zhongyang Zhang">
-                  Curriculum Vitae -- Zhongyang Zhang <i class="fa fa-chevron-right"></i>
+                <a href="/2023/03/27/point-cloud-clustering-paper/" rel="next" title="Point Cloud Clustering 聚类方法论文总结">
+                  Point Cloud Clustering 聚类方法论文总结 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -595,13 +685,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="Word count total">192k</span>
+    <span title="Word count total">202k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">11:39</span>
+    <span title="Reading time total">12:14</span>
   </span>
 </div>
 <div class="busuanzi-count">

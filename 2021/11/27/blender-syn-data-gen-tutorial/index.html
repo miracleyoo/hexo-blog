@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"www.miracleyoo.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Blender Tutorial on Generating Synthetic Data How to make an OK MMD video  MikuMikuDance (MMD) is a simple and powerful tool, as we used in the previous paper. However, users cannot easily inject scri">
+    <meta name="description" content="How to make an OK MMD video  MikuMikuDance (MMD) is a simple and powerful tool, as we used in the previous paper. However, users cannot easily inject scripts to access the inner variables. Also, with">
 <meta property="og:type" content="article">
-<meta property="og:title" content="blender-syn-data-gen-tutorial">
+<meta property="og:title" content="Blender Tutorial on Generating Synthetic Data">
 <meta property="og:url" content="https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/index.html">
 <meta property="og:site_name" content="Miracleyoo">
-<meta property="og:description" content="Blender Tutorial on Generating Synthetic Data How to make an OK MMD video  MikuMikuDance (MMD) is a simple and powerful tool, as we used in the previous paper. However, users cannot easily inject scri">
+<meta property="og:description" content="How to make an OK MMD video  MikuMikuDance (MMD) is a simple and powerful tool, as we used in the previous paper. However, users cannot easily inject scripts to access the inner variables. Also, with">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/image-20220714212046705.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/image-20220714212445071.png">
@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/image-20220715155114990.png">
 <meta property="og:image" content="https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/image-20220714233705944.png">
 <meta property="article:published_time" content="2021-11-28T02:10:03.000Z">
-<meta property="article:modified_time" content="2023-04-23T01:10:48.698Z">
+<meta property="article:modified_time" content="2023-04-23T02:47:15.420Z">
 <meta property="article:author" content="Miracle Yoo">
 <meta property="article:tag" content="blender">
 <meta property="article:tag" content="MMD">
@@ -56,10 +56,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/","path":"2021/11/27/blender-syn-data-gen-tutorial/","title":"blender-syn-data-gen-tutorial"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://www.miracleyoo.com/2021/11/27/blender-syn-data-gen-tutorial/","path":"2021/11/27/blender-syn-data-gen-tutorial/","title":"Blender Tutorial on Generating Synthetic Data"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>blender-syn-data-gen-tutorial | Miracleyoo</title>
+<title>Blender Tutorial on Generating Synthetic Data | Miracleyoo</title>
   
 
 
@@ -159,7 +159,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#blender-tutorial-on-generating-synthetic-data"><span class="nav-number">1.</span> <span class="nav-text">Blender Tutorial on Generating Synthetic Data</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#how-to-make-an-ok-mmd-video"><span class="nav-number">1.1.</span> <span class="nav-text">How to make an OK MMD video</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-mask-video"><span class="nav-number">1.2.</span> <span class="nav-text">Generate Mask Video</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-depth-video"><span class="nav-number">1.3.</span> <span class="nav-text">Generate Depth Video</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#better-lighting-settings-like-default-material-preview"><span class="nav-number">1.4.</span> <span class="nav-text">Better Lighting Settings (Like Default Material Preview)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#script-your-operations-and-repeat"><span class="nav-number">1.5.</span> <span class="nav-text">Script Your Operations and Repeat!</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#how-to-make-an-ok-mmd-video"><span class="nav-number">1.</span> <span class="nav-text"> How to make an OK MMD video</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-mask-video"><span class="nav-number">2.</span> <span class="nav-text"> Generate Mask Video</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-depth-video"><span class="nav-number">3.</span> <span class="nav-text"> Generate Depth Video</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#better-lighting-settings-like-default-material-preview"><span class="nav-number">4.</span> <span class="nav-text"> Better Lighting Settings (Like Default Material Preview)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#script-your-operations-and-repeat"><span class="nav-number">5.</span> <span class="nav-text"> Script Your Operations and Repeat!</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -236,12 +236,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="blender-syn-data-gen-tutorial | Miracleyoo">
+      <meta itemprop="name" content="Blender Tutorial on Generating Synthetic Data | Miracleyoo">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          blender-syn-data-gen-tutorial<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/blender-syn-data-gen-tutorial.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+          Blender Tutorial on Generating Synthetic Data<a href="https://github.com/user-name/repo-name/tree/branch-name/subdirectory-name/_posts/blender-syn-data-gen-tutorial.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
         </h1>
 
         <div class="post-meta-container">
@@ -259,7 +259,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-04-22 18:10:48" itemprop="dateModified" datetime="2023-04-22T18:10:48-07:00">2023-04-22</time>
+      <time title="Modified: 2023-04-22 19:47:15" itemprop="dateModified" datetime="2023-04-22T19:47:15-07:00">2023-04-22</time>
     </span>
 
   
@@ -276,7 +276,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>1.4k</span>
+      <span>1.3k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -294,69 +294,120 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="blender-tutorial-on-generating-synthetic-data">Blender Tutorial on Generating Synthetic Data</h1>
-<h2 id="how-to-make-an-ok-mmd-video">How to make an OK MMD video</h2>
+        <h2 id="how-to-make-an-ok-mmd-video"><a class="markdownIt-Anchor" href="#how-to-make-an-ok-mmd-video"></a> How to make an OK MMD video</h2>
 <ul>
 <li>MikuMikuDance (MMD) is a simple and powerful tool, as we used in the previous paper. However, users cannot easily inject scripts to access the inner variables. Also, with respect to the rendering, it has a physical limitation of 60 FPS, which restricts the direct simulation of DVS sensors. Lastly, there are many processes in the simulation loop where manual adjustment is forced, which limit the scalability. Therefore, we choose another route that concentrates on Blender and tries to rule out manual participation to the largest extent.</li>
 </ul>
 <span id="more"></span>
 <ul>
-<li><p>First, as the <code>.vmd</code> files distributed on the internet usually only contain the joints' movement and no mesh physics included, we will have a hard time dealing with the clothes materials, and physics in Blender, as Blender doesn't automatically use a preset for these factors like MMD. Therefore, we'd better take care of them in advance in MMD.</p></li>
-<li><p>Here we are going to use a “successor” software of MMD, which is called MikuMikuMotion (MMM). Import your <code>.pmx</code> and <code>.vmd</code> files into MMM, and bake the physical mesh movement to a separate <code>.vmd</code> file. Turn the <code>Always</code> button on in the <code>Physics</code> Tab to make sure you calculate the physics for each frame, then click <code>Record</code> to bake your movement when everything is ready.</p>
-<p><img data-src="image-20220714212046705.png" alt="image-20220714212046705" style="zoom:50%;"></p></li>
-<li><p>Then dump your recorded motion to another <code>.vmd</code> file:</p>
-<p><img data-src="image-20220714212445071.png" alt="image-20220714212445071" style="zoom:50%;"></p></li>
-<li><p>Ok, then let's switch to Blender.</p></li>
-<li><p>You have to install a plugin <a target="_blank" rel="noopener" href="https://github.com/powroupi/blender_mmd_tools">mmd_tools</a> for Blender at first. It will help you to import your <code>.pmx</code> model files and <code>.vmd</code> motion files, as Blender doesn't support these file types natively. If you install it successfully, you will be able to see a panel like this on your sidebar:</p>
-<p><img data-src="image-20220714215023678.png" alt="image-20220714215023678" style="zoom:50%;"></p></li>
-<li><p>Click <code>Import</code>, then you could import your model that is used for recording in MMM to Blender. Then, make sure you clicked and selected the model that you just imported, and click the <code>Import</code> button under the tab <code>Motion</code> to import the baked <code>.vmd</code> motion file you get from MMM.</p></li>
-<li><p>After that, you may notice that the skin color of your model looks magenta, then you have to follow the following step to repair that:</p>
-<p><img data-src="image-20220714215437237.png" alt="image-20220714215437237" style="zoom:60%;"></p></li>
-<li><p>If you also have a camera's trajectory, please click on the camera in the explorer and click <code>Motion-&gt;Import</code> in <code>MMD</code> side panel to select your <code>.vmd</code> camera motion file and import it.</p>
-<p><img data-src="image-20220715103036422.png" alt="image-20220715103036422" style="zoom:50%;"></p></li>
-<li><p>Then, it's time to set the lighting. Well, honestly speaking, I don't really care too much about lighting, as the requirement of generating synthetic data is not that high, so let's simply light everything up.</p>
-<p><img data-src="image-20220714220719987.png" alt="image-20220714220719987" style="zoom:50%;"></p></li>
-<li><p>We are almost there, and next, setting the output parameters: Remember to change your resolution, and set your output path as well as the file format. Here the resolution 346x260 is the resolution for event camera DAVIS346, which is the camera we are currently using.</p>
-<p><img data-src="image-20220714221006003.png" alt="image-20220714221006003" style="zoom:50%;"></p></li>
-<li><p>Next, let's set some render properties: For the render engine, you can use either <code>Eevee</code> or <code>Cycles</code>, but if you choose <code>Cycles</code>, remember to turn on the <code>GPU</code> rendering option under it to speed up. Also, if you want the background of your video to be pure white/transparent/other pure color, please check the <code>Tranparent</code> in <code>Film</code> section. Moreover, make sure to change the <code>View Transform</code> from <code>Filmic</code> to <code>Standard</code>, the color looks more <em>Real</em> that way.</p>
-<p><img data-src="image-20220714222126060.png" alt="image-20220714222126060" style="zoom:50%;"></p></li>
-<li><p>Lastly, continuing from the last point, if you want to have a pure color background, then you have to add a <em>Background</em> here: Go to the <code>Compositing</code> Tab on the top bar, then add an <code>Alpha Over</code> node and drag it between the existing two nodes. Connect it as the figure shows, then set the first <code>Image</code> with the pure color you desire. All set. (Notice, if there is nothing in this board, click the <code>Use Nodes</code> on the inner menu row, near the <code>Add</code> and <code>Nodes</code> to show the basic panels.)</p>
-<p><img data-src="image-20220714222651269.png" alt="image-20220714222651269" style="zoom:50%;"></p></li>
-<li><p>Now everything is prepared, let's render the frame/video. Click on the <code>Render</code> menu, then choose render frame/video, you can then find your video in the output folder you set before.</p>
-<p><img data-src="image-20220714223147763.png" alt="image-20220714223147763" style="zoom:50%;"></p></li>
+<li>
+<p>First, as the <code>.vmd</code> files distributed on the internet usually only contain the joints’ movement and no mesh physics included, we will have a hard time dealing with the clothes materials, and physics in Blender, as Blender doesn’t automatically use a preset for these factors like MMD. Therefore, we’d better take care of them in advance in MMD.</p>
+</li>
+<li>
+<p>Here we are going to use a “successor” software of MMD, which is called MikuMikuMotion (MMM). Import your <code>.pmx</code> and <code>.vmd</code> files into MMM, and bake the physical mesh movement to a separate <code>.vmd</code> file. Turn the <code>Always</code> button on in the <code>Physics</code> Tab to make sure you calculate the physics for each frame, then click <code>Record</code> to bake your movement when everything is ready.</p>
+<img data-src="image-20220714212046705.png" alt="image-20220714212046705" style="zoom:50%;">
+</li>
+<li>
+<p>Then dump your recorded motion to another <code>.vmd</code> file:</p>
+<img data-src="image-20220714212445071.png" alt="image-20220714212445071" style="zoom:50%;">
+</li>
+<li>
+<p>Ok, then let’s switch to Blender.</p>
+</li>
+<li>
+<p>You have to install a plugin <a target="_blank" rel="noopener" href="https://github.com/powroupi/blender_mmd_tools">mmd_tools</a> for Blender at first. It will help you to import your <code>.pmx</code> model files and <code>.vmd</code> motion files, as Blender doesn’t support these file types natively. If you install it successfully, you will be able to see a panel like this on your sidebar:</p>
+<img data-src="image-20220714215023678.png" alt="image-20220714215023678" style="zoom:50%;">
+</li>
+<li>
+<p>Click <code>Import</code>, then you could import your model that is used for recording in MMM to Blender. Then, make sure you clicked and selected the model that you just imported, and click the <code>Import</code> button under the tab <code>Motion</code> to import the baked <code>.vmd</code> motion file you get from MMM.</p>
+</li>
+<li>
+<p>After that, you may notice that the skin color of your model looks magenta, then you have to follow the following step to repair that:</p>
+<img data-src="image-20220714215437237.png" alt="image-20220714215437237" style="zoom:60%;">
+</li>
+<li>
+<p>If you also have a camera’s trajectory, please click on the camera in the explorer and click <code>Motion-&gt;Import</code> in <code>MMD</code> side panel to select your <code>.vmd</code> camera motion file and import it.</p>
+<img data-src="image-20220715103036422.png" alt="image-20220715103036422" style="zoom:50%;">
+</li>
+<li>
+<p>Then, it’s time to set the lighting. Well, honestly speaking, I don’t really care too much about lighting, as the requirement of generating synthetic data is not that high, so let’s simply light everything up.</p>
+<img data-src="image-20220714220719987.png" alt="image-20220714220719987" style="zoom:50%;">
+</li>
+<li>
+<p>We are almost there, and next, setting the output parameters: Remember to change your resolution, and set your output path as well as the file format. Here the resolution 346x260 is the resolution for event camera DAVIS346, which is the camera we are currently using.</p>
+<img data-src="image-20220714221006003.png" alt="image-20220714221006003" style="zoom:50%;">
+</li>
+<li>
+<p>Next, let’s set some render properties: For the render engine, you can use either <code>Eevee</code> or <code>Cycles</code>, but if you choose <code>Cycles</code>, remember to turn on the <code>GPU</code> rendering option under it to speed up. Also, if you want the background of your video to be pure white/transparent/other pure color, please check the <code>Tranparent</code> in <code>Film</code> section. Moreover, make sure to change the <code>View Transform</code> from <code>Filmic</code> to <code>Standard</code>, the color looks more <em>Real</em> that way.</p>
+<img data-src="image-20220714222126060.png" alt="image-20220714222126060" style="zoom:50%;">
+</li>
+<li>
+<p>Lastly, continuing from the last point, if you want to have a pure color background, then you have to add a <em>Background</em> here: Go to the <code>Compositing</code> Tab on the top bar, then add an <code>Alpha Over</code> node and drag it between the existing two nodes. Connect it as the figure shows, then set the first <code>Image</code> with the pure color you desire. All set. (Notice, if there is nothing in this board, click the <code>Use Nodes</code> on the inner menu row, near the <code>Add</code>  and <code>Nodes</code> to show the basic panels.)</p>
+<img data-src="image-20220714222651269.png" alt="image-20220714222651269" style="zoom:50%;">
+</li>
+<li>
+<p>Now everything is prepared, let’s render the frame/video. Click on the <code>Render</code> menu, then choose render frame/video, you can then find your video in the output folder you set before.</p>
+<img data-src="image-20220714223147763.png" alt="image-20220714223147763" style="zoom:50%;">
+</li>
 </ul>
-<h2 id="generate-mask-video">Generate Mask Video</h2>
+<h2 id="generate-mask-video"><a class="markdownIt-Anchor" href="#generate-mask-video"></a> Generate Mask Video</h2>
 <ul>
-<li><p>One more thing, if you want to dump the human mask, simple change the wires in <code>Composition</code> Panel is fine.</p>
-<figure>
-<img data-src="image-20220714223747030.png" alt="image-20220714223747030"><figcaption aria-hidden="true">image-20220714223747030</figcaption>
-</figure></li>
+<li>
+<p>One more thing, if you want to dump the human mask, simple change the wires in <code>Composition</code> Panel is fine.</p>
+<p><img data-src="image-20220714223747030.png" alt="image-20220714223747030"></p>
+</li>
 </ul>
-<h2 id="generate-depth-video">Generate Depth Video</h2>
+<h2 id="generate-depth-video"><a class="markdownIt-Anchor" href="#generate-depth-video"></a> Generate Depth Video</h2>
 <ul>
-<li><p>If you even want to have the depth video, it's still easy enough: add another node in <code>Compositing</code> Tab to map a certain range of depth to <code>[0,1]</code>.</p>
-<p><img data-src="image-20220714225113714.png" alt="image-20220714225113714" style="zoom:50%;"></p></li>
-<li><p>You need to tweak this range carefully based on your model's actual moving range.</p></li>
+<li>
+<p>If you even want to have the depth video, it’s still easy enough: add another node in <code>Compositing</code> Tab to map a certain range of depth to <code>[0,1]</code>.</p>
+<img data-src="image-20220714225113714.png" alt="image-20220714225113714" style="zoom:50%;">
+</li>
+<li>
+<p>You need to tweak this range carefully based on your model’s actual moving range.</p>
+</li>
 </ul>
-<h2 id="better-lighting-settings-like-default-material-preview">Better Lighting Settings (Like Default Material Preview)</h2>
+<h2 id="better-lighting-settings-like-default-material-preview"><a class="markdownIt-Anchor" href="#better-lighting-settings-like-default-material-preview"></a> Better Lighting Settings (Like Default Material Preview)</h2>
 <ul>
-<li><p>You may notice that the default material preview looks great, but it's not easy to imitate that effect. Here let's take a step to try to reach a similar level of the effect by applying skybox texture.</p></li>
-<li><p>In the beginning, you should understand what <code>Skybox</code> is used for. Skybox is used as a sort of <strong>Directional Colored Lighting</strong> in all directions. Imagine that you are surrounded by a certain environment, and the objects in each direction could reflect the light of their own color. This is what the sky box is used for. Compared to the <code>Sky box</code>, actually, it's more like a <code>sky sphere</code>, which is a sphere around you. You could control the <code>Strength</code> of the sky box, just like you modify the lighting strength.</p></li>
-<li><p>First, let's enable a built-in plugin called <code>Node Wrangler</code> which could enable us to quickly add texture-related pipelines. Go to <code>Edit-&gt;Preference-&gt;Add-ons</code>.</p>
-<p><img data-src="image-20220715154232096.png" alt="image-20220715154232096" style="zoom:50%;"></p></li>
-<li><p>Modify the <code>Shader Editor</code> and switch the <code>Object</code> to <code>World</code> on its right. Also, make sure you turned <code>Use Nodes</code> option on. Then you'll be able to modify the environmental settings, like the sky box around the world. This is an informative figure. You should first select the <code>Node Groupe</code> which contains <code>Background</code> output port.</p>
-<p><img data-src="image-20220715155114990.png" alt="image-20220715155114990" style="zoom:50%;"></p></li>
-<li><p>Then, press <code>CTRL+T</code> to instantiate the three boxes on its left together. Next, connect the <code>General</code> option to <code>Vector</code>, and set your sky boxes' rotation angles. Usually, if you don't know how to rotate and just want to rotate like you could do in <code>Material Preview</code> mode, please make sure that you only rotate on the Z axis.</p></li>
-<li><p>Then, it's time to load your actual sky box file. Go to your installation directory of Blender, and go to <code>&lt;Blender Installation Folder&gt;\2.93\datafiles\studiolights\world</code> directory, you can find all the default sky boxes Blender uses in its <code>Material Preview</code> mode. For me, the installation folder is at <code>C:\Program Files\Blender Foundation\Blender 2.93</code>, which is the default location.</p></li>
-<li><p>Lastly, if you want to change the lighting strength, make sure to modify the <code>Strength</code> option in the <code>Node Group</code> box. Here I set it to 2.</p></li>
-<li><p>Still, you may need to have a default sunlighting for a better 3D effect.</p></li>
-<li><p>Done!</p></li>
+<li>
+<p>You may notice that the default material preview looks great, but it’s not easy to imitate that effect. Here let’s take a step to try to reach a similar level of the effect by applying skybox texture.</p>
+</li>
+<li>
+<p>In the beginning, you should understand what <code>Skybox</code> is used for. Skybox is used as a sort of <strong>Directional Colored Lighting</strong> in all directions. Imagine that you are surrounded by a certain environment, and the objects in each direction could reflect the light of their own color. This is what the sky box is used for. Compared to the <code>Sky box</code>, actually, it’s more like a <code>sky sphere</code>, which is a sphere around you. You could control the <code>Strength</code> of the sky box, just like you modify the lighting strength.</p>
+</li>
+<li>
+<p>First, let’s enable a built-in plugin called <code>Node Wrangler</code> which could enable us to quickly add texture-related pipelines. Go to <code>Edit-&gt;Preference-&gt;Add-ons</code>.</p>
+<img data-src="image-20220715154232096.png" alt="image-20220715154232096" style="zoom:50%;">
+</li>
+<li>
+<p>Modify the <code>Shader Editor</code> and switch the <code>Object</code> to <code>World</code> on its right. Also, make sure you turned <code>Use Nodes</code> option on. Then you’ll be able to modify the environmental settings, like the sky box around the world. This is an informative figure. You should first select the <code>Node Groupe</code> which contains <code>Background</code> output port.</p>
+<img data-src="image-20220715155114990.png" alt="image-20220715155114990" style="zoom:50%;">
+</li>
+<li>
+<p>Then, press <code>CTRL+T</code> to instantiate the three boxes on its left together. Next, connect the <code>General</code> option to <code>Vector</code>, and set your sky boxes’ rotation angles. Usually, if you don’t know how to rotate and just want to rotate like you could do in <code>Material Preview</code> mode, please make sure that you only rotate on the Z axis.</p>
+</li>
+<li>
+<p>Then, it’s time to load your actual sky box file. Go to your installation directory of Blender, and go to <code>&lt;Blender Installation Folder&gt;\2.93\datafiles\studiolights\world</code> directory, you can find all the default sky boxes Blender uses in its <code>Material Preview</code> mode. For me, the installation folder is at <code>C:\Program Files\Blender Foundation\Blender 2.93</code>, which is the default location.</p>
+</li>
+<li>
+<p>Lastly, if you want to change the lighting strength, make sure to modify the <code>Strength</code> option in the <code>Node Group</code> box. Here I set it to 2.</p>
+</li>
+<li>
+<p>Still, you may need to have a default sunlighting for a better 3D effect.</p>
+</li>
+<li>
+<p>Done!</p>
+</li>
 </ul>
-<h2 id="script-your-operations-and-repeat">Script Your Operations and Repeat!</h2>
+<h2 id="script-your-operations-and-repeat"><a class="markdownIt-Anchor" href="#script-your-operations-and-repeat"></a> Script Your Operations and Repeat!</h2>
 <ul>
-<li><p>Blender has a wonderful feature: it will record and tell you the python command equivalent for all the operations you take! Therefore, if you have done a pipeline correctly, you could simply copy all these commands and make them into a script easily. You could found the console here:</p>
-<p><img data-src="image-20220714233705944.png" alt="image-20220714233705944" style="zoom:50%;"></p></li>
-<li><p>You can even select multiple lines and copy them into corresponding python code blocks, which is an amazing function.</p></li>
+<li>
+<p>Blender has a wonderful feature: it will record and tell you the python command equivalent for all the operations you take! Therefore, if you have done a pipeline correctly, you could simply copy all these commands and make them into a script easily. You could found the console here:</p>
+<img data-src="image-20220714233705944.png" alt="image-20220714233705944" style="zoom:50%;">
+</li>
+<li>
+<p>You can even select multiple lines and copy them into corresponding python code blocks, which is an amazing function.</p>
+</li>
 </ul>
 
     </div>
